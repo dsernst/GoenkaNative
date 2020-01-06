@@ -1,72 +1,69 @@
 import React from 'react'
-import { Picker, StyleSheet, Switch, Text, TouchableHighlight, View } from 'react-native'
+import {
+  Picker,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native'
 import _ from 'lodash'
 
 type InitScreenProps = {
   duration: string
-  hasIntroChanting: boolean
-  hasClosingChanting: boolean
+  hasChanting: boolean
   hasExtendedMetta: boolean
   setDuration: (d: string) => void
   pressStart: () => void
-  toggle: (key: string) => (b: boolean) => void
-}
-
-function formatDuration(num: string) {
-  const totalMinutes = Number(num)
-  const hours = Math.floor(totalMinutes / 60)
-  const minutes = totalMinutes % 60
-  return `${hours ? `${hours} hr ` : ''}${minutes ? `${minutes} min` : ''}`
+  toggle: (key: string) => () => void
 }
 
 const InitScreen = ({
   duration,
-  hasIntroChanting,
-  hasClosingChanting,
+  hasChanting,
   hasExtendedMetta,
   pressStart,
   setDuration,
   toggle,
 }: InitScreenProps) => (
   <>
-    <View style={s.switchRow}>
-      <Text style={s.text}>How long would you like to sit?</Text>
-    </View>
+    <Text style={s.text}>How long would you like to sit?</Text>
     <Picker
-      selectedValue={duration}
-      style={s.durationPicker}
       itemStyle={s.durationItem}
       onValueChange={setDuration}
+      selectedValue={duration}
+      style={s.durationPicker}
     >
       {[1, ..._.range(5, 61, 5), ..._.range(90, 301, 15)].map(String).map((num: string) => (
-        <Picker.Item label={formatDuration(num)} value={num} key={num} />
+        <Picker.Item
+          key={num}
+          label={((n: string) => {
+            const hours = Math.floor(Number(n) / 60)
+            const minutes = Number(n) % 60
+            return `${hours ? `${hours} hr ` : ''}${minutes ? `${minutes} min` : ''}`
+          })(num)}
+          value={num}
+        />
       ))}
     </Picker>
-    <View style={s.switchRow}>
-      <Text style={s.text}>Intro chanting? (2 min)</Text>
+    <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasChanting')} style={s.switchRow}>
+      <Text style={s.text}>Include chanting?</Text>
       <Switch
+        onValueChange={toggle('hasChanting')}
         style={s.switch}
-        onValueChange={toggle('hasIntroChanting')}
-        value={hasIntroChanting}
+        trackColor={{ false: 'null', true: 'rgb(10, 132, 255)' }}
+        value={hasChanting}
       />
-    </View>
-    <View style={s.switchRow}>
-      <Text style={s.text}>Closing chanting? (3 min)</Text>
-      <Switch
-        style={s.switch}
-        onValueChange={toggle('hasClosingChanting')}
-        value={hasClosingChanting}
-      />
-    </View>
-    <View style={s.switchRow}>
+    </TouchableOpacity>
+    <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasExtendedMetta')} style={s.switchRow}>
       <Text style={s.text}>Extended mettā? (5 min)</Text>
       <Switch
-        style={s.switch}
         onValueChange={toggle('hasExtendedMetta')}
+        style={s.switch}
         value={hasExtendedMetta}
       />
-    </View>
-    <TouchableHighlight style={s.startBtn} onPress={pressStart}>
+    </TouchableOpacity>
+    <TouchableHighlight onPress={pressStart} style={s.startBtn}>
       <Text style={s.startText}>Start</Text>
     </TouchableHighlight>
   </>
@@ -83,6 +80,7 @@ const s = StyleSheet.create({
   durationPicker: {
     backgroundColor: 'hsla(0, 0%, 100%, .05)',
     borderRadius: 10,
+    marginBottom: 15,
     marginTop: 15,
   },
   startBtn: {
@@ -93,7 +91,8 @@ const s = StyleSheet.create({
     borderWidth: 1,
     height: btnSize,
     justifyContent: 'center',
-    marginTop: 30,
+    marginBottom: 30,
+    marginTop: 'auto',
     width: btnSize,
   },
   startText: {
@@ -103,13 +102,14 @@ const s = StyleSheet.create({
   },
   switch: {
     alignSelf: 'flex-end',
+    paddingVertical: 10,
     transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
   },
   switchRow: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    paddingVertical: 15,
   },
   text: {
     color: bodyTextColor,

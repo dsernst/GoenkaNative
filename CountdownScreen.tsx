@@ -25,7 +25,7 @@ const CountdownScreen = ({ duration, pressStop }: CountdownScreenProps) => (
       timeToShow={['M', 'S']}
       until={Number(duration) * 60}
     />
-    <TouchableHighlight style={s.stopBtn} onPress={pressStop}>
+    <TouchableHighlight onPress={pressStop} style={s.stopBtn}>
       <Text style={s.stopText}>Stop</Text>
     </TouchableHighlight>
   </>

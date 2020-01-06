@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, StatusBar, StyleSheet, Text } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
 import clips from './clips'
@@ -7,31 +7,30 @@ import clips from './clips'
 class App extends Component {
   state = {
     duration: '60',
-    hasClosingChanting: false,
+    hasChanting: false,
     hasExtendedMetta: false,
-    hasIntroChanting: false,
     started: false,
   }
   render() {
     return (
       <>
         <StatusBar barStyle="light-content" />
-        <ScrollView style={s.scrollView}>
+        <View style={s.app}>
           <Text style={s.title}>Goenka Meditation Timer</Text>
           {this.state.started ? (
             <CountdownScreen {...this.state} pressStop={() => this.setState({ started: false })} />
           ) : (
             <InitScreen
               {...this.state}
-              setDuration={(duration: string) => this.setState({ duration })}
               pressStart={() => {
                 this.setState({ started: true })
                 clips.introInstructions.play()
               }}
+              setDuration={(duration: string) => this.setState({ duration })}
               toggle={(key: string) => () => this.setState({ [key]: !this.state[key] })}
             />
           )}
-        </ScrollView>
+        </View>
       </>
     )
   }
@@ -41,16 +40,18 @@ class App extends Component {
 const bodyTextColor = '#f1f1f1'
 
 const s = StyleSheet.create({
-  scrollView: {
+  app: {
     backgroundColor: '#001709',
+    flex: 1,
     paddingHorizontal: 24,
+    paddingTop: 18,
   },
   title: {
     alignSelf: 'center',
     color: bodyTextColor,
     fontSize: 24,
     fontWeight: '600',
-    marginTop: 50,
+    marginVertical: 40,
   },
 })
 

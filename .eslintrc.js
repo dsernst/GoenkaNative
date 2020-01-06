@@ -8,5 +8,6 @@ module.exports = {
     semi: ['error', 'never'],
     'sort-keys': ['warn'],
     'sort-imports': ['warn', { ignoreDeclarationSort: true }],
+    'react/jsx-sort-props': ['warn'],
   },
 }
