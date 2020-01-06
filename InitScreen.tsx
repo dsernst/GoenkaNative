@@ -13,8 +13,8 @@ type InitScreenProps = {
   duration: string
   hasChanting: boolean
   hasExtendedMetta: boolean
-  setDuration: (d: string) => void
   pressStart: () => void
+  setDuration: (d: string) => void
   toggle: (key: string) => () => void
 }
 
