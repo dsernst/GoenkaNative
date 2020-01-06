@@ -19,11 +19,11 @@ const CountdownScreen = ({ duration, pressStop }: CountdownScreenProps) => (
       digitTxtStyle={{ color: bodyTextColor, marginTop: 10 }}
       separatorStyle={{ color: bodyTextColor, opacity: 0.2 }}
       showSeparator
-      size={50}
+      size={Number(duration) > 60 ? 40 : 50}
       style={{ marginTop: 110 }}
       timeLabels={{ m: null, s: null }}
-      timeToShow={['M', 'S']}
-      until={Number(duration) * 60}
+      timeToShow={[Number(duration) > 60 ? 'H' : '', 'M', 'S']}
+      until={Number(duration) * 60 - 1}
     />
     <TouchableHighlight onPress={pressStop} style={s.stopBtn}>
       <Text style={s.stopText}>Stop</Text>
