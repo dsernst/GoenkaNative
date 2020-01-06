@@ -12,6 +12,8 @@ type State = {
   started: boolean
 }
 
+let timeouts: ReturnType<typeof setTimeout>[] = []
+
 class App extends Component {
   state: State = {
     duration: '60',
@@ -36,10 +38,42 @@ class App extends Component {
       this.state.latestTrack.play()
     }
   }
+  enqueueOpening() {
+    this.setState({ started: true })
+
+    if (this.state.hasChanting) {
+      this.setState({ latestTrack: c.introChanting })
+
+      // Setup a timeout to begin introInstructions a few
+      // seconds after introChanting finishes.
+      timeouts.push(
+        setTimeout(() => {
+          this.setState({ latestTrack: c.introInstructions })
+        }, Math.ceil(c.introChanting.getDuration() + 5) * 1000),
+      )
+    } else {
+      this.setState({ latestTrack: c.introInstructions })
+    }
+  }
   enqueueClosing() {
-    setTimeout(() => {
-      this.setState({ latestTrack: c.closingMetta })
-    }, (Number(this.state.duration) * 60 - Math.floor(c.closingMetta.getDuration())) * 1000)
+    const closingMettaTime =
+      (Number(this.state.duration) * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
+
+    if (this.state.hasChanting) {
+      // Begin closingChanting so it ends just before closingMetta starts.
+      timeouts.push(
+        setTimeout(() => {
+          this.setState({ latestTrack: c.closingChanting })
+        }, closingMettaTime - (Math.floor(c.closingChanting.getDuration()) + 2) * 1000),
+      )
+    }
+
+    // Begin closingMetta so it ends when countdown hits zero.
+    timeouts.push(
+      setTimeout(() => {
+        this.setState({ latestTrack: c.closingMetta })
+      }, closingMettaTime),
+    )
   }
   render() {
     return (
@@ -51,18 +85,27 @@ class App extends Component {
             <CountdownScreen
               {...this.state}
               pressStop={() => {
-                this.setState({ started: false })
+                // Stop any audio
                 if (this.state.latestTrack) {
                   this.state.latestTrack.stop()
-                  this.setState({ latestTrack: null })
                 }
+
+                // Clear all of the setTimeouts
+                let t = timeouts.pop()
+                while (t) {
+                  clearTimeout(t)
+                  t = timeouts.pop()
+                }
+
+                // Go back to InitScreen
+                this.setState({ latestTrack: null, started: false })
               }}
             />
           ) : (
             <InitScreen
               {...this.state}
               pressStart={() => {
-                this.setState({ latestTrack: c.introInstructions, started: true })
+                this.enqueueOpening()
                 this.enqueueClosing()
               }}
               setDuration={(duration: string) => this.setState({ duration })}
