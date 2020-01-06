@@ -20,6 +20,11 @@
 		2DCD954D1E0B4F2C00145EB5 /* GoenkaNativeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GoenkaNativeTests.m */; };
 		631B4E6A5B8FD76B22FCB67E /* libPods-GoenkaNative-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9ABFDC53D4AD3C7BF85DADF /* libPods-GoenkaNative-tvOSTests.a */; };
 		87343F176A62FEFB900231DC /* libPods-GoenkaNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C3388F245538CCEBCC0219A /* libPods-GoenkaNative.a */; };
+		E97BEBB523C2DCE800B74EEB /* intro-instructions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB423C2DCE800B74EEB /* intro-instructions.mp3 */; };
+		E97BEBBA23C2DD3D00B74EEB /* intro-chanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB623C2DD3D00B74EEB /* intro-chanting.mp3 */; };
+		E97BEBBB23C2DD3D00B74EEB /* metta-intro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB723C2DD3D00B74EEB /* metta-intro.mp3 */; };
+		E97BEBBC23C2DD3D00B74EEB /* closing-metta.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB823C2DD3D00B74EEB /* closing-metta.mp3 */; };
+		E97BEBBD23C2DD3D00B74EEB /* closing-chanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB923C2DD3D00B74EEB /* closing-chanting.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +69,11 @@
 		BA60B1C4167E4424397D30D5 /* Pods-GoenkaNative-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoenkaNative-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-GoenkaNative-tvOSTests/Pods-GoenkaNative-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		BBA885867B8E5352ECDAB09A /* libPods-GoenkaNative-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoenkaNative-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4C34A620578C643BF736290 /* Pods-GoenkaNative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoenkaNative.debug.xcconfig"; path = "Target Support Files/Pods-GoenkaNative/Pods-GoenkaNative.debug.xcconfig"; sourceTree = "<group>"; };
+		E97BEBB423C2DCE800B74EEB /* intro-instructions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "intro-instructions.mp3"; sourceTree = "<group>"; };
+		E97BEBB623C2DD3D00B74EEB /* intro-chanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "intro-chanting.mp3"; sourceTree = "<group>"; };
+		E97BEBB723C2DD3D00B74EEB /* metta-intro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "metta-intro.mp3"; sourceTree = "<group>"; };
+		E97BEBB823C2DD3D00B74EEB /* closing-metta.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "closing-metta.mp3"; sourceTree = "<group>"; };
+		E97BEBB923C2DD3D00B74EEB /* closing-chanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "closing-chanting.mp3"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FC05C4B2D4BB8F4A1D725533 /* libPods-GoenkaNativeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoenkaNativeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,7 +144,6 @@
 				7050EC8CA7F46B750E6066F6 /* Pods-GoenkaNativeTests.debug.xcconfig */,
 				02E99C79CCCF881BB7EE88CC /* Pods-GoenkaNativeTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -175,6 +184,11 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				E97BEBB923C2DD3D00B74EEB /* closing-chanting.mp3 */,
+				E97BEBB823C2DD3D00B74EEB /* closing-metta.mp3 */,
+				E97BEBB623C2DD3D00B74EEB /* intro-chanting.mp3 */,
+				E97BEBB723C2DD3D00B74EEB /* metta-intro.mp3 */,
+				E97BEBB423C2DCE800B74EEB /* intro-instructions.mp3 */,
 				13B07FAE1A68108700A75B9A /* GoenkaNative */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* GoenkaNativeTests */,
@@ -308,6 +322,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -337,6 +352,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E97BEBBA23C2DD3D00B74EEB /* intro-chanting.mp3 in Resources */,
+				E97BEBBD23C2DD3D00B74EEB /* closing-chanting.mp3 in Resources */,
+				E97BEBBC23C2DD3D00B74EEB /* closing-metta.mp3 in Resources */,
+				E97BEBBB23C2DD3D00B74EEB /* metta-intro.mp3 in Resources */,
+				E97BEBB523C2DCE800B74EEB /* intro-instructions.mp3 in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

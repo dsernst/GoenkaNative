@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { ScrollView, StatusBar, StyleSheet, Text } from 'react-native'
-import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
+import clips from './clips'
 
 class App extends Component {
   state = { duration: '60', started: false }
@@ -13,15 +13,15 @@ class App extends Component {
         <ScrollView style={s.scrollView}>
           <Text style={s.title}>Goenka Meditation Timer</Text>
           {this.state.started ? (
-            <CountdownScreen
-              {...this.state}
-              pressStop={() => this.setState({ started: false })}
-              />
+            <CountdownScreen {...this.state} pressStop={() => this.setState({ started: false })} />
           ) : (
             <InitScreen
               {...this.state}
               setDuration={(duration: string) => this.setState({ duration })}
-              pressStart={() => this.setState({ started: true })}
+              pressStart={() => {
+                this.setState({ started: true })
+                clips.introInstructions.play()
+              }}
             />
           )}
         </ScrollView>
@@ -43,7 +43,7 @@ const s = StyleSheet.create({
     color: bodyTextColor,
     fontSize: 24,
     fontWeight: '600',
-    marginTop: 40,
+    marginTop: 60,
   },
 })
 

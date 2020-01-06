@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react'
 import { StyleSheet, Text, TouchableHighlight } from 'react-native'
 import CountDown from 'react-native-countdown-component'
 
@@ -6,28 +7,29 @@ import CountDown from 'react-native-countdown-component'
 const bodyTextColor = '#f1f1f1'
 const btnSize = 80
 
-class CountdownScreen extends Component {
-  render() {
-    return (
-      <>
-        <CountDown
-          digitStyle={{ backgroundColor: null }}
-          digitTxtStyle={{ color: bodyTextColor, marginTop: 10 }}
-          separatorStyle={{ color: bodyTextColor, opacity: .2 }}
-          showSeparator
-          size={50}
-          style={{ marginTop: 110 }}
-          timeLabels={{ m: null, s: null }}
-          timeToShow={['M', 'S']}
-          until={this.props.duration * 60}
-        />
-        <TouchableHighlight style={s.stopBtn} onPress={this.props.pressStop}>
-          <Text style={s.stopText}>Stop</Text>
-        </TouchableHighlight>
-      </>
-    )
-  }
+type CountdownScreenProps = {
+  duration: string
+  pressStop: () => void
 }
+
+const CountdownScreen = ({ duration, pressStop }: CountdownScreenProps) => (
+  <>
+    <CountDown
+      digitStyle={{ backgroundColor: null }}
+      digitTxtStyle={{ color: bodyTextColor, marginTop: 10 }}
+      separatorStyle={{ color: bodyTextColor, opacity: 0.2 }}
+      showSeparator
+      size={50}
+      style={{ marginTop: 110 }}
+      timeLabels={{ m: null, s: null }}
+      timeToShow={['M', 'S']}
+      until={Number(duration) * 60}
+    />
+    <TouchableHighlight style={s.stopBtn} onPress={pressStop}>
+      <Text style={s.stopText}>Stop</Text>
+    </TouchableHighlight>
+  </>
+)
 
 const s = StyleSheet.create({
   stopBtn: {
