@@ -73,7 +73,7 @@ const InitScreen = ({
     ) : (
       <TouchableHighlight
         onPress={() => {
-          Alert.alert('Not enough time', 'Lengthen the duration, or turn off the optional extras')
+          Alert.alert('Not enough time', 'Lengthen the duration, or turn off the optional extras.')
         }}
         style={[s.startBtn, s.disabledStartBtn]}
       >
