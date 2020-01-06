@@ -1,28 +1,71 @@
 import React from 'react'
-import { Picker, StyleSheet, Text, TouchableHighlight } from 'react-native'
+import { Picker, StyleSheet, Switch, Text, TouchableHighlight, View } from 'react-native'
 import _ from 'lodash'
 
 type InitScreenProps = {
   duration: string
+  hasIntroChanting: boolean
+  hasClosingChanting: boolean
+  hasExtendedMetta: boolean
   setDuration: (d: string) => void
   pressStart: () => void
+  toggle: (key: string) => (b: boolean) => void
 }
 
-const InitScreen = ({ duration, setDuration, pressStart }: InitScreenProps) => (
+function formatDuration(num: string) {
+  const totalMinutes = Number(num)
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  return `${hours ? `${hours} hr ` : ''}${minutes ? `${minutes} min` : ''}`
+}
+
+const InitScreen = ({
+  duration,
+  hasIntroChanting,
+  hasClosingChanting,
+  hasExtendedMetta,
+  pressStart,
+  setDuration,
+  toggle,
+}: InitScreenProps) => (
   <>
-    <Text style={s.text}>How long would you like to sit?</Text>
+    <View style={s.switchRow}>
+      <Text style={s.text}>How long would you like to sit?</Text>
+    </View>
     <Picker
       selectedValue={duration}
       style={s.durationPicker}
       itemStyle={s.durationItem}
       onValueChange={setDuration}
     >
-      {_.range(1, 301)
-        .map(String)
-        .map((num: string) => (
-          <Picker.Item label={`${num} min`} value={num} key={num} />
-        ))}
+      {[1, ..._.range(5, 61, 5), ..._.range(90, 301, 15)].map(String).map((num: string) => (
+        <Picker.Item label={formatDuration(num)} value={num} key={num} />
+      ))}
     </Picker>
+    <View style={s.switchRow}>
+      <Text style={s.text}>Intro chanting? (2 min)</Text>
+      <Switch
+        style={s.switch}
+        onValueChange={toggle('hasIntroChanting')}
+        value={hasIntroChanting}
+      />
+    </View>
+    <View style={s.switchRow}>
+      <Text style={s.text}>Closing chanting? (3 min)</Text>
+      <Switch
+        style={s.switch}
+        onValueChange={toggle('hasClosingChanting')}
+        value={hasClosingChanting}
+      />
+    </View>
+    <View style={s.switchRow}>
+      <Text style={s.text}>Extended mettā? (5 min)</Text>
+      <Switch
+        style={s.switch}
+        onValueChange={toggle('hasExtendedMetta')}
+        value={hasExtendedMetta}
+      />
+    </View>
     <TouchableHighlight style={s.startBtn} onPress={pressStart}>
       <Text style={s.startText}>Start</Text>
     </TouchableHighlight>
@@ -50,7 +93,7 @@ const s = StyleSheet.create({
     borderWidth: 1,
     height: btnSize,
     justifyContent: 'center',
-    marginTop: 60,
+    marginTop: 30,
     width: btnSize,
   },
   startText: {
@@ -58,11 +101,21 @@ const s = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
+  switch: {
+    alignSelf: 'flex-end',
+    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
+  },
+  switchRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
   text: {
     color: bodyTextColor,
     fontSize: 18,
     fontWeight: '400',
-    marginTop: 40,
+    opacity: 0.8,
   },
 })
 

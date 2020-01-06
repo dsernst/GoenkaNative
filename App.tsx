@@ -5,7 +5,13 @@ import CountdownScreen from './CountdownScreen'
 import clips from './clips'
 
 class App extends Component {
-  state = { duration: '60', started: false }
+  state = {
+    duration: '60',
+    hasClosingChanting: false,
+    hasExtendedMetta: false,
+    hasIntroChanting: false,
+    started: false,
+  }
   render() {
     return (
       <>
@@ -22,6 +28,7 @@ class App extends Component {
                 this.setState({ started: true })
                 clips.introInstructions.play()
               }}
+              toggle={(key: string) => () => this.setState({ [key]: !this.state[key] })}
             />
           )}
         </ScrollView>
@@ -43,7 +50,7 @@ const s = StyleSheet.create({
     color: bodyTextColor,
     fontSize: 24,
     fontWeight: '600',
-    marginTop: 60,
+    marginTop: 50,
   },
 })
 
