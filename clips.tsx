@@ -17,4 +17,4 @@ const clips = {
   mettaIntro: new Sound('metta-intro.mp3', Sound.MAIN_BUNDLE, showErrors),
 }
 
-export default clips
+export { clips, Sound }

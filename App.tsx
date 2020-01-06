@@ -2,14 +2,44 @@ import React, { Component } from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
-import c from './clips'
+import { Sound, clips as c } from './clips'
+
+type State = {
+  duration: string
+  hasChanting: boolean
+  hasExtendedMetta: boolean
+  latestTrack: Sound | null
+  started: boolean
+}
 
 class App extends Component {
-  state = {
+  state: State = {
     duration: '60',
     hasChanting: false,
     hasExtendedMetta: false,
+    latestTrack: null,
     started: false,
+  }
+  componentDidUpdate(_, prevState: State) {
+    // New track to play, nothing playing previously
+    if (!prevState.latestTrack && this.state.latestTrack) {
+      this.state.latestTrack.play()
+    }
+
+    // New track to play, another track already playing
+    if (
+      prevState.latestTrack &&
+      this.state.latestTrack &&
+      prevState.latestTrack !== this.state.latestTrack
+    ) {
+      prevState.latestTrack.stop()
+      this.state.latestTrack.play()
+    }
+  }
+  enqueueClosing() {
+    setTimeout(() => {
+      this.setState({ latestTrack: c.closingMetta })
+    }, (Number(this.state.duration) * 60 - Math.floor(c.closingMetta.getDuration())) * 1000)
   }
   render() {
     return (
@@ -22,15 +52,18 @@ class App extends Component {
               {...this.state}
               pressStop={() => {
                 this.setState({ started: false })
-                c.introInstructions.stop()
+                if (this.state.latestTrack) {
+                  this.state.latestTrack.stop()
+                  this.setState({ latestTrack: null })
+                }
               }}
             />
           ) : (
             <InitScreen
               {...this.state}
               pressStart={() => {
-                this.setState({ started: true })
-                c.introInstructions.play()
+                this.setState({ latestTrack: c.introInstructions, started: true })
+                this.enqueueClosing()
               }}
               setDuration={(duration: string) => this.setState({ duration })}
               toggle={(key: string) => () => this.setState({ [key]: !this.state[key] })}
