@@ -51,18 +51,14 @@ const InitScreen = ({
     </Picker>
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasChanting')} style={s.switchRow}>
       <Text style={s.text}>Include chanting?</Text>
-      <Switch
-        onValueChange={toggle('hasChanting')}
-        style={s.switch}
-        trackColor={{ false: 'null', true: 'rgb(10, 132, 255)' }}
-        value={hasChanting}
-      />
+      <Switch onValueChange={toggle('hasChanting')} style={s.switch} value={hasChanting} />
     </TouchableOpacity>
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasExtendedMetta')} style={s.switchRow}>
       <Text style={s.text}>Extended mettā? (4 min)</Text>
       <Switch
         onValueChange={toggle('hasExtendedMetta')}
         style={s.switch}
+        trackColor={{ false: 'null', true: 'rgb(10, 132, 255)' }}
         value={hasExtendedMetta}
       />
     </TouchableOpacity>
