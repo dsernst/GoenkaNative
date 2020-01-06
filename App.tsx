@@ -53,13 +53,17 @@ class App extends Component {
   }
 
   checkIfDurationIsEnough() {
-    const tryingToPlay = [c.introInstructions, c.closingMetta]
+    type getDurationable = { getDuration: () => number }
+    const delay = (seconds: number) => ({ getDuration: () => seconds })
+    const tryingToPlay: getDurationable[] = [c.introInstructions, c.closingMetta]
     if (this.state.hasChanting) {
-      tryingToPlay.push(c.introChanting, c.closingChanting)
+      tryingToPlay.push(c.introChanting, delay(5), c.closingChanting, delay(2))
+    }
+    if (this.state.hasExtendedMetta) {
+      tryingToPlay.push(c.mettaIntro, delay(3 * 60))
     }
     const durations = tryingToPlay.map(clip => clip.getDuration())
-    const totalSecondsNeeded = _.sum(durations) + (this.state.hasChanting ? 7 : 0)
-    this.setState({ isEnoughTime: totalSecondsNeeded < Number(this.state.duration) * 60 })
+    this.setState({ isEnoughTime: _.sum(durations) < Number(this.state.duration) * 60 })
   }
 
   enqueueOpening() {
@@ -84,12 +88,24 @@ class App extends Component {
     const closingMettaTime =
       (Number(this.state.duration) * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
 
+    let extendedMettaTime = closingMettaTime
+    if (this.state.hasExtendedMetta) {
+      // Begin mettaIntro 3 minutes before closingMetta
+      extendedMettaTime -= (Math.floor(c.mettaIntro.getDuration()) + 3 * 60) * 1000
+
+      timeouts.push(
+        setTimeout(() => {
+          this.setState({ latestTrack: c.mettaIntro })
+        }, extendedMettaTime),
+      )
+    }
+
     if (this.state.hasChanting) {
-      // Begin closingChanting so it ends just before closingMetta starts.
+      // Begin closingChanting so it ends just before metta starts.
       timeouts.push(
         setTimeout(() => {
           this.setState({ latestTrack: c.closingChanting })
-        }, closingMettaTime - (Math.floor(c.closingChanting.getDuration()) + 2) * 1000),
+        }, extendedMettaTime - (Math.floor(c.closingChanting.getDuration()) + 2) * 1000),
       )
     }
 

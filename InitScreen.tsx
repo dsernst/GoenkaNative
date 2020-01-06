@@ -59,7 +59,7 @@ const InitScreen = ({
       />
     </TouchableOpacity>
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasExtendedMetta')} style={s.switchRow}>
-      <Text style={s.text}>Extended mettā? (5 min)</Text>
+      <Text style={s.text}>Extended mettā? (4 min)</Text>
       <Switch
         onValueChange={toggle('hasExtendedMetta')}
         style={s.switch}
