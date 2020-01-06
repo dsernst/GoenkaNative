@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
-import clips from './clips'
+import c from './clips'
 
 class App extends Component {
   state = {
@@ -18,13 +18,19 @@ class App extends Component {
         <View style={s.app}>
           <Text style={s.title}>Goenka Meditation Timer</Text>
           {this.state.started ? (
-            <CountdownScreen {...this.state} pressStop={() => this.setState({ started: false })} />
+            <CountdownScreen
+              {...this.state}
+              pressStop={() => {
+                this.setState({ started: false })
+                c.introInstructions.stop()
+              }}
+            />
           ) : (
             <InitScreen
               {...this.state}
               pressStart={() => {
                 this.setState({ started: true })
-                clips.introInstructions.play()
+                c.introInstructions.play()
               }}
               setDuration={(duration: string) => this.setState({ duration })}
               toggle={(key: string) => () => this.setState({ [key]: !this.state[key] })}
