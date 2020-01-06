@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
@@ -9,6 +9,7 @@ type State = {
   duration: string
   hasChanting: boolean
   hasExtendedMetta: boolean
+  isEnoughTime: boolean
   latestTrack: Sound | null
   started: boolean
 }
@@ -20,10 +21,12 @@ class App extends Component {
     duration: '60',
     hasChanting: false,
     hasExtendedMetta: false,
+    isEnoughTime: true,
     latestTrack: null,
     started: false,
   }
-  componentDidUpdate(_: any, prevState: State) {
+
+  componentDidUpdate(_prevProps: any, prevState: State) {
     // New track to play, nothing playing previously
     if (!prevState.latestTrack && this.state.latestTrack) {
       this.state.latestTrack.play()
@@ -38,20 +41,27 @@ class App extends Component {
       prevState.latestTrack.stop()
       this.state.latestTrack.play()
     }
+
+    // If timing settings changed, check if duration is enough
+    if (
+      ['duration', 'hasChanting', 'hasExtendedMetta'].some(
+        key => prevState[key] !== this.state[key],
+      )
+    ) {
+      this.checkIfDurationIsEnough()
+    }
   }
-  checkIfDurationIsEnough(): boolean {
+
+  checkIfDurationIsEnough() {
     const tryingToPlay = [c.introInstructions, c.closingMetta]
     if (this.state.hasChanting) {
       tryingToPlay.push(c.introChanting, c.closingChanting)
     }
     const durations = tryingToPlay.map(clip => clip.getDuration())
     const totalSecondsNeeded = _.sum(durations) + (this.state.hasChanting ? 7 : 0)
-    if (totalSecondsNeeded > Number(this.state.duration) * 60) {
-      Alert.alert('Not enough time')
-      return false
-    }
-    return true
+    this.setState({ isEnoughTime: totalSecondsNeeded < Number(this.state.duration) * 60 })
   }
+
   enqueueOpening() {
     this.setState({ started: true })
 
@@ -69,6 +79,7 @@ class App extends Component {
       this.setState({ latestTrack: c.introInstructions })
     }
   }
+
   enqueueClosing() {
     const closingMettaTime =
       (Number(this.state.duration) * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
@@ -89,6 +100,7 @@ class App extends Component {
       }, closingMettaTime),
     )
   }
+
   render() {
     return (
       <>
@@ -119,10 +131,8 @@ class App extends Component {
             <InitScreen
               {...this.state}
               pressStart={() => {
-                if (this.checkIfDurationIsEnough()) {
-                  this.enqueueOpening()
-                  this.enqueueClosing()
-                }
+                this.enqueueOpening()
+                this.enqueueClosing()
               }}
               setDuration={(duration: string) => this.setState({ duration })}
               toggle={(key: string) => () => this.setState({ [key]: !this.state[key] })}

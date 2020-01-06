@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Alert,
   Picker,
   StyleSheet,
   Switch,
@@ -13,6 +14,7 @@ type InitScreenProps = {
   duration: string
   hasChanting: boolean
   hasExtendedMetta: boolean
+  isEnoughTime: boolean
   pressStart: () => void
   setDuration: (d: string) => void
   toggle: (key: string) => () => void
@@ -22,6 +24,7 @@ const InitScreen = ({
   duration,
   hasChanting,
   hasExtendedMetta,
+  isEnoughTime,
   pressStart,
   setDuration,
   toggle,
@@ -63,9 +66,20 @@ const InitScreen = ({
         value={hasExtendedMetta}
       />
     </TouchableOpacity>
-    <TouchableHighlight onPress={pressStart} style={s.startBtn}>
-      <Text style={s.startText}>Start</Text>
-    </TouchableHighlight>
+    {isEnoughTime ? (
+      <TouchableHighlight onPress={pressStart} style={s.startBtn}>
+        <Text style={s.startText}>Start</Text>
+      </TouchableHighlight>
+    ) : (
+      <TouchableHighlight
+        onPress={() => {
+          Alert.alert('Not enough time', 'Lengthen the duration, or turn off the optional extras')
+        }}
+        style={[s.startBtn, s.disabledStartBtn]}
+      >
+        <Text style={s.startText}>Start</Text>
+      </TouchableHighlight>
+    )}
   </>
 )
 
@@ -74,6 +88,9 @@ const bodyTextColor = '#f1f1f1'
 const btnSize = 80
 
 const s = StyleSheet.create({
+  disabledStartBtn: {
+    opacity: 0.3,
+  },
   durationItem: {
     color: bodyTextColor,
   },
