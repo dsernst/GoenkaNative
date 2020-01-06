@@ -35,12 +35,14 @@ const s = StyleSheet.create({
   stopBtn: {
     alignItems: 'center',
     alignSelf: 'center',
+    backgroundColor: '#80000044',
     borderColor: '#800000',
     borderRadius: btnSize,
     borderWidth: 1,
     height: btnSize,
     justifyContent: 'center',
-    marginTop: 60,
+    marginBottom: 30,
+    marginTop: 'auto',
     width: btnSize,
   },
   stopText: {
