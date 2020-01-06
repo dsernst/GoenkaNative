@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Alert, StatusBar, StyleSheet, Text, View } from 'react-native'
+import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
 import { Sound, clips as c } from './clips'
@@ -22,7 +23,7 @@ class App extends Component {
     latestTrack: null,
     started: false,
   }
-  componentDidUpdate(_, prevState: State) {
+  componentDidUpdate(_: any, prevState: State) {
     // New track to play, nothing playing previously
     if (!prevState.latestTrack && this.state.latestTrack) {
       this.state.latestTrack.play()
@@ -37,6 +38,19 @@ class App extends Component {
       prevState.latestTrack.stop()
       this.state.latestTrack.play()
     }
+  }
+  checkIfDurationIsEnough(): boolean {
+    const tryingToPlay = [c.introInstructions, c.closingMetta]
+    if (this.state.hasChanting) {
+      tryingToPlay.push(c.introChanting, c.closingChanting)
+    }
+    const durations = tryingToPlay.map(clip => clip.getDuration())
+    const totalSecondsNeeded = _.sum(durations) + (this.state.hasChanting ? 7 : 0)
+    if (totalSecondsNeeded > Number(this.state.duration) * 60) {
+      Alert.alert('Not enough time')
+      return false
+    }
+    return true
   }
   enqueueOpening() {
     this.setState({ started: true })
@@ -105,8 +119,10 @@ class App extends Component {
             <InitScreen
               {...this.state}
               pressStart={() => {
-                this.enqueueOpening()
-                this.enqueueClosing()
+                if (this.checkIfDurationIsEnough()) {
+                  this.enqueueOpening()
+                  this.enqueueClosing()
+                }
               }}
               setDuration={(duration: string) => this.setState({ duration })}
               toggle={(key: string) => () => this.setState({ [key]: !this.state[key] })}
