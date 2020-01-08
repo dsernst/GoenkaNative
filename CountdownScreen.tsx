@@ -2,6 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight } from 'react-native'
 import CountDown from 'react-native-countdown-component'
+import KeepAwake from 'react-native-keep-awake'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
@@ -14,6 +15,7 @@ type CountdownScreenProps = {
 
 const CountdownScreen = ({ duration, pressStop }: CountdownScreenProps) => (
   <>
+    <KeepAwake />
     <CountDown
       digitStyle={{ backgroundColor: null }}
       digitTxtStyle={{ color: bodyTextColor, marginTop: 10 }}
