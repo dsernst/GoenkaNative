@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import CountDown from 'react-native-countdown-component'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
+import CountdownCircle from './react-native-countdown-circle'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
@@ -16,17 +16,20 @@ type CountdownScreenProps = {
 const CountdownScreen = ({ duration, pressStop }: CountdownScreenProps) => (
   <>
     <KeepAwake />
-    <CountDown
-      digitStyle={{ backgroundColor: null }}
-      digitTxtStyle={{ color: bodyTextColor, marginTop: 10 }}
-      separatorStyle={{ color: bodyTextColor, opacity: 0.2 }}
-      showSeparator
-      size={Number(duration) > 60 ? 40 : 50}
-      style={{ marginTop: 110 }}
-      timeLabels={{ m: null, s: null }}
-      timeToShow={[Number(duration) > 60 ? 'H' : '', 'M', 'S']}
-      until={Number(duration) * 60 - 1}
-    />
+    <View style={{ alignItems: 'center', marginTop: 80 }}>
+      <CountdownCircle
+        bgColor="#001709"
+        borderWidth={4}
+        color="#0a2013"
+        duration={Number(duration)}
+        labelStyle={{ color: bodyTextColor, fontSize: 18, opacity: 0.2 }}
+        minutes
+        onTimeElapsed={() => console.log('Elapsed!')}
+        radius={80}
+        shadowColor="#001709"
+        textStyle={{ color: bodyTextColor, fontSize: 40 }}
+      />
+    </View>
     <TouchableOpacity onPress={pressStop} style={s.stopBtn}>
       <Text style={s.stopText}>Stop</Text>
     </TouchableOpacity>
