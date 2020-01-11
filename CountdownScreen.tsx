@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react'
-import { StyleSheet, Text, TouchableHighlight } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import CountDown from 'react-native-countdown-component'
 import KeepAwake from 'react-native-keep-awake'
 
@@ -27,9 +27,9 @@ const CountdownScreen = ({ duration, pressStop }: CountdownScreenProps) => (
       timeToShow={[Number(duration) > 60 ? 'H' : '', 'M', 'S']}
       until={Number(duration) * 60 - 1}
     />
-    <TouchableHighlight onPress={pressStop} style={s.stopBtn}>
+    <TouchableOpacity onPress={pressStop} style={s.stopBtn}>
       <Text style={s.stopText}>Stop</Text>
-    </TouchableHighlight>
+    </TouchableOpacity>
   </>
 )
 
@@ -37,10 +37,6 @@ const s = StyleSheet.create({
   stopBtn: {
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: '#80000044',
-    borderColor: '#800000',
-    borderRadius: btnSize,
-    borderWidth: 1,
     height: btnSize,
     justifyContent: 'center',
     marginBottom: 30,
@@ -48,9 +44,10 @@ const s = StyleSheet.create({
     width: btnSize,
   },
   stopText: {
-    color: '#eebcbf',
+    color: bodyTextColor,
     fontSize: 18,
     fontWeight: '700',
+    opacity: 0.2,
   },
   text: {
     alignSelf: 'center',
