@@ -25,6 +25,7 @@
     "@types/jest": "^24.0.24",
     "@types/lodash": "^4.14.149",
     "@types/react-native": "^0.60.25",
+    "@types/react-native-keep-awake": "^2.0.2",
     "@types/react-native-vector-icons": "^6.4.5",
     "@types/react-test-renderer": "16.9.1",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
