@@ -49,7 +49,6 @@ const s = StyleSheet.create({
   stopText: {
     color: bodyTextColor,
     fontSize: 18,
-    fontWeight: '700',
     opacity: 0.2,
   },
   text: {

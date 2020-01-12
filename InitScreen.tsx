@@ -111,7 +111,7 @@ const s = StyleSheet.create({
   startText: {
     color: '#73d45d',
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '500',
   },
   switch: {
     alignSelf: 'flex-end',
