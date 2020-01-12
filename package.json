@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.149",
+    "dayjs": "^1.8.19",
     "lodash": "^4.17.15",
     "react": "16.9.0",
     "react-native": "0.61.5",

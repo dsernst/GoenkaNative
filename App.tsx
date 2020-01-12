@@ -1,34 +1,62 @@
 import React, { Component } from 'react'
-import { StatusBar, Text, View } from 'react-native'
+import { StatusBar, Text, TouchableOpacity, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
+import StreakScreen from './StreakScreen'
 import { Sound, clips as c } from './clips'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
+
+type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'StreakScreen'
+const screens: { [screen in ScreenNames]: any } = {
+  CountdownScreen,
+  InitScreen,
+  StreakScreen,
+}
+
+type SitProps = {
+  date: Date
+  duration: number
+}
 
 type State = {
   duration: string
   finished: boolean
   hasChanting: boolean
   hasExtendedMetta: boolean
+  history: SitProps[]
   isEnoughTime: boolean
   latestTrack: Sound | null
-  started: boolean
+  screen: ScreenNames
 }
 
 let timeouts: ReturnType<typeof setTimeout>[] = []
 
-class App extends Component {
+class App extends Component<object, State> {
   state: State = {
     duration: '60',
     finished: false,
     hasChanting: false,
     hasExtendedMetta: false,
+    history: [
+      {
+        date: new Date('Sat Jan 11 2020 11:57'),
+        duration: 60,
+      },
+      {
+        date: new Date('Fri Jan 10 2020 22:30'),
+        duration: 10,
+      },
+      {
+        date: new Date('Fri Jan 10 2020 8:25'),
+        duration: 35,
+      },
+    ],
     isEnoughTime: true,
     latestTrack: null,
-    started: false,
+    screen: 'InitScreen',
   }
 
   componentDidUpdate(_prevProps: any, prevState: State) {
@@ -71,7 +99,7 @@ class App extends Component {
   }
 
   pressStart() {
-    this.setState({ started: true })
+    this.setState({ screen: 'CountdownScreen' })
 
     if (this.state.hasChanting) {
       // Begin introChanting
@@ -121,13 +149,26 @@ class App extends Component {
     )
   }
 
-  toggle(key: string) {
-    return () => {
-      this.setState({ [key]: !this.state[key] })
+  pressStop() {
+    // Stop any audio
+    if (this.state.latestTrack) {
+      this.state.latestTrack.stop()
     }
+
+    // Clear all of the setTimeouts
+    let t = timeouts.pop()
+    while (t) {
+      clearTimeout(t)
+      t = timeouts.pop()
+    }
+
+    // Go back to InitScreen
+    this.setState({ finished: false, latestTrack: null, screen: 'InitScreen' })
   }
 
   render() {
+    const Screen = screens[this.state.screen]
+
     return (
       <>
         <StatusBar barStyle="light-content" />
@@ -139,46 +180,28 @@ class App extends Component {
             paddingTop: 18,
           }}
         >
-          <Text
-            style={{
-              alignSelf: 'center',
-              color: bodyTextColor,
-              fontSize: 24,
-              fontWeight: '600',
-              marginVertical: 40,
-            }}
-          >
-            Goenka Meditation Timer
-          </Text>
-          {this.state.started ? (
-            <CountdownScreen
-              {...this.state}
-              pressStop={() => {
-                // Stop any audio
-                if (this.state.latestTrack) {
-                  this.state.latestTrack.stop()
-                }
-
-                // Clear all of the setTimeouts
-                let t = timeouts.pop()
-                while (t) {
-                  clearTimeout(t)
-                  t = timeouts.pop()
-                }
-
-                // Go back to InitScreen
-                this.setState({ finished: false, latestTrack: null, started: false })
+          <TouchableOpacity onPress={() => this.setState({ screen: 'StreakScreen' })}>
+            <Text
+              style={{
+                alignSelf: 'center',
+                color: bodyTextColor,
+                fontSize: 24,
+                fontWeight: '600',
+                marginVertical: 40,
               }}
-              toggle={this.toggle.bind(this)}
-            />
-          ) : (
-            <InitScreen
-              {...this.state}
-              pressStart={this.pressStart.bind(this)}
-              setDuration={(duration: string) => this.setState({ duration })}
-              toggle={this.toggle.bind(this)}
-            />
-          )}
+            >
+              Goenka Meditation Timer
+            </Text>
+          </TouchableOpacity>
+          <Screen
+            {...this.state}
+            pressStart={this.pressStart.bind(this)}
+            pressStop={this.pressStop.bind(this)}
+            setDuration={(duration: string) => this.setState({ duration })}
+            toggle={(key: string) => () => {
+              this.setState({ [key]: !this.state[key] })
+            }}
+          />
         </View>
       </>
     )
