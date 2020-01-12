@@ -32,10 +32,15 @@ const InitScreen = ({
   <>
     <Text style={s.text}>How long would you like to sit?</Text>
     <Picker
-      itemStyle={s.durationItem}
+      itemStyle={{ color: bodyTextColor }}
       onValueChange={setDuration}
       selectedValue={duration}
-      style={s.durationPicker}
+      style={{
+        backgroundColor: 'hsla(0, 0%, 100%, .05)',
+        borderRadius: 10,
+        marginBottom: 15,
+        marginTop: 15,
+      }}
     >
       {[1, ..._.range(5, 61, 5), ..._.range(90, 301, 15)].map(String).map((num: string) => (
         <Picker.Item
@@ -62,20 +67,41 @@ const InitScreen = ({
         value={hasExtendedMetta}
       />
     </TouchableOpacity>
-    {isEnoughTime ? (
-      <TouchableHighlight onPress={pressStart} style={s.startBtn}>
-        <Text style={s.startText}>Start</Text>
-      </TouchableHighlight>
-    ) : (
-      <TouchableHighlight
-        onPress={() => {
-          Alert.alert('Not enough time', 'Lengthen the duration, or turn off the optional extras.')
+    <TouchableHighlight
+      onPress={
+        isEnoughTime
+          ? pressStart
+          : () => {
+              Alert.alert(
+                'Not enough time',
+                'Lengthen the duration, or turn off the optional extras.',
+              )
+            }
+      }
+      style={{
+        alignItems: 'center',
+        alignSelf: 'center',
+        borderColor: '#008000',
+        borderRadius: btnSize,
+        borderWidth: 1,
+        height: btnSize,
+        justifyContent: 'center',
+        marginBottom: 30,
+        marginTop: 'auto',
+        opacity: isEnoughTime ? 1 : 0.3,
+        width: btnSize,
+      }}
+    >
+      <Text
+        style={{
+          color: '#73d45d',
+          fontSize: 18,
+          fontWeight: '500',
         }}
-        style={[s.startBtn, s.disabledStartBtn]}
       >
-        <Text style={s.startText}>Start</Text>
-      </TouchableHighlight>
-    )}
+        Start
+      </Text>
+    </TouchableHighlight>
   </>
 )
 
@@ -84,35 +110,6 @@ const bodyTextColor = '#f1f1f1'
 const btnSize = 80
 
 const s = StyleSheet.create({
-  disabledStartBtn: {
-    opacity: 0.3,
-  },
-  durationItem: {
-    color: bodyTextColor,
-  },
-  durationPicker: {
-    backgroundColor: 'hsla(0, 0%, 100%, .05)',
-    borderRadius: 10,
-    marginBottom: 15,
-    marginTop: 15,
-  },
-  startBtn: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: '#008000',
-    borderRadius: btnSize,
-    borderWidth: 1,
-    height: btnSize,
-    justifyContent: 'center',
-    marginBottom: 30,
-    marginTop: 'auto',
-    width: btnSize,
-  },
-  startText: {
-    color: '#73d45d',
-    fontSize: 18,
-    fontWeight: '500',
-  },
   switch: {
     alignSelf: 'flex-end',
     paddingVertical: 10,

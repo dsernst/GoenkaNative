@@ -12,5 +12,6 @@ module.exports = {
     'sort-imports': ['warn', { ignoreDeclarationSort: true }],
     'typescript-sort-keys/interface': 2,
     'typescript-sort-keys/string-enum': 2,
+    'react-native/no-inline-styles': ['off'],
   },
 }

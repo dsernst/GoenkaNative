@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { StatusBar, Text, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
 import { Sound, clips as c } from './clips'
 
+// Shared vars
+const bodyTextColor = '#f1f1f1'
+
 type State = {
   duration: string
+  finished: boolean
   hasChanting: boolean
   hasExtendedMetta: boolean
   isEnoughTime: boolean
@@ -19,6 +23,7 @@ let timeouts: ReturnType<typeof setTimeout>[] = []
 class App extends Component {
   state: State = {
     duration: '60',
+    finished: false,
     hasChanting: false,
     hasExtendedMetta: false,
     isEnoughTime: true,
@@ -53,23 +58,23 @@ class App extends Component {
   }
 
   checkIfDurationIsEnough() {
-    type getDurationable = { getDuration: () => number }
     const delay = (seconds: number) => ({ getDuration: () => seconds })
-    const tryingToPlay: getDurationable[] = [c.introInstructions, c.closingMetta]
+    const queue: { getDuration: () => number }[] = [c.introInstructions, c.closingMetta]
     if (this.state.hasChanting) {
-      tryingToPlay.push(c.introChanting, delay(5), c.closingChanting, delay(2))
+      queue.push(c.introChanting, delay(5), c.closingChanting, delay(2))
     }
     if (this.state.hasExtendedMetta) {
-      tryingToPlay.push(c.mettaIntro, delay(3 * 60))
+      queue.push(c.mettaIntro, delay(3 * 60))
     }
-    const durations = tryingToPlay.map(clip => clip.getDuration())
+    const durations = queue.map(clip => clip.getDuration())
     this.setState({ isEnoughTime: _.sum(durations) < Number(this.state.duration) * 60 })
   }
 
-  enqueueOpening() {
+  pressStart() {
     this.setState({ started: true })
 
     if (this.state.hasChanting) {
+      // Begin introChanting
       this.setState({ latestTrack: c.introChanting })
 
       // Setup a timeout to begin introInstructions a few
@@ -82,9 +87,8 @@ class App extends Component {
     } else {
       this.setState({ latestTrack: c.introInstructions })
     }
-  }
 
-  enqueueClosing() {
+    // Calculate closing time
     const closingMettaTime =
       (Number(this.state.duration) * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
 
@@ -117,12 +121,35 @@ class App extends Component {
     )
   }
 
+  toggle(key: string) {
+    return () => {
+      this.setState({ [key]: !this.state[key] })
+    }
+  }
+
   render() {
     return (
       <>
         <StatusBar barStyle="light-content" />
-        <View style={s.app}>
-          <Text style={s.title}>Goenka Meditation Timer</Text>
+        <View
+          style={{
+            backgroundColor: '#001709',
+            flex: 1,
+            paddingHorizontal: 24,
+            paddingTop: 18,
+          }}
+        >
+          <Text
+            style={{
+              alignSelf: 'center',
+              color: bodyTextColor,
+              fontSize: 24,
+              fontWeight: '600',
+              marginVertical: 40,
+            }}
+          >
+            Goenka Meditation Timer
+          </Text>
           {this.state.started ? (
             <CountdownScreen
               {...this.state}
@@ -140,18 +167,16 @@ class App extends Component {
                 }
 
                 // Go back to InitScreen
-                this.setState({ latestTrack: null, started: false })
+                this.setState({ finished: false, latestTrack: null, started: false })
               }}
+              toggle={this.toggle.bind(this)}
             />
           ) : (
             <InitScreen
               {...this.state}
-              pressStart={() => {
-                this.enqueueOpening()
-                this.enqueueClosing()
-              }}
+              pressStart={this.pressStart.bind(this)}
               setDuration={(duration: string) => this.setState({ duration })}
-              toggle={(key: string) => () => this.setState({ [key]: !this.state[key] })}
+              toggle={this.toggle.bind(this)}
             />
           )}
         </View>
@@ -159,24 +184,5 @@ class App extends Component {
     )
   }
 }
-
-// Shared vars
-const bodyTextColor = '#f1f1f1'
-
-const s = StyleSheet.create({
-  app: {
-    backgroundColor: '#001709',
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 18,
-  },
-  title: {
-    alignSelf: 'center',
-    color: bodyTextColor,
-    fontSize: 24,
-    fontWeight: '600',
-    marginVertical: 40,
-  },
-})
 
 export default App
