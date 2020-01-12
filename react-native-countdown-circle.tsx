@@ -80,7 +80,8 @@ type PropTypes = {
   duration: number
   labelStyle: TextStyle
   minutes: boolean
-  onTimeElapsed: () => void
+  onTimeFinished: (elapsed?: number, total?: number) => void
+  onTimeInterval?: (elapsed?: number) => void
   radius: number
   shadowColor: string
   textStyle: TextStyle
@@ -96,7 +97,7 @@ export default class PercentageCircle extends React.PureComponent<PropTypes, any
     containerStyle: null,
     duration: 10,
     minutes: false,
-    onTimeElapsed: () => null,
+    onTimeFinished: () => null,
     shadowColor: '#999',
     textStyle: null,
     updateText: (elapsed: number, total: number) => (total - elapsed).toString(),
@@ -124,8 +125,11 @@ export default class PercentageCircle extends React.PureComponent<PropTypes, any
 
     const elapsed = this.state.elapsed + 1
     const callback =
-      elapsed < this.props.duration ? this.restartAnimation : this.props.onTimeElapsed
+      elapsed < this.props.duration ? this.restartAnimation : this.props.onTimeFinished
     const updatedText = this.props.updateText(elapsed, this.props.duration)
+    if (this.props.onTimeInterval) {
+      this.props.onTimeInterval(elapsed)
+    }
     this.setState(
       {
         ...getInitialState(this.props),

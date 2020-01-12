@@ -5,14 +5,10 @@ import dayjs from 'dayjs'
 type SitProps = {
   date: Date
   duration: number
+  elapsed?: number
 }
 
-type HistoryScreenProps = {
-  history: SitProps[]
-  pressStop: () => void
-}
-
-const HistoryScreen = ({ pressStop, history }: HistoryScreenProps) => (
+const HistoryScreen = ({ pressStop, history }: { history: SitProps[]; pressStop: () => void }) => (
   <>
     <FlatList
       data={history}
@@ -39,6 +35,7 @@ const HistoryScreen = ({ pressStop, history }: HistoryScreenProps) => (
             }}
           >
             {dayjs(i.date).format('ddd MMM D · h[:]mma')} <Text style={{ opacity: 0.5 }}>for</Text>{' '}
+            {i.elapsed < i.duration && i.elapsed + ' of '}
             {i.duration} min
           </Text>
         </View>

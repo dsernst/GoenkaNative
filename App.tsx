@@ -19,6 +19,7 @@ const screens: { [screen in ScreenNames]: any } = {
 type SitProps = {
   date: Date
   duration: number
+  elapsed?: number
 }
 
 type State = {
@@ -104,6 +105,14 @@ class App extends Component<object, State> {
 
   pressStart() {
     this.setState({ screen: 'CountdownScreen' })
+
+    // Add to history
+    this.setState({
+      history: [
+        { date: new Date(), duration: Number(this.state.duration), elapsed: 0 },
+        ...this.state.history,
+      ],
+    })
 
     if (this.state.hasChanting) {
       // Begin introChanting
@@ -203,6 +212,11 @@ class App extends Component<object, State> {
             setDuration={(duration: string) => this.setState({ duration })}
             toggle={(key: string) => () => {
               this.setState({ [key]: !this.state[key] })
+            }}
+            updateElapsed={(elapsed: number) => {
+              const history = [...this.state.history]
+              history[0].elapsed = elapsed
+              this.setState({ history })
             }}
           />
         </View>

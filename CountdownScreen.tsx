@@ -13,9 +13,16 @@ type CountdownScreenProps = {
   finished: boolean
   pressStop: () => void
   toggle: (key: string) => () => void
+  updateElapsed: (elapsed?: number) => void
 }
 
-const CountdownScreen = ({ duration, pressStop, toggle, finished }: CountdownScreenProps) => (
+const CountdownScreen = ({
+  duration,
+  pressStop,
+  toggle,
+  finished,
+  updateElapsed,
+}: CountdownScreenProps) => (
   <>
     <KeepAwake />
     <View style={{ alignItems: 'center', marginTop: 80 }}>
@@ -27,7 +34,8 @@ const CountdownScreen = ({ duration, pressStop, toggle, finished }: CountdownScr
           duration={Number(duration)}
           labelStyle={{ color: bodyTextColor, fontSize: 18, opacity: 0.2 }}
           minutes
-          onTimeElapsed={toggle('finished')}
+          onTimeFinished={toggle('finished')}
+          onTimeInterval={updateElapsed}
           radius={80}
           shadowColor="#001709"
           textStyle={{ color: bodyTextColor, fontSize: 40 }}
