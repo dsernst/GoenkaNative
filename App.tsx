@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { StatusBar, Text, TouchableOpacity, View } from 'react-native'
+import { StatusBar, Text, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
-import StreakScreen from './StreakScreen'
+import HistoryScreen from './HistoryScreen'
 import { Sound, clips as c } from './clips'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
 
-type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'StreakScreen'
+type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen'
 const screens: { [screen in ScreenNames]: any } = {
   CountdownScreen,
+  HistoryScreen,
   InitScreen,
-  StreakScreen,
 }
 
 type SitProps = {
@@ -41,6 +41,10 @@ class App extends Component<object, State> {
     hasChanting: false,
     hasExtendedMetta: false,
     history: [
+      {
+        date: new Date('Sun Jan 12 2020 12:50'),
+        duration: 5,
+      },
       {
         date: new Date('Sat Jan 11 2020 11:57'),
         duration: 60,
@@ -150,7 +154,7 @@ class App extends Component<object, State> {
   }
 
   pressStop() {
-    // Stop any audio
+    // Stop audio
     if (this.state.latestTrack) {
       this.state.latestTrack.stop()
     }
@@ -180,21 +184,20 @@ class App extends Component<object, State> {
             paddingTop: 18,
           }}
         >
-          <TouchableOpacity onPress={() => this.setState({ screen: 'StreakScreen' })}>
-            <Text
-              style={{
-                alignSelf: 'center',
-                color: bodyTextColor,
-                fontSize: 24,
-                fontWeight: '600',
-                marginVertical: 40,
-              }}
-            >
-              Goenka Meditation Timer
-            </Text>
-          </TouchableOpacity>
+          <Text
+            style={{
+              alignSelf: 'center',
+              color: bodyTextColor,
+              fontSize: 24,
+              fontWeight: '600',
+              marginVertical: 40,
+            }}
+          >
+            Goenka Meditation Timer
+          </Text>
           <Screen
             {...this.state}
+            openHistory={() => this.setState({ screen: 'HistoryScreen' })}
             pressStart={this.pressStart.bind(this)}
             pressStop={this.pressStop.bind(this)}
             setDuration={(duration: string) => this.setState({ duration })}

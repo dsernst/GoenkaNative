@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.facebook.react.ReactNativeHost;

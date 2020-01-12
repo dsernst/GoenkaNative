@@ -7,14 +7,17 @@ import {
   Text,
   TouchableHighlight,
   TouchableOpacity,
+  View,
 } from 'react-native'
 import _ from 'lodash'
+import Icon from 'react-native-vector-icons/Octicons'
 
 type InitScreenProps = {
   duration: string
   hasChanting: boolean
   hasExtendedMetta: boolean
   isEnoughTime: boolean
+  openHistory: () => void
   pressStart: () => void
   setDuration: (d: string) => void
   toggle: (key: string) => () => void
@@ -24,6 +27,7 @@ const InitScreen = ({
   duration,
   hasChanting,
   hasExtendedMetta,
+  openHistory,
   isEnoughTime,
   pressStart,
   setDuration,
@@ -67,41 +71,53 @@ const InitScreen = ({
         value={hasExtendedMetta}
       />
     </TouchableOpacity>
-    <TouchableHighlight
-      onPress={
-        isEnoughTime
-          ? pressStart
-          : () => {
-              Alert.alert(
-                'Not enough time',
-                'Lengthen the duration, or turn off the optional extras.',
-              )
-            }
-      }
+    <View
       style={{
         alignItems: 'center',
-        alignSelf: 'center',
-        borderColor: '#008000',
-        borderRadius: btnSize,
-        borderWidth: 1,
-        height: btnSize,
-        justifyContent: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginBottom: 30,
         marginTop: 'auto',
-        opacity: isEnoughTime ? 1 : 0.3,
-        width: btnSize,
+        paddingHorizontal: 0,
       }}
     >
-      <Text
+      <View style={{ width: 47 }} />
+      <TouchableHighlight
+        onPress={
+          isEnoughTime
+            ? pressStart
+            : () => {
+                Alert.alert(
+                  'Not enough time',
+                  'Lengthen the duration, or turn off the optional extras.',
+                )
+              }
+        }
         style={{
-          color: '#73d45d',
-          fontSize: 18,
-          fontWeight: '500',
+          alignItems: 'center',
+          borderColor: '#008000',
+          borderRadius: btnSize,
+          borderWidth: 1,
+          height: btnSize,
+          justifyContent: 'center',
+          opacity: isEnoughTime ? 1 : 0.3,
+          width: btnSize,
         }}
       >
-        Start
-      </Text>
-    </TouchableHighlight>
+        <Text
+          style={{
+            color: '#73d45d',
+            fontSize: 18,
+            fontWeight: '500',
+          }}
+        >
+          Start
+        </Text>
+      </TouchableHighlight>
+      <TouchableOpacity onPress={openHistory} style={{ padding: 15, paddingRight: 8, width: 47 }}>
+        <Icon color={bodyTextColor} name="calendar" size={30} style={{ opacity: 0.2 }} />
+      </TouchableOpacity>
+    </View>
   </>
 )
 

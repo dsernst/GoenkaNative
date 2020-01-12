@@ -7,12 +7,12 @@ type SitProps = {
   duration: number
 }
 
-type StreakScreenProps = {
+type HistoryScreenProps = {
   history: SitProps[]
   pressStop: () => void
 }
 
-const StreakScreen = ({ pressStop, history }: StreakScreenProps) => (
+const HistoryScreen = ({ pressStop, history }: HistoryScreenProps) => (
   <>
     <FlatList
       data={history}
@@ -24,7 +24,6 @@ const StreakScreen = ({ pressStop, history }: StreakScreenProps) => (
             fontSize: 18,
             fontWeight: '600',
             marginBottom: 10,
-            // opacity: 0.8,
           }}
         >
           Recent sits:
@@ -45,8 +44,8 @@ const StreakScreen = ({ pressStop, history }: StreakScreenProps) => (
         </View>
       )}
     />
-    <View style={{ marginBottom: 52 }}>
-      <Button onPress={pressStop} title="Back" />
+    <View style={{ marginBottom: 52, opacity: 0.2 }}>
+      <Button color="white" onPress={pressStop} title="Back" />
     </View>
   </>
 )
@@ -54,4 +53,4 @@ const StreakScreen = ({ pressStop, history }: StreakScreenProps) => (
 // Shared vars
 const bodyTextColor = '#f1f1f1'
 
-export default StreakScreen
+export default HistoryScreen
