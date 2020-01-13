@@ -1,14 +1,22 @@
 import React from 'react'
-import { Button, FlatList, Text, View } from 'react-native'
+import { Alert, Button, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import dayjs from 'dayjs'
 
 type SitProps = {
   date: Date
   duration: number
-  elapsed?: number
+  elapsed: number
 }
 
-const HistoryScreen = ({ pressStop, history }: { history: SitProps[]; pressStop: () => void }) => (
+const HistoryScreen = ({
+  pressStop,
+  history,
+  removeSit,
+}: {
+  history: SitProps[]
+  pressStop: () => void
+  removeSit: (index: number) => () => void
+}) => (
   <>
     <FlatList
       data={history}
@@ -25,8 +33,22 @@ const HistoryScreen = ({ pressStop, history }: { history: SitProps[]; pressStop:
           Recent sits:
         </Text>
       )}
-      renderItem={({ item: i }) => (
-        <View style={{ marginVertical: 8 }}>
+      renderItem={({ item: i, index }) => (
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert(
+              'Remove this sit?',
+              `${dayjs(i.date).format('ddd MMM D h[:]mma')} for ${
+                i.elapsed < i.duration ? i.elapsed + ' of ' : ''
+              }${i.duration} min`,
+              [
+                { text: 'Cancel' },
+                { onPress: removeSit(index), style: 'destructive', text: 'Delete' },
+              ],
+            )
+          }
+          style={{ paddingVertical: 8 }}
+        >
           <Text
             style={{
               color: bodyTextColor,
@@ -38,7 +60,7 @@ const HistoryScreen = ({ pressStop, history }: { history: SitProps[]; pressStop:
             {i.elapsed < i.duration && i.elapsed + ' of '}
             {i.duration} min
           </Text>
-        </View>
+        </TouchableOpacity>
       )}
     />
     <View style={{ marginBottom: 52, opacity: 0.2 }}>

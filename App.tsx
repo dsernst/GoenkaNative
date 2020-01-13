@@ -19,10 +19,11 @@ const screens: { [screen in ScreenNames]: any } = {
 type SitProps = {
   date: Date
   duration: number
-  elapsed?: number
+  elapsed: number
 }
 
 type State = {
+  [index: string]: any
   duration: string
   finished: boolean
   hasChanting: boolean
@@ -45,18 +46,22 @@ class App extends Component<object, State> {
       {
         date: new Date('Sun Jan 12 2020 12:50'),
         duration: 5,
+        elapsed: 5,
       },
       {
         date: new Date('Sat Jan 11 2020 11:57'),
         duration: 60,
+        elapsed: 60,
       },
       {
         date: new Date('Fri Jan 10 2020 22:30'),
         duration: 10,
+        elapsed: 10,
       },
       {
         date: new Date('Fri Jan 10 2020 8:25'),
         duration: 35,
+        elapsed: 35,
       },
     ],
     isEnoughTime: true,
@@ -209,6 +214,11 @@ class App extends Component<object, State> {
             openHistory={() => this.setState({ screen: 'HistoryScreen' })}
             pressStart={this.pressStart.bind(this)}
             pressStop={this.pressStop.bind(this)}
+            removeSit={(index: number) => () => {
+              const history = [...this.state.history]
+              history.splice(index, 1)
+              this.setState({ history })
+            }}
             setDuration={(duration: string) => this.setState({ duration })}
             toggle={(key: string) => () => {
               this.setState({ [key]: !this.state[key] })
