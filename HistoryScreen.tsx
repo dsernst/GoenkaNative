@@ -42,6 +42,19 @@ export default ({
       <FlatList
         data={history}
         keyExtractor={i => i.date.toString()}
+        ListEmptyComponent={() => (
+          <Text
+            style={{
+              color: bodyTextColor,
+              fontSize: 16,
+              fontStyle: 'italic',
+              opacity: 0.8,
+              paddingTop: 8,
+            }}
+          >
+            You don't have any sits yet.
+          </Text>
+        )}
         ListHeaderComponent={() => (
           <Text
             style={{
