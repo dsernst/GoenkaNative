@@ -20,23 +20,27 @@ export default ({
   pressStop: () => void
   removeSit: (index: number) => () => void
 }) => {
-  const dailyStreak = calcStreak(history.map(h => h.date))
-  // eslint-disable-next-line prettier/prettier
-  const twiceADayStreak = calcStreak(
-    history.map(h => h.date),
-    2,
-  )
+  const dates = history.map(h => h.date)
+  const dailyStreak = calcStreak(dates)
+  const twiceADayStreak = calcStreak(dates, 2)
+
+  const Faded = (props: any) => <Text style={{ fontWeight: '400', opacity: 0.6 }} {...props} />
 
   return (
     <>
       <Text
         style={{
           color: bodyTextColor,
+          fontWeight: '600',
+          lineHeight: 21,
           marginBottom: 15,
         }}
       >
-        You've sat twice a day for {twiceADayStreak} day
-        {twiceADayStreak === 1 ? '' : 's'} & at least once for {dailyStreak} day
+        <Faded>You've sat twice a day for </Faded>
+        {twiceADayStreak} day
+        {twiceADayStreak === 1 ? '' : 's'},{'\n'}
+        <Faded>& at least once for </Faded>
+        {dailyStreak} day
         {dailyStreak === 1 ? '' : 's'} straight.
       </Text>
       <FlatList
@@ -59,12 +63,13 @@ export default ({
           <Text
             style={{
               color: bodyTextColor,
+              fontSize: 11,
               marginVertical: 10,
               opacity: 0.6,
               paddingTop: 10,
             }}
           >
-            Recent sits:
+            HISTORY:
           </Text>
         )}
         renderItem={({ item: i, index }) => (
@@ -87,13 +92,16 @@ export default ({
               style={{
                 color: bodyTextColor,
                 fontSize: 16,
+                fontWeight: '600',
                 opacity: 0.8,
               }}
             >
-              {dayjs(i.date).fromNow()}
-              {' · '}
+              <Faded>
+                {dayjs(i.date).fromNow()}
+                {' · '}
+              </Faded>
               {dayjs(i.date).format('h[:]mma')}
-              <Text style={{ opacity: 0.5 }}> for </Text>
+              <Faded> for </Faded>
               {i.elapsed < i.duration && i.elapsed + ' of '}
               {i.duration} min
             </Text>
