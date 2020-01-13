@@ -46,7 +46,7 @@ const InitScreen = ({
         marginTop: 15,
       }}
     >
-      {[1, ..._.range(5, 61, 5), ..._.range(90, 301, 15)].map(String).map((num: string) => (
+      {[1, 3, ..._.range(5, 61, 5), ..._.range(90, 301, 15)].map(String).map((num: string) => (
         <Picker.Item
           key={num}
           label={((n: string) => {
