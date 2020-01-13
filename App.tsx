@@ -192,17 +192,19 @@ class App extends Component<object, State> {
             paddingTop: 18,
           }}
         >
-          <Text
-            style={{
-              alignSelf: 'center',
-              color: bodyTextColor,
-              fontSize: 24,
-              fontWeight: '600',
-              marginVertical: 40,
-            }}
-          >
-            Goenka Meditation Timer
-          </Text>
+          {this.state.screen !== 'HistoryScreen' && (
+            <Text
+              style={{
+                alignSelf: 'center',
+                color: bodyTextColor,
+                fontSize: 24,
+                fontWeight: '600',
+                marginVertical: 40,
+              }}
+            >
+              Goenka Meditation Timer
+            </Text>
+          )}
           <Screen
             {...this.state}
             openHistory={() => this.setState({ screen: 'HistoryScreen' })}

@@ -24,16 +24,72 @@ export default ({
   const dailyStreak = calcStreak(dates)
   const twiceADayStreak = calcStreak(dates, 2)
 
-  const Faded = (props: any) => <Text style={{ fontWeight: '400', opacity: 0.6 }} {...props} />
+  const Faded = (props: any) => (
+    <Text
+      {...props}
+      style={{ color: bodyTextColor, fontWeight: '400', opacity: 0.6, ...props.style }}
+    />
+  )
+
+  function dayLabel(date: Date, index: number) {
+    // Only show label for first item of a particular day
+    if (index > 0 && history[index - 1].date.getDate() === date.getDate()) {
+      return ''
+    }
+
+    if (
+      dayjs()
+        .startOf('day')
+        .isBefore(date)
+    ) {
+      return 'today'
+    }
+
+    if (
+      dayjs()
+        .subtract(1, 'day')
+        .startOf('day')
+        .isBefore(date)
+    ) {
+      return 'yesterday'
+    }
+
+    return `${dayjs()
+      .startOf('day')
+      .diff(dayjs(date).startOf('day'), 'day')} days ago`
+  }
 
   return (
     <>
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderColor: '#fff2',
+          borderTopWidth: 1,
+          marginBottom: 35,
+          marginTop: 45,
+          paddingVertical: 5,
+        }}
+      >
+        <Text
+          style={{
+            alignSelf: 'center',
+            color: bodyTextColor,
+            fontSize: 11,
+            fontWeight: '500',
+          }}
+        >
+          HISTORY
+        </Text>
+      </View>
+
       <Text
         style={{
           color: bodyTextColor,
           fontWeight: '600',
           lineHeight: 21,
-          marginBottom: 15,
+          marginBottom: 30,
+          textAlign: 'center',
         }}
       >
         <Faded>You've sat twice a day for </Faded>
@@ -43,33 +99,22 @@ export default ({
         {dailyStreak} day
         {dailyStreak === 1 ? '' : 's'} straight.
       </Text>
+
       <FlatList
         data={history}
         keyExtractor={i => i.date.toString()}
         ListEmptyComponent={() => (
           <Text
             style={{
+              alignSelf: 'center',
               color: bodyTextColor,
               fontSize: 16,
               fontStyle: 'italic',
-              opacity: 0.8,
-              paddingTop: 8,
-            }}
-          >
-            You don't have any sits yet.
-          </Text>
-        )}
-        ListHeaderComponent={() => (
-          <Text
-            style={{
-              color: bodyTextColor,
-              fontSize: 11,
-              marginVertical: 10,
               opacity: 0.6,
-              paddingTop: 10,
+              paddingTop: 80,
             }}
           >
-            HISTORY:
+            You don't have any sits recorded yet.
           </Text>
         )}
         renderItem={({ item: i, index }) => (
@@ -86,8 +131,24 @@ export default ({
                 ],
               )
             }
-            style={{ paddingVertical: 8 }}
+            style={{ alignContent: 'flex-start', flexDirection: 'row', paddingVertical: 8 }}
           >
+            <View style={{ alignItems: 'flex-end', marginRight: 10, width: 90 }}>
+              <Faded>{dayLabel(i.date, index)}</Faded>
+            </View>
+            <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+              <Text
+                style={{
+                  color: bodyTextColor,
+                  fontSize: 16,
+                  fontWeight: '600',
+                  opacity: 0.8,
+                }}
+              >
+                {dayjs(i.date).format('h[:]mma')}
+              </Text>
+            </View>
+            <Faded style={{ alignSelf: 'flex-end' }}> for &nbsp;</Faded>
             <Text
               style={{
                 color: bodyTextColor,
@@ -96,12 +157,6 @@ export default ({
                 opacity: 0.8,
               }}
             >
-              <Faded>
-                {dayjs(i.date).fromNow()}
-                {' · '}
-              </Faded>
-              {dayjs(i.date).format('h[:]mma')}
-              <Faded> for </Faded>
               {i.elapsed < i.duration && i.elapsed + ' of '}
               {i.duration} min
             </Text>
