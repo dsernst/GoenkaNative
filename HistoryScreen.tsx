@@ -1,14 +1,24 @@
 import React from 'react'
 import { Alert, Button, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+import calcStreak from './calc-streak.ts'
 
-type SitProps = {
+export type SitProps = {
   date: Date
   duration: number
   elapsed: number
 }
 
-const HistoryScreen = ({
+function calcDailyStreak(history: SitProps[]) {
+  return calcStreak(history.map(h => h.date))
+}
+// function calcTwiceDailyStreak(history: SitProps[]) {
+//   return '**FIXME**'
+// }
+
+export default ({
   pressStop,
   history,
   removeSit,
@@ -18,6 +28,16 @@ const HistoryScreen = ({
   removeSit: (index: number) => () => void
 }) => (
   <>
+    <Text
+      style={{
+        color: bodyTextColor,
+        marginBottom: 15,
+      }}
+    >
+      You've sat
+      {/* twice a day for {calcTwiceDailyStreak(history)} days &*/} at least once for{' '}
+      {calcDailyStreak(history)} day{calcDailyStreak(history) === 1 ? '' : 's'} straight.
+    </Text>
     <FlatList
       data={history}
       keyExtractor={i => i.date.toString()}
@@ -25,9 +45,9 @@ const HistoryScreen = ({
         <Text
           style={{
             color: bodyTextColor,
-            fontSize: 18,
-            fontWeight: '600',
-            marginBottom: 10,
+            marginVertical: 10,
+            opacity: 0.6,
+            paddingTop: 10,
           }}
         >
           Recent sits:
@@ -56,7 +76,10 @@ const HistoryScreen = ({
               opacity: 0.8,
             }}
           >
-            {dayjs(i.date).format('ddd MMM D · h[:]mma')} <Text style={{ opacity: 0.5 }}>for</Text>{' '}
+            {dayjs(i.date).fromNow()}
+            {' · '}
+            {dayjs(i.date).format('h[:]mma')}
+            <Text style={{ opacity: 0.5 }}> for </Text>
             {i.elapsed < i.duration && i.elapsed + ' of '}
             {i.duration} min
           </Text>
@@ -71,5 +94,3 @@ const HistoryScreen = ({
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
-
-export default HistoryScreen

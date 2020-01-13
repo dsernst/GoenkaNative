@@ -3,7 +3,7 @@ import { StatusBar, Text, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
-import HistoryScreen from './HistoryScreen'
+import HistoryScreen, { SitProps } from './HistoryScreen'
 import { Sound, clips as c } from './clips'
 
 // Shared vars
@@ -14,12 +14,6 @@ const screens: { [screen in ScreenNames]: any } = {
   CountdownScreen,
   HistoryScreen,
   InitScreen,
-}
-
-type SitProps = {
-  date: Date
-  duration: number
-  elapsed: number
 }
 
 type State = {
