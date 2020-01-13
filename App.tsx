@@ -38,6 +38,16 @@ class App extends Component<object, State> {
     hasExtendedMetta: false,
     history: [
       {
+        date: new Date('Sat Jan 13 2020 9:14'),
+        duration: 15,
+        elapsed: 15,
+      },
+      {
+        date: new Date('Sun Jan 12 2020 22:58'),
+        duration: 45,
+        elapsed: 45,
+      },
+      {
         date: new Date('Sun Jan 12 2020 12:50'),
         duration: 5,
         elapsed: 5,
