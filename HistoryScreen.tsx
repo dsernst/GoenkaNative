@@ -12,8 +12,8 @@ export type SitProps = {
 }
 
 export default ({
-  pressStop,
   history,
+  pressStop,
   removeSit,
 }: {
   history: SitProps[]
@@ -117,7 +117,7 @@ export default ({
             You don't have any sits recorded yet.
           </Text>
         )}
-        renderItem={({ item: i, index }) => (
+        renderItem={({ index, item: i }) => (
           <TouchableOpacity
             onPress={() =>
               Alert.alert(

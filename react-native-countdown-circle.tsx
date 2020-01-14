@@ -149,7 +149,7 @@ export default class PercentageCircle extends React.PureComponent<PropTypes, any
     }).start(this.onCircleAnimated)
   }
 
-  renderHalfCircle({ rotate, backgroundColor }: { backgroundColor: string; rotate: any }) {
+  renderHalfCircle({ backgroundColor, rotate }: { backgroundColor: string; rotate: any }) {
     const { radius } = this.props
 
     return (

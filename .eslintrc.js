@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: '@react-native-community',
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'sort-keys-fix', 'typescript-sort-keys'],
+  plugins: ['@typescript-eslint', 'sort-keys-fix', 'typescript-sort-keys', 'sort-destructure-keys'],
   rules: {
     'lines-between-class-members': ['warn'],
     'no-alert': ['off'],
@@ -13,5 +13,6 @@ module.exports = {
     'typescript-sort-keys/interface': 2,
     'typescript-sort-keys/string-enum': 2,
     'react-native/no-inline-styles': ['off'],
+    'sort-destructure-keys/sort-destructure-keys': 2,
   },
 }

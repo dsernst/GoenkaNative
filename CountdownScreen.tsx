@@ -18,9 +18,9 @@ type CountdownScreenProps = {
 
 const CountdownScreen = ({
   duration,
+  finished,
   pressStop,
   toggle,
-  finished,
   updateElapsed,
 }: CountdownScreenProps) => (
   <>

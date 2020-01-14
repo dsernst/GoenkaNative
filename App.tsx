@@ -3,162 +3,107 @@ import { StatusBar, Text, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
-import HistoryScreen, { SitProps } from './HistoryScreen'
-import { Sound, clips as c } from './clips'
+import HistoryScreen from './HistoryScreen'
+import { clips as c } from './clips'
+import { connect } from 'react-redux'
+import { ScreenNames, State } from './reducer'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
 
-type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen'
 const screens: { [screen in ScreenNames]: any } = {
   CountdownScreen,
   HistoryScreen,
   InitScreen,
 }
 
-type State = {
-  [index: string]: any
-  duration: number
-  finished: boolean
-  hasChanting: boolean
-  hasExtendedMetta: boolean
-  history: SitProps[]
-  isEnoughTime: boolean
-  latestTrack: Sound | null
-  screen: ScreenNames
-}
-
 let timeouts: ReturnType<typeof setTimeout>[] = []
 
-class App extends Component<object, State> {
-  state: State = {
-    duration: 60,
-    finished: false,
-    hasChanting: false,
-    hasExtendedMetta: false,
-    history: [
-      {
-        date: new Date('Sat Jan 13 2020 9:14'),
-        duration: 15,
-        elapsed: 15,
-      },
-      {
-        date: new Date('Sun Jan 12 2020 22:58'),
-        duration: 45,
-        elapsed: 45,
-      },
-      {
-        date: new Date('Sun Jan 12 2020 12:50'),
-        duration: 5,
-        elapsed: 5,
-      },
-      {
-        date: new Date('Sat Jan 11 2020 11:57'),
-        duration: 60,
-        elapsed: 60,
-      },
-      {
-        date: new Date('Fri Jan 10 2020 22:30'),
-        duration: 10,
-        elapsed: 10,
-      },
-      {
-        date: new Date('Fri Jan 10 2020 8:25'),
-        duration: 35,
-        elapsed: 35,
-      },
-    ],
-    isEnoughTime: true,
-    latestTrack: null,
-    screen: 'InitScreen',
-  }
+interface Props extends State {
+  setState: (payload: object) => void
+}
 
-  componentDidUpdate(_prevProps: any, prevState: State) {
+class App extends Component<Props> {
+  componentDidUpdate(prevProps: Props) {
+    const { latestTrack } = this.props
     // New track to play, nothing playing previously
-    if (!prevState.latestTrack && this.state.latestTrack) {
-      this.state.latestTrack.play()
+    if (latestTrack && !prevProps.latestTrack) {
+      latestTrack.play()
     }
 
     // New track to play, another track already playing
-    if (
-      prevState.latestTrack &&
-      this.state.latestTrack &&
-      prevState.latestTrack !== this.state.latestTrack
-    ) {
-      prevState.latestTrack.stop()
-      this.state.latestTrack.play()
+    if (latestTrack && prevProps.latestTrack && prevProps.latestTrack !== latestTrack) {
+      prevProps.latestTrack.stop()
+      latestTrack.play()
     }
 
     // If timing settings changed, check if duration is enough
     if (
-      ['duration', 'hasChanting', 'hasExtendedMetta'].some(
-        key => prevState[key] !== this.state[key],
-      )
+      prevProps.duration !== this.props.duration ||
+      prevProps.hasChanting !== this.props.hasChanting ||
+      prevProps.hasExtendedMetta !== this.props.hasExtendedMetta
     ) {
       this.checkIfDurationIsEnough()
     }
   }
 
   checkIfDurationIsEnough() {
+    const { duration, hasChanting, hasExtendedMetta, setState } = this.props
     const delay = (seconds: number) => ({ getDuration: () => seconds })
     const queue: { getDuration: () => number }[] = [c.introInstructions, c.closingMetta]
-    if (this.state.hasChanting) {
+    if (hasChanting) {
       queue.push(c.introChanting, delay(5), c.closingChanting, delay(2))
     }
-    if (this.state.hasExtendedMetta) {
+    if (hasExtendedMetta) {
       queue.push(c.mettaIntro, delay(3 * 60))
     }
     const durations = queue.map(clip => clip.getDuration())
-    this.setState({ isEnoughTime: _.sum(durations) < this.state.duration * 60 })
+    setState({ isEnoughTime: _.sum(durations) < duration * 60 })
   }
 
   pressStart() {
-    this.setState({ screen: 'CountdownScreen' })
+    const { duration, hasChanting, hasExtendedMetta, history, setState } = this.props
+
+    setState({ screen: 'CountdownScreen' })
 
     // Add to history
-    this.setState({
-      history: [
-        { date: new Date(), duration: this.state.duration, elapsed: 0 },
-        ...this.state.history,
-      ],
-    })
+    setState({ history: [{ date: new Date(), duration: duration, elapsed: 0 }, ...history] })
 
-    if (this.state.hasChanting) {
+    if (hasChanting) {
       // Begin introChanting
-      this.setState({ latestTrack: c.introChanting })
+      setState({ latestTrack: c.introChanting })
 
       // Setup a timeout to begin introInstructions a few
       // seconds after introChanting finishes.
       timeouts.push(
         setTimeout(() => {
-          this.setState({ latestTrack: c.introInstructions })
+          setState({ latestTrack: c.introInstructions })
         }, Math.ceil(c.introChanting.getDuration() + 5) * 1000),
       )
     } else {
-      this.setState({ latestTrack: c.introInstructions })
+      setState({ latestTrack: c.introInstructions })
     }
 
     // Calculate closing time
-    const closingMettaTime =
-      (this.state.duration * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
+    const closingMettaTime = (duration * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
 
     let extendedMettaTime = closingMettaTime
-    if (this.state.hasExtendedMetta) {
+    if (hasExtendedMetta) {
       // Begin mettaIntro 3 minutes before closingMetta
       extendedMettaTime -= (Math.floor(c.mettaIntro.getDuration()) + 3 * 60) * 1000
 
       timeouts.push(
         setTimeout(() => {
-          this.setState({ latestTrack: c.mettaIntro })
+          setState({ latestTrack: c.mettaIntro })
         }, extendedMettaTime),
       )
     }
 
-    if (this.state.hasChanting) {
+    if (hasChanting) {
       // Begin closingChanting so it ends just before metta starts.
       timeouts.push(
         setTimeout(() => {
-          this.setState({ latestTrack: c.closingChanting })
+          setState({ latestTrack: c.closingChanting })
         }, extendedMettaTime - (Math.floor(c.closingChanting.getDuration()) + 2) * 1000),
       )
     }
@@ -166,15 +111,17 @@ class App extends Component<object, State> {
     // Begin closingMetta so it ends when countdown hits zero.
     timeouts.push(
       setTimeout(() => {
-        this.setState({ latestTrack: c.closingMetta })
+        setState({ latestTrack: c.closingMetta })
       }, closingMettaTime),
     )
   }
 
   pressStop() {
+    const { latestTrack, setState } = this.props
+
     // Stop audio
-    if (this.state.latestTrack) {
-      this.state.latestTrack.stop()
+    if (latestTrack) {
+      latestTrack.stop()
     }
 
     // Clear all of the setTimeouts
@@ -185,11 +132,12 @@ class App extends Component<object, State> {
     }
 
     // Go back to InitScreen
-    this.setState({ finished: false, latestTrack: null, screen: 'InitScreen' })
+    setState({ finished: false, latestTrack: null, screen: 'InitScreen' })
   }
 
   render() {
-    const Screen = screens[this.state.screen]
+    const { screen, setState } = this.props
+    const Screen = screens[screen]
 
     return (
       <>
@@ -202,7 +150,7 @@ class App extends Component<object, State> {
             paddingTop: 18,
           }}
         >
-          {this.state.screen !== 'HistoryScreen' && (
+          {screen !== 'HistoryScreen' && (
             <Text
               style={{
                 alignSelf: 'center',
@@ -216,23 +164,22 @@ class App extends Component<object, State> {
             </Text>
           )}
           <Screen
-            {...this.state}
-            openHistory={() => this.setState({ screen: 'HistoryScreen' })}
+            {...this.props}
+            openHistory={() => setState({ screen: 'HistoryScreen' })}
             pressStart={this.pressStart.bind(this)}
             pressStop={this.pressStop.bind(this)}
             removeSit={(index: number) => () => {
-              const history = [...this.state.history]
+              const history = [...this.props.history]
               history.splice(index, 1)
-              this.setState({ history })
+              setState({ history })
             }}
-            setDuration={(duration: number) => this.setState({ duration })}
-            toggle={(key: string) => () => {
-              this.setState({ [key]: !this.state[key] })
-            }}
+            setDuration={(duration: number) => setState({ duration })}
+            toggle={(key: string) => () =>
+              setState({ [key]: !_.pickBy(this.props, _.isBoolean)[key] })}
             updateElapsed={(elapsed: number) => {
-              const history = [...this.state.history]
+              const history = [...this.props.history]
               history[0].elapsed = elapsed
-              this.setState({ history })
+              setState({ history })
             }}
           />
         </View>
@@ -241,4 +188,11 @@ class App extends Component<object, State> {
   }
 }
 
-export default App
+export default connect(
+  (s: State) => s,
+  dispatch => ({
+    setState: (payload: object) => {
+      dispatch({ payload, type: 'setState' })
+    },
+  }),
+)(App)
