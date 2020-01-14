@@ -14,5 +14,6 @@ module.exports = {
     'typescript-sort-keys/string-enum': 2,
     'react-native/no-inline-styles': ['off'],
     'sort-destructure-keys/sort-destructure-keys': 2,
+    'prefer-const': 2,
   },
 }

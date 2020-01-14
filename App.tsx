@@ -17,7 +17,7 @@ const screens: { [screen in ScreenNames]: any } = {
   InitScreen,
 }
 
-let timeouts: ReturnType<typeof setTimeout>[] = []
+const timeouts: ReturnType<typeof setTimeout>[] = []
 
 interface Props extends State {
   setState: (payload: object) => void
