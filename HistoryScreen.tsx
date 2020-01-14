@@ -94,10 +94,12 @@ export default ({
       >
         <Faded>You've sat twice a day for </Faded>
         {twiceADayStreak} day
-        {twiceADayStreak === 1 ? '' : 's'},{'\n'}
+        {twiceADayStreak === 1 ? '' : 's'}
+        <Faded>,</Faded>
+        {'\n'}
         <Faded>& at least once for </Faded>
         {dailyStreak} day
-        {dailyStreak === 1 ? '' : 's'} straight.
+        {dailyStreak === 1 ? '' : 's'} straight<Faded>.</Faded>
       </Text>
 
       <FlatList
