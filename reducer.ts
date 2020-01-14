@@ -17,7 +17,7 @@ export type State = {
 const initialState: State = {
   duration: 60,
   finished: false,
-  hasChanting: false,
+  hasChanting: true,
   hasExtendedMetta: false,
   history: [
     {
