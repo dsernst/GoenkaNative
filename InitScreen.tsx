@@ -13,7 +13,7 @@ import _ from 'lodash'
 import Icon from 'react-native-vector-icons/Octicons'
 
 type InitScreenProps = {
-  duration: string
+  duration: number
   hasChanting: boolean
   hasExtendedMetta: boolean
   isEnoughTime: boolean
@@ -46,17 +46,19 @@ const InitScreen = ({
         marginTop: 15,
       }}
     >
-      {[1, 3, ..._.range(5, 61, 5), ..._.range(90, 301, 15)].map(String).map((num: string) => (
-        <Picker.Item
-          key={num}
-          label={((n: string) => {
-            const hours = Math.floor(Number(n) / 60)
-            const minutes = Number(n) % 60
-            return `${hours ? `${hours} hr ` : ''}${minutes ? `${minutes} min` : ''}`
-          })(num)}
-          value={num}
-        />
-      ))}
+      {[1, 3, ..._.range(5, 61, 5), ..._.range(75, 181, 15), ..._.range(210, 301, 30)].map(
+        (num: number) => (
+          <Picker.Item
+            key={num}
+            label={((n: number) => {
+              const hours = Math.floor(n / 60)
+              const minutes = n % 60
+              return `${hours ? `${hours} hr ` : ''}${minutes ? `${minutes} min` : ''}`
+            })(num)}
+            value={num}
+          />
+        ),
+      )}
     </Picker>
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasChanting')} style={s.switchRow}>
       <Text style={s.text}>Include chanting?</Text>

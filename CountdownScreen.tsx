@@ -9,7 +9,7 @@ const bodyTextColor = '#f1f1f1'
 const btnSize = 80
 
 type CountdownScreenProps = {
-  duration: string
+  duration: number
   finished: boolean
   pressStop: () => void
   toggle: (key: string) => () => void
@@ -31,7 +31,7 @@ const CountdownScreen = ({
           bgColor="#001709"
           borderWidth={4}
           color="#0a2013"
-          duration={Number(duration)}
+          duration={duration}
           labelStyle={{ color: bodyTextColor, fontSize: 18, opacity: 0.2 }}
           minutes
           onTimeFinished={toggle('finished')}

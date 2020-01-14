@@ -18,7 +18,7 @@ const screens: { [screen in ScreenNames]: any } = {
 
 type State = {
   [index: string]: any
-  duration: string
+  duration: number
   finished: boolean
   hasChanting: boolean
   hasExtendedMetta: boolean
@@ -32,7 +32,7 @@ let timeouts: ReturnType<typeof setTimeout>[] = []
 
 class App extends Component<object, State> {
   state: State = {
-    duration: '60',
+    duration: 60,
     finished: false,
     hasChanting: false,
     hasExtendedMetta: false,
@@ -109,7 +109,7 @@ class App extends Component<object, State> {
       queue.push(c.mettaIntro, delay(3 * 60))
     }
     const durations = queue.map(clip => clip.getDuration())
-    this.setState({ isEnoughTime: _.sum(durations) < Number(this.state.duration) * 60 })
+    this.setState({ isEnoughTime: _.sum(durations) < this.state.duration * 60 })
   }
 
   pressStart() {
@@ -118,7 +118,7 @@ class App extends Component<object, State> {
     // Add to history
     this.setState({
       history: [
-        { date: new Date(), duration: Number(this.state.duration), elapsed: 0 },
+        { date: new Date(), duration: this.state.duration, elapsed: 0 },
         ...this.state.history,
       ],
     })
@@ -140,7 +140,7 @@ class App extends Component<object, State> {
 
     // Calculate closing time
     const closingMettaTime =
-      (Number(this.state.duration) * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
+      (this.state.duration * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
 
     let extendedMettaTime = closingMettaTime
     if (this.state.hasExtendedMetta) {
@@ -225,7 +225,7 @@ class App extends Component<object, State> {
               history.splice(index, 1)
               this.setState({ history })
             }}
-            setDuration={(duration: string) => this.setState({ duration })}
+            setDuration={(duration: number) => this.setState({ duration })}
             toggle={(key: string) => () => {
               this.setState({ [key]: !this.state[key] })
             }}
