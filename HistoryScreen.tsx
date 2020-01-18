@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Button, FlatList, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)

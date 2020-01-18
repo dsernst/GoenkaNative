@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, StatusBar, Text, View } from 'react-native'
+import { Animated, StatusBar, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
