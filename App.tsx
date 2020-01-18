@@ -4,7 +4,7 @@ import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
 import HistoryScreen from './HistoryScreen'
-import { clips as c } from './clips'
+import c, { SoundWithDelay } from './clips'
 import { connect } from 'react-redux'
 import { ScreenNames, State } from './reducer'
 
@@ -49,16 +49,15 @@ class App extends Component<Props> {
 
   checkIfDurationIsEnough() {
     const { duration, hasChanting, hasExtendedMetta, setState } = this.props
-    const delay = (seconds: number) => ({ getDuration: () => seconds })
-    const queue: { getDuration: () => number }[] = [c.introInstructions, c.closingMetta]
+    const queue: SoundWithDelay[] = [c.introInstructions, c.closingMetta]
     if (hasChanting) {
-      queue.push(c.introChanting, delay(5), c.closingChanting, delay(2))
+      queue.push(c.introChanting, c.closingChanting)
     }
     if (hasExtendedMetta) {
-      queue.push(c.extendedMetta, delay(15))
+      queue.push(c.extendedMetta)
     }
-    const durations = queue.map(clip => clip.getDuration())
-    setState({ isEnoughTime: _.sum(durations) < duration * 60 })
+    const lengths = queue.map(clip => clip.length)
+    setState({ isEnoughTime: _.sum(lengths) < duration * 60 })
   }
 
   pressStart() {
@@ -85,19 +84,19 @@ class App extends Component<Props> {
       timeouts.push(
         setTimeout(() => {
           setState({ latestTrack: c.introInstructions })
-        }, Math.ceil(c.introChanting.getDuration() + 5) * 1000),
+        }, c.introChanting.length * 1000),
       )
     } else {
       setState({ latestTrack: c.introInstructions })
     }
 
     // Calculate closing time
-    const closingMettaTime = (duration * 60 - Math.floor(c.closingMetta.getDuration())) * 1000
+    const closingMettaTime = (duration * 60 - c.closingMetta.length) * 1000
 
     let extendedMettaTime = closingMettaTime
     if (hasExtendedMetta) {
       // Begin extendedMetta so it ends just before closingMetta
-      extendedMettaTime -= Math.floor(c.extendedMetta.getDuration() + 15) * 1000
+      extendedMettaTime -= c.extendedMetta.length * 1000
 
       timeouts.push(
         setTimeout(() => {
@@ -111,7 +110,7 @@ class App extends Component<Props> {
       timeouts.push(
         setTimeout(() => {
           setState({ latestTrack: c.closingChanting })
-        }, extendedMettaTime - (Math.floor(c.closingChanting.getDuration()) + 2) * 1000),
+        }, extendedMettaTime - c.closingChanting.length * 1000),
       )
     }
 

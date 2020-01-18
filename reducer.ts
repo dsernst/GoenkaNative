@@ -1,4 +1,4 @@
-import { Sound } from './clips'
+import Sound from 'react-native-sound'
 import { SitProps } from './HistoryScreen'
 import { Animated } from 'react-native'
 
