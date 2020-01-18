@@ -165,9 +165,17 @@ export default ({
           </TouchableOpacity>
         )}
       />
-      <View style={{ marginBottom: 52, opacity: 0.2 }}>
-        <Button color="white" onPress={pressStop} title="Back" />
-      </View>
+      <TouchableOpacity
+        onPress={pressStop}
+        style={{
+          alignItems: 'center',
+          marginVertical: 10,
+          paddingBottom: 50,
+          paddingTop: 15,
+        }}
+      >
+        <Text style={{ color: 'white', fontSize: 18, opacity: 0.2 }}>Back</Text>
+      </TouchableOpacity>
     </>
   )
 }
