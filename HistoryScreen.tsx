@@ -66,9 +66,8 @@ export default ({
           borderBottomWidth: 1,
           borderColor: '#fff2',
           borderTopWidth: 1,
-          marginBottom: 35,
-          marginTop: 45,
-          paddingVertical: 5,
+          marginVertical: 25,
+          paddingVertical: 7,
         }}
       >
         <Text
@@ -121,6 +120,7 @@ export default ({
         )}
         renderItem={({ index, item: i }) => (
           <TouchableOpacity
+            activeOpacity={0.5}
             onPress={() =>
               Alert.alert(
                 'Remove this sit?',
