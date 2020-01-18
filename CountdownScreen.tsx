@@ -63,7 +63,7 @@ const CountdownScreen = ({
           opacity: 0.2,
         }}
       >
-        Stop
+        {finished ? 'Back' : 'Stop'}
       </Text>
     </TouchableOpacity>
   </>
