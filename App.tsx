@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StatusBar, Text, View } from 'react-native'
+import { Animated, StatusBar, Text, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
@@ -62,9 +62,16 @@ class App extends Component<Props> {
   }
 
   pressStart() {
-    const { duration, hasChanting, hasExtendedMetta, history, setState } = this.props
+    const { duration, hasChanting, hasExtendedMetta, history, setState, titleOpacity } = this.props
 
+    // Switch screens
     setState({ screen: 'CountdownScreen' })
+
+    // Fade out title
+    Animated.timing(titleOpacity, {
+      duration: 5000,
+      toValue: 0.1,
+    }).start()
 
     // Add to history
     setState({ history: [{ date: new Date(), duration: duration, elapsed: 0 }, ...history] })
@@ -117,7 +124,12 @@ class App extends Component<Props> {
   }
 
   pressStop() {
-    const { latestTrack, setState } = this.props
+    const { latestTrack, setState, titleOpacity } = this.props
+
+    // Fade in title
+    Animated.timing(titleOpacity, {
+      toValue: 1,
+    }).start()
 
     // Stop audio
     if (latestTrack) {
@@ -136,7 +148,7 @@ class App extends Component<Props> {
   }
 
   render() {
-    const { screen, setState } = this.props
+    const { screen, setState, titleOpacity } = this.props
     const Screen = screens[screen]
 
     return (
@@ -151,17 +163,18 @@ class App extends Component<Props> {
           }}
         >
           {screen !== 'HistoryScreen' && (
-            <Text
+            <Animated.Text
               style={{
                 alignSelf: 'center',
                 color: bodyTextColor,
                 fontSize: 24,
                 fontWeight: '600',
                 marginVertical: 40,
+                opacity: titleOpacity,
               }}
             >
               Goenka Meditation Timer
-            </Text>
+            </Animated.Text>
           )}
           <Screen
             {...this.props}

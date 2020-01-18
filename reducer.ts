@@ -1,5 +1,6 @@
 import { Sound } from './clips'
 import { SitProps } from './HistoryScreen'
+import { Animated } from 'react-native'
 
 export type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen'
 
@@ -12,6 +13,7 @@ export type State = {
   isEnoughTime: boolean
   latestTrack: Sound | null
   screen: ScreenNames
+  titleOpacity: Animated.Value
 }
 
 const initialState: State = {
@@ -54,6 +56,7 @@ const initialState: State = {
   isEnoughTime: true,
   latestTrack: null,
   screen: 'InitScreen',
+  titleOpacity: new Animated.Value(1),
 }
 
 type Action = {
