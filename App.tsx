@@ -55,7 +55,7 @@ class App extends Component<Props> {
       queue.push(c.introChanting, delay(5), c.closingChanting, delay(2))
     }
     if (hasExtendedMetta) {
-      queue.push(c.mettaIntro, delay(3 * 60))
+      queue.push(c.extendedMetta, delay(15))
     }
     const durations = queue.map(clip => clip.getDuration())
     setState({ isEnoughTime: _.sum(durations) < duration * 60 })
@@ -96,12 +96,12 @@ class App extends Component<Props> {
 
     let extendedMettaTime = closingMettaTime
     if (hasExtendedMetta) {
-      // Begin mettaIntro 3 minutes before closingMetta
-      extendedMettaTime -= (Math.floor(c.mettaIntro.getDuration()) + 3 * 60) * 1000
+      // Begin extendedMetta so it ends just before closingMetta
+      extendedMettaTime -= Math.floor(c.extendedMetta.getDuration() + 15) * 1000
 
       timeouts.push(
         setTimeout(() => {
-          setState({ latestTrack: c.mettaIntro })
+          setState({ latestTrack: c.extendedMetta })
         }, extendedMettaTime),
       )
     }
