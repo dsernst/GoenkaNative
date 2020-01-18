@@ -204,6 +204,8 @@ class App extends Component<Props> {
 
 export default connect(
   (s: State) => s,
+
+  // Map dispatch into easy setState prop
   dispatch => ({
     setState: (payload: object) => {
       dispatch({ payload, type: 'setState' })
