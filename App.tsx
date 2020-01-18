@@ -57,8 +57,8 @@ class App extends Component<Props> {
       queue.push(c.extendedMetta)
     }
     const lengths = queue.map(clip => clip.length)
-    // console.log({ lengths, sum: _.sum(lengths), duration: duration * 60 })
-    setState({ isEnoughTime: _.sum(lengths) < duration * 60 })
+    // console.log({ duration: duration * 60, lengths, sum: _.sum(lengths) })
+    setState({ isEnoughTime: _.sum(lengths) <= duration * 60 })
   }
 
   pressStart() {

@@ -10,12 +10,12 @@ export class SoundWithDelay extends Sound {
 }
 
 // Helper function so we don't have to repeat bundle or errHandler
-const clip = (filename: string, delay: number = 0) => {
+function clip(filename: string, delay: number = 0) {
   const c = new SoundWithDelay(filename, Sound.MAIN_BUNDLE, function showErrors(error: string) {
     if (error) {
       Alert.alert('Failed to load the sound', error)
     } else {
-      c.length = Math.ceil(c.getDuration()) + delay
+      c.length = Math.floor(c.getDuration()) + delay
     }
   })
   return c
@@ -27,7 +27,7 @@ const clips: { [key: string]: SoundWithDelay } = {
   closingMetta: clip('closing-metta.mp3'),
   extendedMetta: clip('extended-metta.mp3', 14),
   introChanting: clip('intro-chanting.mp3', 5),
-  introInstructions: clip('intro-instructions.mp3'),
+  introInstructions: clip('intro-instructions.mp3', 1),
 }
 
 export default clips
