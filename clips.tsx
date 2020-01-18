@@ -1,7 +1,7 @@
 import { Alert } from 'react-native'
 import Sound from 'react-native-sound'
 
-// Required for Sounds to be playable
+// Required for Sounds to be playable while iOS is in Vibrate mode
 Sound.setCategory('Playback')
 
 // Extend Sound to store delays
