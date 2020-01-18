@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { StatusBar, Text, TouchableOpacity, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import CountdownCircle from './react-native-countdown-circle'
 import BeHappyText from './BeHappyText'
@@ -25,6 +25,7 @@ const CountdownScreen = ({
 }: CountdownScreenProps) => (
   <>
     <KeepAwake />
+    <StatusBar hidden />
     <View style={{ alignItems: 'center', marginTop: 80 }}>
       {!finished ? (
         <CountdownCircle

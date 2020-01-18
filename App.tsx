@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, StatusBar, View } from 'react-native'
+import { Animated, Easing, StatusBar, View } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
@@ -69,6 +69,7 @@ class App extends Component<Props> {
     // Fade out title
     Animated.timing(titleOpacity, {
       duration: 5000,
+      easing: Easing.linear,
       toValue: 0.1,
     }).start()
 
