@@ -62,4 +62,10 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
 TODO.md
+
+android/google-upload-key
+
+# Built bundles
+*.aab
