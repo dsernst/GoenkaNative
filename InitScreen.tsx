@@ -43,7 +43,7 @@ const InitScreen = ({
       style={{
         backgroundColor: 'hsla(0, 0%, 100%, .05)',
         borderRadius: 10,
-        color: '#eee',
+        color: '#aaa',
         marginBottom: 15,
         marginTop: 15,
       }}
@@ -60,6 +60,14 @@ const InitScreen = ({
         />
       ))}
     </Picker>
+    {Platform.OS === 'android' && (
+      <Icon
+        color="white"
+        name="triangle-down"
+        size={20}
+        style={[{ opacity: 0.3, position: 'absolute', right: 41, top: 187 }]}
+      />
+    )}
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasChanting')} style={s.switchRow}>
       <Text style={s.text}>Include chanting?</Text>
       <Switch
