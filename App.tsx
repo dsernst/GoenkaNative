@@ -154,7 +154,7 @@ class App extends Component<Props> {
 
     return (
       <>
-        <StatusBar barStyle="light-content" />
+        <StatusBar backgroundColor="#001709" barStyle="light-content" translucent />
         <View
           style={{
             backgroundColor: '#001709',
