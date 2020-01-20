@@ -119,7 +119,7 @@ class App extends Component<Props> {
     // Begin closingMetta so it ends when countdown hits zero.
     timeouts.push(
       setTimeout(() => {
-        setState({ latestTrack: c.closingMetta })
+        setState({ latestTrack: c.closingMetta.setVolume(0.7) })
       }, closingMettaTime),
     )
   }
