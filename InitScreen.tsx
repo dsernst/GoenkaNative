@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Alert,
   Picker,
+  Platform,
   StyleSheet,
   Switch,
   Text,
@@ -42,33 +43,39 @@ const InitScreen = ({
       style={{
         backgroundColor: 'hsla(0, 0%, 100%, .05)',
         borderRadius: 10,
+        color: '#eee',
         marginBottom: 15,
         marginTop: 15,
       }}
     >
-      {[1, 3, ..._.range(5, 61, 5), ..._.range(75, 181, 15), ..._.range(210, 301, 30)].map(
-        (num: number) => (
-          <Picker.Item
-            key={num}
-            label={((n: number) => {
-              const hours = Math.floor(n / 60)
-              const minutes = n % 60
-              return `${hours ? `${hours} hr ` : ''}${minutes ? `${minutes} min` : ''}`
-            })(num)}
-            value={num}
-          />
-        ),
-      )}
+      {[1, 3, ..._.range(5, 61, 5), ..._.range(75, 121, 15)].map((num: number) => (
+        <Picker.Item
+          key={num}
+          label={((n: number) => {
+            const hours = Math.floor(n / 60)
+            const minutes = n % 60
+            return `${hours ? `${hours} hr ` : ''}${minutes ? `${minutes} min` : ''}`
+          })(num)}
+          value={num}
+        />
+      ))}
     </Picker>
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasChanting')} style={s.switchRow}>
       <Text style={s.text}>Include chanting?</Text>
-      <Switch onValueChange={toggle('hasChanting')} style={s.switch} value={hasChanting} />
+      <Switch
+        onValueChange={toggle('hasChanting')}
+        style={s.switch}
+        thumbColor="white"
+        trackColor={{ false: 'null', true: 'rgb(48, 209, 88)' }}
+        value={hasChanting}
+      />
     </TouchableOpacity>
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasExtendedMetta')} style={s.switchRow}>
       <Text style={s.text}>Extended mettā? (4 min)</Text>
       <Switch
         onValueChange={toggle('hasExtendedMetta')}
         style={s.switch}
+        thumbColor="white"
         trackColor={{ false: 'null', true: 'rgb(10, 132, 255)' }}
         value={hasExtendedMetta}
       />
@@ -131,7 +138,7 @@ const s = StyleSheet.create({
   switch: {
     alignSelf: 'flex-end',
     paddingVertical: 10,
-    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
+    transform: Platform.OS === 'ios' ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [],
   },
   switchRow: {
     alignItems: 'center',
