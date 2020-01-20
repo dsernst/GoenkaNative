@@ -1,4 +1,4 @@
-import { Alert } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import Sound from 'react-native-sound'
 
 // Required for Sounds to be playable while iOS is in Vibrate mode
@@ -11,13 +11,18 @@ export class SoundWithDelay extends Sound {
 
 // Helper function so we don't have to repeat bundle or errHandler
 function clip(filename: string, delay: number = 0) {
-  const c = new SoundWithDelay(filename, Sound.MAIN_BUNDLE, function showErrors(error: string) {
-    if (error) {
-      Alert.alert('Failed to load the sound', error)
-    } else {
-      c.length = Math.floor(c.getDuration()) + delay
-    }
-  })
+  const c = new SoundWithDelay(
+    Platform.OS === 'ios' ? filename : filename.replace('-', '_'), // Android requires underscores
+    Sound.MAIN_BUNDLE,
+    function showErrors(error: string) {
+      if (error) {
+        Alert.alert('Failed to load the sound', JSON.stringify(error))
+      } else {
+        c.length = Math.floor(c.getDuration()) + delay
+      }
+    },
+  )
+
   return c
 }
 
