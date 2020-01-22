@@ -102,7 +102,7 @@ class App extends Component<Props> {
 
       timeouts.push(
         setTimeout(() => {
-          setState({ latestTrack: c.extendedMetta })
+          setState({ latestTrack: c.extendedMetta.setVolume(1) })
         }, extendedMettaTime),
       )
     }
@@ -111,7 +111,7 @@ class App extends Component<Props> {
       // Begin closingChanting so it ends just before metta starts.
       timeouts.push(
         setTimeout(() => {
-          setState({ latestTrack: c.closingChanting })
+          setState({ latestTrack: c.closingChanting.setVolume(0.7) })
         }, extendedMettaTime - c.closingChanting.length * 1000),
       )
     }
