@@ -35,6 +35,7 @@ const InitScreen = ({
   toggle,
 }: InitScreenProps) => (
   <>
+    {/* DurationPicker */}
     <Text style={s.text}>How long would you like to sit?</Text>
     <Picker
       itemStyle={{ color: bodyTextColor }}
@@ -68,6 +69,8 @@ const InitScreen = ({
         style={[{ opacity: 0.3, position: 'absolute', right: 41, top: 187 }]}
       />
     )}
+
+    {/* hasChantingSwitch */}
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasChanting')} style={s.switchRow}>
       <Text style={s.text}>Include chanting?</Text>
       <Switch
@@ -78,6 +81,8 @@ const InitScreen = ({
         value={hasChanting}
       />
     </TouchableOpacity>
+
+    {/* hasExtendedMettaSwitch */}
     <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasExtendedMetta')} style={s.switchRow}>
       <Text style={s.text}>Extended mettā? (4 min)</Text>
       <Switch
@@ -88,6 +93,8 @@ const InitScreen = ({
         value={hasExtendedMetta}
       />
     </TouchableOpacity>
+
+    {/* Bottom row */}
     <View
       style={{
         alignItems: 'center',
@@ -95,10 +102,12 @@ const InitScreen = ({
         justifyContent: 'space-between',
         marginBottom: 30,
         marginTop: 'auto',
-        paddingHorizontal: 0,
       }}
     >
+      {/* spacer */}
       <View style={{ width: 47 }} />
+
+      {/* StartBtn */}
       <TouchableHighlight
         onPress={
           isEnoughTime
@@ -131,6 +140,8 @@ const InitScreen = ({
           Start
         </Text>
       </TouchableHighlight>
+
+      {/* HistoryBtn */}
       <TouchableOpacity onPress={openHistory} style={{ padding: 15, paddingRight: 8, width: 47 }}>
         <Icon color={bodyTextColor} name="calendar" size={30} style={{ opacity: 0.2 }} />
       </TouchableOpacity>
