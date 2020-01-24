@@ -156,7 +156,7 @@ const InitScreen = ({
         isVisible={showHistoryBtnTooltip}
         onClose={toggle('showHistoryBtnTooltip')}
         placement="top"
-        topAdjustment={Platform.OS === 'android' ? -StatusBar.currentHeight : 0}
+        topAdjustment={Platform.OS === 'android' ? -StatusBar.currentHeight! : 0}
         useInteractionManager
       >
         <TouchableOpacity onPress={openHistory} style={{ padding: 15, paddingRight: 0, width: 50 }}>
