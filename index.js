@@ -31,7 +31,7 @@ const store = createStore(
         ),
       ],
 
-      whitelist: ['history'],
+      whitelist: ['history', 'duration', 'hasChanting', 'hasExtendedMetta', 'isEnoughTime'],
     },
     reducer,
   ),
