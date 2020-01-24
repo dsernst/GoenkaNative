@@ -172,7 +172,7 @@ const InitScreen = (props: Props) => {
   )
 }
 
-function pressPlay({
+async function pressPlay({
   duration,
   hasChanting,
   hasExtendedMetta,
@@ -180,6 +180,24 @@ function pressPlay({
   setState,
   titleOpacity,
 }: Props) {
+  // Show instructions if this is their first sit
+  if (!history.length) {
+    await new Promise(resolve =>
+      Alert.alert(
+        'First time instructions:',
+        `
+1) Leave the app open to keep the timer running.
+
+2) Your phone won't auto-lock while the timer is running.
+
+3) Work diligently, work intelligently, work patiently and persistently.
+
+ツ`,
+        [{ onPress: resolve, text: 'OK' }],
+      ),
+    )
+  }
+
   const timeouts = []
   // Switch screens
   setState({ screen: 'CountdownScreen' })
