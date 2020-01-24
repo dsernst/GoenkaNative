@@ -153,7 +153,6 @@ const InitScreen = (props: Props) => {
           onClose={toggle('showHistoryBtnTooltip')}
           placement="top"
           topAdjustment={Platform.OS === 'android' ? -StatusBar.currentHeight! : 0}
-          useInteractionManager
         >
           <TouchableOpacity
             onPress={() => setState({ screen: 'HistoryScreen' })}

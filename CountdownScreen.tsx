@@ -108,7 +108,9 @@ class CountdownScreen extends Component<Props> {
 
     // Turn on HistoryBtnTooltip if this was their first sit
     if (history.length === 1) {
-      setState({ showHistoryBtnTooltip: true })
+      setTimeout(() => {
+        setState({ showHistoryBtnTooltip: true })
+      }, 500)
     }
   }
 }

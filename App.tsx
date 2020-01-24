@@ -56,16 +56,18 @@ class App extends Component<Props> {
   }
 
   render() {
-    const { screen, titleOpacity } = this.props
+    const { screen, showHistoryBtnTooltip, titleOpacity } = this.props
     const Screen = screens[screen]
 
     // Suppress Android setTimeout warnings
     // see https://github.com/facebook/react-native/issues/12981
     YellowBox.ignoreWarnings(['Setting a timer for a'])
 
+    const statusBarColor = showHistoryBtnTooltip ? '#000c04' : '#001709'
+
     return (
       <>
-        <StatusBar backgroundColor="#001709" barStyle="light-content" translucent />
+        <StatusBar backgroundColor={statusBarColor} barStyle="light-content" translucent />
         <View
           style={{
             backgroundColor: '#001709',
