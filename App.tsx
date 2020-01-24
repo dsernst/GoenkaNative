@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, Easing, StatusBar, View } from 'react-native'
+import { Animated, Easing, StatusBar, View, YellowBox } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
@@ -156,6 +156,10 @@ class App extends Component<Props> {
   render() {
     const { screen, setState, titleOpacity } = this.props
     const Screen = screens[screen]
+
+    // Suppress Android setTimeout warnings
+    // see https://github.com/facebook/react-native/issues/12981
+    YellowBox.ignoreWarnings(['Setting a timer for a'])
 
     return (
       <>
