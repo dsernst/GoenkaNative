@@ -1,6 +1,6 @@
 {
   "name": "goenka-native",
-  "version": "0.0.1",
+  "version": "1.4.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -8,6 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "version": "node ./version.js",
     "postinstall": "patch-package"
   },
   "dependencies": {
