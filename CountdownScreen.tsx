@@ -1,28 +1,28 @@
 import React, { Component } from 'react'
-import { StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import {
+  Animated,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import CountdownCircle from './react-native-countdown-circle'
 import BeHappyText from './BeHappyText'
+import { Props } from './reducer'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
 const btnSize = 80
 
-type CountdownScreenProps = {
-  duration: number
-  finished: boolean
-  pressStop: () => void
-  toggle: (key: string) => () => void
-  updateElapsed: (elapsed?: number) => void
-}
-
-class CountdownScreen extends Component<CountdownScreenProps> {
+class CountdownScreen extends Component<Props> {
   state = {
     hideStatusBar: true,
   }
 
   render() {
-    const { duration, finished, pressStop, toggle, updateElapsed } = this.props
+    const { duration, finished, setState, toggle } = this.props
     return (
       <>
         <KeepAwake />
@@ -41,7 +41,11 @@ class CountdownScreen extends Component<CountdownScreenProps> {
                 labelStyle={{ color: bodyTextColor, fontSize: 18, opacity: 0.2 }}
                 minutes
                 onTimeFinished={toggle('finished')}
-                onTimeInterval={updateElapsed}
+                onTimeInterval={(elapsed: number) => {
+                  const history = [...this.props.history]
+                  history[0].elapsed = elapsed
+                  setState({ history })
+                }}
                 radius={80}
                 shadowColor="#001709"
                 textStyle={{ color: bodyTextColor, fontSize: 40 }}
@@ -52,7 +56,7 @@ class CountdownScreen extends Component<CountdownScreenProps> {
           </View>
         </TouchableWithoutFeedback>
         <TouchableOpacity
-          onPress={pressStop}
+          onPress={() => this.pressStop()}
           style={{
             alignItems: 'center',
             alignSelf: 'center',
@@ -75,6 +79,37 @@ class CountdownScreen extends Component<CountdownScreenProps> {
         </TouchableOpacity>
       </>
     )
+  }
+
+  pressStop() {
+    const { history, latestTrack, setState, timeouts, titleOpacity } = this.props
+
+    // Fade in title
+    Animated.timing(titleOpacity, {
+      toValue: 1,
+    }).start()
+
+    // Stop audio
+    if (latestTrack) {
+      latestTrack.stop()
+    }
+
+    // Clear all of the setTimeouts
+    const newTimeouts = [...timeouts]
+    let t = newTimeouts.pop()
+    while (t) {
+      clearTimeout(t)
+      t = newTimeouts.pop()
+    }
+    setState({ timeouts: newTimeouts })
+
+    // Go back to InitScreen
+    setState({ finished: false, latestTrack: null, screen: 'InitScreen' })
+
+    // Turn on HistoryBtnTooltip if this was their first sit
+    if (history.length === 1) {
+      setState({ showHistoryBtnTooltip: true })
+    }
   }
 }
 

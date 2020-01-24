@@ -1,6 +1,11 @@
 import Sound from 'react-native-sound'
-import { SitProps } from './HistoryScreen'
 import { Animated } from 'react-native'
+
+export type SitProps = {
+  date: Date
+  duration: number
+  elapsed: number
+}
 
 export type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen'
 
@@ -14,7 +19,17 @@ export type State = {
   latestTrack: Sound | null
   screen: ScreenNames
   showHistoryBtnTooltip: boolean
+  timeouts: ReturnType<typeof setTimeout>[]
   titleOpacity: Animated.Value
+}
+
+export type Toggleables = 'finished' | 'hasChanting' | 'hasExtendedMetta' | 'showHistoryBtnTooltip'
+
+export type setStatePayload = Partial<State>
+
+export interface Props extends State {
+  setState: (payload: setStatePayload) => void
+  toggle: (key: Toggleables) => () => void
 }
 
 const initialState: State = {
@@ -27,18 +42,31 @@ const initialState: State = {
   latestTrack: null,
   screen: 'InitScreen',
   showHistoryBtnTooltip: false,
+  timeouts: [],
   titleOpacity: new Animated.Value(1),
 }
 
-type Action = {
-  payload: object
-  type: 'setState'
-}
+type Action =
+  | {
+      payload: Partial<State>
+      type: 'SET_STATE'
+    }
+  | {
+      key: Toggleables
+      type: 'TOGGLE'
+    }
 
 const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
-    case 'setState':
+    case 'SET_STATE':
       return { ...state, ...action.payload }
+    case 'TOGGLE':
+      return {
+        ...state,
+        ...{
+          [action.key]: !state[action.key],
+        },
+      }
     default:
       return state
   }

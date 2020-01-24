@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Animated, Easing, StatusBar, View, YellowBox } from 'react-native'
+import { Animated, StatusBar, View, YellowBox } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
 import HistoryScreen from './HistoryScreen'
 import c, { SoundWithDelay } from './clips'
 import { connect } from 'react-redux'
-import { ScreenNames, State } from './reducer'
+import { Props, ScreenNames, State, Toggleables, setStatePayload } from './reducer'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
@@ -15,12 +15,6 @@ const screens: { [screen in ScreenNames]: any } = {
   CountdownScreen,
   HistoryScreen,
   InitScreen,
-}
-
-const timeouts: ReturnType<typeof setTimeout>[] = []
-
-interface Props extends State {
-  setState: (payload: object) => void
 }
 
 class App extends Component<Props> {
@@ -61,100 +55,8 @@ class App extends Component<Props> {
     setState({ isEnoughTime: _.sum(lengths) <= duration * 60 })
   }
 
-  pressStart() {
-    const { duration, hasChanting, hasExtendedMetta, history, setState, titleOpacity } = this.props
-
-    // Switch screens
-    setState({ screen: 'CountdownScreen' })
-
-    // Fade out title
-    Animated.timing(titleOpacity, {
-      duration: 5000,
-      easing: Easing.linear,
-      toValue: 0.1,
-    }).start()
-
-    // Add to history
-    setState({ history: [{ date: new Date(), duration: duration, elapsed: 0 }, ...history] })
-
-    if (hasChanting) {
-      // Begin introChanting
-      setState({ latestTrack: c.introChanting })
-
-      // Setup a timeout to begin introInstructions a few
-      // seconds after introChanting finishes.
-      timeouts.push(
-        setTimeout(() => {
-          setState({ latestTrack: c.introInstructions })
-        }, c.introChanting.length * 1000),
-      )
-    } else {
-      setState({ latestTrack: c.introInstructions })
-    }
-
-    // Calculate closing time
-    const closingMettaTime = (duration * 60 - c.closingMetta.length) * 1000
-
-    let extendedMettaTime = closingMettaTime
-    if (hasExtendedMetta) {
-      // Begin extendedMetta so it ends just before closingMetta
-      extendedMettaTime -= c.extendedMetta.length * 1000
-
-      timeouts.push(
-        setTimeout(() => {
-          setState({ latestTrack: c.extendedMetta.setVolume(1) })
-        }, extendedMettaTime),
-      )
-    }
-
-    if (hasChanting) {
-      // Begin closingChanting so it ends just before metta starts.
-      timeouts.push(
-        setTimeout(() => {
-          setState({ latestTrack: c.closingChanting.setVolume(0.7) })
-        }, extendedMettaTime - c.closingChanting.length * 1000),
-      )
-    }
-
-    // Begin closingMetta so it ends when countdown hits zero.
-    timeouts.push(
-      setTimeout(() => {
-        setState({ latestTrack: c.closingMetta.setVolume(0.7) })
-      }, closingMettaTime),
-    )
-  }
-
-  pressStop() {
-    const { history, latestTrack, setState, titleOpacity } = this.props
-
-    // Fade in title
-    Animated.timing(titleOpacity, {
-      toValue: 1,
-    }).start()
-
-    // Stop audio
-    if (latestTrack) {
-      latestTrack.stop()
-    }
-
-    // Clear all of the setTimeouts
-    let t = timeouts.pop()
-    while (t) {
-      clearTimeout(t)
-      t = timeouts.pop()
-    }
-
-    // Go back to InitScreen
-    setState({ finished: false, latestTrack: null, screen: 'InitScreen' })
-
-    // Turn on HistoryBtnTooltip if this was their first sit
-    if (history.length === 1) {
-      setState({ showHistoryBtnTooltip: true })
-    }
-  }
-
   render() {
-    const { screen, setState, titleOpacity } = this.props
+    const { screen, titleOpacity } = this.props
     const Screen = screens[screen]
 
     // Suppress Android setTimeout warnings
@@ -186,20 +88,7 @@ class App extends Component<Props> {
               Goenka Meditation Timer
             </Animated.Text>
           )}
-          <Screen
-            {...this.props}
-            openHistory={() => setState({ screen: 'HistoryScreen' })}
-            pressStart={this.pressStart.bind(this)}
-            pressStop={this.pressStop.bind(this)}
-            setDuration={(duration: number) => setState({ duration })}
-            toggle={(key: string) => () =>
-              setState({ [key]: !_.pickBy(this.props, _.isBoolean)[key] })}
-            updateElapsed={(elapsed: number) => {
-              const history = [...this.props.history]
-              history[0].elapsed = elapsed
-              setState({ history })
-            }}
-          />
+          <Screen {...this.props} />
         </View>
       </>
     )
@@ -209,10 +98,9 @@ class App extends Component<Props> {
 export default connect(
   (s: State) => s,
 
-  // Map dispatch into easy setState prop
+  // Map dispatch into setState prop
   dispatch => ({
-    setState: (payload: object) => {
-      dispatch({ payload, type: 'setState' })
-    },
+    setState: (payload: setStatePayload) => dispatch({ payload, type: 'SET_STATE' }),
+    toggle: (key: Toggleables) => () => dispatch({ key, type: 'TOGGLE' }),
   }),
 )(App)

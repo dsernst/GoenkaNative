@@ -1,23 +1,10 @@
 import React from 'react'
 import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(relativeTime)
 import calcStreak from './calc-streak'
+import { Props } from './reducer'
 
-export type SitProps = {
-  date: Date
-  duration: number
-  elapsed: number
-}
-
-export default ({
-  history,
-  setState,
-}: {
-  history: SitProps[]
-  setState: (payload: object) => void
-}) => {
+export default ({ history, setState }: Props) => {
   const dates = history.map(h => h.date)
   const dailyStreak = calcStreak(dates)
   const twiceADayStreak = calcStreak(dates, 2)

@@ -81,7 +81,7 @@ type PropTypes = {
   labelStyle: TextStyle
   minutes: boolean
   onTimeFinished: (elapsed?: number, total?: number) => void
-  onTimeInterval?: (elapsed?: number) => void
+  onTimeInterval?: (elapsed: number) => void
   radius: number
   shadowColor: string
   textStyle: TextStyle
