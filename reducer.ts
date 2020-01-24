@@ -9,21 +9,24 @@ export type SitProps = {
 
 export type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen'
 
-export type State = {
-  duration: number
+type ToggleableStates = {
   finished: boolean
   hasChanting: boolean
   hasExtendedMetta: boolean
-  history: SitProps[]
   isEnoughTime: boolean
+  showHistoryBtnTooltip: boolean
+}
+
+export interface State extends ToggleableStates {
+  duration: number
+  history: SitProps[]
   latestTrack: Sound | null
   screen: ScreenNames
-  showHistoryBtnTooltip: boolean
   timeouts: ReturnType<typeof setTimeout>[]
   titleOpacity: Animated.Value
 }
 
-export type Toggleables = 'finished' | 'hasChanting' | 'hasExtendedMetta' | 'showHistoryBtnTooltip'
+export type Toggleables = keyof ToggleableStates
 
 export type setStatePayload = Partial<State>
 
