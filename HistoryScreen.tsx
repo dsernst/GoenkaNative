@@ -13,12 +13,10 @@ export type SitProps = {
 
 export default ({
   history,
-  pressStop,
-  removeSit,
+  setState,
 }: {
   history: SitProps[]
-  pressStop: () => void
-  removeSit: (index: number) => () => void
+  setState: (payload: object) => void
 }) => {
   const dates = history.map(h => h.date)
   const dailyStreak = calcStreak(dates)
@@ -129,7 +127,15 @@ export default ({
                 }${i.duration} min`,
                 [
                   { text: 'Cancel' },
-                  { onPress: removeSit(index), style: 'destructive', text: 'Delete' },
+                  {
+                    onPress: () => {
+                      const newHistory = [...history]
+                      newHistory.splice(index, 1)
+                      setState({ history: newHistory })
+                    },
+                    style: 'destructive',
+                    text: 'Delete',
+                  },
                 ],
               )
             }
@@ -166,7 +172,7 @@ export default ({
         )}
       />
       <TouchableOpacity
-        onPress={pressStop}
+        onPress={() => setState({ screen: 'InitScreen' })}
         style={{
           alignItems: 'center',
           marginVertical: 10,

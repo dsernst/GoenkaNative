@@ -125,7 +125,7 @@ class App extends Component<Props> {
   }
 
   pressStop() {
-    const { latestTrack, setState, titleOpacity } = this.props
+    const { history, latestTrack, setState, titleOpacity } = this.props
 
     // Fade in title
     Animated.timing(titleOpacity, {
@@ -146,6 +146,11 @@ class App extends Component<Props> {
 
     // Go back to InitScreen
     setState({ finished: false, latestTrack: null, screen: 'InitScreen' })
+
+    // Turn on HistoryBtnTooltip if this was their first sit
+    if (history.length === 1) {
+      setState({ showHistoryBtnTooltip: true })
+    }
   }
 
   render() {
@@ -182,11 +187,6 @@ class App extends Component<Props> {
             openHistory={() => setState({ screen: 'HistoryScreen' })}
             pressStart={this.pressStart.bind(this)}
             pressStop={this.pressStop.bind(this)}
-            removeSit={(index: number) => () => {
-              const history = [...this.props.history]
-              history.splice(index, 1)
-              setState({ history })
-            }}
             setDuration={(duration: number) => setState({ duration })}
             toggle={(key: string) => () =>
               setState({ [key]: !_.pickBy(this.props, _.isBoolean)[key] })}

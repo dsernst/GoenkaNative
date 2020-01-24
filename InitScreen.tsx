@@ -1,8 +1,10 @@
 import React from 'react'
 import {
   Alert,
+  Dimensions,
   Picker,
   Platform,
+  StatusBar,
   StyleSheet,
   Switch,
   Text,
@@ -12,6 +14,9 @@ import {
 } from 'react-native'
 import _ from 'lodash'
 import Icon from 'react-native-vector-icons/Octicons'
+import Tooltip from 'react-native-walkthrough-tooltip'
+
+const { width: screenWidth } = Dimensions.get('window')
 
 type InitScreenProps = {
   duration: number
@@ -21,6 +26,7 @@ type InitScreenProps = {
   openHistory: () => void
   pressStart: () => void
   setDuration: (d: string) => void
+  showHistoryBtnTooltip: boolean
   toggle: (key: string) => () => void
 }
 
@@ -32,6 +38,7 @@ const InitScreen = ({
   openHistory,
   pressStart,
   setDuration,
+  showHistoryBtnTooltip,
   toggle,
 }: InitScreenProps) => (
   <>
@@ -105,7 +112,7 @@ const InitScreen = ({
       }}
     >
       {/* spacer */}
-      <View style={{ width: 47 }} />
+      <View style={{ width: 50 }} />
 
       {/* StartBtn */}
       <TouchableHighlight
@@ -142,9 +149,25 @@ const InitScreen = ({
       </TouchableHighlight>
 
       {/* HistoryBtn */}
-      <TouchableOpacity onPress={openHistory} style={{ padding: 15, paddingRight: 8, width: 47 }}>
-        <Icon color={bodyTextColor} name="calendar" size={30} style={{ opacity: 0.2 }} />
-      </TouchableOpacity>
+      <Tooltip
+        childContentSpacing={0}
+        content={<Text style={{ fontWeight: '500' }}>Your history</Text>}
+        contentStyle={{ backgroundColor: '#ccc', left: screenWidth / 2 - 78 }}
+        isVisible={showHistoryBtnTooltip}
+        onClose={toggle('showHistoryBtnTooltip')}
+        placement="top"
+        topAdjustment={Platform.OS === 'android' ? -StatusBar.currentHeight : 0}
+        useInteractionManager
+      >
+        <TouchableOpacity onPress={openHistory} style={{ padding: 15, paddingRight: 0, width: 50 }}>
+          <Icon
+            color={bodyTextColor}
+            name="calendar"
+            size={30}
+            style={{ opacity: showHistoryBtnTooltip ? 0.6 : 0.2 }}
+          />
+        </TouchableOpacity>
+      </Tooltip>
     </View>
   </>
 )

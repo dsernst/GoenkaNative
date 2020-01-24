@@ -13,6 +13,7 @@ export type State = {
   isEnoughTime: boolean
   latestTrack: Sound | null
   screen: ScreenNames
+  showHistoryBtnTooltip: boolean
   titleOpacity: Animated.Value
 }
 
@@ -25,6 +26,7 @@ const initialState: State = {
   isEnoughTime: true,
   latestTrack: null,
   screen: 'InitScreen',
+  showHistoryBtnTooltip: false,
   titleOpacity: new Animated.Value(1),
 }
 

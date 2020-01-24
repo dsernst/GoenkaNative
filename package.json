@@ -19,6 +19,7 @@
     "react-native-keep-awake": "^4.0.0",
     "react-native-sound": "^0.11.0",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-walkthrough-tooltip": "^1.1.7",
     "react-redux": "^7.1.3",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0"
