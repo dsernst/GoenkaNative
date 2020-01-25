@@ -1,6 +1,6 @@
 {
   "name": "goenka-native",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
