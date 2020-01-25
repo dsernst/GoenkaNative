@@ -5,6 +5,8 @@ export type SitProps = {
   date: Date
   duration: number
   elapsed: number
+  hasChanting?: boolean
+  hasExtendedMetta?: boolean
 }
 
 export type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen'

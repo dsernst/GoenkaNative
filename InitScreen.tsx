@@ -210,7 +210,10 @@ async function pressPlay({
 
   // Add to history
   setState({
-    history: [{ date: new Date(), duration: duration, elapsed: 0 }, ...history],
+    history: [
+      { date: new Date(), duration: duration, elapsed: 0, hasChanting, hasExtendedMetta },
+      ...history,
+    ],
   })
 
   if (hasChanting) {
