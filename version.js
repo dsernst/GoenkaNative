@@ -13,7 +13,7 @@
 //  ### Install
 //
 //  Add to package.json scripts {
-//    "version": "node ./version.ts",
+//    "version": "node ./version.js",
 //  }
 //
 //  ### Usage
