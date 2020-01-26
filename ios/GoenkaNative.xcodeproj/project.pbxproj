@@ -34,11 +34,11 @@
 		C44239BE0230434893681E5D /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0487C3E6F5F447DBA7BE972 /* MaterialCommunityIcons.ttf */; };
 		D92088ED8133423084B97FBC /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9424372906B2405796B1A366 /* SimpleLineIcons.ttf */; };
 		E82FB5BFC71345CFAD7FDE5D /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 626610A843FE4C018DF8BE95 /* Fontisto.ttf */; };
-		E97BEBB523C2DCE800B74EEB /* intro-instructions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB423C2DCE800B74EEB /* intro-instructions.mp3 */; };
-		E97BEBBA23C2DD3D00B74EEB /* intro-chanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB623C2DD3D00B74EEB /* intro-chanting.mp3 */; };
-		E97BEBBC23C2DD3D00B74EEB /* closing-metta.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB823C2DD3D00B74EEB /* closing-metta.mp3 */; };
-		E97BEBBD23C2DD3D00B74EEB /* closing-chanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E97BEBB923C2DD3D00B74EEB /* closing-chanting.mp3 */; };
-		E9A25FA423D2F6F80077831B /* extended-metta.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9A25FA323D2F6F80077831B /* extended-metta.mp3 */; };
+		E9AF92D123DD1A270003B181 /* closingchanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CC23DD1A260003B181 /* closingchanting.mp3 */; };
+		E9AF92D223DD1A270003B181 /* closingmetta.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CD23DD1A260003B181 /* closingmetta.mp3 */; };
+		E9AF92D323DD1A270003B181 /* introchanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CE23DD1A260003B181 /* introchanting.mp3 */; };
+		E9AF92D423DD1A270003B181 /* introinstructions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CF23DD1A260003B181 /* introinstructions.mp3 */; };
+		E9AF92D523DD1A270003B181 /* extendedmetta.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92D023DD1A260003B181 /* extendedmetta.mp3 */; };
 		EF9639C0CBB447D7A463D17E /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE7CDE5100E54E2A8BA7033B /* FontAwesome5_Regular.ttf */; };
 		F220A15B794B4E09963FADDC /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04660E133ECD4E87AB3DFFD5 /* Entypo.ttf */; };
 /* End PBXBuildFile section */
@@ -99,11 +99,11 @@
 		D0487C3E6F5F447DBA7BE972 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		D68B62BFFFC74D3AB13AA974 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		E51E00BD307C4C8FAAF5C6B2 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
-		E97BEBB423C2DCE800B74EEB /* intro-instructions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "intro-instructions.mp3"; sourceTree = "<group>"; };
-		E97BEBB623C2DD3D00B74EEB /* intro-chanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "intro-chanting.mp3"; sourceTree = "<group>"; };
-		E97BEBB823C2DD3D00B74EEB /* closing-metta.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "closing-metta.mp3"; sourceTree = "<group>"; };
-		E97BEBB923C2DD3D00B74EEB /* closing-chanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "closing-chanting.mp3"; sourceTree = "<group>"; };
-		E9A25FA323D2F6F80077831B /* extended-metta.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "extended-metta.mp3"; sourceTree = "<group>"; };
+		E9AF92CC23DD1A260003B181 /* closingchanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = closingchanting.mp3; sourceTree = "<group>"; };
+		E9AF92CD23DD1A260003B181 /* closingmetta.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = closingmetta.mp3; sourceTree = "<group>"; };
+		E9AF92CE23DD1A260003B181 /* introchanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = introchanting.mp3; sourceTree = "<group>"; };
+		E9AF92CF23DD1A260003B181 /* introinstructions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = introinstructions.mp3; sourceTree = "<group>"; };
+		E9AF92D023DD1A260003B181 /* extendedmetta.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = extendedmetta.mp3; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F753344AD2C6459DB2B603AC /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -216,11 +216,11 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				E9A25FA323D2F6F80077831B /* extended-metta.mp3 */,
-				E97BEBB923C2DD3D00B74EEB /* closing-chanting.mp3 */,
-				E97BEBB823C2DD3D00B74EEB /* closing-metta.mp3 */,
-				E97BEBB623C2DD3D00B74EEB /* intro-chanting.mp3 */,
-				E97BEBB423C2DCE800B74EEB /* intro-instructions.mp3 */,
+				E9AF92CC23DD1A260003B181 /* closingchanting.mp3 */,
+				E9AF92CD23DD1A260003B181 /* closingmetta.mp3 */,
+				E9AF92D023DD1A260003B181 /* extendedmetta.mp3 */,
+				E9AF92CE23DD1A260003B181 /* introchanting.mp3 */,
+				E9AF92CF23DD1A260003B181 /* introinstructions.mp3 */,
 				13B07FAE1A68108700A75B9A /* GoenkaNative */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* GoenkaNativeTests */,
@@ -413,25 +413,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				E97BEBBA23C2DD3D00B74EEB /* intro-chanting.mp3 in Resources */,
-				E97BEBBD23C2DD3D00B74EEB /* closing-chanting.mp3 in Resources */,
-				E97BEBBC23C2DD3D00B74EEB /* closing-metta.mp3 in Resources */,
-				E97BEBB523C2DCE800B74EEB /* intro-instructions.mp3 in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				2C750B7706F34A8684FC2074 /* AntDesign.ttf in Resources */,
 				F220A15B794B4E09963FADDC /* Entypo.ttf in Resources */,
+				E9AF92D223DD1A270003B181 /* closingmetta.mp3 in Resources */,
 				0090E0745E114599B790DCEA /* EvilIcons.ttf in Resources */,
 				33D2F5B683CA4FAEAEF41F44 /* Feather.ttf in Resources */,
 				00B30310BF44447CA5A3679E /* FontAwesome.ttf in Resources */,
 				4C1D28F551E044279C5C960E /* FontAwesome5_Brands.ttf in Resources */,
+				E9AF92D323DD1A270003B181 /* introchanting.mp3 in Resources */,
 				EF9639C0CBB447D7A463D17E /* FontAwesome5_Regular.ttf in Resources */,
-				E9A25FA423D2F6F80077831B /* extended-metta.mp3 in Resources */,
+				E9AF92D123DD1A270003B181 /* closingchanting.mp3 in Resources */,
 				0E8D835F82F44E78B8250738 /* FontAwesome5_Solid.ttf in Resources */,
 				E82FB5BFC71345CFAD7FDE5D /* Fontisto.ttf in Resources */,
+				E9AF92D523DD1A270003B181 /* extendedmetta.mp3 in Resources */,
 				6A7333C753E041089D99A278 /* Foundation.ttf in Resources */,
 				07E0FDCE170A4C649EA21838 /* Ionicons.ttf in Resources */,
 				C44239BE0230434893681E5D /* MaterialCommunityIcons.ttf in Resources */,
 				B057BB8F8DCE48D993491B7F /* MaterialIcons.ttf in Resources */,
+				E9AF92D423DD1A270003B181 /* introinstructions.mp3 in Resources */,
 				8A273A50032C4DB7862CDB9F /* Octicons.ttf in Resources */,
 				D92088ED8133423084B97FBC /* SimpleLineIcons.ttf in Resources */,
 				790D07C434674E6A8B1E1C95 /* Zocial.ttf in Resources */,
