@@ -72,7 +72,7 @@ class App extends Component<Props> {
           style={{
             backgroundColor: '#001709',
             flex: 1,
-            paddingHorizontal: 24,
+            paddingHorizontal: screen !== 'HistoryScreen' ? 24 : 8,
             paddingTop: 18,
           }}
         >

@@ -51,6 +51,7 @@ export default ({ history, setState }: Props) => {
           borderBottomWidth: 1,
           borderColor: '#fff2',
           borderTopWidth: 1,
+          marginHorizontal: 10,
           marginVertical: 25,
           paddingVertical: 7,
         }}
@@ -88,6 +89,7 @@ export default ({ history, setState }: Props) => {
 
       <FlatList
         data={history}
+        indicatorStyle="white"
         keyExtractor={i => i.date.toString()}
         ListEmptyComponent={() => (
           <Text
@@ -126,7 +128,7 @@ export default ({ history, setState }: Props) => {
                 ],
               )
             }
-            style={{ alignContent: 'flex-start', flexDirection: 'row', paddingVertical: 8 }}
+            style={{ flexDirection: 'row', paddingHorizontal: 24, paddingVertical: 8 }}
           >
             <View style={{ alignItems: 'flex-end', marginRight: 10, width: 90 }}>
               <Faded>{dayLabel(i.date, index)}</Faded>
