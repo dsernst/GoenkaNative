@@ -1,15 +1,71 @@
 import React, { Component } from 'react'
-import { Platform, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Platform, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
 import { Props } from './reducer'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import dayjs from 'dayjs'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import PushNotification from 'react-native-push-notification'
 
 class SettingsScreen extends Component<Props> {
   state = {
     amPickerVisible: false,
     pmPickerVisible: false,
+  }
+
+  componentDidUpdate() {
+    // Props changed, probably because settings were adjusted
+    // Now reset local notifications
+    const { amNotification, amNotificationTime, pmNotification, pmNotificationTime } = this.props
+
+    // Clear old notifications
+    PushNotification.cancelAllLocalNotifications()
+
+    if (amNotification) {
+      PushNotification.localNotificationSchedule({
+        date: amNotificationTime,
+        message: 'AM sit: Awareness & Equanimity',
+        repeatType: 'day',
+      })
+    }
+    if (pmNotification) {
+      PushNotification.localNotificationSchedule({
+        date: pmNotificationTime,
+        message: 'PM sit: Awareness & Equanimity',
+        repeatType: 'day',
+      })
+    }
+  }
+
+  async toggleNotification(amOrPm: 'am' | 'pm') {
+    const { amNotification, pmNotification, setState } = this.props
+
+    // Check iOS notification permissions
+    type iosPermission = {
+      alert?: boolean
+      badge?: boolean
+      sound?: boolean
+    }
+    let permissions: iosPermission = await new Promise(resolve =>
+      PushNotification.checkPermissions(resolve),
+    )
+    if (!permissions.alert) {
+      PushNotification.requestPermissions()
+      permissions = await new Promise(resolve => PushNotification.checkPermissions(resolve))
+      if (!permissions.alert) {
+        Alert.alert(
+          'You blocked this app from showing Notifications.',
+          'To re-enable, go to Settings.app > Notifications > GoenkaTimer.',
+        )
+        return
+      }
+    }
+
+    if (amOrPm === 'am') {
+      setState({ amNotification: !amNotification })
+    } else if (amOrPm === 'pm') {
+      setState({ pmNotification: !pmNotification })
+    }
   }
 
   render() {
@@ -19,7 +75,6 @@ class SettingsScreen extends Component<Props> {
       pmNotification,
       pmNotificationTime,
       setState,
-      toggle,
     } = this.props
 
     return (
@@ -49,7 +104,7 @@ class SettingsScreen extends Component<Props> {
         {/* amNotification switch */}
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={toggle('amNotification')}
+          onPress={() => this.toggleNotification('am')}
           style={s.switchRow}
         >
           <Text style={s.text}>
@@ -57,7 +112,7 @@ class SettingsScreen extends Component<Props> {
             &nbsp; Notification each morning?
           </Text>
           <Switch
-            onValueChange={toggle('amNotification')}
+            onValueChange={() => this.toggleNotification('am')}
             style={s.switch}
             thumbColor="white"
             trackColor={{ false: 'null', true: 'rgb(255, 204, 0)' }}
@@ -99,7 +154,7 @@ class SettingsScreen extends Component<Props> {
         {/* pmNotification switch */}
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={toggle('pmNotification')}
+          onPress={() => this.toggleNotification('pm')}
           style={s.switchRow}
         >
           <Text style={s.text}>
@@ -107,7 +162,7 @@ class SettingsScreen extends Component<Props> {
             &nbsp;&nbsp; Notification each evening?
           </Text>
           <Switch
-            onValueChange={toggle('pmNotification')}
+            onValueChange={() => this.toggleNotification('pm')}
             style={s.switch}
             thumbColor="white"
             trackColor={{ false: 'null', true: 'rgb(175, 82, 222)' }}
