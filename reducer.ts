@@ -9,20 +9,24 @@ export type SitProps = {
   hasExtendedMetta?: boolean
 }
 
-export type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen'
+export type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen' | 'SettingsScreen'
 
 type ToggleableStates = {
+  amNotification: boolean
   finished: boolean
   hasChanting: boolean
   hasExtendedMetta: boolean
   isEnoughTime: boolean
+  pmNotification: boolean
   showHistoryBtnTooltip: boolean
 }
 
 export interface State extends ToggleableStates {
+  amNotificationTime: Date
   duration: number
   history: SitProps[]
   latestTrack: Sound | null
+  pmNotificationTime: Date
   screen: ScreenNames
   timeouts: ReturnType<typeof setTimeout>[]
   titleOpacity: Animated.Value
@@ -38,6 +42,8 @@ export interface Props extends State {
 }
 
 const initialState: State = {
+  amNotification: false,
+  amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
   duration: 60,
   finished: false,
   hasChanting: true,
@@ -45,7 +51,10 @@ const initialState: State = {
   history: [],
   isEnoughTime: true,
   latestTrack: null,
-  screen: 'InitScreen',
+  pmNotification: false,
+  pmNotificationTime: new Date('Jan 1, 2020 06:00 PM'),
+  // screen: 'InitScreen',
+  screen: 'SettingsScreen',
   showHistoryBtnTooltip: false,
   timeouts: [],
   titleOpacity: new Animated.Value(1),

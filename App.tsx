@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Animated, StatusBar, View, YellowBox } from 'react-native'
+import { Animated, StatusBar, TouchableWithoutFeedback, View, YellowBox } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
 import HistoryScreen from './HistoryScreen'
+import SettingsScreen from './SettingsScreen'
 import c, { SoundWithDelay } from './clips'
 import { connect } from 'react-redux'
 import { Props, ScreenNames, State, Toggleables, setStatePayload } from './reducer'
@@ -15,6 +16,7 @@ const screens: { [screen in ScreenNames]: any } = {
   CountdownScreen,
   HistoryScreen,
   InitScreen,
+  SettingsScreen,
 }
 
 class App extends Component<Props> {
@@ -56,7 +58,7 @@ class App extends Component<Props> {
   }
 
   render() {
-    const { screen, showHistoryBtnTooltip, titleOpacity } = this.props
+    const { screen, setState, showHistoryBtnTooltip, titleOpacity } = this.props
     const Screen = screens[screen]
 
     // Suppress Android setTimeout warnings
@@ -76,19 +78,21 @@ class App extends Component<Props> {
             paddingTop: 18,
           }}
         >
-          {screen !== 'HistoryScreen' && (
-            <Animated.Text
-              style={{
-                alignSelf: 'center',
-                color: bodyTextColor,
-                fontSize: 24,
-                fontWeight: '600',
-                marginVertical: 40,
-                opacity: titleOpacity,
-              }}
-            >
-              Goenka Meditation Timer
-            </Animated.Text>
+          {!['HistoryScreen', 'SettingsScreen'].includes(screen) && (
+            <TouchableWithoutFeedback onLongPress={() => setState({ screen: 'SettingsScreen' })}>
+              <Animated.Text
+                style={{
+                  alignSelf: 'center',
+                  color: bodyTextColor,
+                  fontSize: 24,
+                  fontWeight: '600',
+                  marginVertical: 40,
+                  opacity: titleOpacity,
+                }}
+              >
+                Goenka Meditation Timer
+              </Animated.Text>
+            </TouchableWithoutFeedback>
           )}
           <Screen {...this.props} />
         </View>
