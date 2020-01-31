@@ -15,5 +15,6 @@ module.exports = {
     'react-native/no-inline-styles': ['off'],
     'sort-destructure-keys/sort-destructure-keys': 2,
     'prefer-const': 2,
+    'no-warning-comments': [1, { terms: ['nocommit'] }],
   },
 }
