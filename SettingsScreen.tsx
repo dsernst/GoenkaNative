@@ -7,6 +7,8 @@ import FeatherIcon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import PushNotification from 'react-native-push-notification'
 
+type TimeKeys = 'morning' | 'evening'
+
 class SettingsScreen extends Component<Props> {
   state = {
     amPickerVisible: false,
@@ -39,7 +41,7 @@ class SettingsScreen extends Component<Props> {
     })
   }
 
-  async toggleNotification(amOrPm: 'am' | 'pm') {
+  async toggleNotification(key: TimeKeys) {
     const { amNotification, pmNotification, setState } = this.props
 
     // Check iOS notification permissions
@@ -63,9 +65,9 @@ class SettingsScreen extends Component<Props> {
       }
     }
 
-    if (amOrPm === 'am') {
+    if (key === 'morning') {
       setState({ amNotification: !amNotification })
-    } else if (amOrPm === 'pm') {
+    } else if (key === 'evening') {
       setState({ pmNotification: !pmNotification })
     }
   }
@@ -81,6 +83,55 @@ class SettingsScreen extends Component<Props> {
 
     const morningYellow = 'rgb(255, 204, 0)'
     const eveningPurple = 'rgb(175, 82, 222)'
+
+    const TimeSwitchesTuples: [TimeKeys, string, boolean, typeof Ionicons, string][] = [
+      ['morning', morningYellow, amNotification, FeatherIcon, 'sun'],
+      ['evening', eveningPurple, pmNotification, Ionicons, 'ios-moon'],
+    ]
+
+    const AdjustTimeTuples: [boolean, object, object, Date][] = [
+      [
+        amNotification,
+        { amPickerVisible: true },
+        { borderColor: morningYellow },
+        amNotificationTime,
+      ],
+      [
+        pmNotification,
+        { pmPickerVisible: true },
+        { borderColor: eveningPurple, marginLeft: 'auto' },
+        pmNotificationTime,
+      ],
+    ]
+
+    const TimePickersTuples: [
+      Date,
+      TimeKeys,
+      boolean,
+      Date | undefined, // maxDate
+      Date | undefined, // minDate
+      object,
+      (newTime: Date) => object,
+    ][] = [
+      [
+        amNotificationTime,
+        'morning',
+        this.state.amPickerVisible,
+        new Date('Jan 1 2020 11:59 AM'), // maxDate
+        undefined, // no MaxDate
+        { amPickerVisible: false },
+        newTime => ({ amNotificationTime: newTime }),
+      ],
+      [
+        pmNotificationTime,
+        'evening',
+        this.state.pmPickerVisible,
+        undefined, // no maxDate
+        new Date('Jan 1 2020 12:00 PM'), // minDate
+        { pmPickerVisible: false },
+        newTime => ({ pmNotificationTime: newTime }),
+      ],
+    ]
 
     return (
       <>
@@ -106,44 +157,29 @@ class SettingsScreen extends Component<Props> {
           </Text>
         </View>
 
-        {/* amNotification switch */}
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => this.toggleNotification('am')}
-          style={s.switchRow}
-        >
-          <Text style={s.text}>
-            <FeatherIcon color={amNotification ? morningYellow : 'white'} name="sun" size={22} />
-            &nbsp; Notification each morning?
-          </Text>
-          <Switch
-            onValueChange={() => this.toggleNotification('am')}
-            style={s.switch}
-            thumbColor="white"
-            trackColor={{ false: 'null', true: morningYellow }}
-            value={amNotification}
-          />
-        </TouchableOpacity>
+        {/* Time Notification switches */}
+        {TimeSwitchesTuples.map(([key, color, isOn, Icon, iconName]) => (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            key={key}
+            onPress={() => this.toggleNotification(key)}
+            style={s.switchRow}
+          >
+            <Text style={s.text}>
+              <Icon color={isOn ? color : 'white'} name={iconName} size={22} />
+              {key === 'evening' && ' '}&nbsp; Notification each {key}?
+            </Text>
+            <Switch
+              onValueChange={() => this.toggleNotification(key)}
+              style={s.switch}
+              thumbColor="white"
+              trackColor={{ false: 'null', true: color }}
+              value={isOn}
+            />
+          </TouchableOpacity>
+        ))}
 
-        {/* pmNotification switch */}
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => this.toggleNotification('pm')}
-          style={s.switchRow}
-        >
-          <Text style={s.text}>
-            <Ionicons color={pmNotification ? eveningPurple : 'white'} name="ios-moon" size={25} />
-            &nbsp;&nbsp; Notification each evening?
-          </Text>
-          <Switch
-            onValueChange={() => this.toggleNotification('pm')}
-            style={s.switch}
-            thumbColor="white"
-            trackColor={{ false: 'null', true: eveningPurple }}
-            value={pmNotification}
-          />
-        </TouchableOpacity>
-
+        {/* AdjustTime buttons */}
         <View
           style={{
             flexDirection: 'row',
@@ -151,57 +187,41 @@ class SettingsScreen extends Component<Props> {
             paddingHorizontal: 40,
           }}
         >
-          {/* amNotificationTime button */}
-          {amNotification && (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => this.setState({ amPickerVisible: true })}
-              style={[s.timeBtn, { borderColor: morningYellow }]}
-            >
-              <Text style={s.text}>{dayjs(amNotificationTime).format('h[:]mm a')}</Text>
-            </TouchableOpacity>
-          )}
-
-          {/* pmNotificationTime button */}
-          {pmNotification && (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => this.setState({ pmPickerVisible: true })}
-              style={[s.timeBtn, { borderColor: eveningPurple, marginLeft: 'auto' }]}
-            >
-              <Text style={s.text}>{dayjs(pmNotificationTime).format('h[:]mm a')}</Text>
-            </TouchableOpacity>
-          )}
+          {AdjustTimeTuples.map(([isOn, onPressState, style, time]) => (
+            <React.Fragment key={time.toString()}>
+              {isOn && (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => this.setState(onPressState)}
+                  style={[s.timeBtn, style]}
+                >
+                  <Text style={s.text}>{dayjs(time).format('h[:]mm a')}</Text>
+                </TouchableOpacity>
+              )}
+            </React.Fragment>
+          ))}
         </View>
 
         {/* TimePickers (invisible until Time button pressed) */}
-
-        <DateTimePickerModal
-          date={amNotificationTime}
-          headerTextIOS={'Set morning time'}
-          isVisible={this.state.amPickerVisible}
-          maximumDate={new Date('Jan 1 2020 11:59 AM')}
-          minuteInterval={5}
-          mode="time"
-          onCancel={() => this.setState({ amPickerVisible: false })}
-          onConfirm={newTime => {
-            setState({ amNotificationTime: newTime })
-            this.setState({ amPickerVisible: false })
-          }}
-        />
-        <DateTimePickerModal
-          date={pmNotificationTime}
-          headerTextIOS={'Set evening time'}
-          isVisible={this.state.pmPickerVisible}
-          minimumDate={new Date('Jan 1 2020 12:00 PM')}
-          minuteInterval={5}
-          mode="time"
-          onCancel={() => this.setState({ pmPickerVisible: false })}
-          onConfirm={newTime => {
-            setState({ pmNotificationTime: newTime })
-            this.setState({ pmPickerVisible: false })
-          }}
-        />
+        {TimePickersTuples.map(
+          ([time, key, isVisible, maxDate, minDate, closeState, onConfirm]) => (
+            <DateTimePickerModal
+              date={time}
+              headerTextIOS={`Set ${key} time`}
+              isVisible={isVisible}
+              key={key}
+              maximumDate={maxDate}
+              minimumDate={minDate}
+              minuteInterval={5}
+              mode="time"
+              onCancel={() => this.setState(closeState)}
+              onConfirm={newTime => {
+                setState(onConfirm(newTime))
+                this.setState(closeState)
+              }}
+            />
+          ),
+        )}
 
         {/* Back button */}
         <TouchableOpacity
