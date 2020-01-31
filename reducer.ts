@@ -43,7 +43,7 @@ export interface Props extends State {
 
 const initialState: State = {
   amNotification: false,
-  amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
+  amNotificationTime: new Date('Jan 1, 2020 07:55 AM'),
   duration: 60,
   finished: false,
   hasChanting: true,
@@ -52,7 +52,7 @@ const initialState: State = {
   isEnoughTime: true,
   latestTrack: null,
   pmNotification: false,
-  pmNotificationTime: new Date('Jan 1, 2020 06:00 PM'),
+  pmNotificationTime: new Date('Jan 1, 2020 05:55 PM'),
   screen: 'InitScreen',
   showHistoryBtnTooltip: false,
   timeouts: [],
