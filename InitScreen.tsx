@@ -15,7 +15,8 @@ import {
   View,
 } from 'react-native'
 import _ from 'lodash'
-import Icon from 'react-native-vector-icons/Octicons'
+import Octicon from 'react-native-vector-icons/Octicons'
+import AntIcon from 'react-native-vector-icons/AntDesign'
 import Tooltip from 'react-native-walkthrough-tooltip'
 import c from './clips'
 import { Props } from './reducer'
@@ -61,7 +62,7 @@ const InitScreen = (props: Props) => {
         ))}
       </Picker>
       {Platform.OS === 'android' && (
-        <Icon
+        <Octicon
           color="white"
           name="triangle-down"
           size={20}
@@ -108,7 +109,17 @@ const InitScreen = (props: Props) => {
         }}
       >
         {/* spacer */}
-        <View style={{ width: 50 }} />
+        <TouchableOpacity
+          onPress={() => setState({ screen: 'SettingsScreen' })}
+          style={{ padding: 15, paddingLeft: 0, width: 50 }}
+        >
+          <AntIcon
+            color={bodyTextColor}
+            name="setting"
+            size={30}
+            style={{ opacity: showHistoryBtnTooltip ? 0.6 : 0.2 }}
+          />
+        </TouchableOpacity>
 
         {/* StartBtn */}
         <TouchableHighlight
@@ -158,7 +169,7 @@ const InitScreen = (props: Props) => {
             onPress={() => setState({ screen: 'HistoryScreen' })}
             style={{ padding: 15, paddingRight: 0, width: 50 }}
           >
-            <Icon
+            <Octicon
               color={bodyTextColor}
               name="calendar"
               size={30}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, StatusBar, TouchableWithoutFeedback, View, YellowBox } from 'react-native'
+import { Animated, StatusBar, View, YellowBox } from 'react-native'
 import _ from 'lodash'
 import InitScreen from './InitScreen'
 import CountdownScreen from './CountdownScreen'
@@ -58,7 +58,7 @@ class App extends Component<Props> {
   }
 
   render() {
-    const { screen, setState, showHistoryBtnTooltip, titleOpacity } = this.props
+    const { screen, showHistoryBtnTooltip, titleOpacity } = this.props
     const Screen = screens[screen]
 
     // Suppress Android setTimeout warnings
@@ -79,20 +79,18 @@ class App extends Component<Props> {
           }}
         >
           {!['HistoryScreen', 'SettingsScreen'].includes(screen) && (
-            <TouchableWithoutFeedback onLongPress={() => setState({ screen: 'SettingsScreen' })}>
-              <Animated.Text
-                style={{
-                  alignSelf: 'center',
-                  color: bodyTextColor,
-                  fontSize: 24,
-                  fontWeight: '600',
-                  marginVertical: 40,
-                  opacity: titleOpacity,
-                }}
-              >
-                Goenka Meditation Timer
-              </Animated.Text>
-            </TouchableWithoutFeedback>
+            <Animated.Text
+              style={{
+                alignSelf: 'center',
+                color: bodyTextColor,
+                fontSize: 24,
+                fontWeight: '600',
+                marginVertical: 40,
+                opacity: titleOpacity,
+              }}
+            >
+              Goenka Meditation Timer
+            </Animated.Text>
           )}
           <Screen {...this.props} />
         </View>
