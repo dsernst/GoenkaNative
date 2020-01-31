@@ -5,7 +5,7 @@
 //  update the version number in Info.plist for the App Store,
 //  and the versionCode and versionName for Google Play Store.
 //
-//  It runs after package.json version has been updates, but before git commit.
+//  It runs after package.json version is updated, but before git commit.
 //
 //  See https://docs.npmjs.com/cli/version for more info.
 //
@@ -27,12 +27,8 @@ const fs = require('fs')
 const exec = promisify(require('child_process').exec)
 
 const plistPath = require('path').join(__dirname, './ios/GoenkaNative/Info.plist')
-
+let newVersionCode
 ;(async () => {
-  // Write new version number to iOS's Info.plist
-  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${version}" ${plistPath}`)
-  console.log(`ios: Updating to v${version}`)
-
   // Update Android's build.gradle file
   const gradleBuildPath = './android/app/build.gradle'
   const gradleBuildFile = fs.readFileSync(gradleBuildPath, 'utf8')
@@ -43,25 +39,27 @@ const plistPath = require('path').join(__dirname, './ios/GoenkaNative/Info.plist
       const versionCodeIndex = line.indexOf('versionCode ')
       if (versionCodeIndex !== -1) {
         const oldVersionCode = Number(line.slice(versionCodeIndex + 12).trim())
-        console.log(`android: Bumping (private) versionCode to ${oldVersionCode + 1}`)
-        return line.slice(0, versionCodeIndex + 12) + (oldVersionCode + 1)
+        newVersionCode = oldVersionCode + 1
+        return line.slice(0, versionCodeIndex + 12) + newVersionCode
       }
 
       // Update versionName (user-facing)
       const versionNameIndex = line.indexOf('versionName ')
       if (versionNameIndex !== -1) {
-        console.log(`android: Updating versionName to v${version}`)
         return line.slice(0, versionNameIndex + 13) + version + '"'
       }
 
       return line
     })
     .join('\n')
-
   fs.writeFileSync(gradleBuildPath, newGradleFile)
+
+  // Write new version number to iOS's Info.plist
+  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${version}" ${plistPath}`)
+  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${newVersionCode}" ${plistPath}`)
 
   // Add the changed files to git's index before it commits
   await exec('git add .')
 
-  console.log('✅ Success.')
+  console.log(`✅ Updated ios & android apps to v${version}(${newVersionCode})`)
 })()
