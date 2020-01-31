@@ -9,9 +9,7 @@ export default ({ history, setState }: Props) => {
   const dailyStreak = calcStreak(dates)
   const twiceADayStreak = calcStreak(dates, 2)
 
-  const Faded = (props: any) => (
-    <Text {...props} style={{ color: bodyTextColor, fontWeight: '400', opacity: 0.6, ...props.style }} />
-  )
+  const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeight: '400', ...props.style }} />
 
   function dayLabel(date: Date, index: number) {
     // Only show label for first item of a particular day
