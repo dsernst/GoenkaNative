@@ -3,8 +3,7 @@
 import dayjs, { Dayjs } from 'dayjs'
 
 const now = () => dayjs()
-const rangeContains = (start: Dayjs, end: Dayjs, date: Date) =>
-  start.isBefore(date) && end.isAfter(date)
+const rangeContains = (start: Dayjs, end: Dayjs, date: Date) => start.isBefore(date) && end.isAfter(date)
 
 export default (date_times: Date[], amountPerDay: number = 1) => {
   let streak = 0

@@ -24,15 +24,7 @@ import { Props } from './reducer'
 const { width: screenWidth } = Dimensions.get('window')
 
 const InitScreen = (props: Props) => {
-  const {
-    duration,
-    hasChanting,
-    hasExtendedMetta,
-    isEnoughTime,
-    setState,
-    showHistoryBtnTooltip,
-    toggle,
-  } = props
+  const { duration, hasChanting, hasExtendedMetta, isEnoughTime, setState, showHistoryBtnTooltip, toggle } = props
   return (
     <>
       {/* DurationPicker */}
@@ -83,11 +75,7 @@ const InitScreen = (props: Props) => {
       </TouchableOpacity>
 
       {/* hasExtendedMettaSwitch */}
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={toggle('hasExtendedMetta')}
-        style={s.switchRow}
-      >
+      <TouchableOpacity activeOpacity={0.7} onPress={toggle('hasExtendedMetta')} style={s.switchRow}>
         <Text style={s.text}>Extended mettā? (4 min)</Text>
         <Switch
           onValueChange={toggle('hasExtendedMetta')}
@@ -127,10 +115,7 @@ const InitScreen = (props: Props) => {
             isEnoughTime
               ? pressPlay.bind(null, props)
               : () => {
-                  Alert.alert(
-                    'Not enough time',
-                    'Lengthen the duration, or turn off the optional extras.',
-                  )
+                  Alert.alert('Not enough time', 'Lengthen the duration, or turn off the optional extras.')
                 }
           }
           style={{
@@ -182,14 +167,7 @@ const InitScreen = (props: Props) => {
   )
 }
 
-async function pressPlay({
-  duration,
-  hasChanting,
-  hasExtendedMetta,
-  history,
-  setState,
-  titleOpacity,
-}: Props) {
+async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, setState, titleOpacity }: Props) {
   // Show instructions if this is their first sit
   if (!history.length) {
     await new Promise(resolve =>
@@ -221,10 +199,7 @@ async function pressPlay({
 
   // Add to history
   setState({
-    history: [
-      { date: new Date(), duration: duration, elapsed: 0, hasChanting, hasExtendedMetta },
-      ...history,
-    ],
+    history: [{ date: new Date(), duration: duration, elapsed: 0, hasChanting, hasExtendedMetta }, ...history],
   })
 
   if (hasChanting) {

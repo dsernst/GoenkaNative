@@ -10,10 +10,7 @@ export default ({ history, setState }: Props) => {
   const twiceADayStreak = calcStreak(dates, 2)
 
   const Faded = (props: any) => (
-    <Text
-      {...props}
-      style={{ color: bodyTextColor, fontWeight: '400', opacity: 0.6, ...props.style }}
-    />
+    <Text {...props} style={{ color: bodyTextColor, fontWeight: '400', opacity: 0.6, ...props.style }} />
   )
 
   function dayLabel(date: Date, index: number) {
@@ -111,9 +108,9 @@ export default ({ history, setState }: Props) => {
             onPress={() =>
               Alert.alert(
                 'Remove this sit?',
-                `${dayjs(i.date).format('ddd MMM D h[:]mma')} for ${
-                  i.elapsed < i.duration ? i.elapsed + ' of ' : ''
-                }${i.duration} min`,
+                `${dayjs(i.date).format('ddd MMM D h[:]mma')} for ${i.elapsed < i.duration ? i.elapsed + ' of ' : ''}${
+                  i.duration
+                } min`,
                 [
                   { text: 'Cancel' },
                   {

@@ -32,10 +32,7 @@ const styles = StyleSheet.create({
   },
 })
 
-function calcInterpolationValuesForHalfCircle1(
-  animatedValue: any,
-  { shadowColor }: { shadowColor: string },
-) {
+function calcInterpolationValuesForHalfCircle1(animatedValue: any, { shadowColor }: { shadowColor: string }) {
   const rotate = animatedValue.interpolate({
     inputRange: [0, 50, 50, 100],
     outputRange: ['0deg', '180deg', '180deg', '180deg'],
@@ -124,8 +121,7 @@ export default class PercentageCircle extends React.PureComponent<PropTypes, any
     }
 
     const elapsed = this.state.elapsed + 1
-    const callback =
-      elapsed < this.props.duration ? this.restartAnimation : this.props.onTimeFinished
+    const callback = elapsed < this.props.duration ? this.restartAnimation : this.props.onTimeFinished
     const updatedText = this.props.updateText(elapsed, this.props.duration)
     if (this.props.onTimeInterval) {
       this.props.onTimeInterval(elapsed)

@@ -50,9 +50,7 @@ class SettingsScreen extends Component<Props> {
       badge?: boolean
       sound?: boolean
     }
-    let permissions: iosPermission = await new Promise(resolve =>
-      PushNotification.checkPermissions(resolve),
-    )
+    let permissions: iosPermission = await new Promise(resolve => PushNotification.checkPermissions(resolve))
     if (!permissions.alert) {
       PushNotification.requestPermissions()
       permissions = await new Promise(resolve => PushNotification.checkPermissions(resolve))
@@ -73,13 +71,7 @@ class SettingsScreen extends Component<Props> {
   }
 
   render() {
-    const {
-      amNotification,
-      amNotificationTime,
-      pmNotification,
-      pmNotificationTime,
-      setState,
-    } = this.props
+    const { amNotification, amNotificationTime, pmNotification, pmNotificationTime, setState } = this.props
 
     const morningYellow = 'rgb(255, 204, 0)'
     const eveningPurple = 'rgb(175, 82, 222)'
@@ -90,12 +82,7 @@ class SettingsScreen extends Component<Props> {
     ]
 
     const AdjustTimeTuples: [boolean, object, object, Date][] = [
-      [
-        amNotification,
-        { amPickerVisible: true },
-        { borderColor: morningYellow },
-        amNotificationTime,
-      ],
+      [amNotification, { amPickerVisible: true }, { borderColor: morningYellow }, amNotificationTime],
       [
         pmNotification,
         { pmPickerVisible: true },
@@ -203,25 +190,23 @@ class SettingsScreen extends Component<Props> {
         </View>
 
         {/* TimePickers (invisible until Time button pressed) */}
-        {TimePickersTuples.map(
-          ([time, key, isVisible, maxDate, minDate, closeState, onConfirm]) => (
-            <DateTimePickerModal
-              date={time}
-              headerTextIOS={`Set ${key} time`}
-              isVisible={isVisible}
-              key={key}
-              maximumDate={maxDate}
-              minimumDate={minDate}
-              minuteInterval={5}
-              mode="time"
-              onCancel={() => this.setState(closeState)}
-              onConfirm={newTime => {
-                setState(onConfirm(newTime))
-                this.setState(closeState)
-              }}
-            />
-          ),
-        )}
+        {TimePickersTuples.map(([time, key, isVisible, maxDate, minDate, closeState, onConfirm]) => (
+          <DateTimePickerModal
+            date={time}
+            headerTextIOS={`Set ${key} time`}
+            isVisible={isVisible}
+            key={key}
+            maximumDate={maxDate}
+            minimumDate={minDate}
+            minuteInterval={5}
+            mode="time"
+            onCancel={() => this.setState(closeState)}
+            onConfirm={newTime => {
+              setState(onConfirm(newTime))
+              this.setState(closeState)
+            }}
+          />
+        ))}
 
         {/* Back button */}
         <TouchableOpacity
