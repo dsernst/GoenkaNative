@@ -24,14 +24,14 @@ class SettingsScreen extends Component<Props> {
     if (amNotification) {
       PushNotification.localNotificationSchedule({
         date: amNotificationTime,
-        message: 'AM sit: Awareness & Equanimity',
+        message: `${dayjs(amNotificationTime).format('h[:]mm a')} sit: Awareness & Equanimity`,
         repeatType: 'day',
       })
     }
     if (pmNotification) {
       PushNotification.localNotificationSchedule({
         date: pmNotificationTime,
-        message: 'PM sit: Awareness & Equanimity',
+        message: `${dayjs(pmNotificationTime).format('h[:]mm a')} sit: Awareness & Equanimity`,
         repeatType: 'day',
       })
     }
