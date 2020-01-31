@@ -123,37 +123,6 @@ class SettingsScreen extends Component<Props> {
           />
         </TouchableOpacity>
 
-        {/* amNotificationTime button */}
-        {amNotification && (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => this.setState({ amPickerVisible: true })}
-            style={{
-              alignSelf: 'center',
-              borderColor: '#fff7',
-              borderRadius: 8,
-              borderWidth: 1,
-              marginBottom: 30,
-              paddingHorizontal: 15,
-              paddingVertical: 9,
-            }}
-          >
-            <Text style={s.text}>{dayjs(amNotificationTime).format('h[:]mm a')}</Text>
-          </TouchableOpacity>
-        )}
-        <DateTimePickerModal
-          date={amNotificationTime}
-          headerTextIOS={'Set morning time'}
-          isVisible={this.state.amPickerVisible}
-          maximumDate={new Date('Jan 1 2020 11:59 AM')}
-          mode="time"
-          onCancel={() => this.setState({ amPickerVisible: false })}
-          onConfirm={newTime => {
-            setState({ amNotificationTime: newTime })
-            this.setState({ amPickerVisible: false })
-          }}
-        />
-
         {/* pmNotification switch */}
         <TouchableOpacity
           activeOpacity={0.7}
@@ -173,29 +142,57 @@ class SettingsScreen extends Component<Props> {
           />
         </TouchableOpacity>
 
-        {/* pmNotificationTime button */}
-        {pmNotification && (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => this.setState({ pmPickerVisible: true })}
-            style={{
-              alignSelf: 'center',
-              borderColor: '#fff7',
-              borderRadius: 8,
-              borderWidth: 1,
-              marginBottom: 30,
-              paddingHorizontal: 15,
-              paddingVertical: 9,
-            }}
-          >
-            <Text style={s.text}>{dayjs(pmNotificationTime).format('h[:]mm a')}</Text>
-          </TouchableOpacity>
-        )}
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 20,
+            paddingHorizontal: 40,
+          }}
+        >
+          {/* amNotificationTime button */}
+          {amNotification && (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => this.setState({ amPickerVisible: true })}
+              style={[s.timeBtn, { borderColor: morningYellow }]}
+            >
+              <Text style={s.text}>{dayjs(amNotificationTime).format('h[:]mm a')}</Text>
+            </TouchableOpacity>
+          )}
+
+          {/* pmNotificationTime button */}
+          {pmNotification && (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => this.setState({ pmPickerVisible: true })}
+              style={[s.timeBtn, { borderColor: eveningPurple, marginLeft: 'auto' }]}
+            >
+              <Text style={s.text}>{dayjs(pmNotificationTime).format('h[:]mm a')}</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        {/* TimePickers (invisible until Time button pressed) */}
+
+        <DateTimePickerModal
+          date={amNotificationTime}
+          headerTextIOS={'Set morning time'}
+          isVisible={this.state.amPickerVisible}
+          maximumDate={new Date('Jan 1 2020 11:59 AM')}
+          minuteInterval={5}
+          mode="time"
+          onCancel={() => this.setState({ amPickerVisible: false })}
+          onConfirm={newTime => {
+            setState({ amNotificationTime: newTime })
+            this.setState({ amPickerVisible: false })
+          }}
+        />
         <DateTimePickerModal
           date={pmNotificationTime}
           headerTextIOS={'Set evening time'}
           isVisible={this.state.pmPickerVisible}
           minimumDate={new Date('Jan 1 2020 12:00 PM')}
+          minuteInterval={5}
           mode="time"
           onCancel={() => this.setState({ pmPickerVisible: false })}
           onConfirm={newTime => {
@@ -243,6 +240,13 @@ const s = StyleSheet.create({
     fontWeight: '400',
     maxWidth: 250,
     opacity: 0.8,
+  },
+  timeBtn: {
+    alignSelf: 'center',
+    borderRadius: 8,
+    borderWidth: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 7,
   },
 })
 
