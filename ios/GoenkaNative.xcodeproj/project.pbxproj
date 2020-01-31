@@ -104,6 +104,7 @@
 		E9AF92CE23DD1A260003B181 /* introchanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = introchanting.mp3; sourceTree = "<group>"; };
 		E9AF92CF23DD1A260003B181 /* introinstructions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = introinstructions.mp3; sourceTree = "<group>"; };
 		E9AF92D023DD1A260003B181 /* extendedmetta.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = extendedmetta.mp3; sourceTree = "<group>"; };
+		E9AF92D623E3A9B00003B181 /* GoenkaNative.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = GoenkaNative.entitlements; path = GoenkaNative/GoenkaNative.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F753344AD2C6459DB2B603AC /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -182,6 +183,7 @@
 		13B07FAE1A68108700A75B9A /* GoenkaNative */ = {
 			isa = PBXGroup;
 			children = (
+				E9AF92D623E3A9B00003B181 /* GoenkaNative.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -773,6 +775,7 @@
 			baseConfigurationReference = C4C34A620578C643BF736290 /* Pods-GoenkaNative.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GoenkaNative/GoenkaNative.entitlements;
 				CURRENT_PROJECT_VERSION = 0;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = WZW4T5P3XR;
@@ -795,6 +798,7 @@
 			baseConfigurationReference = 55B4DDA3FB97BC0F82A1235D /* Pods-GoenkaNative.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GoenkaNative/GoenkaNative.entitlements;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = WZW4T5P3XR;
 				INFOPLIST_FILE = GoenkaNative/Info.plist;
