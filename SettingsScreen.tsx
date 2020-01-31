@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Platform, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Platform, Switch, Text, TouchableOpacity, View } from 'react-native'
 import { Props } from './reducer'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import dayjs from 'dayjs'
@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import PushNotification from 'react-native-push-notification'
 
 type TimeKeys = 'morning' | 'evening'
+const bodyTextColor = '#f1f1f1'
 
 class SettingsScreen extends Component<Props> {
   state = {
@@ -151,15 +152,19 @@ class SettingsScreen extends Component<Props> {
             activeOpacity={0.7}
             key={key}
             onPress={() => this.toggleNotification(key)}
-            style={s.switchRow}
+            style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15 }}
           >
-            <Text style={s.text}>
+            <Text style={{ color: bodyTextColor, fontSize: 18, opacity: 0.8 }}>
               <Icon color={isOn ? color : 'white'} name={iconName} size={22} />
               {key === 'evening' && ' '}&nbsp; Notification each {key}?
             </Text>
             <Switch
               onValueChange={() => this.toggleNotification(key)}
-              style={s.switch}
+              style={{
+                alignSelf: 'flex-end',
+                paddingVertical: 10,
+                transform: Platform.OS === 'ios' ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [],
+              }}
               thumbColor="white"
               trackColor={{ false: 'null', true: color }}
               value={isOn}
@@ -181,9 +186,11 @@ class SettingsScreen extends Component<Props> {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={() => this.setState(onPressState)}
-                  style={[s.timeBtn, style]}
+                  style={[{ borderRadius: 8, borderWidth: 1, paddingHorizontal: 15, paddingVertical: 7 }, style]}
                 >
-                  <Text style={s.text}>{dayjs(time).format('h[:]mm a')}</Text>
+                  <Text style={{ color: bodyTextColor, fontSize: 18, opacity: 0.8 }}>
+                    {dayjs(time).format('h[:]mm a')}
+                  </Text>
                 </TouchableOpacity>
               )}
             </React.Fragment>
@@ -226,36 +233,5 @@ class SettingsScreen extends Component<Props> {
     )
   }
 }
-
-// Shared vars
-const bodyTextColor = '#f1f1f1'
-
-const s = StyleSheet.create({
-  switch: {
-    alignSelf: 'flex-end',
-    paddingVertical: 10,
-    transform: Platform.OS === 'ios' ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [],
-  },
-  switchRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 15,
-  },
-  text: {
-    color: bodyTextColor,
-    fontSize: 18,
-    fontWeight: '400',
-    maxWidth: 250,
-    opacity: 0.8,
-  },
-  timeBtn: {
-    alignSelf: 'center',
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingHorizontal: 15,
-    paddingVertical: 7,
-  },
-})
 
 export default SettingsScreen
