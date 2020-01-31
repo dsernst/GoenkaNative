@@ -77,6 +77,9 @@ class SettingsScreen extends Component<Props> {
       setState,
     } = this.props
 
+    const morningYellow = 'rgb(255, 204, 0)'
+    const eveningPurple = 'rgb(175, 82, 222)'
+
     return (
       <>
         {/* Page title bar */}
@@ -108,14 +111,14 @@ class SettingsScreen extends Component<Props> {
           style={s.switchRow}
         >
           <Text style={s.text}>
-            <FeatherIcon name="sun" size={22} />
+            <FeatherIcon color={amNotification ? morningYellow : 'white'} name="sun" size={22} />
             &nbsp; Notification each morning?
           </Text>
           <Switch
             onValueChange={() => this.toggleNotification('am')}
             style={s.switch}
             thumbColor="white"
-            trackColor={{ false: 'null', true: 'rgb(255, 204, 0)' }}
+            trackColor={{ false: 'null', true: morningYellow }}
             value={amNotification}
           />
         </TouchableOpacity>
@@ -158,14 +161,14 @@ class SettingsScreen extends Component<Props> {
           style={s.switchRow}
         >
           <Text style={s.text}>
-            <Ionicons name="ios-moon" size={25} />
+            <Ionicons color={pmNotification ? eveningPurple : 'white'} name="ios-moon" size={25} />
             &nbsp;&nbsp; Notification each evening?
           </Text>
           <Switch
             onValueChange={() => this.toggleNotification('pm')}
             style={s.switch}
             thumbColor="white"
-            trackColor={{ false: 'null', true: 'rgb(175, 82, 222)' }}
+            trackColor={{ false: 'null', true: eveningPurple }}
             value={pmNotification}
           />
         </TouchableOpacity>
