@@ -34,6 +34,7 @@
 		C44239BE0230434893681E5D /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0487C3E6F5F447DBA7BE972 /* MaterialCommunityIcons.ttf */; };
 		D92088ED8133423084B97FBC /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9424372906B2405796B1A366 /* SimpleLineIcons.ttf */; };
 		E82FB5BFC71345CFAD7FDE5D /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 626610A843FE4C018DF8BE95 /* Fontisto.ttf */; };
+		E9671B0523E41C360033EFA0 /* templebell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9671B0423E41C360033EFA0 /* templebell.mp3 */; };
 		E9AF92D123DD1A270003B181 /* closingchanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CC23DD1A260003B181 /* closingchanting.mp3 */; };
 		E9AF92D223DD1A270003B181 /* closingmetta.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CD23DD1A260003B181 /* closingmetta.mp3 */; };
 		E9AF92D323DD1A270003B181 /* introchanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CE23DD1A260003B181 /* introchanting.mp3 */; };
@@ -99,6 +100,7 @@
 		D0487C3E6F5F447DBA7BE972 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		D68B62BFFFC74D3AB13AA974 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		E51E00BD307C4C8FAAF5C6B2 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		E9671B0423E41C360033EFA0 /* templebell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = templebell.mp3; sourceTree = "<group>"; };
 		E9AF92CC23DD1A260003B181 /* closingchanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = closingchanting.mp3; sourceTree = "<group>"; };
 		E9AF92CD23DD1A260003B181 /* closingmetta.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = closingmetta.mp3; sourceTree = "<group>"; };
 		E9AF92CE23DD1A260003B181 /* introchanting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = introchanting.mp3; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				E9AF92CD23DD1A260003B181 /* closingmetta.mp3 */,
 				E9AF92D023DD1A260003B181 /* extendedmetta.mp3 */,
 				E9AF92CE23DD1A260003B181 /* introchanting.mp3 */,
+				E9671B0423E41C360033EFA0 /* templebell.mp3 */,
 				E9AF92CF23DD1A260003B181 /* introinstructions.mp3 */,
 				13B07FAE1A68108700A75B9A /* GoenkaNative */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -424,6 +427,7 @@
 				00B30310BF44447CA5A3679E /* FontAwesome.ttf in Resources */,
 				4C1D28F551E044279C5C960E /* FontAwesome5_Brands.ttf in Resources */,
 				E9AF92D323DD1A270003B181 /* introchanting.mp3 in Resources */,
+				E9671B0523E41C360033EFA0 /* templebell.mp3 in Resources */,
 				EF9639C0CBB447D7A463D17E /* FontAwesome5_Regular.ttf in Resources */,
 				E9AF92D123DD1A270003B181 /* closingchanting.mp3 in Resources */,
 				0E8D835F82F44E78B8250738 /* FontAwesome5_Solid.ttf in Resources */,

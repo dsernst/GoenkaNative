@@ -21,20 +21,22 @@ class SettingsScreen extends Component<Props> {
     // Clear old notifications
     PushNotification.cancelAllLocalNotifications()
 
-    if (amNotification) {
-      PushNotification.localNotificationSchedule({
-        date: amNotificationTime,
-        message: `${dayjs(amNotificationTime).format('h[:]mm a')} sit: Awareness & Equanimity`,
-        repeatType: 'day',
-      })
-    }
-    if (pmNotification) {
-      PushNotification.localNotificationSchedule({
-        date: pmNotificationTime,
-        message: `${dayjs(pmNotificationTime).format('h[:]mm a')} sit: Awareness & Equanimity`,
-        repeatType: 'day',
-      })
-    }
+    // Set new notifications
+    const notificationTuple: [boolean, Date][] = [
+      [amNotification, amNotificationTime],
+      [pmNotification, pmNotificationTime],
+    ]
+    notificationTuple.forEach(([isOn, time]) => {
+      if (isOn) {
+        PushNotification.localNotificationSchedule({
+          date: time,
+          message: 'Awareness & Equanimity',
+          repeatType: 'day',
+          soundName: 'templebell.mp3',
+          title: `${dayjs(time).format('h[:]mma')} sit`,
+        })
+      }
+    })
   }
 
   async toggleNotification(amOrPm: 'am' | 'pm') {

@@ -14,7 +14,7 @@ A meditation timer designed for Old Students of S.N. Goenka (dhamma.org).
   > You've sat twice a day for # days,
   > & at least once for # days straight.
 
-- [ ] Set automatic notifications to remind you to sit (w/ gong noise)
+- [x] Set automatic notifications to remind you to sit (w/ gong noise)
 
   - You pick morning & night time
 
