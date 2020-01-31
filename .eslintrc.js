@@ -17,5 +17,6 @@ module.exports = {
     'prefer-const': 2,
     'no-warning-comments': [2, { terms: ['nocommit'], location: 'anywhere' }],
     'unicorn/expiring-todo-comments': 2,
+    'no-template-curly-in-string': 1,
   },
 }
