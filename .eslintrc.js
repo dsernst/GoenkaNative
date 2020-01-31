@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: '@react-native-community',
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'sort-keys-fix', 'typescript-sort-keys', 'sort-destructure-keys'],
+  plugins: ['@typescript-eslint', 'sort-keys-fix', 'typescript-sort-keys', 'sort-destructure-keys', 'unicorn'],
   rules: {
     'lines-between-class-members': ['warn'],
     'no-alert': ['off'],
@@ -15,6 +15,7 @@ module.exports = {
     'react-native/no-inline-styles': ['off'],
     'sort-destructure-keys/sort-destructure-keys': 2,
     'prefer-const': 2,
-    'no-warning-comments': [2, { terms: ['nocommit'] }],
+    'no-warning-comments': [2, { terms: ['nocommit'], location: 'anywhere' }],
+    'unicorn/expiring-todo-comments': 2,
   },
 }
