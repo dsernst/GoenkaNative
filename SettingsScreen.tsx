@@ -63,6 +63,7 @@ class SettingsScreen extends Component<Props> {
       }
     }
 
+    // Persist new notification state
     if (key === 'morning') {
       setState({ amNotification: !amNotification })
     } else if (key === 'evening') {
