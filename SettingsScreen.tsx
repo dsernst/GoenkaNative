@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import PushNotification from 'react-native-push-notification'
+import { version } from './package.json'
 
 type TimeKeys = 'morning' | 'evening'
 const bodyTextColor = '#f1f1f1'
@@ -144,6 +145,7 @@ class SettingsScreen extends Component<Props> {
           >
             SETTINGS
           </Text>
+          <Text style={{ color: '#fff3', fontSize: 11, position: 'absolute', right: 0, top: 7 }}>v{version}</Text>
         </View>
 
         {/* Time Notification switches */}
