@@ -203,8 +203,8 @@ class SettingsScreen extends Component<Props> {
             mode="time"
             onCancel={() => this.setState(closeState)}
             onConfirm={newTime => {
-              setState(onConfirm(newTime))
               this.setState(closeState)
+              setState(onConfirm(newTime))
             }}
           />
         ))}
