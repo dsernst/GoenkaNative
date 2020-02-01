@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import PushNotification from 'react-native-push-notification'
-import { version } from './package.json'
+import { version } from '../package.json'
 
 type TimeKeys = 'morning' | 'evening'
 
