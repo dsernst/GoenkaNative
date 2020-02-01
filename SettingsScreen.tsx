@@ -269,7 +269,7 @@ class SettingsScreen extends Component<Props> {
             </Text>
             <Text style={{ color: '#fffc', fontSize: 16, lineHeight: 27, marginTop: 15 }}>
               For more info about S.N. Goenka or Vipassana meditation, visit{' '}
-              <Link url="https://dhamma.org">dhamma.org</Link>.
+              <Link url="https://www.dhamma.org">dhamma.org</Link>.
             </Text>
           </View>
         </View>
