@@ -9,7 +9,6 @@ import PushNotification from 'react-native-push-notification'
 import { version } from './package.json'
 
 type TimeKeys = 'morning' | 'evening'
-const bodyTextColor = '#f1f1f1'
 
 function calcNext(date: Date) {
   // Make sure we are only setting notifications for dates in the future,
@@ -160,7 +159,7 @@ class SettingsScreen extends Component<Props> {
           <Text
             style={{
               alignSelf: 'center',
-              color: bodyTextColor,
+              color: '#fffc',
               fontSize: 11,
               fontWeight: '500',
             }}
@@ -178,10 +177,15 @@ class SettingsScreen extends Component<Props> {
             onPress={() => this.toggleNotification(key)}
             style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15 }}
           >
-            <Text style={{ color: bodyTextColor, fontSize: 18, opacity: 0.8 }}>
-              <Icon color={isOn ? color : 'white'} name={iconName} size={22} />
-              {key === 'evening' && ' '}&nbsp; Notification each {key}?
-            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Icon
+                color={isOn ? color : 'white'}
+                name={iconName}
+                size={22}
+                style={{ paddingLeft: key === 'evening' ? 4 : 0, width: 35 }}
+              />
+              <Text style={{ color: '#fffc', fontSize: 18 }}>Notification each {key}?</Text>
+            </View>
             <Switch
               onValueChange={() => this.toggleNotification(key)}
               style={{
@@ -200,7 +204,7 @@ class SettingsScreen extends Component<Props> {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: 20,
+            marginTop: 10,
             paddingHorizontal: 40,
           }}
         >
@@ -212,9 +216,7 @@ class SettingsScreen extends Component<Props> {
                   onPress={() => this.setState(onPressState)}
                   style={[{ borderRadius: 8, borderWidth: 1, paddingHorizontal: 15, paddingVertical: 7 }, style]}
                 >
-                  <Text style={{ color: bodyTextColor, fontSize: 18, opacity: 0.8 }}>
-                    {dayjs(time).format('h[:]mm a')}
-                  </Text>
+                  <Text style={{ color: '#fffc', fontSize: 18 }}>{dayjs(time).format('h[:]mm a')}</Text>
                 </TouchableOpacity>
               )}
             </React.Fragment>
@@ -240,12 +242,13 @@ class SettingsScreen extends Component<Props> {
           />
         ))}
 
+        {/* More Info section */}
         <View style={{ flexDirection: 'row', marginRight: 30, marginTop: 90 }}>
           <Ionicons
             color="#fff8"
             name="ios-information-circle-outline"
-            size={27}
-            style={{ marginLeft: -4, marginTop: 8, paddingRight: 15 }}
+            size={24}
+            style={{ marginLeft: -2, marginTop: 9, paddingRight: 17 }}
           />
           <View>
             <Text style={{ color: '#fffc', fontSize: 16, lineHeight: 27 }}>
