@@ -185,7 +185,7 @@ class SettingsScreen extends Component<Props> {
                 size={22}
                 style={{ paddingLeft: key === 'evening' ? 4 : 0, width: 35 }}
               />
-              <Text style={{ color: '#fffc', fontSize: 18 }}>Notification each {key}?</Text>
+              <Text style={{ color: '#fffa', fontSize: 18 }}>Notification each {key}?</Text>
             </View>
             <Switch
               onValueChange={() => this.toggleNotification(key)}
@@ -254,7 +254,7 @@ class SettingsScreen extends Component<Props> {
             style={{ marginLeft: -2, marginTop: 9, paddingRight: 17 }}
           />
           <View>
-            <Text style={{ color: '#fffc', fontSize: 16, lineHeight: 27 }}>
+            <Text style={{ color: '#fffa', fontSize: 16, lineHeight: 27 }}>
               GoenkaTimer is available for both{'\n'}
               <Link url="https://apps.apple.com/us/app/id1494609891">
                 <Ionicons name="logo-apple" size={27} />
@@ -268,7 +268,7 @@ class SettingsScreen extends Component<Props> {
               </Link>
               .
             </Text>
-            <Text style={{ color: '#fffc', fontSize: 16, lineHeight: 27, marginTop: 15 }}>
+            <Text style={{ color: '#fffa', fontSize: 16, lineHeight: 27, marginTop: 15 }}>
               For more info about S.N. Goenka or Vipassana meditation, visit{' '}
               <Link url="https://www.dhamma.org">dhamma.org</Link>.
             </Text>

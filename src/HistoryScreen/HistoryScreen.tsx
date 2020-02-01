@@ -131,7 +131,7 @@ export default ({ history, setState }: Props) => {
             <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
               <Text
                 style={{
-                  color: '#fffc',
+                  color: '#fffb',
                   fontSize: 16,
                   fontWeight: '600',
                 }}
@@ -142,7 +142,7 @@ export default ({ history, setState }: Props) => {
             <Faded style={{ alignSelf: 'flex-end' }}> for &nbsp;</Faded>
             <Text
               style={{
-                color: '#fffc',
+                color: '#fffb',
                 fontSize: 16,
                 fontWeight: '600',
               }}
