@@ -2,7 +2,7 @@ import React from 'react'
 import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import dayjs from 'dayjs'
 import calcStreak from './calc-streak'
-import { Props } from './reducer'
+import { Props } from '../reducer'
 
 export default ({ history, setState }: Props) => {
   const dates = history.map(h => h.date)

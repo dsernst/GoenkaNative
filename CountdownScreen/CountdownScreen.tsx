@@ -3,7 +3,7 @@ import { Animated, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, 
 import KeepAwake from 'react-native-keep-awake'
 import CountdownCircle from './react-native-countdown-circle'
 import BeHappyText from './BeHappyText'
-import { Props } from './reducer'
+import { Props } from '../reducer'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
