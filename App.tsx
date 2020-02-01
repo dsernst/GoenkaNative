@@ -8,6 +8,7 @@ import SettingsScreen from './SettingsScreen'
 import c, { SoundWithDelay } from './clips'
 import { connect } from 'react-redux'
 import { Props, ScreenNames, State, Toggleables, setStatePayload } from './reducer'
+import SplashScreen from 'react-native-splash-screen'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
@@ -20,6 +21,10 @@ const screens: { [screen in ScreenNames]: any } = {
 }
 
 class App extends Component<Props> {
+  componentDidMount() {
+    SplashScreen.hide() // Wait for JS to load before hiding green splash screen
+  }
+
   componentDidUpdate(prevProps: Props) {
     const { latestTrack } = this.props
     // New track to play, nothing playing previously
