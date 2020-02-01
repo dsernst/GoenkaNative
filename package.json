@@ -86,5 +86,10 @@
       "style": "module",
       "parser": "typescript"
     }
+  },
+  "babel": {
+    "presets": [
+      "module:metro-react-native-babel-preset"
+    ]
   }
 }
