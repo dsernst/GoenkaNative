@@ -1,5 +1,5 @@
-import Sound from 'react-native-sound'
 import { Animated } from 'react-native'
+import Sound from 'react-native-sound'
 
 export type SitProps = {
   date: Date

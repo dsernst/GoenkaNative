@@ -1,11 +1,12 @@
+import AsyncStorage from '@react-native-community/async-storage'
 import React from 'react'
-import App from './App'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import reducer from './reducer'
 import { createTransform, persistReducer, persistStore } from 'redux-persist'
-import AsyncStorage from '@react-native-community/async-storage'
 import { PersistGate } from 'redux-persist/integration/react'
+
+import App from './App'
+import reducer from './reducer'
 
 const store = createStore(
   persistReducer(

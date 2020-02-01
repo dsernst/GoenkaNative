@@ -1,12 +1,13 @@
+import dayjs from 'dayjs'
 import React, { Component } from 'react'
 import { Alert, Linking, Platform, Switch, Text, TouchableOpacity, View } from 'react-native'
-import { Props } from './reducer'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import dayjs from 'dayjs'
+import PushNotification from 'react-native-push-notification'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import PushNotification from 'react-native-push-notification'
+
 import { version } from '../package.json'
+import { Props } from './reducer'
 
 type TimeKeys = 'morning' | 'evening'
 

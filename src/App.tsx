@@ -1,11 +1,12 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import { Animated, StatusBar, View, YellowBox } from 'react-native'
-import _ from 'lodash'
-import { CountdownScreen, HistoryScreen, InitScreen, SettingsScreen } from './Screens'
-import c, { SoundWithDelay } from './clips'
-import { connect } from 'react-redux'
-import { Props, ScreenNames, State, Toggleables, setStatePayload } from './reducer'
 import SplashScreen from 'react-native-splash-screen'
+import { connect } from 'react-redux'
+
+import c, { SoundWithDelay } from './clips' // foo
+import { Props, ScreenNames, State, Toggleables, setStatePayload } from './reducer'
+import { CountdownScreen, HistoryScreen, InitScreen, SettingsScreen } from './Screens'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'

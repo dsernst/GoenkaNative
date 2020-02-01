@@ -1,8 +1,8 @@
 // Forked from https://github.com/MrToph/react-native-countdown-circle/tree/aaeec3dbcabd865e511bff0ed3eeedc3cb199857
 
+import PropTypes from 'prop-types'
 import React from 'react'
 import { Animated, Easing, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
-import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   halfCircle: {

@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React from 'react'
 import {
   Alert,
@@ -14,10 +15,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import _ from 'lodash'
-import Octicon from 'react-native-vector-icons/Octicons'
 import AntIcon from 'react-native-vector-icons/AntDesign'
+import Octicon from 'react-native-vector-icons/Octicons'
 import Tooltip from 'react-native-walkthrough-tooltip'
+
 import c from './clips'
 import { Props } from './reducer'
 

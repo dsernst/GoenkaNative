@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Animated, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
-import CountdownCircle from './react-native-countdown-circle'
-import BeHappyText from './BeHappyText'
+
 import { Props } from '../reducer'
+import BeHappyText from './BeHappyText'
+import CountdownCircle from './react-native-countdown-circle'
 
 // Shared vars
 const bodyTextColor = '#f1f1f1'
