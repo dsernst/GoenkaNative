@@ -11,6 +11,28 @@ import { version } from './package.json'
 type TimeKeys = 'morning' | 'evening'
 const bodyTextColor = '#f1f1f1'
 
+function calcNext(date: Date) {
+  // Make sure we are only setting notifications for dates in the future,
+  // to avoid Android going crazy showing backlogged notifications.
+  // see: https://github.com/zo0r/react-native-push-notification/issues/374#issuecomment-396089990
+
+  const now = dayjs()
+
+  // 1) set nextNotifTime date to today
+  let nextNotificationTime = dayjs(date)
+    .set('year', now.get('year'))
+    .set('month', now.get('month'))
+    .set('day', now.get('day'))
+
+  // 2) IF nextNotifTime date is < right now
+  if (nextNotificationTime.isBefore(now)) {
+    //  THEN add 1day to NotifTime
+    nextNotificationTime = nextNotificationTime.add(1, 'day')
+  }
+
+  return nextNotificationTime.toDate()
+}
+
 class SettingsScreen extends Component<Props> {
   state = {
     amPickerVisible: false,
@@ -27,8 +49,8 @@ class SettingsScreen extends Component<Props> {
 
     // Set new notifications
     const notificationTuple: [boolean, Date][] = [
-      [amNotification, amNotificationTime],
-      [pmNotification, pmNotificationTime],
+      [amNotification, calcNext(amNotificationTime)],
+      [pmNotification, calcNext(pmNotificationTime)],
     ]
     notificationTuple.forEach(([isOn, time]) => {
       if (isOn) {
