@@ -203,8 +203,10 @@ class SettingsScreen extends Component<Props> {
         {/* AdjustTime buttons */}
         <View
           style={{
+            alignItems: 'flex-start',
             flexDirection: 'row',
             marginTop: 10,
+            minHeight: 41,
             paddingHorizontal: 40,
           }}
         >
