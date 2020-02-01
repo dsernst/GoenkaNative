@@ -2,25 +2,24 @@
 
 A meditation timer designed for Old Students of S.N. Goenka (dhamma.org).
 
-### Features
+## Features
 
-- [x] Set custom timer with Goenka intro & outro
+- Set custom timer with Goenka intro & outro.
+  Optionally add chanting or extended mettā.
 
-- [x] Optionally add chanting or extended mettā.
-
-- [x] Track your sits w/ built-in History. Keep the streak going!
-      Earn full credit for both morning & night.
+- Track your sits w/ built-in History.
+  Keep the streak going!
+  Earn full credit for both morning & night.
 
   > You've sat twice a day for # days,
   > & at least once for # days straight.
 
-- [x] Set automatic notifications to remind you to sit (w/ gong noise)
+- Set automatic notifications to remind you to sit.
+  You pick morning & night time.
+  Uses temple gong for powerful reminders, if sound on.
 
-  - You pick morning & night time
+———
 
-- [ ] Post questions to the Community. Remember Sangha is one of the 3 gems.
-      (forum feature)
+### Be happy
 
-- [ ] See # people that have used the App in the last 24 hours.
-
-  Just 1 new person that gains dhamma is worth it.
+For questions or support, please contact: hi@goenka.app
