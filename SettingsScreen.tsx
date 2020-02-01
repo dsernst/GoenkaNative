@@ -240,22 +240,33 @@ class SettingsScreen extends Component<Props> {
           />
         ))}
 
-        <View style={{ alignItems: 'center', flexDirection: 'row', marginTop: 90, paddingRight: 30 }}>
-          <Ionicons color="#fff8" name="ios-information-circle-outline" size={27} />
-          <Text style={{ color: '#fffc', fontSize: 16, lineHeight: 27, marginLeft: 15 }}>
-            GoenkaTimer is available for both{'\n'}
-            <Link url="https://apps.apple.com/us/app/id1494609891">
-              <Ionicons name="logo-apple" size={27} />
-              &nbsp; iOS&nbsp;
-            </Link>{' '}
-            and{' '}
-            <Link url="https://play.google.com/store/apps/details?id=com.goenkanative">
-              &nbsp;&nbsp;
-              <Ionicons name="logo-android" size={27} />
-              &nbsp; Android
-            </Link>
-            .
-          </Text>
+        <View style={{ flexDirection: 'row', marginRight: 30, marginTop: 90 }}>
+          <Ionicons
+            color="#fff8"
+            name="ios-information-circle-outline"
+            size={27}
+            style={{ marginLeft: -4, marginTop: 8, paddingRight: 15 }}
+          />
+          <View>
+            <Text style={{ color: '#fffc', fontSize: 16, lineHeight: 27 }}>
+              GoenkaTimer is available for both{'\n'}
+              <Link url="https://apps.apple.com/us/app/id1494609891">
+                <Ionicons name="logo-apple" size={27} />
+                &nbsp; iOS&nbsp;
+              </Link>{' '}
+              and{' '}
+              <Link url="https://play.google.com/store/apps/details?id=com.goenkanative">
+                &nbsp;&nbsp;
+                <Ionicons name="logo-android" size={27} />
+                &nbsp; Android
+              </Link>
+              .
+            </Text>
+            <Text style={{ color: '#fffc', fontSize: 16, lineHeight: 27, marginTop: 15 }}>
+              For more info about S.N. Goenka or Vipassana meditation, visit{' '}
+              <Link url="https://dhamma.org">dhamma.org</Link>.
+            </Text>
+          </View>
         </View>
 
         {/* Back button */}
