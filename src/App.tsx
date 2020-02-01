@@ -5,15 +5,8 @@ import SplashScreen from 'react-native-splash-screen'
 import { connect } from 'react-redux'
 
 import c, { SoundWithDelay } from './clips' // foo
-import { Props, ScreenNames, State, Toggleables, setStatePayload } from './reducer'
-import { CountdownScreen, HistoryScreen, InitScreen, SettingsScreen } from './Screens'
-
-const screens: { [screen in ScreenNames]: any } = {
-  CountdownScreen,
-  HistoryScreen,
-  InitScreen,
-  SettingsScreen,
-}
+import { Props, State, Toggleables, setStatePayload } from './reducer'
+import screens from './Screens'
 
 class App extends Component<Props> {
   componentDidMount() {

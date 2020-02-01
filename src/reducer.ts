@@ -1,6 +1,8 @@
 import { Animated } from 'react-native'
 import Sound from 'react-native-sound'
 
+import { ScreenNames } from './Screens'
+
 export type SitProps = {
   date: Date
   duration: number
@@ -8,8 +10,6 @@ export type SitProps = {
   hasChanting?: boolean
   hasExtendedMetta?: boolean
 }
-
-export type ScreenNames = 'InitScreen' | 'CountdownScreen' | 'HistoryScreen' | 'SettingsScreen'
 
 type ToggleableStates = {
   amNotification: boolean

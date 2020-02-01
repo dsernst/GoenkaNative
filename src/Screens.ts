@@ -3,4 +3,6 @@ import HistoryScreen from './HistoryScreen/HistoryScreen'
 import InitScreen from './InitScreen'
 import SettingsScreen from './SettingsScreen'
 
-export { CountdownScreen, HistoryScreen, InitScreen, SettingsScreen }
+export default { CountdownScreen, HistoryScreen, InitScreen, SettingsScreen }
+
+export type ScreenNames = 'CountdownScreen' | 'HistoryScreen' | 'InitScreen' | 'SettingsScreen'
