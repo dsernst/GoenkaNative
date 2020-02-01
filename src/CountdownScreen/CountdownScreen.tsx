@@ -6,10 +6,6 @@ import { Props } from '../reducer'
 import BeHappyText from './BeHappyText'
 import CountdownCircle from './react-native-countdown-circle'
 
-// Shared vars
-const bodyTextColor = '#f1f1f1'
-const btnSize = 80
-
 class CountdownScreen extends Component<Props> {
   state = {
     hideStatusBar: true,
@@ -32,7 +28,7 @@ class CountdownScreen extends Component<Props> {
                 borderWidth={4}
                 color="#0a2013"
                 duration={duration}
-                labelStyle={{ color: bodyTextColor, fontSize: 18, opacity: 0.2 }}
+                labelStyle={{ color: '#fff3', fontSize: 18 }}
                 minutes
                 onTimeFinished={toggle('finished')}
                 onTimeInterval={(elapsed: number) => {
@@ -42,7 +38,7 @@ class CountdownScreen extends Component<Props> {
                 }}
                 radius={80}
                 shadowColor="#001709"
-                textStyle={{ color: bodyTextColor, fontSize: 40 }}
+                textStyle={{ color: '#fffc', fontSize: 40 }}
               />
             ) : (
               <BeHappyText />
@@ -54,18 +50,17 @@ class CountdownScreen extends Component<Props> {
           style={{
             alignItems: 'center',
             alignSelf: 'center',
-            height: btnSize,
+            height: 80,
             justifyContent: 'center',
             marginBottom: 30,
             marginTop: 'auto',
-            width: btnSize,
+            width: '100%',
           }}
         >
           <Text
             style={{
-              color: bodyTextColor,
+              color: '#fff3',
               fontSize: 18,
-              opacity: 0.2,
             }}
           >
             {finished ? 'Back' : 'Stop'}

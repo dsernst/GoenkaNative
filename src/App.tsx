@@ -8,9 +8,6 @@ import c, { SoundWithDelay } from './clips' // foo
 import { Props, ScreenNames, State, Toggleables, setStatePayload } from './reducer'
 import { CountdownScreen, HistoryScreen, InitScreen, SettingsScreen } from './Screens'
 
-// Shared vars
-const bodyTextColor = '#f1f1f1'
-
 const screens: { [screen in ScreenNames]: any } = {
   CountdownScreen,
   HistoryScreen,
@@ -85,7 +82,7 @@ class App extends Component<Props> {
             <Animated.Text
               style={{
                 alignSelf: 'center',
-                color: bodyTextColor,
+                color: '#f1f1f1',
                 fontSize: 24,
                 fontWeight: '600',
                 marginVertical: 40,

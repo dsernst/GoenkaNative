@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Animated } from 'react-native'
 
-const bodyTextColor = '#f1f1f1'
-
 export default () => {
   const [fadeAnim] = useState(new Animated.Value(0))
 
@@ -25,7 +23,7 @@ export default () => {
     <Animated.Text
       style={{
         alignSelf: 'center',
-        color: bodyTextColor,
+        color: '#f1f1f1',
         fontFamily: 'Palatino',
         fontSize: 30,
         fontStyle: 'italic',

@@ -55,7 +55,7 @@ export default ({ history, setState }: Props) => {
         <Text
           style={{
             alignSelf: 'center',
-            color: bodyTextColor,
+            color: '#fffd',
             fontSize: 11,
             fontWeight: '500',
           }}
@@ -66,7 +66,7 @@ export default ({ history, setState }: Props) => {
 
       <Text
         style={{
-          color: bodyTextColor,
+          color: '#fffe',
           fontWeight: '600',
           lineHeight: 21,
           marginBottom: 30,
@@ -91,10 +91,9 @@ export default ({ history, setState }: Props) => {
           <Text
             style={{
               alignSelf: 'center',
-              color: bodyTextColor,
+              color: '#fff7',
               fontSize: 16,
               fontStyle: 'italic',
-              opacity: 0.6,
               paddingTop: 80,
             }}
           >
@@ -132,10 +131,9 @@ export default ({ history, setState }: Props) => {
             <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
               <Text
                 style={{
-                  color: bodyTextColor,
+                  color: '#fffc',
                   fontSize: 16,
                   fontWeight: '600',
-                  opacity: 0.8,
                 }}
               >
                 {dayjs(i.date).format('h[:]mma')}
@@ -144,10 +142,9 @@ export default ({ history, setState }: Props) => {
             <Faded style={{ alignSelf: 'flex-end' }}> for &nbsp;</Faded>
             <Text
               style={{
-                color: bodyTextColor,
+                color: '#fffc',
                 fontSize: 16,
                 fontWeight: '600',
-                opacity: 0.8,
               }}
             >
               {i.elapsed < i.duration && i.elapsed + ' of '}
@@ -170,6 +167,3 @@ export default ({ history, setState }: Props) => {
     </>
   )
 }
-
-// Shared vars
-const bodyTextColor = '#f1f1f1'

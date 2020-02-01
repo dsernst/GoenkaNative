@@ -31,7 +31,7 @@ const InitScreen = (props: Props) => {
       {/* DurationPicker */}
       <Text style={s.text}>How long would you like to sit?</Text>
       <Picker
-        itemStyle={{ color: bodyTextColor }}
+        itemStyle={{ color: '#fffc' }}
         onValueChange={(newDuration: number) => setState({ duration: newDuration })}
         selectedValue={duration}
         style={{
@@ -102,12 +102,7 @@ const InitScreen = (props: Props) => {
           onPress={() => setState({ screen: 'SettingsScreen' })}
           style={{ padding: 15, paddingLeft: 0, width: 50 }}
         >
-          <AntIcon
-            color={bodyTextColor}
-            name="setting"
-            size={30}
-            style={{ opacity: showHistoryBtnTooltip ? 0.6 : 0.2 }}
-          />
+          <AntIcon color="#fff3" name="setting" size={30} />
         </TouchableOpacity>
 
         {/* StartBtn */}
@@ -155,12 +150,7 @@ const InitScreen = (props: Props) => {
             onPress={() => setState({ screen: 'HistoryScreen' })}
             style={{ padding: 15, paddingRight: 0, width: 50 }}
           >
-            <Octicon
-              color={bodyTextColor}
-              name="calendar"
-              size={30}
-              style={{ opacity: showHistoryBtnTooltip ? 0.6 : 0.2 }}
-            />
+            <Octicon color="#fffd" name="calendar" size={30} style={{ opacity: showHistoryBtnTooltip ? 0.6 : 0.2 }} />
           </TouchableOpacity>
         </Tooltip>
       </View>
@@ -251,8 +241,6 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
   setState({ timeouts })
 }
 
-// Shared vars
-const bodyTextColor = '#f1f1f1'
 const btnSize = 80
 
 const s = StyleSheet.create({
@@ -268,10 +256,9 @@ const s = StyleSheet.create({
     paddingVertical: 15,
   },
   text: {
-    color: bodyTextColor,
+    color: '#fff9',
     fontSize: 18,
     fontWeight: '400',
-    opacity: 0.8,
   },
 })
 
