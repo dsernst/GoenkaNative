@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Platform, Switch, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Linking, Platform, Switch, Text, TouchableOpacity, View } from 'react-native'
 import { Props } from './reducer'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import dayjs from 'dayjs'
@@ -240,6 +240,24 @@ class SettingsScreen extends Component<Props> {
           />
         ))}
 
+        <View style={{ alignItems: 'center', flexDirection: 'row', marginTop: 90, paddingRight: 30 }}>
+          <Ionicons color="#fff8" name="ios-information-circle-outline" size={27} />
+          <Text style={{ color: '#fffc', fontSize: 16, lineHeight: 27, marginLeft: 15 }}>
+            GoenkaTimer is available for both{'\n'}
+            <Link url="https://apps.apple.com/us/app/id1494609891">
+              <Ionicons name="logo-apple" size={27} />
+              &nbsp; iOS&nbsp;
+            </Link>{' '}
+            and{' '}
+            <Link url="https://play.google.com/store/apps/details?id=com.goenkanative">
+              &nbsp;&nbsp;
+              <Ionicons name="logo-android" size={27} />
+              &nbsp; Android
+            </Link>
+            .
+          </Text>
+        </View>
+
         {/* Back button */}
         <TouchableOpacity
           onPress={() => setState({ screen: 'InitScreen' })}
@@ -257,5 +275,15 @@ class SettingsScreen extends Component<Props> {
     )
   }
 }
+
+const Link = ({ url, ...otherProps }: { children: any; url: string }) => (
+  <Text
+    style={{ color: '#0070c9' }}
+    {...otherProps}
+    onPress={() => {
+      Linking.openURL(url)
+    }}
+  />
+)
 
 export default SettingsScreen
