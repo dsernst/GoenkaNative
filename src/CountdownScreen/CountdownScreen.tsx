@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Animated, StatusBar, TouchableWithoutFeedback, View } from 'react-native'
+import { StatusBar, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import BeHappyText from './BeHappyText'
 import CountdownCircle from './CountdownCircle'
+import pressStop from './press-stop'
 
 class CountdownScreen extends Component<Props> {
   state = {
@@ -46,42 +47,9 @@ class CountdownScreen extends Component<Props> {
             )}
           </View>
         </TouchableWithoutFeedback>
-        <BackButton onPress={() => this.pressStop()} text={finished ? 'Back' : 'Stop'} />
+        <BackButton onPress={() => pressStop(this.props)} text={finished ? 'Back' : 'Stop'} />
       </>
     )
-  }
-
-  pressStop() {
-    const { history, latestTrack, setState, timeouts, titleOpacity } = this.props
-
-    // Fade in title
-    Animated.timing(titleOpacity, {
-      toValue: 1,
-    }).start()
-
-    // Stop audio
-    if (latestTrack) {
-      latestTrack.stop()
-    }
-
-    // Clear all of the setTimeouts
-    const newTimeouts = [...timeouts]
-    let t = newTimeouts.pop()
-    while (t) {
-      clearTimeout(t)
-      t = newTimeouts.pop()
-    }
-    setState({ timeouts: newTimeouts })
-
-    // Go back to InitScreen
-    setState({ finished: false, latestTrack: null, screen: 'InitScreen' })
-
-    // Turn on HistoryBtnTooltip if this was their first sit
-    if (history.length === 1) {
-      setTimeout(() => {
-        setState({ showHistoryBtnTooltip: true })
-      }, 500)
-    }
   }
 }
 
