@@ -4,11 +4,15 @@ import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 
 import { Props } from '../reducer'
 
+const ITEM_HEIGHT = 36
+
 export default ({ history, setState }: Props) => (
   <FlatList
     data={history}
+    getItemLayout={(_data, index) => ({ index, length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index })}
     indicatorStyle="white"
-    keyExtractor={i => i.date.toString()}
+    initialNumToRender={17}
+    keyExtractor={(_item, index) => String(index)}
     ListEmptyComponent={() => (
       <Text
         style={{
@@ -45,7 +49,7 @@ export default ({ history, setState }: Props) => (
             ],
           )
         }
-        style={{ flexDirection: 'row', paddingHorizontal: 24, paddingVertical: 8 }}
+        style={{ alignItems: 'center', flexDirection: 'row', height: ITEM_HEIGHT, paddingHorizontal: 24 }}
       >
         <View style={{ alignItems: 'flex-end', marginRight: 10, width: 90 }}>
           <Faded>{dayLabel(i.date, index, history)}</Faded>
@@ -61,7 +65,7 @@ export default ({ history, setState }: Props) => (
             {dayjs(i.date).format('h[:]mma')}
           </Text>
         </View>
-        <Faded style={{ alignSelf: 'flex-end' }}> for &nbsp;</Faded>
+        <Faded> for &nbsp;</Faded>
         <Text
           style={{
             color: '#fffb',
