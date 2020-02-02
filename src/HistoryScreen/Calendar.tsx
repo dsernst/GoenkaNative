@@ -1,12 +1,17 @@
 import dayjs, { Dayjs } from 'dayjs'
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 import { Props } from '../reducer'
 
 type State = { month: Dayjs; selected: Dayjs | null }
+
+// Calc height for Details ScrollView
+const detailsYPos = 488
+const backButtonHeight = 61
+const detailsHeight = Dimensions.get('window').height - detailsYPos - backButtonHeight
 
 export default class extends Component<Props, State> {
   state: State = {
@@ -137,7 +142,7 @@ export default class extends Component<Props, State> {
                   No sits recorded {selectedIsToday ? 'today, yet' : 'this day'}.
                 </Text>
               ) : (
-                <ScrollView style={{ height: 118 }}>
+                <ScrollView style={{ height: detailsHeight }}>
                   {selectedSits.map((i, index) => (
                     <View key={index} style={{ flexDirection: 'row', paddingBottom: 3 }}>
                       <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
