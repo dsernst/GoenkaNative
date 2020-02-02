@@ -3,6 +3,7 @@ import React from 'react'
 import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 
 import { Props } from '../reducer'
+import TitleBar from '../TitleBar'
 import calcStreak from './calc-streak'
 
 export default ({ history, setState }: Props) => {
@@ -42,27 +43,7 @@ export default ({ history, setState }: Props) => {
 
   return (
     <>
-      <View
-        style={{
-          borderBottomWidth: 1,
-          borderColor: '#fff2',
-          borderTopWidth: 1,
-          marginHorizontal: 10,
-          marginVertical: 25,
-          paddingVertical: 7,
-        }}
-      >
-        <Text
-          style={{
-            alignSelf: 'center',
-            color: '#fffd',
-            fontSize: 11,
-            fontWeight: '500',
-          }}
-        >
-          HISTORY
-        </Text>
-      </View>
+      <TitleBar name="HISTORY" style={{ marginHorizontal: 17 }} />
 
       <Text
         style={{

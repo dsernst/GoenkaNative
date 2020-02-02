@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 
-import { version } from '../../package.json'
 import { Props } from '../reducer'
+import TitleBar from '../TitleBar'
 import DailyNotificationSettings from './DailyNotifications'
 import MoreInfoSection from './MoreInfo'
 
@@ -12,33 +12,10 @@ class SettingsScreen extends Component<Props> {
 
     return (
       <>
-        {/* Page title bar */}
-        <View
-          style={{
-            borderBottomWidth: 1,
-            borderColor: '#fff3',
-            borderTopWidth: 1,
-            marginVertical: 25,
-            paddingVertical: 7,
-          }}
-        >
-          <Text
-            style={{
-              alignSelf: 'center',
-              color: '#fffc',
-              fontSize: 11,
-              fontWeight: '500',
-            }}
-          >
-            SETTINGS
-          </Text>
-          <Text style={{ color: '#fff3', fontSize: 11, position: 'absolute', right: 0, top: 7 }}>v{version}</Text>
-        </View>
+        <TitleBar name="SETTINGS" showVersion />
 
-        {/* Daily Notification Settings */}
         <DailyNotificationSettings {...this.props} />
 
-        {/* More Info section */}
         <MoreInfoSection />
 
         {/* Back button */}
