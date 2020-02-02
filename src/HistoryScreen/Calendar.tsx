@@ -147,12 +147,16 @@ export default class extends Component<Props, State> {
         {/* Selected date details */}
         {selected && (
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            <Text style={{ color: '#fff6', paddingLeft: 10, width: 100 }}>{selected?.format('ddd MMM D')}</Text>
+            <Text style={{ color: '#fff6', paddingLeft: 10, paddingTop: 2, width: 100 }}>
+              {selected?.format('ddd MMM D')}
+            </Text>
             <View>
               {selectedIsFuture ? (
-                <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10 }}>The future is unwritten.</Text>
+                <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10, paddingTop: 2 }}>
+                  The future is unwritten.
+                </Text>
               ) : !selectedSits ? (
-                <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10 }}>
+                <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10, paddingTop: 2 }}>
                   No sits recorded {selectedIsToday ? 'today, yet' : 'this day'}.
                 </Text>
               ) : (
