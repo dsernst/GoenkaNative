@@ -2,9 +2,9 @@ import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 
-const BackButton = ({ onPress, setState, text }: { onPress?: () => void; setState: any; text?: string }) => (
+const BackButton = ({ onPress, switchScreen, text }: { onPress?: () => void; switchScreen: any; text?: string }) => (
   <TouchableOpacity
-    onPress={onPress ? () => onPress() : () => setState({ screen: 'InitScreen' })}
+    onPress={onPress ? () => onPress() : () => switchScreen('InitScreen')}
     style={{
       alignItems: 'center',
       marginTop: 'auto',
@@ -19,5 +19,5 @@ const BackButton = ({ onPress, setState, text }: { onPress?: () => void; setStat
 
 export default connect(
   () => ({}),
-  dispatch => ({ setState: (payload: any) => dispatch({ payload, type: 'SET_STATE' }) }),
+  dispatch => ({ switchScreen: (screen: string) => dispatch({ payload: { screen }, type: 'SET_STATE' }) }),
 )(BackButton)
