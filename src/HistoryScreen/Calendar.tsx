@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -6,13 +6,16 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 import { Props } from '../reducer'
 
-export default class extends Component<Props> {
-  state = {
+type State = { month: Dayjs; selected: Dayjs | null }
+
+export default class extends Component<Props, State> {
+  state: State = {
     month: dayjs(),
+    selected: dayjs(),
   }
 
   render() {
-    const { month } = this.state
+    const { month, selected } = this.state
 
     let counter = 1
     const now = dayjs()
@@ -24,27 +27,31 @@ export default class extends Component<Props> {
 
     const sitsByDate = _.groupBy(this.props.history, sit => dayjs(sit.date).format('YYYY-MM-DD'))
 
+    const selectedSits = selected && sitsByDate[selected.format('YYYY-MM-DD')]
+    const selectedIsFuture = selected?.isAfter(now, 'day')
+    const selectedIsToday = selected?.isSame(now, 'day')
+
     return (
       <View style={{ marginHorizontal: 19 }}>
         {/* Month selector */}
         <View
           style={{
             alignItems: 'center',
-            borderBottomColor: '#fff6',
+            borderBottomColor: '#fff2',
             borderBottomWidth: 1,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            paddingBottom: 15,
+            paddingBottom: 3,
           }}
         >
           <TouchableOpacity
-            onPress={() => this.setState({ month: this.state.month.subtract(1, 'month') })}
+            onPress={() => this.setState({ month: this.state.month.subtract(1, 'month'), selected: null })}
             style={{ borderColor: 'red', borderWidth: 0, paddingRight: 15, paddingVertical: 5 }}
           >
             <EvilIcons color="#fff6" name="chevron-left" size={29} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.setState({ month: now })}
+            onPress={() => this.setState({ month: now, selected: now })}
             style={{ borderColor: 'red', borderWidth: 0, paddingHorizontal: 20, paddingVertical: 5 }}
           >
             <Text style={{ color: '#fffb', fontSize: 16, textAlign: 'center' }}>
@@ -52,7 +59,7 @@ export default class extends Component<Props> {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.setState({ month: this.state.month.add(1, 'month') })}
+            onPress={() => this.setState({ month: this.state.month.add(1, 'month'), selected: null })}
             style={{ borderColor: 'red', borderWidth: 0, paddingLeft: 15, paddingVertical: 5 }}
           >
             <EvilIcons color="#fff6" name="chevron-right" size={29} />
@@ -70,7 +77,7 @@ export default class extends Component<Props> {
 
         {/* Days grid */}
         {_.range(0, weeksInMonth).map(wk => (
-          <View key={wk} style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 5 }}>
+          <View key={wk} style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 3 }}>
             {/* For each week: */}
             {_.range(0, 7).map(position => {
               const key = `${wk}${position}`
@@ -86,8 +93,9 @@ export default class extends Component<Props> {
                 const isToday = day.isSame(now, 'day')
                 const isFuture = day.isAfter(now, 'day')
                 return (
-                  <View
+                  <TouchableOpacity
                     key={key}
+                    onPress={() => this.setState({ selected: day })}
                     style={{
                       backgroundColor: satAtLeastTwice ? '#fff3' : undefined,
                       borderColor: '#fff8',
@@ -108,7 +116,7 @@ export default class extends Component<Props> {
                     >
                       {counter++}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 )
               } else {
                 return <EmptyCell key={key} /> // After the last day of the month
@@ -116,6 +124,49 @@ export default class extends Component<Props> {
             })}
           </View>
         ))}
+
+        {/* Selected date details */}
+        {selected && (
+          <View style={{ flexDirection: 'row', marginTop: 15 }}>
+            <Text style={{ color: '#fff6', paddingLeft: 10, width: 100 }}>{selected?.format('ddd MMM D')}</Text>
+            <View>
+              {selectedIsFuture ? (
+                <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10 }}>The future is unwritten.</Text>
+              ) : !selectedSits ? (
+                <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10 }}>
+                  No sits recorded {selectedIsToday ? 'today, yet' : 'this day'}.
+                </Text>
+              ) : (
+                selectedSits.map((i, index) => (
+                  <View key={index} style={{ flexDirection: 'row', paddingBottom: 3 }}>
+                    <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+                      <Text
+                        style={{
+                          color: '#fffb',
+                          fontSize: 16,
+                          fontWeight: '600',
+                        }}
+                      >
+                        {dayjs(i.date).format('h[:]mma')}
+                      </Text>
+                    </View>
+                    <Faded style={{ alignSelf: 'flex-end' }}> for &nbsp;</Faded>
+                    <Text
+                      style={{
+                        color: '#fffb',
+                        fontSize: 16,
+                        fontWeight: '600',
+                      }}
+                    >
+                      {i.elapsed < i.duration && i.elapsed + ' of '}
+                      {i.duration} min
+                    </Text>
+                  </View>
+                ))
+              )}
+            </View>
+          </View>
+        )}
       </View>
     )
   }
@@ -124,3 +175,4 @@ export default class extends Component<Props> {
 const cellWidth = 30
 
 const EmptyCell = () => <View style={{ width: cellWidth }} />
+const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeight: '400', ...props.style }} />
