@@ -1,10 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs'
 import _ from 'lodash'
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import { Dimensions, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 import { Props } from '../reducer'
+
+const cachedGroupBy = _.memoize(_.groupBy)
 
 type State = { month: Dayjs; selected: Dayjs | null }
 
@@ -13,7 +15,7 @@ const detailsYPos = 488
 const backButtonHeight = 61
 const detailsHeight = Dimensions.get('window').height - detailsYPos - backButtonHeight
 
-export default class extends Component<Props, State> {
+class Calendar extends Component<Props, State> {
   state: State = {
     month: dayjs(),
     selected: dayjs(),
@@ -31,7 +33,7 @@ export default class extends Component<Props, State> {
     const inCurrMonth = month.isSame(now, 'month')
     const YYYYdashMM = month.format('YYYY-MM')
 
-    const sitsByDate = _.groupBy(this.props.history, sit => dayjs(sit.date).format('YYYY-MM-DD'))
+    const sitsByDate = cachedGroupBy(this.props.history, sit => dayjs(sit.date).format('YYYY-MM-DD'))
 
     const selectedSits = selected && sitsByDate[selected.format('YYYY-MM-DD')]
     const selectedIsFuture = selected?.isAfter(now, 'day')
@@ -200,3 +202,5 @@ const cellPadding = 4
 
 const EmptyCell = () => <View style={{ width: cellWidth + 2 * cellPadding }} />
 const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeight: '400', ...props.style }} />
+
+export default memo(Calendar)

@@ -1,12 +1,12 @@
 import dayjs from 'dayjs'
-import React from 'react'
+import React, { memo } from 'react'
 import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 
 import { Props } from '../reducer'
 
 const ITEM_HEIGHT = 36
 
-export default ({ history, setState }: Props) => (
+const ListView = ({ history, setState }: Props) => (
   <FlatList
     data={history}
     getItemLayout={(_data, index) => ({ index, length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index })}
@@ -110,3 +110,5 @@ function dayLabel(date: Date, index: number, history: any) {
     .startOf('day')
     .diff(dayjs(date).startOf('day'), 'day')} days ago`
 }
+
+export default memo(ListView)
