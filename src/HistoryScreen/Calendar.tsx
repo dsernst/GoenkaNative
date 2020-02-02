@@ -108,8 +108,9 @@ export default class extends Component<Props, State> {
                 const isSelected = selected && day.isSame(selected, 'day')
                 return (
                   <TouchableOpacity
+                    activeOpacity={0.5}
                     key={key}
-                    onPress={() => this.setState({ selected: day })}
+                    onPress={() => this.setState({ selected: !isSelected ? day : null })}
                     style={{ backgroundColor: isSelected ? '#0008' : undefined, padding: cellPadding }}
                   >
                     <View
