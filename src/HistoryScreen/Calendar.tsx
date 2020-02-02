@@ -151,13 +151,11 @@ export default class extends Component<Props, State> {
               {selected?.format('ddd MMM D')}
             </Text>
             <View>
-              {selectedIsFuture ? (
+              {!selectedSits ? (
                 <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10, paddingTop: 2 }}>
-                  The future is unwritten.
-                </Text>
-              ) : !selectedSits ? (
-                <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10, paddingTop: 2 }}>
-                  No sits recorded {selectedIsToday ? 'today, yet' : 'this day'}.
+                  {selectedIsFuture
+                    ? 'The future is unwritten.'
+                    : `No sits recorded ${selectedIsToday ? 'today, yet' : 'this day'}.`}
                 </Text>
               ) : (
                 <ScrollView style={{ height: detailsHeight }}>
