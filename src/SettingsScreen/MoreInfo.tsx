@@ -14,13 +14,13 @@ export default () => (
       <Text style={{ color: '#fffa', fontSize: 16, lineHeight: 27 }}>
         GoenkaTimer is available for both{'\n'}
         <Link url="https://apps.apple.com/us/app/id1494609891">
-          <Ionicons name="logo-apple" size={27} />
+          <Ionicons name="logo-apple" size={22} />
           &nbsp; iOS&nbsp;
         </Link>{' '}
         and{' '}
         <Link url="https://play.google.com/store/apps/details?id=com.goenkanative">
           &nbsp;&nbsp;
-          <Ionicons name="logo-android" size={27} />
+          <Ionicons name="logo-android" size={22} />
           &nbsp; Android
         </Link>
         .
