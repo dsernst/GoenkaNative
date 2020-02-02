@@ -5,7 +5,7 @@ import KeepAwake from 'react-native-keep-awake'
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import BeHappyText from './BeHappyText'
-import CountdownCircle from './react-native-countdown-circle'
+import CountdownCircle from './CountdownCircle'
 
 class CountdownScreen extends Component<Props> {
   state = {
