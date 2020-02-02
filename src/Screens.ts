@@ -1,7 +1,7 @@
 import CountdownScreen from './CountdownScreen/CountdownScreen'
 import HistoryScreen from './HistoryScreen/HistoryScreen'
 import InitScreen from './InitScreen'
-import SettingsScreen from './SettingsScreen'
+import SettingsScreen from './SettingsScreen/SettingsScreen'
 
 export default { CountdownScreen, HistoryScreen, InitScreen, SettingsScreen }
 
