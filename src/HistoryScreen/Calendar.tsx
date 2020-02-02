@@ -69,12 +69,13 @@ export default class extends Component<Props> {
         </View>
 
         {/* Days grid */}
-        {_.range(0, weeksInMonth).map(() => (
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 5 }}>
+        {_.range(0, weeksInMonth).map(wk => (
+          <View key={wk} style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 5 }}>
             {/* For each week: */}
             {_.range(0, 7).map(position => {
+              const key = `${wk}${position}`
               if (counter === 1 && position < Number(firstDayOfMonth.format('d'))) {
-                return <EmptyCell /> // Before the 1st of the month
+                return <EmptyCell key={key} /> // Before the 1st of the month
               } else if (counter < daysInMonth) {
                 /* One day cell */
                 const date = `${YYYYdashMM}-${(counter < 10 ? '0' : '') + counter}`
@@ -86,6 +87,7 @@ export default class extends Component<Props> {
                 const isFuture = day.isAfter(now, 'day')
                 return (
                   <View
+                    key={key}
                     style={{
                       backgroundColor: satAtLeastTwice ? '#fff3' : undefined,
                       borderColor: '#fff8',
@@ -109,7 +111,7 @@ export default class extends Component<Props> {
                   </View>
                 )
               } else {
-                return <EmptyCell /> // After the last day of the month
+                return <EmptyCell key={key} /> // After the last day of the month
               }
             })}
           </View>
