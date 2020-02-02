@@ -113,11 +113,11 @@ class Calendar extends Component<Props, State> {
                     activeOpacity={0.5}
                     key={key}
                     onPress={() => this.setState({ selected: !isSelected ? day : null })}
-                    style={{ backgroundColor: isSelected ? '#0008' : undefined, padding: cellPadding }}
+                    style={{ backgroundColor: isSelected ? '#aaa1' : undefined, padding: cellPadding }}
                   >
                     <View
                       style={{
-                        backgroundColor: satAtLeastTwice ? (isSelected ? '#fff2' : '#fff3') : undefined,
+                        backgroundColor: satAtLeastTwice ? (isSelected ? '#fff5' : '#fff3') : undefined,
                         borderColor: '#fff6',
                         borderRadius: cellWidth,
                         borderWidth: satAtLeastOnce ? 1 : 0,
