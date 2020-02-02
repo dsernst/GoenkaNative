@@ -34,6 +34,7 @@ const store = createStore(
         'amNotificationTime',
         'pmNotification',
         'pmNotificationTime',
+        'historyViewIndex',
       ],
     },
     reducer,

@@ -5,17 +5,21 @@ import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
 import CurrentStreaks from './CurrentStreaks'
 import ListView from './ListView'
+import ViewControl from './ViewControl'
 
-export default (props: Props) => {
-  return (
-    <>
-      <TitleBar name="HISTORY" style={{ marginHorizontal: 17 }} />
+export default (props: Props) => (
+  <>
+    <TitleBar name="HISTORY" style={{ marginHorizontal: 17 }} />
 
-      <CurrentStreaks {...props} />
+    <CurrentStreaks {...props} />
 
-      <ListView {...props} />
+    <ViewControl
+      toggleView={() => props.setState({ historyViewIndex: Number(!props.historyViewIndex) })}
+      viewIndex={props.historyViewIndex}
+    />
 
-      <BackButton />
-    </>
-  )
-}
+    {props.historyViewIndex === 0 && <ListView {...props} />}
+
+    <BackButton />
+  </>
+)

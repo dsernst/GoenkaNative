@@ -25,6 +25,7 @@ export interface State extends ToggleableStates {
   amNotificationTime: Date
   duration: number
   history: SitProps[]
+  historyViewIndex: number
   latestTrack: Sound | null
   pmNotificationTime: Date
   screen: ScreenNames
@@ -49,6 +50,7 @@ const initialState: State = {
   hasChanting: true,
   hasExtendedMetta: false,
   history: [],
+  historyViewIndex: 0,
   isEnoughTime: true,
   latestTrack: null,
   pmNotification: false,

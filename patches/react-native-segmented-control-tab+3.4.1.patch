@@ -1,0 +1,20 @@
+diff --git a/node_modules/react-native-segmented-control-tab/src/SegmentedControlTab.js b/node_modules/react-native-segmented-control-tab/src/SegmentedControlTab.js
+index 365a483..24373b1 100644
+--- a/node_modules/react-native-segmented-control-tab/src/SegmentedControlTab.js
++++ b/node_modules/react-native-segmented-control-tab/src/SegmentedControlTab.js
+@@ -60,11 +60,11 @@ const handleTabPress = (
+   selectedIndex: number,
+   onTabPress: Function,
+ ) => {
+-  if (multiple) {
++  // if (multiple) {
++  //   onTabPress(index)
++  // } else if (selectedIndex !== index) {
+     onTabPress(index)
+-  } else if (selectedIndex !== index) {
+-    onTabPress(index)
+-  }
++  // }
+ }
+ 
+ const getAccessibilityLabelByIndex = (
