@@ -1,5 +1,5 @@
 import { AppRegistry } from 'react-native'
 
-import Reduxed from './src/persistence.js'
+import Persistence from './src/Persistence'
 
-AppRegistry.registerComponent('GoenkaNative', () => Reduxed)
+AppRegistry.registerComponent('GoenkaNative', () => Persistence)

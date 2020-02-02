@@ -18,7 +18,7 @@ const store = createStore(
       // (see: https://github.com/rt2zz/redux-persist/issues/82)
       transforms: [
         createTransform(JSON.stringify, toRehydrate =>
-          JSON.parse(toRehydrate, (key, value) =>
+          JSON.parse(toRehydrate, (_key, value) =>
             typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/) ? new Date(value) : value,
           ),
         ),
@@ -40,7 +40,7 @@ const store = createStore(
   ),
 )
 
-const Reduxed = () => (
+const Persistence = () => (
   <Provider store={store}>
     <PersistGate persistor={persistStore(store)}>
       <App />
@@ -48,4 +48,4 @@ const Reduxed = () => (
   </Provider>
 )
 
-export default Reduxed
+export default Persistence
