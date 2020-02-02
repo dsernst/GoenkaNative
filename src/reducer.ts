@@ -1,7 +1,7 @@
 import { Animated } from 'react-native'
 import Sound from 'react-native-sound'
 
-import { ScreenNames } from './Screens'
+import { ScreenNames } from './screens'
 
 export type SitProps = {
   date: Date

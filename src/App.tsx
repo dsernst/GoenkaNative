@@ -4,9 +4,9 @@ import { Animated, StatusBar, View, YellowBox } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { connect } from 'react-redux'
 
-import c, { SoundWithDelay } from './clips' // foo
+import c, { SoundWithDelay } from './clips'
 import { Props, State, Toggleables, setStatePayload } from './reducer'
-import screens from './Screens'
+import screens from './screens'
 
 class App extends Component<Props> {
   componentDidMount() {
