@@ -28,6 +28,7 @@ export default class extends Component<Props, State> {
     const firstDayOfMonth = month.startOf('month')
     const daysInMonth = month.daysInMonth()
     const weeksInMonth = Math.ceil(daysInMonth / 7)
+    const inCurrMonth = month.isSame(now, 'month')
     const YYYYdashMM = month.format('YYYY-MM')
 
     const sitsByDate = _.groupBy(this.props.history, sit => dayjs(sit.date).format('YYYY-MM-DD'))
@@ -64,8 +65,15 @@ export default class extends Component<Props, State> {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            disabled={inCurrMonth}
             onPress={() => this.setState({ month: this.state.month.add(1, 'month'), selected: null })}
-            style={{ borderColor: 'red', borderWidth: 0, paddingLeft: 15, paddingVertical: 5 }}
+            style={{
+              borderColor: 'red',
+              borderWidth: 0,
+              opacity: inCurrMonth ? 0 : 1,
+              paddingLeft: 15,
+              paddingVertical: 5,
+            }}
           >
             <EvilIcons color="#fff6" name="chevron-right" size={29} />
           </TouchableOpacity>
