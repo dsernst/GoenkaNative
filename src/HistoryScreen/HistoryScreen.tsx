@@ -3,6 +3,7 @@ import React from 'react'
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
+import Calendar from './Calendar'
 import CurrentStreaks from './CurrentStreaks'
 import ListView from './ListView'
 import ViewControl from './ViewControl'
@@ -18,7 +19,7 @@ export default (props: Props) => (
       viewIndex={props.historyViewIndex}
     />
 
-    {props.historyViewIndex === 0 && <ListView {...props} />}
+    {props.historyViewIndex === 0 ? <ListView {...props} /> : <Calendar {...props} />}
 
     <BackButton />
   </>
