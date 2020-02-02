@@ -90,7 +90,7 @@ export default class extends Component<Props, State> {
 
         {/* Days grid */}
         {_.range(0, weeksInMonth).map(wk => (
-          <View key={wk} style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 3 }}>
+          <View key={wk} style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
             {/* For each week: */}
             {_.range(0, 7).map(position => {
               const key = `${wk}${position}`
@@ -105,30 +105,35 @@ export default class extends Component<Props, State> {
                 const day = dayjs(date)
                 const isToday = day.isSame(now, 'day')
                 const isFuture = day.isAfter(now, 'day')
+                const isSelected = selected && day.isSame(selected, 'day')
                 return (
                   <TouchableOpacity
                     key={key}
                     onPress={() => this.setState({ selected: day })}
-                    style={{
-                      backgroundColor: satAtLeastTwice ? '#fff3' : undefined,
-                      borderColor: '#fff8',
-                      borderRadius: cellWidth,
-                      borderWidth: satAtLeastOnce ? 1 : 0,
-                      height: cellWidth,
-                      justifyContent: 'center',
-                      width: cellWidth,
-                    }}
+                    style={{ backgroundColor: isSelected ? '#0008' : undefined, padding: cellPadding }}
                   >
-                    <Text
+                    <View
                       style={{
-                        color: satAtLeastOnce ? '#fffb' : '#fff9',
-                        fontWeight: isToday ? '800' : '400',
-                        opacity: isFuture ? 0.5 : 1,
-                        textAlign: 'center',
+                        backgroundColor: satAtLeastTwice ? (isSelected ? '#fff2' : '#fff3') : undefined,
+                        borderColor: '#fff6',
+                        borderRadius: cellWidth,
+                        borderWidth: satAtLeastOnce ? 1 : 0,
+                        height: cellWidth,
+                        justifyContent: 'center',
+                        width: cellWidth,
                       }}
                     >
-                      {counter++}
-                    </Text>
+                      <Text
+                        style={{
+                          color: satAtLeastOnce ? '#fffb' : '#fff9',
+                          fontWeight: isToday ? '800' : '400',
+                          opacity: isFuture ? 0.5 : 1,
+                          textAlign: 'center',
+                        }}
+                      >
+                        {counter++}
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                 )
               } else {
@@ -188,6 +193,7 @@ export default class extends Component<Props, State> {
 }
 
 const cellWidth = 30
+const cellPadding = 4
 
-const EmptyCell = () => <View style={{ width: cellWidth }} />
+const EmptyCell = () => <View style={{ width: cellWidth + 2 * cellPadding }} />
 const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeight: '400', ...props.style }} />
