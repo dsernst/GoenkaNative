@@ -21,6 +21,6 @@ export default (props: Props) => (
 
     {props.historyViewIndex === 0 ? <ListView {...props} /> : <Calendar {...props} />}
 
-    <BackButton />
+    <BackButton saveSpace />
   </>
 )

@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs'
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 import { Props } from '../reducer'
@@ -137,9 +137,21 @@ export default class extends Component<Props, State> {
                   No sits recorded {selectedIsToday ? 'today, yet' : 'this day'}.
                 </Text>
               ) : (
-                selectedSits.map((i, index) => (
-                  <View key={index} style={{ flexDirection: 'row', paddingBottom: 3 }}>
-                    <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+                <ScrollView style={{ height: 118 }}>
+                  {selectedSits.map((i, index) => (
+                    <View key={index} style={{ flexDirection: 'row', paddingBottom: 3 }}>
+                      <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+                        <Text
+                          style={{
+                            color: '#fffb',
+                            fontSize: 16,
+                            fontWeight: '600',
+                          }}
+                        >
+                          {dayjs(i.date).format('h[:]mma')}
+                        </Text>
+                      </View>
+                      <Faded style={{ alignSelf: 'flex-end' }}> for &nbsp;</Faded>
                       <Text
                         style={{
                           color: '#fffb',
@@ -147,22 +159,12 @@ export default class extends Component<Props, State> {
                           fontWeight: '600',
                         }}
                       >
-                        {dayjs(i.date).format('h[:]mma')}
+                        {i.elapsed < i.duration && i.elapsed + ' of '}
+                        {i.duration} min
                       </Text>
                     </View>
-                    <Faded style={{ alignSelf: 'flex-end' }}> for &nbsp;</Faded>
-                    <Text
-                      style={{
-                        color: '#fffb',
-                        fontSize: 16,
-                        fontWeight: '600',
-                      }}
-                    >
-                      {i.elapsed < i.duration && i.elapsed + ' of '}
-                      {i.duration} min
-                    </Text>
-                  </View>
-                ))
+                  ))}
+                </ScrollView>
               )}
             </View>
           </View>

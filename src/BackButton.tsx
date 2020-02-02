@@ -1,16 +1,29 @@
 import React from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { Dimensions, Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 
-const BackButton = ({ onPress, switchScreen, text }: { onPress?: () => void; switchScreen: any; text?: string }) => (
+const { height: screenHeight } = Dimensions.get('window')
+const hasHomeButton = screenHeight > 800
+
+const BackButton = ({
+  onPress,
+  saveSpace,
+  switchScreen,
+  text,
+}: {
+  onPress?: () => void
+  saveSpace?: boolean
+  switchScreen: any
+  text?: string
+}) => (
   <TouchableOpacity
     onPress={onPress ? () => onPress() : () => switchScreen('InitScreen')}
     style={{
       alignItems: 'center',
       marginTop: 'auto',
-      marginVertical: 10,
-      paddingBottom: 50,
-      paddingTop: 15,
+      marginVertical: saveSpace && !hasHomeButton ? 0 : 10,
+      paddingBottom: saveSpace ? 30 : 50,
+      paddingTop: saveSpace ? 5 : 15,
     }}
   >
     <Text style={{ color: '#fff3', fontSize: 18 }}>{text || 'Back'}</Text>
