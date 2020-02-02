@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Animated, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Animated, StatusBar, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 
+import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import BeHappyText from './BeHappyText'
 import CountdownCircle from './react-native-countdown-circle'
@@ -45,27 +46,7 @@ class CountdownScreen extends Component<Props> {
             )}
           </View>
         </TouchableWithoutFeedback>
-        <TouchableOpacity
-          onPress={() => this.pressStop()}
-          style={{
-            alignItems: 'center',
-            alignSelf: 'center',
-            height: 80,
-            justifyContent: 'center',
-            marginBottom: 30,
-            marginTop: 'auto',
-            width: '100%',
-          }}
-        >
-          <Text
-            style={{
-              color: '#fff3',
-              fontSize: 18,
-            }}
-          >
-            {finished ? 'Back' : 'Stop'}
-          </Text>
-        </TouchableOpacity>
+        <BackButton onPress={() => this.pressStop()} text={finished ? 'Back' : 'Stop'} />
       </>
     )
   }

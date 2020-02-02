@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import React from 'react'
 import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 
+import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
 import calcStreak from './calc-streak'
@@ -134,17 +135,8 @@ export default ({ history, setState }: Props) => {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity
-        onPress={() => setState({ screen: 'InitScreen' })}
-        style={{
-          alignItems: 'center',
-          marginVertical: 10,
-          paddingBottom: 50,
-          paddingTop: 15,
-        }}
-      >
-        <Text style={{ color: 'white', fontSize: 18, opacity: 0.2 }}>Back</Text>
-      </TouchableOpacity>
+
+      <BackButton />
     </>
   )
 }
