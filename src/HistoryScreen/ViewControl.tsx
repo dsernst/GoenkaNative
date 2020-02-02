@@ -6,7 +6,7 @@ const color = '#405147'
 
 export default ({ toggleView, viewIndex }: { toggleView: () => void; viewIndex: number }) => (
   <TouchableOpacity
-    activeOpacity={1}
+    activeOpacity={0.7}
     onPress={() => toggleView()}
     style={{
       marginBottom: 5,
@@ -16,6 +16,7 @@ export default ({ toggleView, viewIndex }: { toggleView: () => void; viewIndex: 
     }}
   >
     <SegmentedControlTab
+      activeTabOpacity={0.7}
       activeTabStyle={{ backgroundColor: '#fffa' }}
       activeTabTextStyle={{ color: color, fontWeight: '700' }}
       onTabPress={() => toggleView()}
