@@ -1,5 +1,5 @@
 import React from 'react'
-import { Linking, Text, View } from 'react-native'
+import { Linking, Platform, Text, View } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export default () => (
@@ -11,21 +11,24 @@ export default () => (
       style={{ marginLeft: -2, marginTop: 9, paddingRight: 17 }}
     />
     <View>
+      {/* Apple prohibits referencing "third-party platforms" (Android) */}
+      {Platform.OS !== 'ios' && (
+        <Text style={{ color: '#fffa', fontSize: 16, lineHeight: 27, marginBottom: 15 }}>
+          GoenkaTimer is available for both{'\n'}
+          <Link url="https://apps.apple.com/us/app/id1494609891">
+            <Ionicons name="logo-apple" size={22} />
+            &nbsp; iOS&nbsp;
+          </Link>{' '}
+          and{' '}
+          <Link url="https://play.google.com/store/apps/details?id=com.goenkanative">
+            &nbsp;&nbsp;
+            <Ionicons name="logo-android" size={22} />
+            &nbsp; Android
+          </Link>
+          .
+        </Text>
+      )}
       <Text style={{ color: '#fffa', fontSize: 16, lineHeight: 27 }}>
-        GoenkaTimer is available for both{'\n'}
-        <Link url="https://apps.apple.com/us/app/id1494609891">
-          <Ionicons name="logo-apple" size={22} />
-          &nbsp; iOS&nbsp;
-        </Link>{' '}
-        and{' '}
-        <Link url="https://play.google.com/store/apps/details?id=com.goenkanative">
-          &nbsp;&nbsp;
-          <Ionicons name="logo-android" size={22} />
-          &nbsp; Android
-        </Link>
-        .
-      </Text>
-      <Text style={{ color: '#fffa', fontSize: 16, lineHeight: 27, marginTop: 15 }}>
         For more info about S.N. Goenka or Vipassana meditation, visit{' '}
         <Link url="https://www.dhamma.org">dhamma.org</Link>.
       </Text>
