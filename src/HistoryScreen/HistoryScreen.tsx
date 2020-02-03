@@ -19,7 +19,7 @@ const HistoryScreen = (props: Props) => (
       viewIndex={props.historyViewIndex}
     />
 
-    {props.historyViewIndex === 0 ? <ListView {...props} /> : <Calendar {...props} />}
+    {props.historyViewIndex === 0 ? <Calendar {...props} /> : <ListView {...props} />}
 
     <BackButton saveSpace />
   </>

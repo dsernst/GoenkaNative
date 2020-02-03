@@ -23,7 +23,7 @@ export default ({ toggleView, viewIndex }: { toggleView: () => void; viewIndex: 
       selectedIndex={viewIndex}
       tabStyle={{ backgroundColor: color + '33', borderColor: '#fff3' }}
       tabTextStyle={{ color: '#fff7' }}
-      values={['List', 'Calendar']}
+      values={['Calendar', 'List']}
     />
   </TouchableOpacity>
 )
