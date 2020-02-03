@@ -98,7 +98,7 @@ class Calendar extends Component<Props, State> {
               const key = `${wk}${position}`
               if (counter === 1 && position < Number(firstDayOfMonth.format('d'))) {
                 return <EmptyCell key={key} /> // Before the 1st of the month
-              } else if (counter < daysInMonth) {
+              } else if (counter <= daysInMonth) {
                 /* One day cell */
                 const date = `${YYYYdashMM}-${(counter < 10 ? '0' : '') + counter}`
                 const sits = sitsByDate[date]
