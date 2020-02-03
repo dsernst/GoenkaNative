@@ -1,32 +1,66 @@
-export default [
+import dayjs from 'dayjs'
+
+const exampleSits = [
   {
-    date: new Date('Sat Jan 13 2020 9:14'),
-    duration: 15,
-    elapsed: 15,
-  },
-  {
-    date: new Date('Sun Jan 12 2020 22:58'),
+    daysAgo: 0,
     duration: 45,
-    elapsed: 45,
+    time: '18:01',
   },
   {
-    date: new Date('Sun Jan 12 2020 12:50'),
+    daysAgo: 0,
+    duration: 15,
+    time: '9:14',
+  },
+  {
+    daysAgo: 1,
+    duration: 45,
+    time: '22:58',
+  },
+  {
+    daysAgo: 1,
     duration: 5,
-    elapsed: 5,
+    time: '12:50',
   },
   {
-    date: new Date('Sat Jan 11 2020 11:57'),
+    daysAgo: 2,
     duration: 60,
-    elapsed: 60,
+    time: '11:57',
   },
   {
-    date: new Date('Fri Jan 10 2020 22:30'),
+    daysAgo: 2,
     duration: 10,
-    elapsed: 10,
+    time: '22:30',
   },
   {
-    date: new Date('Fri Jan 10 2020 8:25'),
+    daysAgo: 3,
     duration: 35,
-    elapsed: 35,
+    time: '8:25',
+  },
+  {
+    daysAgo: 4,
+    duration: 40,
+    time: '21:47',
+  },
+  {
+    daysAgo: 4,
+    duration: 15,
+    time: '10:27',
+  },
+  {
+    daysAgo: 6,
+    duration: 15,
+    time: '8:55',
   },
 ]
+
+const sits = exampleSits.map(s => ({
+  ...s,
+  date: dayjs()
+    .hour(Number(s.time.split(':')[0]))
+    .minute(Number(s.time.split(':')[1]))
+    .subtract(s.daysAgo, 'day')
+    .toDate(),
+  elapsed: s.duration,
+}))
+
+export default sits
