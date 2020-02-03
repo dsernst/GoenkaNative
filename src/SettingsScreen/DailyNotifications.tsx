@@ -75,7 +75,7 @@ export default class DailyNotificationSettings extends Component<Props> {
     }
     let permissions: iosPermission = await new Promise(resolve => PushNotification.checkPermissions(resolve))
     if (!permissions.alert) {
-      PushNotification.requestPermissions()
+      await PushNotification.requestPermissions()
       permissions = await new Promise(resolve => PushNotification.checkPermissions(resolve))
       if (!permissions.alert) {
         Alert.alert(
