@@ -154,7 +154,7 @@ class Calendar extends Component<Props, State> {
             </Text>
             <View>
               {!selectedSits ? (
-                <Text style={{ color: '#fffb', fontStyle: 'italic', paddingLeft: 10, paddingTop: 2 }}>
+                <Text style={{ color: '#fff5', fontStyle: 'italic', paddingLeft: 10, paddingTop: 2 }}>
                   {selectedIsFuture
                     ? 'The future is unwritten.'
                     : `No sits recorded ${selectedIsToday ? 'today, yet' : 'this day'}.`}
