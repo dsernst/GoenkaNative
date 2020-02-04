@@ -15,6 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import Sound from 'react-native-sound'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import Octicon from 'react-native-vector-icons/Octicons'
 import Tooltip from 'react-native-walkthrough-tooltip'
@@ -176,6 +177,9 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
       ),
     )
   }
+
+  // Required for Sounds to be playable while iOS is in Vibrate mode
+  Sound.setCategory('Playback')
 
   const timeouts = []
   // Switch screens
