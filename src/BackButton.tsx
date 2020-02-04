@@ -2,21 +2,25 @@ import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 
+import { ScreenNames } from './screens'
+
 const BackButton = ({
   color = '#fff3',
   onPress,
   saveSpace,
   switchScreen,
   text,
+  to = 'InitScreen',
 }: {
   color?: string
   onPress?: () => void
   saveSpace?: boolean
   switchScreen: any
   text?: string
+  to?: ScreenNames
 }) => (
   <TouchableOpacity
-    onPress={onPress ? () => onPress() : () => switchScreen('InitScreen')}
+    onPress={onPress ? () => onPress() : () => switchScreen(to)}
     style={{
       alignItems: 'center',
       alignSelf: 'center',
