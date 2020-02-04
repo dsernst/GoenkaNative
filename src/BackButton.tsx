@@ -3,11 +3,13 @@ import { Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 
 const BackButton = ({
+  color = '#fff3',
   onPress,
   saveSpace,
   switchScreen,
   text,
 }: {
+  color?: string
   onPress?: () => void
   saveSpace?: boolean
   switchScreen: any
@@ -25,7 +27,7 @@ const BackButton = ({
       width: 200,
     }}
   >
-    <Text style={{ color: '#fff3', fontSize: 18 }}>{text || 'Back'}</Text>
+    <Text style={{ color, fontSize: 18 }}>{text || 'Back'}</Text>
   </TouchableOpacity>
 )
 

@@ -9,6 +9,7 @@ export type SitProps = {
   elapsed: number
   hasChanting?: boolean
   hasExtendedMetta?: boolean
+  selected?: boolean
 }
 
 type ToggleableStates = {

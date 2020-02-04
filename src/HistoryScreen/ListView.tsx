@@ -6,7 +6,11 @@ import { Props } from '../reducer'
 
 const ITEM_HEIGHT = 36
 
-const ListView = ({ history, setState }: Props) => (
+interface ListViewProps extends Props {
+  onPress?: (index: number) => void
+}
+
+const ListView = ({ history, onPress, setState }: ListViewProps) => (
   <FlatList
     data={history}
     getItemLayout={(_data, index) => ({ index, length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index })}
@@ -29,32 +33,59 @@ const ListView = ({ history, setState }: Props) => (
     renderItem={({ index, item: i }) => (
       <TouchableOpacity
         activeOpacity={0.5}
-        onPress={() =>
-          Alert.alert(
-            'Remove this sit?',
-            `${dayjs(i.date).format('ddd MMM D h[:]mma')} for ${i.elapsed < i.duration ? i.elapsed + ' of ' : ''}${
-              i.duration
-            } min`,
-            [
-              { text: 'Cancel' },
-              {
-                onPress: () => {
-                  const newHistory = [...history]
-                  newHistory.splice(index, 1)
-                  setState({ history: newHistory })
-                },
-                style: 'destructive',
-                text: 'Delete',
-              },
-            ],
-          )
+        onLongPress={() => {
+          const newHistory = [...history]
+          newHistory[index].selected = true
+          setState({ history: newHistory, screen: 'MultiDeleteScreen' })
+        }}
+        onPress={
+          onPress
+            ? () => onPress(index)
+            : () =>
+                Alert.alert(
+                  'Remove this sit?',
+                  `${dayjs(i.date).format('ddd MMM D h[:]mma')} for ${
+                    i.elapsed < i.duration ? i.elapsed + ' of ' : ''
+                  }${i.duration} min`,
+                  [
+                    { text: 'Cancel' },
+                    {
+                      onPress: () => {
+                        const newHistory = [...history]
+                        newHistory.splice(index, 1)
+                        setState({ history: newHistory })
+                      },
+                      style: 'destructive',
+                      text: 'Delete',
+                    },
+                  ],
+                )
         }
         style={{ alignItems: 'center', flexDirection: 'row', height: ITEM_HEIGHT, paddingHorizontal: 24 }}
       >
         <View style={{ alignItems: 'flex-end', marginRight: 10, width: 90 }}>
           <Faded>{dayLabel(i.date, index, history)}</Faded>
         </View>
-        <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+        <View
+          style={{
+            backgroundColor: i.selected ? '#f004' : undefined,
+            flexDirection: 'row',
+            padding: 4,
+            paddingRight: 8,
+          }}
+        >
+          <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+            <Text
+              style={{
+                color: '#fffb',
+                fontSize: 16,
+                fontWeight: '600',
+              }}
+            >
+              {dayjs(i.date).format('h[:]mma')}
+            </Text>
+          </View>
+          <Faded> for &nbsp;</Faded>
           <Text
             style={{
               color: '#fffb',
@@ -62,20 +93,10 @@ const ListView = ({ history, setState }: Props) => (
               fontWeight: '600',
             }}
           >
-            {dayjs(i.date).format('h[:]mma')}
+            {i.elapsed < i.duration && i.elapsed + ' of '}
+            {i.duration} min
           </Text>
         </View>
-        <Faded> for &nbsp;</Faded>
-        <Text
-          style={{
-            color: '#fffb',
-            fontSize: 16,
-            fontWeight: '600',
-          }}
-        >
-          {i.elapsed < i.duration && i.elapsed + ' of '}
-          {i.duration} min
-        </Text>
       </TouchableOpacity>
     )}
   />

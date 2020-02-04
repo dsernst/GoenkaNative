@@ -72,11 +72,11 @@ class App extends Component<Props> {
             backgroundColor: '#001709',
             flex: 1,
             paddingBottom: safeAreaInsetBottom,
-            paddingHorizontal: screen !== 'HistoryScreen' ? 24 : 8,
+            paddingHorizontal: !['HistoryScreen', 'MultiDeleteScreen'].includes(screen) ? 24 : 8,
             paddingTop: safeAreaInsetTop,
           }}
         >
-          {!['HistoryScreen', 'SettingsScreen'].includes(screen) && (
+          {['InitScreen', 'CountdownScreen'].includes(screen) && (
             <Animated.Text
               style={{
                 alignSelf: 'center',
