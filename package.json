@@ -8,6 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "postlint": "node ./typecheck.js",
     "version": "node ./version.js",
     "postinstall": "patch-package"
   },
@@ -72,8 +73,10 @@
     ]
   },
   "devDependencies": {
+    "chalk": "^3.0.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "strip-json-comments": "^3.0.1"
   },
   "prettier": {
     "bracketSpacing": true,
