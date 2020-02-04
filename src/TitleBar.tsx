@@ -10,7 +10,7 @@ export default (props: { name: string; showVersion?: boolean; style?: ViewStyle 
         borderBottomWidth: 1,
         borderColor: '#fff3',
         borderTopWidth: 1,
-        marginVertical: 25,
+        marginVertical: 20,
         paddingVertical: 7,
       },
       props.style || {},

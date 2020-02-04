@@ -1,9 +1,6 @@
 import React from 'react'
-import { Dimensions, Text, TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-
-const { height: screenHeight } = Dimensions.get('window')
-const hasHomeButton = screenHeight > 800
 
 const BackButton = ({
   onPress,
@@ -20,10 +17,12 @@ const BackButton = ({
     onPress={onPress ? () => onPress() : () => switchScreen('InitScreen')}
     style={{
       alignItems: 'center',
+      alignSelf: 'center',
+      marginBottom: saveSpace ? 5 : 20,
       marginTop: 'auto',
-      marginVertical: saveSpace && !hasHomeButton ? 0 : 10,
-      paddingBottom: saveSpace ? 30 : 50,
-      paddingTop: saveSpace ? 5 : 15,
+      paddingBottom: saveSpace ? 36 : 40,
+      paddingTop: 20,
+      width: 200,
     }}
   >
     <Text style={{ color: '#fff3', fontSize: 18 }}>{text || 'Back'}</Text>

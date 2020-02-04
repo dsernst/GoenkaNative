@@ -6,10 +6,12 @@ import { connect } from 'react-redux'
 
 import c, { SoundWithDelay } from './clips'
 import { Props, State, Toggleables, setStatePayload } from './reducer'
+import safeAreaHelper from './safe-area-helper'
 import screens from './screens'
 
 class App extends Component<Props> {
   componentDidMount() {
+    safeAreaHelper.init(this.props.setState)
     SplashScreen.hide() // Wait for JS to load before hiding green splash screen
   }
 
@@ -51,24 +53,27 @@ class App extends Component<Props> {
   }
 
   render() {
-    const { screen, showHistoryBtnTooltip, titleOpacity } = this.props
+    const { safeAreaInsetBottom, safeAreaInsetTop, screen, showHistoryBtnTooltip, titleOpacity } = this.props
     const Screen = screens[screen]
 
     // Suppress Android setTimeout warnings
     // see https://github.com/facebook/react-native/issues/12981
     YellowBox.ignoreWarnings(['Setting a timer for a'])
 
-    const statusBarColor = showHistoryBtnTooltip ? '#000c04' : '#001709'
-
     return (
       <>
-        <StatusBar backgroundColor={statusBarColor} barStyle="light-content" translucent />
+        <StatusBar
+          backgroundColor={showHistoryBtnTooltip ? '#000c04' : '#001709'} // Android only
+          barStyle="light-content"
+          translucent // Android only
+        />
         <View
           style={{
             backgroundColor: '#001709',
             flex: 1,
+            paddingBottom: safeAreaInsetBottom,
             paddingHorizontal: screen !== 'HistoryScreen' ? 24 : 8,
-            paddingTop: 18,
+            paddingTop: safeAreaInsetTop,
           }}
         >
           {!['HistoryScreen', 'SettingsScreen'].includes(screen) && (
@@ -78,8 +83,9 @@ class App extends Component<Props> {
                 color: '#f1f1f1',
                 fontSize: 24,
                 fontWeight: '600',
-                marginVertical: 40,
+                marginVertical: 30,
                 opacity: titleOpacity,
+                paddingBottom: 10,
               }}
             >
               Goenka Meditation Timer

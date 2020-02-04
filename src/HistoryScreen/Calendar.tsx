@@ -10,11 +10,6 @@ const cachedGroupBy = _.memoize(_.groupBy)
 
 type State = { month: Dayjs; selected: Dayjs | null }
 
-// Calc height for Details ScrollView
-const detailsYPos = 488
-const backButtonHeight = 61
-const detailsHeight = Dimensions.get('window').height - detailsYPos - backButtonHeight
-
 class Calendar extends Component<Props, State> {
   state: State = {
     month: dayjs(),
@@ -38,6 +33,12 @@ class Calendar extends Component<Props, State> {
     const selectedSits = selected && sitsByDate[selected.format('YYYY-MM-DD')]?.slice()
     const selectedIsFuture = selected?.isAfter(now, 'day')
     const selectedIsToday = selected?.isSame(now, 'day')
+
+    // Calc height for Details ScrollView
+    const detailsYPos = 472
+    const backButtonHeight = 83
+    const safeHeight = Dimensions.get('window').height - this.props.safeAreaInsetTop - this.props.safeAreaInsetBottom
+    const detailsHeight = safeHeight - detailsYPos - backButtonHeight
 
     return (
       <View style={{ marginHorizontal: 19 }}>
@@ -160,9 +161,9 @@ class Calendar extends Component<Props, State> {
                     : `No sits recorded ${selectedIsToday ? 'today, yet' : 'this day'}.`}
                 </Text>
               ) : (
-                <ScrollView style={{ height: detailsHeight }}>
+                <ScrollView indicatorStyle="white" style={{ height: detailsHeight, width: 215 }}>
                   {selectedSits.reverse().map((i, index) => (
-                    <View key={index} style={{ flexDirection: 'row', paddingBottom: 3 }}>
+                    <View key={index} style={{ flexDirection: 'row', paddingBottom: 7 }}>
                       <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
                         <Text
                           style={{

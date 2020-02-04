@@ -28,6 +28,8 @@ export interface State extends ToggleableStates {
   historyViewIndex: number
   latestTrack: Sound | null
   pmNotificationTime: Date
+  safeAreaInsetBottom: number
+  safeAreaInsetTop: number
   screen: ScreenNames
   timeouts: ReturnType<typeof setTimeout>[]
   titleOpacity: Animated.Value
@@ -55,6 +57,8 @@ const initialState: State = {
   latestTrack: null,
   pmNotification: false,
   pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
+  safeAreaInsetBottom: 0,
+  safeAreaInsetTop: 0,
   screen: 'InitScreen',
   showHistoryBtnTooltip: false,
   timeouts: [],
