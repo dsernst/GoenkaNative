@@ -35,7 +35,7 @@ class Calendar extends Component<Props, State> {
 
     const sitsByDate = cachedGroupBy(this.props.history, sit => dayjs(sit.date).format('YYYY-MM-DD'))
 
-    const selectedSits = selected && sitsByDate[selected.format('YYYY-MM-DD')]
+    const selectedSits = selected && sitsByDate[selected.format('YYYY-MM-DD')]?.slice()
     const selectedIsFuture = selected?.isAfter(now, 'day')
     const selectedIsToday = selected?.isSame(now, 'day')
 
@@ -161,7 +161,7 @@ class Calendar extends Component<Props, State> {
                 </Text>
               ) : (
                 <ScrollView style={{ height: detailsHeight }}>
-                  {selectedSits.map((i, index) => (
+                  {selectedSits.reverse().map((i, index) => (
                     <View key={index} style={{ flexDirection: 'row', paddingBottom: 3 }}>
                       <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
                         <Text

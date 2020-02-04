@@ -14,22 +14,22 @@ const exampleSits = [
   {
     daysAgo: 1,
     duration: 45,
-    time: '22:58',
+    time: '20:58',
   },
   {
     daysAgo: 1,
     duration: 5,
-    time: '12:50',
-  },
-  {
-    daysAgo: 2,
-    duration: 60,
-    time: '11:57',
+    time: '9:50',
   },
   {
     daysAgo: 2,
     duration: 10,
     time: '22:30',
+  },
+  {
+    daysAgo: 2,
+    duration: 60,
+    time: '11:57',
   },
   {
     daysAgo: 3,
