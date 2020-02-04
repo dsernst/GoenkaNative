@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Text, TextInput } from 'react-native'
+import { Text, TextInput, TouchableOpacity } from 'react-native'
+import Fontisto from 'react-native-vector-icons/Fontisto'
 
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
-
-// import Octicons from 'react-native-vector-icons/Octicons'
 
 class SyncScreen extends Component<Props> {
   state = {
@@ -57,6 +56,25 @@ class SyncScreen extends Component<Props> {
           }}
           value={this.state.email}
         />
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {}}
+          style={{
+            alignItems: 'center',
+            borderColor: '#fff4',
+            borderRadius: 8,
+            borderWidth: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginTop: 15,
+            paddingHorizontal: 15,
+            paddingVertical: 7,
+          }}
+        >
+          <Fontisto color="#fffa" name="save" size={16} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
+          <Text style={{ color: '#fff9', fontSize: 18, fontWeight: '600' }}>Save</Text>
+        </TouchableOpacity>
 
         <BackButton to="SettingsScreen" />
       </>
