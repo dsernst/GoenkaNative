@@ -12,6 +12,7 @@
 #import <React/RCTRootView.h>
 #import <RNCPushNotificationIOS.h>
 #import "RNSplashScreen.h"
+#import <Firebase.h>
 
 @implementation AppDelegate
 
@@ -30,7 +31,14 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
+
+  // for react-native-firebase
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
+
   [RNSplashScreen show];
+
   return YES;
 }
 
