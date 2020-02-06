@@ -16,7 +16,7 @@ const EnterPhone = ({
   const [error, setError] = useState()
   const [submitting, setSubmitting] = useState(false)
   useEffect(() => {
-    if (!error && !submitting && !unverifiedPhone && phone.length === 10 && !phone.includes('+')) {
+    if (!error && !submitting && !unverifiedPhone && phone.length === 12 && !phone.includes('+')) {
       submit()
     }
   })
@@ -36,10 +36,7 @@ const EnterPhone = ({
         onChangeText={val => {
           setError(undefined)
           setSubmitting(false)
-          if (val.length > 10 && !val.includes('+')) {
-            return
-          }
-          setPhone(val)
+          setPhone(prettyFormat(val))
         }}
         placeholder="415 867 5309"
         placeholderTextColor="#fff5"
@@ -114,6 +111,41 @@ const EnterPhone = ({
       setSubmitting(false)
       return setError(err.toString())
     }
+  }
+
+  function prettyFormat(phoneString: string) {
+    const sanitized = phoneString
+      .split('')
+      .filter(char => /[0-9|+| ]/.test(char)) // Only allow numbers, +, and spaces
+      .join('')
+
+    // Don't format if they included a '+' (custom country code)
+    if (sanitized.includes('+')) {
+      return sanitized
+    }
+
+    // If they pressed backspace, auto subtract the spaces we added
+    // or let them edit normally
+    if (sanitized.length < phone.length) {
+      if (sanitized.length === 8 || sanitized.length === 4) {
+        if (sanitized[sanitized.length - 1] === ' ') {
+          return sanitized.slice(0, -1)
+        }
+      }
+      return sanitized
+    }
+
+    // Add a space after their 3rd and 6th number
+    if (sanitized.length === 3 || sanitized.length === 7) {
+      return sanitized + ' '
+    }
+
+    // Don't let them add more than 12 characters
+    if (sanitized.length > 12) {
+      return phone
+    }
+
+    return sanitized
   }
 }
 
