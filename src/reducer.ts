@@ -4,7 +4,7 @@ import Sound from 'react-native-sound'
 
 import { ScreenNames } from './screens'
 
-const INITIAL_SCREEN = 'SyncScreen'
+const INITIAL_SCREEN = 'InitScreen'
 
 export type SitProps = {
   date: Date
