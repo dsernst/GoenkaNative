@@ -1,7 +1,10 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { Animated } from 'react-native'
 import Sound from 'react-native-sound'
 
 import { ScreenNames } from './screens'
+
+const INITIAL_SCREEN = 'SyncScreen'
 
 export type SitProps = {
   date: Date
@@ -34,6 +37,7 @@ export interface State extends ToggleableStates {
   screen: ScreenNames
   timeouts: ReturnType<typeof setTimeout>[]
   titleOpacity: Animated.Value
+  user: FirebaseAuthTypes.User | null
 }
 
 export type Toggleables = keyof ToggleableStates
@@ -60,10 +64,11 @@ const initialState: State = {
   pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
   safeAreaInsetBottom: 0,
   safeAreaInsetTop: 0,
-  screen: 'InitScreen',
+  screen: INITIAL_SCREEN,
   showHistoryBtnTooltip: false,
   timeouts: [],
   titleOpacity: new Animated.Value(1),
+  user: null,
 }
 
 type Action =

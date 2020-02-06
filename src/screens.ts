@@ -3,7 +3,7 @@ import HistoryScreen from './HistoryScreen/HistoryScreen'
 import MultiDeleteScreen from './HistoryScreen/MultiDeleteScreen'
 import InitScreen from './InitScreen'
 import SettingsScreen from './SettingsScreen/SettingsScreen'
-import SyncScreen from './SettingsScreen/SyncScreen'
+import SyncScreen from './SettingsScreen/SyncScreen/SyncScreen'
 
 export default { CountdownScreen, HistoryScreen, InitScreen, MultiDeleteScreen, SettingsScreen, SyncScreen }
 
