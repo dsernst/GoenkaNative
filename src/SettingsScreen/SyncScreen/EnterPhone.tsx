@@ -1,5 +1,5 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Text, TextInput, TouchableOpacity } from 'react-native'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 
@@ -21,9 +21,12 @@ const EnterPhone = ({
     }
   })
 
+  const textInput = useRef(null)
+
   return (
-    <>
+    <TouchableOpacity activeOpacity={1} onPress={() => textInput.current?.blur()} style={{ flex: 1 }}>
       <Text style={{ color: '#fff9', marginTop: 15 }}>What is your phone number?</Text>
+
       <TextInput
         autoCapitalize="none"
         autoCompleteType="tel"
@@ -40,6 +43,7 @@ const EnterPhone = ({
         }}
         placeholder="415 867 5309"
         placeholderTextColor="#fff5"
+        ref={textInput}
         style={{
           backgroundColor: '#353d38',
           borderRadius: 7,
@@ -92,7 +96,7 @@ const EnterPhone = ({
           {error}
         </Text>
       )}
-    </>
+    </TouchableOpacity>
   )
 
   async function submit() {
