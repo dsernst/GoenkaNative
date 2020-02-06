@@ -11,6 +11,8 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
   const [onlineSits, setOnlineSits] = useState([])
   const [loading, setLoading] = useState(true)
 
+  const allSynced = history.length === onlineSits.length
+
   const Sits = firestore().collection('sits')
 
   // On load, fetch our sits and subscribe to updates
@@ -55,10 +57,19 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
         </TouchableOpacity>
       </View>
 
+      {/* All sync'd message */}
+      <View style={{ height: 40, marginTop: 90 }}>
+        {allSynced && (
+          <Text style={{ color: '#56cc6a', fontSize: 16, fontWeight: '700', textAlign: 'center' }}>
+            You're all sync'ed &nbsp;&nbsp;&nbsp;ツ
+          </Text>
+        )}
+      </View>
+
       {/* Sits on device: x */}
-      <Text style={{ color: '#fff9', fontSize: 16, marginTop: 60 }}>
+      <Text style={{ color: '#fff9', fontSize: 16 }}>
         You have&nbsp;
-        <Text style={{ color: '#56cc6a', fontWeight: '500' }}>{history.length}</Text>
+        <Text style={{ color: !allSynced ? '#56cc6a' : '#fffd', fontWeight: '500' }}>{history.length}</Text>
         &nbsp;sit{history.length !== 1 && 's'} recorded on this devices,
       </Text>
 
@@ -72,6 +83,7 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
       {/* Sync now btn */}
       <TouchableOpacity
         activeOpacity={0.7}
+        disabled={allSynced}
         onPress={() => {
           // // Delete all sits
           // Sits.get().then(sits =>
@@ -93,6 +105,7 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
           borderWidth: 1,
           flexDirection: 'row',
           marginTop: 30,
+          opacity: allSynced ? 0.5 : 5,
           paddingHorizontal: 15,
           paddingVertical: 7,
         }}
