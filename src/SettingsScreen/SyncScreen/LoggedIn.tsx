@@ -1,11 +1,40 @@
 import auth from '@react-native-firebase/auth'
-import React from 'react'
+import firestore from '@react-native-firebase/firestore'
+import React, { useEffect, useState } from 'react'
 import { Alert, Text, TouchableOpacity, View } from 'react-native'
 import Octicons from 'react-native-vector-icons/Octicons'
 
 import { Props } from '../../reducer'
 
 const EnterPhone = ({ history, user }: Props) => {
+  const [onlineSits, setOnlineSits] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  // On load, fetch our users and subscribe to updates
+  useEffect(() => {
+    const unsubscribe = firestore()
+      .collection('sits')
+      .onSnapshot(querySnapshot => {
+        // Add users into an array
+        const sits = querySnapshot.docs.map(documentSnapshot => {
+          return {
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id, // required for FlatList
+          }
+        })
+
+        // Update state with the sits array
+        setOnlineSits(sits)
+
+        // As this can trigger multiple times, only update loading after the first update
+        if (loading) {
+          setLoading(false)
+        }
+      })
+
+    return () => unsubscribe() // Stop listening for updates whenever the component unmounts
+  }, [loading])
+
   return (
     <>
       {/* Login Info */}
@@ -36,14 +65,14 @@ const EnterPhone = ({ history, user }: Props) => {
       <Text style={{ color: '#fff9', fontSize: 16, marginTop: 60 }}>
         You have&nbsp;
         <Text style={{ color: '#56cc6a', fontWeight: '500' }}>{history.length}</Text>
-        &nbsp;sits recorded on this devices,
+        &nbsp;sit{history.length !== 1 && 's'} recorded on this devices,
       </Text>
 
       {/* Sits online: y */}
       <Text style={{ color: '#fff9', fontSize: 16, marginTop: 30, paddingLeft: 39 }}>
         and&nbsp;
-        <Text style={{ color: '#fffd', fontWeight: '500' }}>0</Text>
-        &nbsp;sits saved online.
+        <Text style={{ color: '#fffd', fontWeight: '500' }}>{loading ? '...' : onlineSits.length}</Text>
+        &nbsp;sit{onlineSits.length !== 1 && 's'} saved online.
       </Text>
 
       {/* Sync now btn */}

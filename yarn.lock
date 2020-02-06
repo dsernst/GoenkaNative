@@ -1098,24 +1098,29 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/app-types@6.3.0":
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-types/-/app-types-6.3.0.tgz#ee5635a7eedd84a2b29c7f11f33ff6d68229cc31"
-  integrity sha512-7Nn1DG2DtQiksfUbtKrCa0oum06bAWob4vWj+KU+8nQEXUFdyiyDUUJ6t3rMJeGaFPYa8jeR4xKuB1QqqagKCQ==
+"@react-native-firebase/app-types@6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-types/-/app-types-6.3.1.tgz#a6fbf16f928841b6e6d68e17853ee9f4e43bc172"
+  integrity sha512-JTPgl3jYZ7IRwEn8mXKJWIdOCo1zbMm/oPHWt+pxlywj/tVx8So6jywgE4prURxYBMvSCEDusfm3vL/Bo86+Jw==
 
-"@react-native-firebase/app@^6.3.0":
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-6.3.0.tgz#0834742f83cfbb830d13162a95452ad87dbb2b3b"
-  integrity sha512-gUoZ/0tai/60BHMjChonnbEOpd4iTT3FnD60SPVh06j89YlHHOwTSU97Z2B6E92K7Cwox/vkDE0K9S8vFYVXaw==
+"@react-native-firebase/app@^6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-6.3.1.tgz#9fe693aaa9b73510dfd5b4a61b5bcc0b8d009852"
+  integrity sha512-JRsDEea4IXSrqEcRnf6JJE/lpIQR+cOBg3xW56Rn1hvF0hLBlLJ+CElMZ9KpVaH5Fn+ad8t37qMj3rv1lqjLlA==
   dependencies:
-    "@react-native-firebase/app-types" "6.3.0"
+    "@react-native-firebase/app-types" "6.3.1"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^6.3.0":
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-6.3.0.tgz#3fe988262c84baba01eeed27083136bb4cf368b6"
-  integrity sha512-jPKXyDFnsShIT4fJk2YMJPGCz2jAjZvSdOnmKP6j2BmBdd4/kfi4dwca8I20spkDX6T/BhjPGVZA4lFmkQwYpQ==
+"@react-native-firebase/auth@^6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-6.3.1.tgz#8d1c18eaa6291e13ff65b267166903ec39181f31"
+  integrity sha512-WItFYQV5B3fgMqLjlwIuAKsZvfLwRAvkaXRW3g9vKd1MB3hoZkIULxPm6XUxq2aAKSzdor4BONvITNJnNukpJg==
+
+"@react-native-firebase/firestore@^6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-6.3.1.tgz#be621eed8cb97c625f241615cd930ad1ebb3be2f"
+  integrity sha512-d3EMg/YroKeKUQCxV45wr7hvgx0Xx7Gl5xFJlGNriwJVCJEe5LHJeEV+hL01uzbcq3h1U44w4nsV4V6VoUKASQ==
 
 "@types/babel__core@^7.1.0":
   version "7.1.3"

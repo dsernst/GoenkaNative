@@ -1,5 +1,170 @@
 PODS:
+  - abseil/algorithm (0.20190808):
+    - abseil/algorithm/algorithm (= 0.20190808)
+    - abseil/algorithm/container (= 0.20190808)
+  - abseil/algorithm/algorithm (0.20190808)
+  - abseil/algorithm/container (0.20190808):
+    - abseil/algorithm/algorithm
+    - abseil/base/core_headers
+    - abseil/meta/type_traits
+  - abseil/base (0.20190808):
+    - abseil/base/atomic_hook (= 0.20190808)
+    - abseil/base/base (= 0.20190808)
+    - abseil/base/base_internal (= 0.20190808)
+    - abseil/base/bits (= 0.20190808)
+    - abseil/base/config (= 0.20190808)
+    - abseil/base/core_headers (= 0.20190808)
+    - abseil/base/dynamic_annotations (= 0.20190808)
+    - abseil/base/endian (= 0.20190808)
+    - abseil/base/log_severity (= 0.20190808)
+    - abseil/base/malloc_internal (= 0.20190808)
+    - abseil/base/pretty_function (= 0.20190808)
+    - abseil/base/spinlock_wait (= 0.20190808)
+    - abseil/base/throw_delegate (= 0.20190808)
+  - abseil/base/atomic_hook (0.20190808)
+  - abseil/base/base (0.20190808):
+    - abseil/base/atomic_hook
+    - abseil/base/base_internal
+    - abseil/base/config
+    - abseil/base/core_headers
+    - abseil/base/dynamic_annotations
+    - abseil/base/log_severity
+    - abseil/base/spinlock_wait
+    - abseil/meta/type_traits
+  - abseil/base/base_internal (0.20190808):
+    - abseil/meta/type_traits
+  - abseil/base/bits (0.20190808):
+    - abseil/base/core_headers
+  - abseil/base/config (0.20190808)
+  - abseil/base/core_headers (0.20190808):
+    - abseil/base/config
+  - abseil/base/dynamic_annotations (0.20190808)
+  - abseil/base/endian (0.20190808):
+    - abseil/base/config
+    - abseil/base/core_headers
+  - abseil/base/log_severity (0.20190808):
+    - abseil/base/core_headers
+  - abseil/base/malloc_internal (0.20190808):
+    - abseil/base/base
+    - abseil/base/config
+    - abseil/base/core_headers
+    - abseil/base/dynamic_annotations
+    - abseil/base/spinlock_wait
+  - abseil/base/pretty_function (0.20190808)
+  - abseil/base/spinlock_wait (0.20190808):
+    - abseil/base/core_headers
+  - abseil/base/throw_delegate (0.20190808):
+    - abseil/base/base
+    - abseil/base/config
+  - abseil/memory (0.20190808):
+    - abseil/memory/memory (= 0.20190808)
+  - abseil/memory/memory (0.20190808):
+    - abseil/base/core_headers
+    - abseil/meta/type_traits
+  - abseil/meta (0.20190808):
+    - abseil/meta/type_traits (= 0.20190808)
+  - abseil/meta/type_traits (0.20190808):
+    - abseil/base/config
+  - abseil/numeric/int128 (0.20190808):
+    - abseil/base/config
+    - abseil/base/core_headers
+  - abseil/strings/internal (0.20190808):
+    - abseil/base/core_headers
+    - abseil/base/endian
+    - abseil/meta/type_traits
+  - abseil/strings/strings (0.20190808):
+    - abseil/base/base
+    - abseil/base/bits
+    - abseil/base/config
+    - abseil/base/core_headers
+    - abseil/base/endian
+    - abseil/base/throw_delegate
+    - abseil/memory/memory
+    - abseil/meta/type_traits
+    - abseil/numeric/int128
+    - abseil/strings/internal
+  - abseil/time (0.20190808):
+    - abseil/time/internal (= 0.20190808)
+    - abseil/time/time (= 0.20190808)
+  - abseil/time/internal (0.20190808):
+    - abseil/time/internal/cctz (= 0.20190808)
+  - abseil/time/internal/cctz (0.20190808):
+    - abseil/time/internal/cctz/civil_time (= 0.20190808)
+    - abseil/time/internal/cctz/includes (= 0.20190808)
+    - abseil/time/internal/cctz/time_zone (= 0.20190808)
+  - abseil/time/internal/cctz/civil_time (0.20190808)
+  - abseil/time/internal/cctz/includes (0.20190808)
+  - abseil/time/internal/cctz/time_zone (0.20190808):
+    - abseil/time/internal/cctz/civil_time
+  - abseil/time/time (0.20190808):
+    - abseil/base/base
+    - abseil/base/core_headers
+    - abseil/numeric/int128
+    - abseil/strings/strings
+    - abseil/time/internal/cctz/civil_time
+    - abseil/time/internal/cctz/time_zone
+  - abseil/types (0.20190808):
+    - abseil/types/any (= 0.20190808)
+    - abseil/types/bad_any_cast (= 0.20190808)
+    - abseil/types/bad_any_cast_impl (= 0.20190808)
+    - abseil/types/bad_optional_access (= 0.20190808)
+    - abseil/types/bad_variant_access (= 0.20190808)
+    - abseil/types/compare (= 0.20190808)
+    - abseil/types/optional (= 0.20190808)
+    - abseil/types/span (= 0.20190808)
+    - abseil/types/variant (= 0.20190808)
+  - abseil/types/any (0.20190808):
+    - abseil/base/config
+    - abseil/base/core_headers
+    - abseil/meta/type_traits
+    - abseil/types/bad_any_cast
+    - abseil/utility/utility
+  - abseil/types/bad_any_cast (0.20190808):
+    - abseil/base/config
+    - abseil/types/bad_any_cast_impl
+  - abseil/types/bad_any_cast_impl (0.20190808):
+    - abseil/base/base
+    - abseil/base/config
+  - abseil/types/bad_optional_access (0.20190808):
+    - abseil/base/base
+    - abseil/base/config
+  - abseil/types/bad_variant_access (0.20190808):
+    - abseil/base/base
+    - abseil/base/config
+  - abseil/types/compare (0.20190808):
+    - abseil/base/core_headers
+    - abseil/meta/type_traits
+  - abseil/types/optional (0.20190808):
+    - abseil/base/base_internal
+    - abseil/base/config
+    - abseil/base/core_headers
+    - abseil/memory/memory
+    - abseil/meta/type_traits
+    - abseil/types/bad_optional_access
+    - abseil/utility/utility
+  - abseil/types/span (0.20190808):
+    - abseil/algorithm/algorithm
+    - abseil/base/core_headers
+    - abseil/base/throw_delegate
+    - abseil/meta/type_traits
+  - abseil/types/variant (0.20190808):
+    - abseil/base/base_internal
+    - abseil/base/config
+    - abseil/base/core_headers
+    - abseil/meta/type_traits
+    - abseil/types/bad_variant_access
+    - abseil/utility/utility
+  - abseil/utility/utility (0.20190808):
+    - abseil/base/base_internal
+    - abseil/base/config
+    - abseil/meta/type_traits
   - boost-for-react-native (1.63.0)
+  - BoringSSL-GRPC (0.0.3):
+    - BoringSSL-GRPC/Implementation (= 0.0.3)
+    - BoringSSL-GRPC/Interface (= 0.0.3)
+  - BoringSSL-GRPC/Implementation (0.0.3):
+    - BoringSSL-GRPC/Interface (= 0.0.3)
+  - BoringSSL-GRPC/Interface (0.0.3)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.61.5)
   - FBReactNativeSpec (0.61.5):
@@ -17,6 +182,9 @@ PODS:
     - FirebaseAnalytics (= 6.1.6)
   - Firebase/CoreOnly (6.13.0):
     - FirebaseCore (= 6.4.0)
+  - Firebase/Firestore (6.13.0):
+    - Firebase/CoreOnly
+    - FirebaseFirestore (~> 1.8.0)
   - FirebaseAnalytics (6.1.6):
     - FirebaseCore (~> 6.4)
     - FirebaseInstanceID (~> 4.2)
@@ -45,6 +213,19 @@ PODS:
     - GoogleUtilities/Logger (~> 6.5)
     - nanopb (~> 0.3.901)
   - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseFirestore (1.8.3):
+    - abseil/algorithm (= 0.20190808)
+    - abseil/base (= 0.20190808)
+    - abseil/memory (= 0.20190808)
+    - abseil/meta (= 0.20190808)
+    - abseil/strings/strings (= 0.20190808)
+    - abseil/time (= 0.20190808)
+    - abseil/types (= 0.20190808)
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.2)
+    - "gRPC-C++ (= 0.0.9)"
+    - leveldb-library (~> 1.22)
+    - nanopb (~> 0.3.901)
   - FirebaseInstanceID (4.2.7):
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
@@ -87,7 +268,24 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
+  - "gRPC-C++ (0.0.9)":
+    - "gRPC-C++/Implementation (= 0.0.9)"
+    - "gRPC-C++/Interface (= 0.0.9)"
+  - "gRPC-C++/Implementation (0.0.9)":
+    - "gRPC-C++/Interface (= 0.0.9)"
+    - gRPC-Core (= 1.21.0)
+    - nanopb (~> 0.3)
+  - "gRPC-C++/Interface (0.0.9)"
+  - gRPC-Core (1.21.0):
+    - gRPC-Core/Implementation (= 1.21.0)
+    - gRPC-Core/Interface (= 1.21.0)
+  - gRPC-Core/Implementation (1.21.0):
+    - BoringSSL-GRPC (= 0.0.3)
+    - gRPC-Core/Interface (= 1.21.0)
+    - nanopb (~> 0.3)
+  - gRPC-Core/Interface (1.21.0)
   - GTMSessionFetcher/Core (1.3.1)
+  - leveldb-library (1.22)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -303,12 +501,17 @@ PODS:
     - React
   - RNDeviceInfo (5.5.1):
     - React
-  - RNFBApp (6.3.0):
+  - RNFBApp (6.3.1):
     - Firebase/Core (~> 6.13.0)
     - React
-  - RNFBAuth (6.3.0):
+  - RNFBAuth (6.3.1):
     - Firebase/Auth (~> 6.13.0)
     - Firebase/Core (~> 6.13.0)
+    - React
+    - RNFBApp
+  - RNFBFirestore (6.3.1):
+    - Firebase/Core (~> 6.13.0)
+    - Firebase/Firestore (~> 6.13.0)
     - React
     - RNFBApp
   - RNSound (0.11.0):
@@ -356,13 +559,16 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
+  - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - RNSound (from `../node_modules/react-native-sound`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
+    - abseil
     - boost-for-react-native
+    - BoringSSL-GRPC
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -370,12 +576,16 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
+    - FirebaseFirestore
     - FirebaseInstanceID
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
+    - "gRPC-C++"
+    - gRPC-Core
     - GTMSessionFetcher
+    - leveldb-library
     - nanopb
 
 EXTERNAL SOURCES:
@@ -443,6 +653,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
+  RNFBFirestore:
+    :path: "../node_modules/@react-native-firebase/firestore"
   RNSound:
     :path: "../node_modules/react-native-sound"
   RNVectorIcons:
@@ -451,7 +663,9 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  abseil: 18063d773f5366ff8736a050fe035a28f635fd27
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
@@ -462,6 +676,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 307ea2508df730c5865334e41965bd9ea344b0e5
   FirebaseCoreDiagnostics: 5e78803ab276bc5b50340e3c539c06c3de35c649
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseFirestore: 52120e2833f804a874ba1a9f59aab864a8ae2286
   FirebaseInstanceID: ebd2ea79ee38db0cb5f5167b17a0d387e1cc7b6e
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
@@ -469,7 +684,10 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 0048df6388dab1c254799f2a30365b1dffe20422
   GoogleDataTransportCCTSupport: f880d70972efa2ed1be4e9173a0f4c5f3dc2d176
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
+  "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
+  gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
+  leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
@@ -496,8 +714,9 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: 4a5c5d92ce51227f8c3409b0b7542382c0b5f008
   RNDateTimePicker: 9db00606d689f5653f08aa601c81b9d3266a0a19
   RNDeviceInfo: 017aa2fd29a437fba26807cbe2fa51a149da70cd
-  RNFBApp: ad3fbf3071c5ac5308e02b8dc21845f547976757
-  RNFBAuth: 667d5d5cf86e704ed6224310ad068ef52d37fbf3
+  RNFBApp: 279ec5c4bb43b8fc7b8031eed90ad7d2bea7a048
+  RNFBAuth: b631f0e98cebd098ddf8f6b7facda2a5ba1a6bef
+  RNFBFirestore: 1b5be285c76247a8c78aa85b53202647db7541fa
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
