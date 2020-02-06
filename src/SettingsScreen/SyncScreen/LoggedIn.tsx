@@ -1,5 +1,6 @@
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
+import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Alert, Text, TouchableOpacity, View } from 'react-native'
 import Octicons from 'react-native-vector-icons/Octicons'
@@ -10,30 +11,23 @@ const EnterPhone = ({ history, user }: Props) => {
   const [onlineSits, setOnlineSits] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // On load, fetch our users and subscribe to updates
+  const Sits = firestore().collection('sits')
+
+  // On load, fetch our sits and subscribe to updates
   useEffect(() => {
-    const unsubscribe = firestore()
-      .collection('sits')
-      .onSnapshot(querySnapshot => {
-        // Add users into an array
-        const sits = querySnapshot.docs.map(documentSnapshot => {
-          return {
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id, // required for FlatList
-          }
-        })
+    const unsubscribe = Sits.onSnapshot(results => {
+      // Add sits into an array
+      const sits = results.docs.map(doc => ({ ...doc.data() }))
+      setOnlineSits(sits)
 
-        // Update state with the sits array
-        setOnlineSits(sits)
-
-        // As this can trigger multiple times, only update loading after the first update
-        if (loading) {
-          setLoading(false)
-        }
-      })
+      // As this can trigger multiple times, only update loading after the first update
+      if (loading) {
+        setLoading(false)
+      }
+    })
 
     return () => unsubscribe() // Stop listening for updates whenever the component unmounts
-  }, [loading])
+  }, [Sits, loading])
 
   return (
     <>
@@ -78,7 +72,19 @@ const EnterPhone = ({ history, user }: Props) => {
       {/* Sync now btn */}
       <TouchableOpacity
         activeOpacity={0.7}
-        onPress={() => {}}
+        onPress={() => {
+          // // Delete all sits
+          // Sits.get().then(sits =>
+          //   sits.forEach(sit => {
+          //     Sits.doc(sit.id).delete()
+          //   }),
+          // )
+
+          const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date?.toDate().getTime())
+          history
+            .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
+            .forEach(unsyncedSit => Sits.add(unsyncedSit))
+        }}
         style={{
           alignItems: 'center',
           alignSelf: 'center',
