@@ -1,4 +1,4 @@
-import auth from '@react-native-firebase/auth'
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
@@ -7,7 +7,7 @@ import Octicons from 'react-native-vector-icons/Octicons'
 
 import { Props } from '../../reducer'
 
-const EnterPhone = ({ history, user }: Props) => {
+const LoggedIn = ({ history, user }: { history: Props['history']; user: FirebaseAuthTypes.User }) => {
   const [onlineSits, setOnlineSits] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -15,7 +15,7 @@ const EnterPhone = ({ history, user }: Props) => {
 
   // On load, fetch our sits and subscribe to updates
   useEffect(() => {
-    const unsubscribe = Sits.onSnapshot(results => {
+    const unsubscribe = Sits.where('uid', '==', user.uid).onSnapshot(results => {
       // Add sits into an array
       const sits = results.docs.map(doc => ({ ...doc.data() }))
       setOnlineSits(sits)
@@ -27,7 +27,7 @@ const EnterPhone = ({ history, user }: Props) => {
     })
 
     return () => unsubscribe() // Stop listening for updates whenever the component unmounts
-  }, [Sits, loading])
+  }, [Sits, loading, user])
 
   return (
     <>
@@ -50,7 +50,7 @@ const EnterPhone = ({ history, user }: Props) => {
           style={{ padding: 10, paddingRight: 0 }}
         >
           <Text style={{ alignSelf: 'center', color: '#fffd', fontStyle: 'italic', fontWeight: '500' }}>
-            {prettyPhoneNumber(user!.phoneNumber!)}
+            {prettyPhoneNumber(user.phoneNumber!)}
           </Text>
         </TouchableOpacity>
       </View>
@@ -83,7 +83,7 @@ const EnterPhone = ({ history, user }: Props) => {
           const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date?.toDate().getTime())
           history
             .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
-            .forEach(unsyncedSit => Sits.add(unsyncedSit))
+            .forEach(unsyncedSit => Sits.add({ ...unsyncedSit, uid: user.uid }))
         }}
         style={{
           alignItems: 'center',
@@ -112,4 +112,4 @@ function prettyPhoneNumber(phoneNumber: string) {
   )}`
 }
 
-export default EnterPhone
+export default LoggedIn
