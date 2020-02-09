@@ -1,35 +1,33 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import firestore from '@react-native-firebase/firestore'
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Alert, Text, TouchableOpacity, View } from 'react-native'
 import Octicons from 'react-native-vector-icons/Octicons'
 
-import { Props } from '../../reducer'
+import { Props, SitProps } from '../../reducer'
+
+type SitState = [SitProps[] | undefined, React.Dispatch<React.SetStateAction<SitProps[] | undefined>>]
 
 const LoggedIn = ({ history, user }: { history: Props['history']; user: FirebaseAuthTypes.User }) => {
-  const [onlineSits, setOnlineSits] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [onlineSits, setOnlineSits]: SitState = useState()
 
-  const allSynced = history.length === onlineSits.length
+  const allSynced = history.length === onlineSits?.length
 
   const Sits = firestore().collection('sits')
 
   // On load, fetch our sits and subscribe to updates
   useEffect(() => {
     const unsubscribe = Sits.where('uid', '==', user.uid).onSnapshot(results => {
-      // Add sits into an array
-      const sits = results.docs.map(doc => ({ ...doc.data() }))
+      const sits = results.docs
+        // @ts-ignore: doc.data() has imprecise typing, manually specify instead
+        .map((doc): { date: FirebaseFirestoreTypes.Timestamp } & SitProps => ({ ...doc.data() }))
+        .map(d => ({ ...d, date: d.date.toDate() }))
       setOnlineSits(sits)
-
-      // As this can trigger multiple times, only update loading after the first update
-      if (loading) {
-        setLoading(false)
-      }
     })
 
     return () => unsubscribe() // Stop listening for updates whenever the component unmounts
-  }, [Sits, loading, user])
+  }, [Sits, user])
 
   return (
     <>
@@ -76,8 +74,8 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
       {/* Sits online: y */}
       <Text style={{ color: '#fff9', fontSize: 16, marginTop: 30, paddingLeft: 39 }}>
         and&nbsp;
-        <Text style={{ color: '#fffd', fontWeight: '500' }}>{loading ? '...' : onlineSits.length}</Text>
-        &nbsp;sit{onlineSits.length !== 1 && 's'} saved online.
+        <Text style={{ color: '#fffd', fontWeight: '500' }}>{!onlineSits ? '[loading...]' : onlineSits.length}</Text>
+        &nbsp;sit{onlineSits?.length !== 1 && 's'} saved online.
       </Text>
 
       {/* Sync now btn */}
@@ -92,7 +90,7 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
           //   }),
           // )
 
-          const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date?.toDate().getTime())
+          const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date.getTime())
           history
             .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
             .forEach(unsyncedSit => Sits.add({ ...unsyncedSit, uid: user.uid }))
@@ -113,8 +111,6 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
         <Octicons color="#fffa" name={'sync'} size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
         <Text style={{ color: '#fff9', fontSize: 18 }}>Sync now</Text>
       </TouchableOpacity>
-
-      {/* Show confirmation: 'Your 24 sits over the last 3 weeks have been backed up.' */}
     </>
   )
 }
