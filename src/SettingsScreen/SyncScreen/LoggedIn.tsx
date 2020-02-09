@@ -2,10 +2,12 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { Alert, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Octicons from 'react-native-vector-icons/Octicons'
 
+import SitRow from '../../HistoryScreen/SitRow'
 import { Props, SitProps } from '../../reducer'
+import sampleOnlineSits from './sampleOnlineSits'
 
 type SitState = [SitProps[] | undefined, React.Dispatch<React.SetStateAction<SitProps[] | undefined>>]
 
@@ -16,18 +18,30 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
 
   const Sits = firestore().collection('sits')
 
+  const mockServer = true // TODO: Only in debug mode
+
   // On load, fetch our sits and subscribe to updates
   useEffect(() => {
-    const unsubscribe = Sits.where('uid', '==', user.uid).onSnapshot(results => {
-      const sits = results.docs
-        // @ts-ignore: doc.data() has imprecise typing, manually specify instead
-        .map((doc): { date: FirebaseFirestoreTypes.Timestamp } & SitProps => ({ ...doc.data() }))
-        .map(d => ({ ...d, date: d.date.toDate() }))
-      setOnlineSits(sits)
-    })
+    if (mockServer) {
+      setOnlineSits(sampleOnlineSits)
+      return () => {}
+    } else {
+      const unsubscribe = Sits.where('uid', '==', user.uid).onSnapshot(results => {
+        const sits = results.docs
+          // @ts-ignore: doc.data() has imprecise typing, manually specify instead
+          .map((doc): { date: FirebaseFirestoreTypes.Timestamp } & SitProps => ({ ...doc.data() }))
+          .map(d => ({ ...d, date: d.date.toDate() }))
+        setOnlineSits(sits)
+      })
 
-    return () => unsubscribe() // Stop listening for updates whenever the component unmounts
-  }, [Sits, user])
+      return () => unsubscribe() // Stop listening for updates whenever the component unmounts
+    }
+  }, [Sits, mockServer, user])
+
+  const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date.getTime())
+  const localSitsByDate = _.keyBy(history, s => s.date.getTime())
+
+  const onlineOnlySits = onlineSits?.filter(os => !localSitsByDate[os.date.getTime()])
 
   return (
     <>
@@ -56,7 +70,7 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
       </View>
 
       {/* All sync'd message */}
-      <View style={{ height: 40, marginTop: 90 }}>
+      <View style={{ height: 40, marginTop: 30 }}>
         {allSynced && (
           <Text style={{ color: '#56cc6a', fontSize: 16, fontWeight: '700', textAlign: 'center' }}>
             You're all sync'ed &nbsp;&nbsp;&nbsp;ツ
@@ -67,50 +81,103 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
       {/* Sits on device: x */}
       <Text style={{ color: '#fff9', fontSize: 16 }}>
         You have&nbsp;
-        <Text style={{ color: !allSynced ? '#56cc6a' : '#fffd', fontWeight: '500' }}>{history.length}</Text>
+        <Text style={{ color: '#fffd', fontWeight: '500' }}>{history.length}</Text>
         &nbsp;sit{history.length !== 1 && 's'} recorded on this devices,
       </Text>
 
       {/* Sits online: y */}
-      <Text style={{ color: '#fff9', fontSize: 16, marginTop: 30, paddingLeft: 39 }}>
+      <Text style={{ color: '#fff9', fontSize: 16, marginTop: 15, paddingLeft: 39 }}>
         and&nbsp;
         <Text style={{ color: '#fffd', fontWeight: '500' }}>{!onlineSits ? '[loading...]' : onlineSits.length}</Text>
         &nbsp;sit{onlineSits?.length !== 1 && 's'} saved online.
       </Text>
 
-      {/* Sync now btn */}
-      <TouchableOpacity
-        activeOpacity={0.7}
-        disabled={allSynced}
-        onPress={() => {
-          // // Delete all sits
-          // Sits.get().then(sits =>
-          //   sits.forEach(sit => {
-          //     Sits.doc(sit.id).delete()
-          //   }),
-          // )
+      {/* Online only sits */}
+      {onlineOnlySits?.length ? (
+        <>
+          <Text style={{ color: '#fffc', fontSize: 16, fontWeight: '600', marginTop: 30 }}>
+            Online sits, not on your device:
+          </Text>
+          <ScrollView>
+            {onlineOnlySits?.map((s, index) => (
+              <>
+                <SitRow history={onlineOnlySits} i={s} index={index} />
 
-          const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date.getTime())
-          history
-            .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
-            .forEach(unsyncedSit => Sits.add({ ...unsyncedSit, uid: user.uid }))
-        }}
-        style={{
-          alignItems: 'center',
-          alignSelf: 'center',
-          borderColor: '#fff7',
-          borderRadius: 8,
-          borderWidth: 1,
-          flexDirection: 'row',
-          marginTop: 30,
-          opacity: allSynced ? 0.5 : 5,
-          paddingHorizontal: 15,
-          paddingVertical: 7,
-        }}
-      >
-        <Octicons color="#fffa" name={'sync'} size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
-        <Text style={{ color: '#fff9', fontSize: 18 }}>Sync now</Text>
-      </TouchableOpacity>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 20 }}>
+                  {/* Discard btn */}
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {}}
+                    style={{
+                      alignItems: 'center',
+                      borderColor: '#f58c8c',
+                      borderRadius: 5,
+                      borderWidth: 1,
+                      flexDirection: 'row',
+                      paddingHorizontal: 13,
+                      paddingVertical: 4,
+                    }}
+                  >
+                    <Octicons color="#fffa" name="trashcan" size={16} style={{ paddingRight: 15, top: 1 }} />
+                    <Text style={{ color: '#fff9', fontSize: 16 }}>Discard</Text>
+                  </TouchableOpacity>
+
+                  {/* Download btn */}
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => {}}
+                    style={{
+                      alignItems: 'center',
+                      borderColor: '#5594fa',
+                      borderRadius: 5,
+                      borderWidth: 1,
+                      flexDirection: 'row',
+                      paddingHorizontal: 15,
+                    }}
+                  >
+                    <Octicons color="#fffa" name="cloud-download" size={16} style={{ paddingRight: 10, top: 1 }} />
+                    <Text style={{ color: '#fff9', fontSize: 16 }}>Download</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ))}
+          </ScrollView>
+        </>
+      ) : (
+        // Sync now button
+        <TouchableOpacity
+          activeOpacity={0.7}
+          disabled={allSynced}
+          onPress={() => {
+            // // Delete all sits
+            // Sits.where('uid', '==', user.uid).get().then(sits =>
+            //   sits.forEach(sit => {
+            //     Sits.doc(sit.id).delete()
+            //   }),
+            // )
+
+            // Upload all the local sits not already online
+            history
+              .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
+              .forEach(unsyncedSit => Sits.add({ ...unsyncedSit, uid: user.uid }))
+          }}
+          style={{
+            alignItems: 'center',
+            alignSelf: 'center',
+            borderColor: '#fff7',
+            borderRadius: 8,
+            borderWidth: 1,
+            flexDirection: 'row',
+            marginTop: 30,
+            opacity: allSynced ? 0.5 : 5,
+            paddingHorizontal: 15,
+            paddingVertical: 7,
+          }}
+        >
+          <Octicons color="#fffa" name="sync" size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
+          <Text style={{ color: '#fff9', fontSize: 18 }}>Sync now</Text>
+        </TouchableOpacity>
+      )}
     </>
   )
 }
