@@ -21,8 +21,6 @@ const SyncScreen = (props: Props) => {
     return subscriber // unsubscribe on unmount
   }, [setState])
 
-  console.log({ currentUser: firebase.auth().currentUser })
-
   return (
     <>
       <TitleBar name="SYNC" />
@@ -39,7 +37,7 @@ const SyncScreen = (props: Props) => {
       </Text>
 
       {props.user ? (
-        <LoggedIn {...props} />
+        <LoggedIn {...props} user={props.user} />
       ) : !confirmation ? (
         <EnterPhone
           setConfirmation={setConfirmation}

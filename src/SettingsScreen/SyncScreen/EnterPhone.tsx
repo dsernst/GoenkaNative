@@ -21,7 +21,7 @@ const EnterPhone = ({
     }
   })
 
-  const textInput = useRef(null)
+  const textInput = useRef<TextInput>(null)
 
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => textInput.current?.blur()} style={{ flex: 1 }}>
