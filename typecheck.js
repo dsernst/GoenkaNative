@@ -42,7 +42,7 @@ Object.keys(options).forEach(key => {
   }
 })
 
-console.log('💅 Typechecking files...')
+console.log('💅  Typechecking files...')
 exec(`tsc ${filesToCheck} ${optionsString}`, (err, stdout) => {
   const results = stdout
     .split('\n')
@@ -59,6 +59,6 @@ exec(`tsc ${filesToCheck} ${optionsString}`, (err, stdout) => {
   if (err && results.length) {
     console.log(results.join('\n'))
   } else {
-    console.log('✅ Typecheck passed without errors.')
+    console.log('✅  Typecheck passed without errors.')
   }
 })

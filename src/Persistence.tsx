@@ -16,6 +16,7 @@ const store = createStore(
 
       // Transform dates back into JS Dates on rehydrate
       // (see: https://github.com/rt2zz/redux-persist/issues/82)
+      // @ts-ignore
       transforms: [
         createTransform(JSON.stringify, toRehydrate =>
           JSON.parse(toRehydrate, (_key, value) =>
