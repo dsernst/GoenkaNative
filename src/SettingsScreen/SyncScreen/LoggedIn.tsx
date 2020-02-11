@@ -20,6 +20,7 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
       firestore()
         .collection('sits')
         .where('uid', '==', user.uid)
+        .orderBy('date', 'desc')
         .get(),
     [user.uid],
   )
