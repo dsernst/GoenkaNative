@@ -11,10 +11,16 @@ import { Props, SitProps } from '../../reducer'
 type OnlineSit = SitProps & { id: string; user_id: string }
 type OnlineSitState = [OnlineSit[] | undefined, React.Dispatch<React.SetStateAction<OnlineSit[] | undefined>>]
 
-const LoggedIn = ({ history, user }: { history: Props['history']; user: FirebaseAuthTypes.User }) => {
+const LoggedIn = ({
+  history,
+  setState,
+  user,
+}: {
+  history: Props['history']
+  setState: Props['setState']
+  user: FirebaseAuthTypes.User
+}) => {
   const [onlineSits, setOnlineSits]: OnlineSitState = useState()
-
-  const allSynced = history.length === onlineSits?.length
 
   const getSits = useCallback(
     () =>
@@ -47,6 +53,9 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
   const localSitsByDate = _.keyBy(history, s => s.date.getTime())
 
   const onlineOnlySits = onlineSits?.filter(os => !localSitsByDate[os.date.getTime()])
+
+  // All sync'd if # local sits == # online sits, and there are no onlineOnlySits
+  const allSynced = history.length === onlineSits?.length && !onlineOnlySits?.length
 
   return (
     <>
@@ -135,7 +144,9 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
                   {/* Download btn */}
                   <TouchableOpacity
                     activeOpacity={0.7}
-                    onPress={() => {}}
+                    onPress={() =>
+                      setState({ history: [s, ...history].sort((b, a) => a.date.getTime() - b.date.getTime()) })
+                    }
                     style={{
                       alignItems: 'center',
                       borderColor: '#5594fa',
