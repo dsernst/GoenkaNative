@@ -100,7 +100,7 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
           </Text>
           <ScrollView>
             {onlineOnlySits?.map((s, index) => (
-              <>
+              <View key={index}>
                 <SitRow history={onlineOnlySits} i={s} index={index} />
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 20 }}>
@@ -139,7 +139,7 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
                     <Text style={{ color: '#fff9', fontSize: 16 }}>Download</Text>
                   </TouchableOpacity>
                 </View>
-              </>
+              </View>
             ))}
           </ScrollView>
         </>
