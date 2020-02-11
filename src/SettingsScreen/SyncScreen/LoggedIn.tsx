@@ -8,10 +8,11 @@ import Octicons from 'react-native-vector-icons/Octicons'
 import SitRow from '../../HistoryScreen/SitRow'
 import { Props, SitProps } from '../../reducer'
 
-type SitState = [SitProps[] | undefined, React.Dispatch<React.SetStateAction<SitProps[] | undefined>>]
+type OnlineSit = SitProps & { id: string; user_id: string }
+type OnlineSitState = [OnlineSit[] | undefined, React.Dispatch<React.SetStateAction<OnlineSit[] | undefined>>]
 
 const LoggedIn = ({ history, user }: { history: Props['history']; user: FirebaseAuthTypes.User }) => {
-  const [onlineSits, setOnlineSits]: SitState = useState()
+  const [onlineSits, setOnlineSits]: OnlineSitState = useState()
 
   const allSynced = history.length === onlineSits?.length
 
@@ -19,25 +20,27 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
     () =>
       firestore()
         .collection('sits')
-        .where('uid', '==', user.uid)
-        .orderBy('date', 'desc')
-        .get(),
+        .where('user_id', '==', user.uid)
+        .orderBy('date', 'desc'),
     [user.uid],
   )
 
   // On load, fetch our sits
   useEffect(() => {
-    console.log('Fetching online sits')
-    getSits().then(results => {
-      const sits = results.docs
-        // @ts-ignore: doc.data() has imprecise typing, manually specify instead
-        .map((doc): { date: FirebaseFirestoreTypes.Timestamp } & SitProps => ({ ...doc.data() }))
+    console.log('Subscribing to online sits')
+    const unsubscribe = getSits().onSnapshot(results => {
+      console.log("firestore().collection('sits').onSnapshot()")
+      setOnlineSits(
+        results.docs
+          // @ts-ignore: doc.data() has imprecise typing, manually specify instead
+          .map((doc): { date: FirebaseFirestoreTypes.Timestamp } & OnlineSit => ({ id: doc.id, ...doc.data() }))
 
-        // Convert Firebase Timestamp to normal js Date
-        .map(d => ({ ...d, date: d.date.toDate() }))
-
-      setOnlineSits(sits)
+          // Convert Firebase Timestamp to normal js Date
+          .map(d => ({ ...d, date: d.date.toDate() })),
+      )
     })
+
+    return () => unsubscribe() // Stop listening for updates on unmount
   }, [getSits])
 
   const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date.getTime())
@@ -109,7 +112,12 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
                   {/* Discard btn */}
                   <TouchableOpacity
                     activeOpacity={0.7}
-                    onPress={() => {}}
+                    onPress={() =>
+                      firestore()
+                        .collection('sits')
+                        .doc(s.id)
+                        .delete()
+                    }
                     style={{
                       alignItems: 'center',
                       borderColor: '#f58c8c',
@@ -151,20 +159,13 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
           activeOpacity={0.7}
           disabled={allSynced}
           onPress={() => {
-            // // Delete all sits
-            // Sits.where('uid', '==', user.uid).get().then(sits =>
-            //   sits.forEach(sit => {
-            //     Sits.doc(sit.id).delete()
-            //   }),
-            // )
-
             // Upload all the local sits not already online
             history
               .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
               .forEach(unsyncedSit =>
                 firestore()
                   .collection('sits')
-                  .add({ ...unsyncedSit, uid: user.uid }),
+                  .add({ ...unsyncedSit, user_id: user.uid }),
               )
           }}
           style={{
