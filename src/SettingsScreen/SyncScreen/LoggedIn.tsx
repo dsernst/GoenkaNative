@@ -1,13 +1,12 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import _ from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Octicons from 'react-native-vector-icons/Octicons'
 
 import SitRow from '../../HistoryScreen/SitRow'
 import { Props, SitProps } from '../../reducer'
-import sampleOnlineSits from './sampleOnlineSits'
 
 type SitState = [SitProps[] | undefined, React.Dispatch<React.SetStateAction<SitProps[] | undefined>>]
 
@@ -16,27 +15,29 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
 
   const allSynced = history.length === onlineSits?.length
 
-  const Sits = firestore().collection('sits')
+  const getSits = useCallback(
+    () =>
+      firestore()
+        .collection('sits')
+        .where('uid', '==', user.uid)
+        .get(),
+    [user.uid],
+  )
 
-  const mockServer = true // TODO: Only in debug mode
-
-  // On load, fetch our sits and subscribe to updates
+  // On load, fetch our sits
   useEffect(() => {
-    if (mockServer) {
-      setOnlineSits(sampleOnlineSits)
-      return () => {}
-    } else {
-      const unsubscribe = Sits.where('uid', '==', user.uid).onSnapshot(results => {
-        const sits = results.docs
-          // @ts-ignore: doc.data() has imprecise typing, manually specify instead
-          .map((doc): { date: FirebaseFirestoreTypes.Timestamp } & SitProps => ({ ...doc.data() }))
-          .map(d => ({ ...d, date: d.date.toDate() }))
-        setOnlineSits(sits)
-      })
+    console.log('Fetching online sits')
+    getSits().then(results => {
+      const sits = results.docs
+        // @ts-ignore: doc.data() has imprecise typing, manually specify instead
+        .map((doc): { date: FirebaseFirestoreTypes.Timestamp } & SitProps => ({ ...doc.data() }))
 
-      return () => unsubscribe() // Stop listening for updates whenever the component unmounts
-    }
-  }, [Sits, mockServer, user])
+        // Convert Firebase Timestamp to normal js Date
+        .map(d => ({ ...d, date: d.date.toDate() }))
+
+      setOnlineSits(sits)
+    })
+  }, [getSits])
 
   const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date.getTime())
   const localSitsByDate = _.keyBy(history, s => s.date.getTime())
@@ -159,7 +160,11 @@ const LoggedIn = ({ history, user }: { history: Props['history']; user: Firebase
             // Upload all the local sits not already online
             history
               .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
-              .forEach(unsyncedSit => Sits.add({ ...unsyncedSit, uid: user.uid }))
+              .forEach(unsyncedSit =>
+                firestore()
+                  .collection('sits')
+                  .add({ ...unsyncedSit, uid: user.uid }),
+              )
           }}
           style={{
             alignItems: 'center',
