@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { StatusBar, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 
@@ -8,49 +8,42 @@ import BeHappyText from './BeHappyText'
 import CountdownCircle from './CountdownCircle'
 import pressStop from './press-stop'
 
-class CountdownScreen extends Component<Props> {
-  state = {
-    hideStatusBar: true,
-  }
+function CountdownScreen(props: Props) {
+  const { duration, finished, history, setState, toggle } = props
+  const [hideStatusBar, setHideStatusBar] = useState(true)
 
-  render() {
-    const { duration, finished, setState, toggle } = this.props
-    return (
-      <>
-        <KeepAwake />
-        <StatusBar hidden={this.state.hideStatusBar} />
-        <TouchableWithoutFeedback
-          onPressIn={() => this.setState({ hideStatusBar: false })}
-          onPressOut={() => this.setState({ hideStatusBar: true })}
-        >
-          <View style={{ alignItems: 'center', marginTop: 80 }}>
-            {!finished ? (
-              <CountdownCircle
-                bgColor="#001709"
-                borderWidth={4}
-                color="#0a2013"
-                duration={duration}
-                labelStyle={{ color: '#fff3', fontSize: 18 }}
-                minutes
-                onTimeFinished={toggle('finished')}
-                onTimeInterval={(elapsed: number) => {
-                  const history = [...this.props.history]
-                  history[0].elapsed = elapsed
-                  setState({ history })
-                }}
-                radius={80}
-                shadowColor="#001709"
-                textStyle={{ color: '#fffc', fontSize: 40 }}
-              />
-            ) : (
-              <BeHappyText />
-            )}
-          </View>
-        </TouchableWithoutFeedback>
-        <BackButton onPress={() => pressStop(this.props)} text={finished ? 'Back' : 'Stop'} />
-      </>
-    )
-  }
+  return (
+    <>
+      <KeepAwake />
+      <StatusBar hidden={hideStatusBar} />
+      <TouchableWithoutFeedback onPressIn={() => setHideStatusBar(false)} onPressOut={() => setHideStatusBar(true)}>
+        <View style={{ alignItems: 'center', marginTop: 80 }}>
+          {!finished ? (
+            <CountdownCircle
+              bgColor="#001709"
+              borderWidth={4}
+              color="#0a2013"
+              duration={duration}
+              labelStyle={{ color: '#fff3', fontSize: 18 }}
+              minutes
+              onTimeFinished={toggle('finished')}
+              onTimeInterval={(elapsed: number) => {
+                const newHistory = [...history]
+                newHistory[0].elapsed = elapsed
+                setState({ history: newHistory })
+              }}
+              radius={80}
+              shadowColor="#001709"
+              textStyle={{ color: '#fffc', fontSize: 40 }}
+            />
+          ) : (
+            <BeHappyText />
+          )}
+        </View>
+      </TouchableWithoutFeedback>
+      <BackButton onPress={() => pressStop(props)} text={finished ? 'Back' : 'Stop'} />
+    </>
+  )
 }
 
 export default CountdownScreen
