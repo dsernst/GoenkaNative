@@ -1,26 +1,14 @@
-import { Alert, Animated, Easing } from 'react-native'
+import { Animated, Easing } from 'react-native'
 import Sound from 'react-native-sound'
 
 import c from '../clips'
 import { Props } from '../reducer'
+import firstSitInstructions from './first-sit-instruction'
 
 async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, setState, titleOpacity }: Props) {
   // Show instructions if this is their first sit
   if (!history.length) {
-    await new Promise(resolve =>
-      Alert.alert(
-        'First time instructions:',
-        `
-1) Leave the app open to keep the timer running.
-
-2) Your phone won't auto-lock while the timer is running.
-
-3) Work diligently, work intelligently, work patiently and persistently.
-
-ツ`,
-        [{ onPress: resolve, text: 'OK' }],
-      ),
-    )
+    await firstSitInstructions()
   }
 
   // Required for Sounds to be playable while iOS is in Vibrate mode
