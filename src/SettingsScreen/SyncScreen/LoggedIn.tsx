@@ -87,7 +87,7 @@ const LoggedIn = ({
       <View style={{ height: 40, marginTop: 30 }}>
         {allSynced && (
           <Text style={{ color: '#56cc6a', fontSize: 16, fontWeight: '700', textAlign: 'center' }}>
-            You're all sync'ed &nbsp;&nbsp;&nbsp;ツ
+            All sync'ed &nbsp;&nbsp;&nbsp;ツ
           </Text>
         )}
       </View>
