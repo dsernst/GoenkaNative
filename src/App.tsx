@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { Animated, StatusBar, View, YellowBox } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { connect } from 'react-redux'
@@ -9,37 +9,35 @@ import { Props, State, Toggleables, setStatePayload } from './reducer'
 import safeAreaHelper from './safe-area-helper'
 import screens from './screens'
 
-class App extends Component<Props> {
-  componentDidMount() {
-    safeAreaHelper.init(this.props.setState)
-    SplashScreen.hide() // Wait for JS to load before hiding green splash screen
-  }
+function App(props: Props) {
+  const {
+    duration,
+    hasChanting,
+    hasExtendedMetta,
+    latestTrack,
+    safeAreaInsetBottom,
+    safeAreaInsetTop,
+    screen,
+    setState,
+    showHistoryBtnTooltip,
+    titleOpacity,
+  } = props
 
-  componentDidUpdate(prevProps: Props) {
-    const { latestTrack } = this.props
-    // New track to play, nothing playing previously
-    if (latestTrack && !prevProps.latestTrack) {
-      latestTrack.play()
-    }
+  // Init
+  useEffect(() => {
+    console.log('Init effect')
+    safeAreaHelper.init(setState)
+    SplashScreen.hide() // Wait for JS to load before hiding splash screen
+  }, [setState])
 
-    // New track to play, another track already playing
-    if (latestTrack && prevProps.latestTrack && prevProps.latestTrack !== latestTrack) {
-      prevProps.latestTrack.stop()
-      latestTrack.play()
-    }
+  // Play new track
+  useEffect(() => {
+    latestTrack?.play()
+  }, [latestTrack])
 
-    // If timing settings changed, check if duration is enough
-    if (
-      prevProps.duration !== this.props.duration ||
-      prevProps.hasChanting !== this.props.hasChanting ||
-      prevProps.hasExtendedMetta !== this.props.hasExtendedMetta
-    ) {
-      this.checkIfDurationIsEnough()
-    }
-  }
-
-  checkIfDurationIsEnough() {
-    const { duration, hasChanting, hasExtendedMetta, setState } = this.props
+  // If timing settings changed, check if duration is enough
+  useEffect(() => {
+    console.log('Checking if duration is enough')
     const queue: SoundWithDelay[] = [c.introInstructions, c.closingMetta]
     if (hasChanting) {
       queue.push(c.introChanting, c.closingChanting)
@@ -50,52 +48,49 @@ class App extends Component<Props> {
     const lengths = queue.map(clip => clip.length)
     // console.log({ duration: duration * 60, lengths, sum: _.sum(lengths) })
     setState({ isEnoughTime: _.sum(lengths) <= duration * 60 })
-  }
+  }, [duration, hasChanting, hasExtendedMetta, setState])
 
-  render() {
-    const { safeAreaInsetBottom, safeAreaInsetTop, screen, showHistoryBtnTooltip, titleOpacity } = this.props
-    const Screen = screens[screen]
+  const Screen = screens[screen]
 
-    // Suppress Android setTimeout warnings
-    // see https://github.com/facebook/react-native/issues/12981
-    YellowBox.ignoreWarnings(['Setting a timer for a'])
+  // Suppress Android setTimeout warnings
+  // see https://github.com/facebook/react-native/issues/12981
+  YellowBox.ignoreWarnings(['Setting a timer for a'])
 
-    return (
-      <>
-        <StatusBar
-          backgroundColor={showHistoryBtnTooltip ? '#000c04' : '#001709'} // Android only
-          barStyle="light-content"
-          translucent // Android only
-        />
-        <View
-          style={{
-            backgroundColor: '#001709',
-            flex: 1,
-            paddingBottom: safeAreaInsetBottom,
-            paddingHorizontal: !['HistoryScreen', 'MultiDeleteScreen'].includes(screen) ? 24 : 8,
-            paddingTop: safeAreaInsetTop,
-          }}
-        >
-          {['InitScreen', 'CountdownScreen'].includes(screen) && (
-            <Animated.Text
-              style={{
-                alignSelf: 'center',
-                color: '#f1f1f1',
-                fontSize: 24,
-                fontWeight: '600',
-                marginVertical: 30,
-                opacity: titleOpacity,
-                paddingBottom: 10,
-              }}
-            >
-              Goenka Meditation Timer
-            </Animated.Text>
-          )}
-          <Screen {...this.props} />
-        </View>
-      </>
-    )
-  }
+  return (
+    <>
+      <StatusBar
+        backgroundColor={showHistoryBtnTooltip ? '#000c04' : '#001709'} // Android only
+        barStyle="light-content"
+        translucent // Android only
+      />
+      <View
+        style={{
+          backgroundColor: '#001709',
+          flex: 1,
+          paddingBottom: safeAreaInsetBottom,
+          paddingHorizontal: !['HistoryScreen', 'MultiDeleteScreen'].includes(screen) ? 24 : 8,
+          paddingTop: safeAreaInsetTop,
+        }}
+      >
+        {['InitScreen', 'CountdownScreen'].includes(screen) && (
+          <Animated.Text
+            style={{
+              alignSelf: 'center',
+              color: '#f1f1f1',
+              fontSize: 24,
+              fontWeight: '600',
+              marginVertical: 30,
+              opacity: titleOpacity,
+              paddingBottom: 10,
+            }}
+          >
+            Goenka Meditation Timer
+          </Animated.Text>
+        )}
+        <Screen {...props} />
+      </View>
+    </>
+  )
 }
 
 export default connect(
