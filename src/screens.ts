@@ -1,7 +1,7 @@
 import CountdownScreen from './CountdownScreen/CountdownScreen'
 import HistoryScreen from './HistoryScreen/HistoryScreen'
 import MultiDeleteScreen from './HistoryScreen/MultiDeleteScreen'
-import InitScreen from './InitScreen'
+import InitScreen from './InitScreen/InitScreen'
 import SettingsScreen from './SettingsScreen/SettingsScreen'
 import SyncScreen from './SettingsScreen/SyncScreen/SyncScreen'
 
