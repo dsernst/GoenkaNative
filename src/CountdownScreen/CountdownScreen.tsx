@@ -1,3 +1,4 @@
+import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
 import { StatusBar, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
@@ -9,7 +10,7 @@ import CountdownCircle from './CountdownCircle'
 import pressStop from './press-stop'
 
 function CountdownScreen(props: Props) {
-  const { duration, finished, history, setState, toggle } = props
+  const { autoSyncCompletedSits, duration, finished, history, setState, toggle, user } = props
   const [hideStatusBar, setHideStatusBar] = useState(true)
 
   return (
@@ -26,7 +27,22 @@ function CountdownScreen(props: Props) {
               duration={duration}
               labelStyle={{ color: '#fff3', fontSize: 18 }}
               minutes
-              onTimeFinished={toggle('finished')}
+              onTimeFinished={() => {
+                toggle('finished')()
+                console.log('Attempting to autoSync completed sit...')
+                if (!user) {
+                  return console.log('  Not logged in.')
+                }
+                if (!autoSyncCompletedSits) {
+                  return console.log('  AutoSync disabled.')
+                }
+                setTimeout(async () => {
+                  await firestore()
+                    .collection('sits')
+                    .add({ ...history[0], user_id: user.uid })
+                  console.log('  Success 👍')
+                }, 500)
+              }}
               onTimeInterval={(elapsed: number) => {
                 const newHistory = [...history]
                 newHistory[0].elapsed = elapsed
