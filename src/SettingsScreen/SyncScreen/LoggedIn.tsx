@@ -2,7 +2,7 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import _ from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
-import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Platform, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native'
 import Octicons from 'react-native-vector-icons/Octicons'
 
 import SitRow from '../../HistoryScreen/SitRow'
@@ -10,16 +10,9 @@ import { Props, SitProps } from '../../reducer'
 
 type OnlineSit = SitProps & { id: string; user_id: string }
 type OnlineSitState = [OnlineSit[] | undefined, React.Dispatch<React.SetStateAction<OnlineSit[] | undefined>>]
+type LoggedInProps = Props & { user: FirebaseAuthTypes.User }
 
-const LoggedIn = ({
-  history,
-  setState,
-  user,
-}: {
-  history: Props['history']
-  setState: Props['setState']
-  user: FirebaseAuthTypes.User
-}) => {
+const LoggedIn = ({ autoSyncCompletedSits, history, setState, toggle, user }: LoggedInProps) => {
   const [onlineSits, setOnlineSits]: OnlineSitState = useState()
 
   const getSits = useCallback(
@@ -165,36 +158,72 @@ const LoggedIn = ({
           </ScrollView>
         </>
       ) : (
-        // Sync now button
-        <TouchableOpacity
-          activeOpacity={0.7}
-          disabled={allSynced}
-          onPress={() => {
-            // Upload all the local sits not already online
-            history
-              .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
-              .forEach(unsyncedSit =>
-                firestore()
-                  .collection('sits')
-                  .add({ ...unsyncedSit, user_id: user.uid }),
-              )
-          }}
-          style={{
-            alignItems: 'center',
-            alignSelf: 'center',
-            borderColor: '#fff7',
-            borderRadius: 8,
-            borderWidth: 1,
-            flexDirection: 'row',
-            marginTop: 30,
-            opacity: allSynced ? 0.5 : 5,
-            paddingHorizontal: 15,
-            paddingVertical: 7,
-          }}
-        >
-          <Octicons color="#fffa" name="sync" size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
-          <Text style={{ color: '#fff9', fontSize: 18 }}>Sync now</Text>
-        </TouchableOpacity>
+        <>
+          {/* Sync now button */}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            disabled={allSynced}
+            onPress={() => {
+              // Upload all the local sits not already online
+              history
+                .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
+                .forEach(unsyncedSit =>
+                  firestore()
+                    .collection('sits')
+                    .add({ ...unsyncedSit, user_id: user.uid }),
+                )
+            }}
+            style={{
+              alignItems: 'center',
+              alignSelf: 'center',
+              borderColor: '#fff7',
+              borderRadius: 8,
+              borderWidth: 1,
+              flexDirection: 'row',
+              marginTop: 30,
+              opacity: allSynced ? 0.5 : 5,
+              paddingHorizontal: 15,
+              paddingVertical: 7,
+            }}
+          >
+            <Octicons color="#fffa" name="sync" size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
+            <Text style={{ color: '#fff9', fontSize: 18 }}>Sync now</Text>
+          </TouchableOpacity>
+
+          {/* autoSyncCompletedSits Switch */}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={toggle('autoSyncCompletedSits')}
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 15,
+              paddingVertical: 15,
+            }}
+          >
+            <Text
+              style={{
+                color: '#fff9',
+                fontSize: 16,
+                fontWeight: '400',
+              }}
+            >
+              Auto-sync completed sits?
+            </Text>
+            <Switch
+              onValueChange={toggle('autoSyncCompletedSits')}
+              style={{
+                alignSelf: 'flex-end',
+                paddingVertical: 10,
+                transform: Platform.OS === 'ios' ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [],
+              }}
+              thumbColor="white"
+              trackColor={{ false: 'null', true: 'rgb(48, 209, 88)' }}
+              value={autoSyncCompletedSits}
+            />
+          </TouchableOpacity>
+        </>
       )}
     </>
   )

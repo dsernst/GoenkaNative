@@ -17,6 +17,7 @@ export type SitProps = {
 
 type ToggleableStates = {
   amNotification: boolean
+  autoSyncCompletedSits: boolean
   finished: boolean
   hasChanting: boolean
   hasExtendedMetta: boolean
@@ -52,6 +53,7 @@ export interface Props extends State {
 const initialState: State = {
   amNotification: false,
   amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
+  autoSyncCompletedSits: true,
   duration: 60,
   finished: false,
   hasChanting: true,
