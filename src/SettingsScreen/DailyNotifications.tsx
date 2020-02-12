@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Platform, Switch, Text, TouchableOpacity, View } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import PushNotification from 'react-native-push-notification'
@@ -32,16 +32,14 @@ function calcNext(date: Date) {
   return nextNotificationTime.toDate()
 }
 
-export default class DailyNotificationSettings extends Component<Props> {
-  state = {
-    amPickerVisible: false,
-    pmPickerVisible: false,
-  }
+function DailyNotificationSettings(props: Props) {
+  const { amNotification, amNotificationTime, pmNotification, pmNotificationTime, setState } = props
+  const [amPickerVisible, setAmPickerVisible] = useState(false)
+  const [pmPickerVisible, setPmPickerVisible] = useState(false)
 
-  componentDidUpdate() {
-    // Props changed, probably because settings were adjusted
-    // Now reset local notifications
-    const { amNotification, amNotificationTime, pmNotification, pmNotificationTime } = this.props
+  // Reset local notifications if settings were adjusted
+  useEffect(() => {
+    console.log('Updating local notifications')
 
     // Clear old notifications
     PushNotification.cancelAllLocalNotifications()
@@ -62,11 +60,9 @@ export default class DailyNotificationSettings extends Component<Props> {
         })
       }
     })
-  }
+  }, [amNotification, pmNotification, amNotificationTime, pmNotificationTime])
 
-  async toggleNotification(key: TimeKeys) {
-    const { amNotification, pmNotification, setState } = this.props
-
+  async function toggleNotification(key: TimeKeys) {
     // Check iOS notification permissions
     type iosPermission = {
       alert?: boolean
@@ -94,133 +90,126 @@ export default class DailyNotificationSettings extends Component<Props> {
     }
   }
 
-  render() {
-    const { amNotification, amNotificationTime, pmNotification, pmNotificationTime, setState } = this.props
+  const morningYellow = 'rgb(255, 204, 0)'
+  const eveningPurple = 'rgb(175, 82, 222)'
 
-    const morningYellow = 'rgb(255, 204, 0)'
-    const eveningPurple = 'rgb(175, 82, 222)'
+  const TimeSwitchesTuples: [TimeKeys, string, boolean, typeof Ionicons, string][] = [
+    ['morning', morningYellow, amNotification, FeatherIcon, 'sun'],
+    ['evening', eveningPurple, pmNotification, Ionicons, 'ios-moon'],
+  ]
 
-    const TimeSwitchesTuples: [TimeKeys, string, boolean, typeof Ionicons, string][] = [
-      ['morning', morningYellow, amNotification, FeatherIcon, 'sun'],
-      ['evening', eveningPurple, pmNotification, Ionicons, 'ios-moon'],
-    ]
+  const AdjustTimeTuples: [boolean, Function, object, Date][] = [
+    [amNotification, setAmPickerVisible, { borderColor: morningYellow }, amNotificationTime],
+    [pmNotification, setPmPickerVisible, { borderColor: eveningPurple, marginLeft: 'auto' }, pmNotificationTime],
+  ]
 
-    const AdjustTimeTuples: [boolean, object, object, Date][] = [
-      [amNotification, { amPickerVisible: true }, { borderColor: morningYellow }, amNotificationTime],
-      [
-        pmNotification,
-        { pmPickerVisible: true },
-        { borderColor: eveningPurple, marginLeft: 'auto' },
-        pmNotificationTime,
-      ],
-    ]
+  const TimePickersTuples: [
+    Date,
+    TimeKeys,
+    boolean,
+    Date | undefined, // maxDate
+    Date | undefined, // minDate
+    Function,
+    (newTime: Date) => object,
+  ][] = [
+    [
+      amNotificationTime,
+      'morning',
+      amPickerVisible,
+      new Date('Jan 1 2020 11:59 AM'), // maxDate
+      undefined, // no MaxDate
+      setAmPickerVisible,
+      newTime => ({ amNotificationTime: newTime }),
+    ],
+    [
+      pmNotificationTime,
+      'evening',
+      pmPickerVisible,
+      undefined, // no maxDate
+      new Date('Jan 1 2020 12:00 PM'), // minDate
+      setPmPickerVisible,
+      newTime => ({ pmNotificationTime: newTime }),
+    ],
+  ]
 
-    const TimePickersTuples: [
-      Date,
-      TimeKeys,
-      boolean,
-      Date | undefined, // maxDate
-      Date | undefined, // minDate
-      object,
-      (newTime: Date) => object,
-    ][] = [
-      [
-        amNotificationTime,
-        'morning',
-        this.state.amPickerVisible,
-        new Date('Jan 1 2020 11:59 AM'), // maxDate
-        undefined, // no MaxDate
-        { amPickerVisible: false },
-        newTime => ({ amNotificationTime: newTime }),
-      ],
-      [
-        pmNotificationTime,
-        'evening',
-        this.state.pmPickerVisible,
-        undefined, // no maxDate
-        new Date('Jan 1 2020 12:00 PM'), // minDate
-        { pmPickerVisible: false },
-        newTime => ({ pmNotificationTime: newTime }),
-      ],
-    ]
-
-    return (
-      <>
-        {/* Time Notification switches */}
-        {TimeSwitchesTuples.map(([key, color, isOn, Icon, iconName]) => (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            key={key}
-            onPress={() => this.toggleNotification(key)}
-            style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15 }}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <Icon
-                color={isOn ? color : 'white'}
-                name={iconName}
-                size={22}
-                style={{ paddingLeft: key === 'evening' ? 4 : 0, width: 35 }}
-              />
-              <Text style={{ color: '#fffa', fontSize: 18 }}>Notification each {key}?</Text>
-            </View>
-            <Switch
-              onValueChange={() => this.toggleNotification(key)}
-              style={{
-                alignSelf: 'flex-end',
-                paddingVertical: 10,
-                transform: Platform.OS === 'ios' ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [],
-              }}
-              thumbColor="white"
-              trackColor={{ false: 'null', true: color }}
-              value={isOn}
-            />
-          </TouchableOpacity>
-        ))}
-
-        {/* AdjustTime buttons */}
-        <View
-          style={{
-            alignItems: 'flex-start',
-            flexDirection: 'row',
-            marginTop: 10,
-            minHeight: 41,
-            paddingHorizontal: 40,
-          }}
+  return (
+    <>
+      {/* Time Notification switches */}
+      {TimeSwitchesTuples.map(([key, color, isOn, Icon, iconName]) => (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          key={key}
+          onPress={() => toggleNotification(key)}
+          style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15 }}
         >
-          {AdjustTimeTuples.map(([isOn, onPressState, style, time]) => (
-            <React.Fragment key={time.toString()}>
-              {isOn && (
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => this.setState(onPressState)}
-                  style={[{ borderRadius: 8, borderWidth: 1, paddingHorizontal: 15, paddingVertical: 7 }, style]}
-                >
-                  <Text style={{ color: '#fffc', fontSize: 18 }}>{dayjs(time).format('h[:]mm a')}</Text>
-                </TouchableOpacity>
-              )}
-            </React.Fragment>
-          ))}
-        </View>
-
-        {/* TimePickers (invisible until Time button pressed) */}
-        {TimePickersTuples.map(([time, key, isVisible, maxDate, minDate, closeState, onConfirm]) => (
-          <DateTimePickerModal
-            date={time}
-            headerTextIOS={`Set ${key} time`}
-            isVisible={isVisible}
-            key={key}
-            maximumDate={maxDate}
-            minimumDate={minDate}
-            minuteInterval={5}
-            mode="time"
-            onCancel={() => this.setState(closeState)}
-            onConfirm={newTime => {
-              this.setState(closeState)
-              setState(onConfirm(newTime))
+          <View style={{ flexDirection: 'row' }}>
+            <Icon
+              color={isOn ? color : 'white'}
+              name={iconName}
+              size={22}
+              style={{ paddingLeft: key === 'evening' ? 4 : 0, width: 35 }}
+            />
+            <Text style={{ color: '#fffa', fontSize: 18 }}>Notification each {key}?</Text>
+          </View>
+          <Switch
+            onValueChange={() => toggleNotification(key)}
+            style={{
+              alignSelf: 'flex-end',
+              paddingVertical: 10,
+              transform: Platform.OS === 'ios' ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [],
             }}
+            thumbColor="white"
+            trackColor={{ false: 'null', true: color }}
+            value={isOn}
           />
+        </TouchableOpacity>
+      ))}
+
+      {/* AdjustTime buttons */}
+      <View
+        style={{
+          alignItems: 'flex-start',
+          flexDirection: 'row',
+          marginTop: 10,
+          minHeight: 41,
+          paddingHorizontal: 40,
+        }}
+      >
+        {AdjustTimeTuples.map(([isOn, setPickerVisible, style, time]) => (
+          <React.Fragment key={time.toString()}>
+            {isOn && (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setPickerVisible(true)}
+                style={[{ borderRadius: 8, borderWidth: 1, paddingHorizontal: 15, paddingVertical: 7 }, style]}
+              >
+                <Text style={{ color: '#fffc', fontSize: 18 }}>{dayjs(time).format('h[:]mm a')}</Text>
+              </TouchableOpacity>
+            )}
+          </React.Fragment>
         ))}
-      </>
-    )
-  }
+      </View>
+
+      {/* TimePickers (invisible until Time button pressed) */}
+      {TimePickersTuples.map(([time, key, isVisible, maxDate, minDate, setPickerVisible, onConfirm]) => (
+        <DateTimePickerModal
+          date={time}
+          headerTextIOS={`Set ${key} time`}
+          isVisible={isVisible}
+          key={key}
+          maximumDate={maxDate}
+          minimumDate={minDate}
+          minuteInterval={5}
+          mode="time"
+          onCancel={() => setPickerVisible(false)}
+          onConfirm={newTime => {
+            setPickerVisible(false)
+            setState(onConfirm(newTime))
+          }}
+        />
+      ))}
+    </>
+  )
 }
+
+export default DailyNotificationSettings
