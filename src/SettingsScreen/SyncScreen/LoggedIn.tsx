@@ -9,11 +9,11 @@ import SitRow from '../../HistoryScreen/SitRow'
 import { Props, Sit } from '../../reducer'
 
 type OnlineSit = Sit & { id: string; user_id: string }
-type OnlineSitState = [OnlineSit[] | undefined, React.Dispatch<React.SetStateAction<OnlineSit[] | undefined>>]
+type State = OnlineSit[] | undefined
 type LoggedInProps = Props & { user: FirebaseAuthTypes.User }
 
 const LoggedIn = ({ autoSyncCompletedSits, history, setState, toggle, user }: LoggedInProps) => {
-  const [onlineSits, setOnlineSits]: OnlineSitState = useState()
+  const [onlineSits, setOnlineSits] = useState<State>()
 
   const getSits = useCallback(
     () =>
