@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import Octicons from 'react-native-vector-icons/Octicons'
 
@@ -8,40 +8,38 @@ import TitleBar from '../TitleBar'
 import DailyNotificationSettings from './DailyNotifications'
 import MoreInfoSection from './MoreInfo'
 
-class SettingsScreen extends Component<Props> {
-  render() {
-    return (
-      <>
-        <TitleBar name="SETTINGS" showVersion />
+function SettingsScreen(props: Props) {
+  return (
+    <>
+      <TitleBar name="SETTINGS" showVersion />
 
-        <DailyNotificationSettings {...this.props} />
+      <DailyNotificationSettings {...props} />
 
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => this.props.setState({ screen: 'SyncScreen' })}
-          style={{
-            alignItems: 'center',
-            alignSelf: 'center',
-            borderColor: '#fff7',
-            borderRadius: 8,
-            borderWidth: 1,
-            flexDirection: 'row',
-            marginTop: 60,
-            paddingHorizontal: 15,
-            paddingVertical: 7,
-          }}
-        >
-          <Octicons color="#fffa" name={'sync'} size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
-          <Text style={{ color: '#fff9', fontSize: 18 }}>Backup your sit history</Text>
-          <Octicons color="#fff5" name={'chevron-right'} size={18} style={{ paddingLeft: 24, width: 35 }} />
-        </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => props.setState({ screen: 'SyncScreen' })}
+        style={{
+          alignItems: 'center',
+          alignSelf: 'center',
+          borderColor: '#fff7',
+          borderRadius: 8,
+          borderWidth: 1,
+          flexDirection: 'row',
+          marginTop: 60,
+          paddingHorizontal: 15,
+          paddingVertical: 7,
+        }}
+      >
+        <Octicons color="#fffa" name={'sync'} size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
+        <Text style={{ color: '#fff9', fontSize: 18 }}>Backup your sit history</Text>
+        <Octicons color="#fff5" name={'chevron-right'} size={18} style={{ paddingLeft: 24, width: 35 }} />
+      </TouchableOpacity>
 
-        <MoreInfoSection />
+      <MoreInfoSection />
 
-        <BackButton />
-      </>
-    )
-  }
+      <BackButton />
+    </>
+  )
 }
 
 export default SettingsScreen
