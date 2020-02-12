@@ -6,9 +6,9 @@ import { Alert, Platform, ScrollView, Switch, Text, TouchableOpacity, View } fro
 import Octicons from 'react-native-vector-icons/Octicons'
 
 import SitRow from '../../HistoryScreen/SitRow'
-import { Props, SitProps } from '../../reducer'
+import { Props, Sit } from '../../reducer'
 
-type OnlineSit = SitProps & { id: string; user_id: string }
+type OnlineSit = Sit & { id: string; user_id: string }
 type OnlineSitState = [OnlineSit[] | undefined, React.Dispatch<React.SetStateAction<OnlineSit[] | undefined>>]
 type LoggedInProps = Props & { user: FirebaseAuthTypes.User }
 

@@ -6,7 +6,7 @@ import { ScreenNames } from './screens'
 
 const INITIAL_SCREEN = 'InitScreen'
 
-export type SitProps = {
+export type Sit = {
   date: Date
   duration: number
   elapsed: number
@@ -29,7 +29,7 @@ type ToggleableStates = {
 export interface State extends ToggleableStates {
   amNotificationTime: Date
   duration: number
-  history: SitProps[]
+  history: Sit[]
   historyViewIndex: number
   latestTrack: Sound | null
   pmNotificationTime: Date

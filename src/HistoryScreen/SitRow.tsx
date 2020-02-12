@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import React from 'react'
 import { Text, View } from 'react-native'
-import { SitProps } from 'src/reducer'
+import { Sit } from 'src/reducer'
 
 const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeight: '400', ...props.style }} />
 
@@ -12,8 +12,8 @@ const SitRow = ({
   index,
 }: {
   ITEM_HEIGHT?: number
-  history: SitProps[]
-  i: SitProps
+  history: Sit[]
+  i: Sit
   index: number
 }) => {
   return (
