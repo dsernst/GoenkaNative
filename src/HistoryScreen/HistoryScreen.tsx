@@ -3,6 +3,7 @@ import React, { memo } from 'react'
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
+import BarView from './BarView'
 import Calendar from './Calendar'
 import CurrentStreaks from './CurrentStreaks'
 import ListView from './ListView'
@@ -14,12 +15,11 @@ const HistoryScreen = (props: Props) => (
 
     <CurrentStreaks {...props} />
 
-    <ViewControl
-      toggleView={() => props.setState({ historyViewIndex: Number(!props.historyViewIndex) })}
-      viewIndex={props.historyViewIndex}
-    />
+    <ViewControl toggleView={index => props.setState({ historyViewIndex: index })} viewIndex={props.historyViewIndex} />
 
-    {props.historyViewIndex === 0 ? <Calendar {...props} /> : <ListView {...props} />}
+    {props.historyViewIndex === 0 && <BarView {...props} />}
+    {props.historyViewIndex === 1 && <Calendar {...props} />}
+    {props.historyViewIndex === 2 && <ListView {...props} />}
 
     <BackButton saveSpace />
   </>

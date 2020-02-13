@@ -59,7 +59,7 @@ const initialState: State = {
   hasChanting: true,
   hasExtendedMetta: false,
   history: [],
-  historyViewIndex: 0,
+  historyViewIndex: 1,
   isEnoughTime: true,
   latestTrack: null,
   pmNotification: false,
