@@ -90,21 +90,27 @@ function BarView(props: Props) {
               <View style={[{ height: 0 }, sharedStyle(index)]} />
             )}
 
-            {/* x axis labels */}
-            <View style={{ height: 60 }}>
+            {/* x axis */}
+            <View style={{ borderColor: '#fff2', borderTopWidth: 1, height: 60 }}>
               {!(index % 2) && (
-                <Text
-                  style={{
-                    bottom: 25,
-                    color: '#fff4',
-                    position: 'absolute',
-                    textAlign: 'center',
-                    transform: [{ rotate: '40deg' }],
-                    width: 42,
-                  }}
-                >
-                  {dayjs(range).format('M/D')}
-                </Text>
+                <>
+                  {/* tick marks */}
+                  <View style={{ backgroundColor: '#fff2', height: 4, left: 21, top: 4, width: 1 }} />
+
+                  {/* date labels */}
+                  <Text
+                    style={{
+                      bottom: 25,
+                      color: '#fff4',
+                      position: 'absolute',
+                      textAlign: 'center',
+                      transform: [{ rotate: '40deg' }],
+                      width: 42,
+                    }}
+                  >
+                    {dayjs(range).format('M/D')}
+                  </Text>
+                </>
               )}
             </View>
           </View>
