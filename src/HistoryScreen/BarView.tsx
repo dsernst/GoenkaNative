@@ -43,10 +43,10 @@ function BarView(props: Props) {
     )
     .map(s => s.format('YYYY-MM-DDa'))
   const sitsByHalfDay = cachedGroupBy(history, sit => dayjs(sit.date).format('YYYY-MM-DDa'))
-  const selectedSits = selected ? sitsByHalfDay[selected] : []
+  const selectedSits = (selected && sitsByHalfDay[selected]) || []
 
   // Calc height for Details ScrollView
-  const detailsYPos = 402
+  const detailsYPos = 445
   const backButtonHeight = 83
   const safeHeight = Dimensions.get('window').height - props.safeAreaInsetTop - props.safeAreaInsetBottom
   const detailsHeight = safeHeight - detailsYPos - backButtonHeight
@@ -57,8 +57,8 @@ function BarView(props: Props) {
         contentContainerStyle={{
           alignItems: 'flex-end',
           justifyContent: 'flex-end',
-          paddingLeft: 80,
-          paddingRight: 100,
+          paddingLeft: 20,
+          paddingRight: 40,
         }}
         contentOffset={{ x: numDaysToShow * 50, y: 0 }}
         horizontal
@@ -67,28 +67,35 @@ function BarView(props: Props) {
         {/* Main content */}
         {ranges.map((range, index) => (
           <View key={index}>
-            {sitsByHalfDay[range] ? (
-              <TouchableOpacity
-                onPress={() => setSelected(selected === range ? undefined : range)}
-                style={{ justifyContent: 'flex-end', minHeight: 60 }}
-              >
-                {sitsByHalfDay[range].map((sit, index2) => (
+            <TouchableOpacity
+              onPress={() => setSelected(selected === range ? undefined : range)}
+              style={[
+                {
+                  justifyContent: 'flex-end',
+                  marginRight: index % 2 ? 12 : 4,
+                  minHeight: 120,
+                },
+                range === selected &&
+                  !sitsByHalfDay[range] && { borderBottomWidth: 2, borderColor: '#06c93acc', marginBottom: -2 },
+              ]}
+            >
+              {sitsByHalfDay[range] ? (
+                [...sitsByHalfDay[range]].reverse().map((sit, index2) => (
                   <View
                     key={index2}
-                    style={[
-                      {
-                        backgroundColor: `#fff${range === selected ? 'b' : '6'}`,
-                        height: sit.elapsed * 2 + 1,
-                      },
-                      sharedStyle(index),
-                    ]}
+                    style={{
+                      backgroundColor: `#fff${range === selected ? 'b' : '6'}`,
+                      height: sit.elapsed * 2 + 1,
+                      marginTop: 2,
+                      ...barWidth,
+                    }}
                   />
-                ))}
-              </TouchableOpacity>
-            ) : (
-              // Empty range
-              <View style={[{ height: 0 }, sharedStyle(index)]} />
-            )}
+                ))
+              ) : (
+                // Empty range
+                <View style={barWidth} />
+              )}
+            </TouchableOpacity>
 
             {/* x axis */}
             <View style={{ borderColor: '#fff2', borderTopWidth: 1, height: 60 }}>
@@ -127,10 +134,26 @@ function BarView(props: Props) {
             </Text>
           </View>
           <View>
-            <ScrollView indicatorStyle="white" style={{ height: detailsHeight, width: 215 }}>
-              {[...selectedSits].reverse().map((i, index) => (
-                <View key={index} style={{ flexDirection: 'row', paddingBottom: 7 }}>
-                  <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+            {!selectedSits.length ? (
+              <Text style={{ color: '#fff5', fontStyle: 'italic', paddingLeft: 10, paddingTop: 2 }}>
+                No sits recorded.
+              </Text>
+            ) : (
+              <ScrollView indicatorStyle="white" style={{ height: detailsHeight, width: 215 }}>
+                {[...selectedSits].reverse().map((i, index) => (
+                  <View key={index} style={{ flexDirection: 'row', paddingBottom: 7 }}>
+                    <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+                      <Text
+                        style={{
+                          color: '#fffb',
+                          fontSize: 16,
+                          fontWeight: '600',
+                        }}
+                      >
+                        {dayjs(i.date).format('h[:]mma')}
+                      </Text>
+                    </View>
+                    <Text style={{ alignSelf: 'flex-end', color: '#fff8', fontWeight: '400' }}> for &nbsp;</Text>
                     <Text
                       style={{
                         color: '#fffb',
@@ -138,23 +161,13 @@ function BarView(props: Props) {
                         fontWeight: '600',
                       }}
                     >
-                      {dayjs(i.date).format('h[:]mma')}
+                      {i.elapsed < i.duration && i.elapsed + ' of '}
+                      {i.duration} min
                     </Text>
                   </View>
-                  <Faded style={{ alignSelf: 'flex-end' }}> for &nbsp;</Faded>
-                  <Text
-                    style={{
-                      color: '#fffb',
-                      fontSize: 16,
-                      fontWeight: '600',
-                    }}
-                  >
-                    {i.elapsed < i.duration && i.elapsed + ' of '}
-                    {i.duration} min
-                  </Text>
-                </View>
-              ))}
-            </ScrollView>
+                ))}
+              </ScrollView>
+            )}
           </View>
         </View>
       )}
@@ -162,12 +175,6 @@ function BarView(props: Props) {
   )
 }
 
-const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeight: '400', ...props.style }} />
-
-const sharedStyle = (index: number) => ({
-  marginRight: index % 2 ? 15 : 2,
-  marginTop: 2,
-  width: 20,
-})
+const barWidth = { width: 20 }
 
 export default BarView
