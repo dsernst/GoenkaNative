@@ -60,11 +60,15 @@ function BarView(props: Props) {
             <Text style={{ color: '#fff5' }}>60</Text>
             <View style={{ backgroundColor: '#fff5', height: 1, marginLeft: 5, width: 7 }} />
           </View>
-          <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 36 }}>
-            <Text style={{ color: '#fff5' }}>30</Text>
+          <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 7 }}>
+            <Text style={{ color: '#fff5' }}>45</Text>
             <View style={{ backgroundColor: '#fff5', height: 1, marginLeft: 5, width: 7 }} />
           </View>
           <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 13 }}>
+            <Text style={{ color: '#fff5' }}>30</Text>
+            <View style={{ backgroundColor: '#fff5', height: 1, marginLeft: 5, width: 7 }} />
+          </View>
+          <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 12 }}>
             <Text style={{ color: '#fff5' }}>15</Text>
             <View style={{ backgroundColor: '#fff5', height: 1, marginLeft: 5, width: 7 }} />
           </View>
