@@ -65,7 +65,7 @@ const initialState: State = {
   pmNotification: false,
   pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
   safeAreaInsetBottom: 0,
-  safeAreaInsetTop: 0,
+  safeAreaInsetTop: 18,
   screen: INITIAL_SCREEN,
   showHistoryBtnTooltip: false,
   timeouts: [],
