@@ -45,7 +45,7 @@ function BarView(props: Props) {
   const sitsByHalfDay = cachedGroupBy(history, sit => dayjs(sit.date).format('YYYY-MM-DDa'))
   const selectedSits = (selected && sitsByHalfDay[selected]) || []
 
-  // Calc height for Bar graph
+  // Calc bar graph height based on screen dimensions
   const { height: screenHeight, width: screenWidth } = Dimensions.get('window')
   const contentAboveBarView = 240
   const backButtonHeight = 65
@@ -58,8 +58,12 @@ function BarView(props: Props) {
 
   const barWidth = { width: 20 }
 
-  const yLabels = [60, 45, 30, 15, '']
-  const minuteHeight = barGraphHeight / 60
+  // Calculate which yLabels to show & how to scale the graph vertically
+  const maxElapsed = _.reduce(sitsByHalfDay, (memo, sits) => Math.max(memo, _.sum(_.map(sits, 'elapsed'))), 0)
+  const yLabels = [...[60, 45, 30].filter(l => l < maxElapsed + 15), 15, '']
+
+  // @ts-ignore: yLabel[0] will always be a number
+  const minuteHeight = barGraphHeight / yLabels[0]
 
   return (
     <View style={{ marginHorizontal: 15, marginTop: barTopMargin }}>
