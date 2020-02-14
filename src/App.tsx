@@ -25,7 +25,7 @@ function App(props: Props) {
 
   // Init
   useEffect(() => {
-    console.log('Init effect')
+    // console.log('Init effect')
     safeAreaHelper.init(setState)
     SplashScreen.hide() // Wait for JS to load before hiding splash screen
   }, [setState])
@@ -37,7 +37,7 @@ function App(props: Props) {
 
   // If timing settings changed, check if duration is enough
   useEffect(() => {
-    console.log('Checking if duration is enough')
+    // console.log('Checking if duration is enough')
     const queue: SoundWithDelay[] = [c.introInstructions, c.closingMetta]
     if (hasChanting) {
       queue.push(c.introChanting, c.closingChanting)
