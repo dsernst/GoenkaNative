@@ -131,8 +131,8 @@ android {
         applicationId "com.goenkanative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 22
-        versionName "1.8.4"
+        versionCode 23
+        versionName "1.9"
     }
     splits {
         abi {
