@@ -45,18 +45,26 @@ function BarView(props: Props) {
   const sitsByHalfDay = cachedGroupBy(history, sit => dayjs(sit.date).format('YYYY-MM-DDa'))
   const selectedSits = (selected && sitsByHalfDay[selected]) || []
 
-  // Calc height for Details ScrollView
-  const detailsYPos = 445
-  const backButtonHeight = 83
+  // Calc height for Bar graph
   const { height: screenHeight, width: screenWidth } = Dimensions.get('window')
-  const safeHeight = screenHeight - props.safeAreaInsetTop - props.safeAreaInsetBottom
-  const detailsHeight = safeHeight - detailsYPos - backButtonHeight
+  const contentAboveBarView = 240
+  const backButtonHeight = 65
+  const safeHeight = screenHeight - props.safeAreaInsetTop - backButtonHeight - props.safeAreaInsetBottom
+
+  const xAxisHeight = 60
+  const barTopMargin = 30
+  const detailsHeight = Math.min(selectedSits.length, 4) * 23
+  const barHeight = safeHeight - contentAboveBarView - barTopMargin - xAxisHeight - detailsHeight
+
+  console.log({ backButtonHeight, barHeight, contentAboveBarView, detailsHeight, safeHeight, screenHeight })
+
+  const barWidth = { width: 20 }
 
   const yLabels = [60, 45, 30, 15, '']
-  const barHeight = 120
+  const minuteHeight = barHeight / 60
 
   return (
-    <View style={{ marginLeft: 15, marginRight: 15, marginTop: 30 }}>
+    <View style={{ marginHorizontal: 15, marginTop: barTopMargin }}>
       {/* y axis */}
       <View
         style={{
@@ -98,7 +106,7 @@ function BarView(props: Props) {
                 {
                   justifyContent: 'flex-end',
                   marginRight: index % 2 ? 12 : 4,
-                  minHeight: 120,
+                  minHeight: barHeight,
                 },
                 range === selected &&
                   !sitsByHalfDay[range] && { borderBottomWidth: 2, borderColor: '#06c93acc', marginBottom: -2 },
@@ -110,7 +118,7 @@ function BarView(props: Props) {
                     key={index2}
                     style={{
                       backgroundColor: range === selected ? '#BCC1BD' : '#69736C',
-                      height: sit.elapsed * 2 + 1,
+                      height: sit.elapsed * minuteHeight + 1,
                       marginTop: 2,
                       ...barWidth,
                     }}
@@ -151,7 +159,7 @@ function BarView(props: Props) {
 
       {/* Selected date details */}
       {selected && (
-        <View style={{ flexDirection: 'row', marginTop: 15 }}>
+        <View style={{ flexDirection: 'row', marginTop: 10 }}>
           <View style={{ paddingLeft: 5, paddingRight: 20, paddingTop: 2 }}>
             <Text style={{ color: '#fff7' }}>{dayjs(selected).format('ddd MMM D')}</Text>
             <Text style={{ color: '#fff4', textAlign: 'right' }}>
@@ -199,8 +207,5 @@ function BarView(props: Props) {
     </View>
   )
 }
-
-const barWidth = { width: 20 }
-const xAxisHeight = 60
 
 export default BarView
