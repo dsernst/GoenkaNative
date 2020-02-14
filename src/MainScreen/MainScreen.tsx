@@ -22,7 +22,7 @@ import pressPlay from './press-play'
 
 const { width: screenWidth } = Dimensions.get('window')
 
-const InitScreen = (props: Props) => {
+function MainScreen(props: Props) {
   const { duration, hasChanting, hasExtendedMetta, isEnoughTime, setState, showHistoryBtnTooltip, toggle } = props
   return (
     <>
@@ -177,4 +177,4 @@ const s = StyleSheet.create({
   },
 })
 
-export default InitScreen
+export default MainScreen

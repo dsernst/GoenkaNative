@@ -22,8 +22,8 @@ export default ({ history, latestTrack, setState, timeouts, titleOpacity }: Prop
   }
   setState({ timeouts: newTimeouts })
 
-  // Go back to InitScreen
-  setState({ finished: false, latestTrack: null, screen: 'InitScreen' })
+  // Go back to MainScreen
+  setState({ finished: false, latestTrack: null, screen: 'MainScreen' })
 
   // Turn on HistoryBtnTooltip if this was their first sit
   if (history.length === 1) {

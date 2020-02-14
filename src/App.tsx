@@ -72,7 +72,7 @@ function App(props: Props) {
           paddingTop: safeAreaInsetTop,
         }}
       >
-        {['InitScreen', 'CountdownScreen'].includes(screen) && (
+        {['MainScreen', 'CountdownScreen'].includes(screen) && (
           <Animated.Text
             style={{
               alignSelf: 'center',

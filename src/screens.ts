@@ -2,7 +2,7 @@ import CountdownScreen from './CountdownScreen/CountdownScreen'
 import FirstOpenQuestionScreen from './FirstOpenQuestionScreen'
 import HistoryScreen from './HistoryScreen/HistoryScreen'
 import MultiDeleteScreen from './HistoryScreen/MultiDeleteScreen'
-import InitScreen from './InitScreen/InitScreen'
+import MainScreen from './MainScreen/MainScreen'
 import SettingsScreen from './SettingsScreen/SettingsScreen'
 import SyncScreen from './SettingsScreen/SyncScreen/SyncScreen'
 
@@ -10,7 +10,7 @@ export default {
   CountdownScreen,
   FirstOpenQuestionScreen,
   HistoryScreen,
-  InitScreen,
+  MainScreen,
   MultiDeleteScreen,
   SettingsScreen,
   SyncScreen,
@@ -19,7 +19,7 @@ export default {
 export type ScreenNames =
   | 'CountdownScreen'
   | 'HistoryScreen'
-  | 'InitScreen'
+  | 'MainScreen'
   | 'SettingsScreen'
   | 'MultiDeleteScreen'
   | 'SyncScreen'

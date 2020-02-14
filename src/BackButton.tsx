@@ -10,7 +10,7 @@ const BackButton = ({
   saveSpace,
   switchScreen,
   text,
-  to = 'InitScreen',
+  to = 'MainScreen',
 }: {
   color?: string
   onPress?: () => void

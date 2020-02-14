@@ -7,7 +7,7 @@ function FirstOpenQuestionScreen({ isOldStudent, setState }: Props) {
   const [shownPrompt, setShownPrompt] = useState(false)
 
   if (isOldStudent !== null) {
-    setState({ screen: 'InitScreen' })
+    setState({ screen: 'MainScreen' })
   } else if (!shownPrompt) {
     setShownPrompt(true)
     Alert.alert('Welcome', 'Have you completed a Vipassana course taught by S.N. Goenka?', [
@@ -15,7 +15,7 @@ function FirstOpenQuestionScreen({ isOldStudent, setState }: Props) {
         onPress: () => {
           setState({ isOldStudent: true })
           Alert.alert('Welcome, fellow meditator', 'For help and/or questions, email: hi@goenka.app', [
-            { onPress: () => setState({ screen: 'InitScreen' }), text: 'OK' },
+            { onPress: () => setState({ screen: 'MainScreen' }), text: 'OK' },
           ])
         },
         text: 'Yes',
@@ -32,7 +32,7 @@ The courses are freely offered without charge, by Old Students who wish to share
 Visit _dhamma.org_ for more information.
 
 For help and/or questions with this app, email hi@goenka.app`,
-            [{ onPress: () => setState({ screen: 'InitScreen' }), text: 'OK' }],
+            [{ onPress: () => setState({ screen: 'MainScreen' }), text: 'OK' }],
           )
         },
         style: 'destructive',
