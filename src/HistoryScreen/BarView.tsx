@@ -65,6 +65,9 @@ function BarView(props: Props) {
   // @ts-ignore: yLabel[0] will always be a number
   const minuteHeight = barGraphHeight / yLabels[0]
 
+  const morningYellow = 'rgb(255, 204, 0)'
+  const eveningPurple = 'rgb(175, 82, 222)'
+
   return (
     <View style={{ marginHorizontal: 15, marginTop: barTopMargin }}>
       {/* y axis */}
@@ -111,7 +114,11 @@ function BarView(props: Props) {
                   minHeight: barGraphHeight,
                 },
                 range === selected &&
-                  !sitsByHalfDay[range] && { borderBottomWidth: 2, borderColor: '#06c93acc', marginBottom: -2 },
+                  !sitsByHalfDay[range] && {
+                    borderBottomWidth: 2,
+                    borderColor: range[range.length - 2] === 'a' ? morningYellow : eveningPurple,
+                    marginBottom: -2,
+                  },
               ]}
             >
               {sitsByHalfDay[range] ? (
