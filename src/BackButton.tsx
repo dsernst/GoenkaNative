@@ -27,7 +27,7 @@ const BackButton = ({
       marginBottom: saveSpace ? 5 : 20,
       marginTop: 'auto',
       paddingBottom: saveSpace ? 36 : 40,
-      paddingTop: 20,
+      paddingTop: 27,
       width: 200,
     }}
   >
