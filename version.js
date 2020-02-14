@@ -28,6 +28,10 @@ const exec = promisify(require('child_process').exec)
 
 const plistPath = require('path').join(__dirname, './ios/GoenkaNative/Info.plist')
 let newVersionCode
+const shortVersion = version
+  .split('.')
+  .slice(0, 2)
+  .join('.')
 ;(async () => {
   // Update Android's build.gradle file
   const gradleBuildPath = './android/app/build.gradle'
@@ -46,7 +50,7 @@ let newVersionCode
       // Update versionName (user-facing)
       const versionNameIndex = line.indexOf('versionName ')
       if (versionNameIndex !== -1) {
-        return line.slice(0, versionNameIndex + 13) + version + '"'
+        return line.slice(0, versionNameIndex + 13) + shortVersion + '"'
       }
 
       return line
@@ -55,7 +59,7 @@ let newVersionCode
   fs.writeFileSync(gradleBuildPath, newGradleFile)
 
   // Write new version number to iOS's Info.plist
-  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${version}" ${plistPath}`)
+  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${shortVersion}" ${plistPath}`)
   await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${newVersionCode}" ${plistPath}`)
 
   // Add the changed files to git's index before it commits
