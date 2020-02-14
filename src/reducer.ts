@@ -4,7 +4,7 @@ import Sound from 'react-native-sound'
 
 import { ScreenNames } from './screens'
 
-const INITIAL_SCREEN = 'InitScreen'
+const INITIAL_SCREEN = 'FirstOpenQuestionScreen'
 
 export type Sit = {
   date: Date
@@ -31,6 +31,7 @@ export interface State extends ToggleableStates {
   duration: number
   history: Sit[]
   historyViewIndex: number
+  isOldStudent: boolean | null
   latestTrack: Sound | null
   pmNotificationTime: Date
   safeAreaInsetBottom: number
@@ -61,6 +62,7 @@ const initialState: State = {
   history: [],
   historyViewIndex: 1,
   isEnoughTime: true,
+  isOldStudent: null,
   latestTrack: null,
   pmNotification: false,
   pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
