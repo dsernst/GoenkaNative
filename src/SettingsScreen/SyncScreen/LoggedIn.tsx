@@ -76,17 +76,8 @@ const LoggedIn = ({ autoSyncCompletedSits, history, setState, toggle, user }: Lo
         </TouchableOpacity>
       </View>
 
-      {/* All sync'd message */}
-      <View style={{ height: 40, marginTop: 30 }}>
-        {allSynced && (
-          <Text style={{ color: '#56cc6a', fontSize: 16, fontWeight: '700', textAlign: 'center' }}>
-            All sync'ed &nbsp;&nbsp;&nbsp;ツ
-          </Text>
-        )}
-      </View>
-
       {/* Sits on device: x */}
-      <Text style={{ color: '#fff9', fontSize: 16 }}>
+      <Text style={{ color: '#fff9', fontSize: 16, marginTop: 45 }}>
         You have&nbsp;
         <Text style={{ color: '#fffd', fontWeight: '500' }}>{history.length}</Text>
         &nbsp;sit{history.length !== 1 && 's'} recorded on this devices,
@@ -159,36 +150,42 @@ const LoggedIn = ({ autoSyncCompletedSits, history, setState, toggle, user }: Lo
         </>
       ) : (
         <>
-          {/* Sync now button */}
-          <TouchableOpacity
-            activeOpacity={0.7}
-            disabled={allSynced}
-            onPress={() => {
-              // Upload all the local sits not already online
-              history
-                .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
-                .forEach(unsyncedSit =>
-                  firestore()
-                    .collection('sits')
-                    .add({ ...unsyncedSit, user_id: user.uid }),
-                )
-            }}
-            style={{
-              alignItems: 'center',
-              alignSelf: 'center',
-              borderColor: '#fff7',
-              borderRadius: 8,
-              borderWidth: 1,
-              flexDirection: 'row',
-              marginTop: 30,
-              opacity: allSynced ? 0.5 : 5,
-              paddingHorizontal: 15,
-              paddingVertical: 7,
-            }}
-          >
-            <Octicons color="#fffa" name="sync" size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
-            <Text style={{ color: '#fff9', fontSize: 18 }}>Sync now</Text>
-          </TouchableOpacity>
+          <View style={{ height: 40, marginTop: 30 }}>
+            {allSynced ? (
+              // All sync'd message
+              <Text style={{ color: '#56cc6a', fontSize: 16, fontWeight: '700', marginTop: 10, textAlign: 'center' }}>
+                All sync'ed &nbsp;&nbsp;&nbsp;ツ
+              </Text>
+            ) : (
+              // Sync now button
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  // Upload all the local sits not already online
+                  history
+                    .filter(localSit => !onlineSitsByDate[localSit.date.getTime()]) // Only keep if not already synced
+                    .forEach(unsyncedSit =>
+                      firestore()
+                        .collection('sits')
+                        .add({ ...unsyncedSit, user_id: user.uid }),
+                    )
+                }}
+                style={{
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                  borderColor: '#fff7',
+                  borderRadius: 8,
+                  borderWidth: 1,
+                  flexDirection: 'row',
+                  paddingHorizontal: 15,
+                  paddingVertical: 7,
+                }}
+              >
+                <Octicons color="#fffa" name="sync" size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
+                <Text style={{ color: '#fff9', fontSize: 18 }}>Sync now</Text>
+              </TouchableOpacity>
+            )}
+          </View>
 
           {/* autoSyncCompletedSits Switch */}
           <TouchableOpacity
