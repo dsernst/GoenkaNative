@@ -30,13 +30,13 @@ function BarView(props: Props) {
   }
 
   // Otherwise build our Bar graph
-  const now = dayjs()
-  const numDaysToShow = Math.ceil(now.endOf('day').diff(_.last(history)!.date, 'day', true))
+  const endOfToday = dayjs().endOf('day')
+  const numDaysToShow = Math.ceil(endOfToday.diff(_.last(history)!.date, 'day', true))
   const ranges: string[] = _.range(0, numDaysToShow)
     .reduce(
       (memo: Dayjs[], _unused, daysBack) => [
-        now.subtract(daysBack, 'day').subtract(12, 'hour'),
-        now.subtract(daysBack, 'day'),
+        endOfToday.subtract(daysBack, 'day').subtract(12, 'hour'),
+        endOfToday.subtract(daysBack, 'day'),
         ...memo,
       ],
       [],
