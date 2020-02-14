@@ -56,7 +56,7 @@ function BarView(props: Props) {
   const detailsHeight = 59
   const barGraphHeight = safeHeight - contentAboveBarView - barTopMargin - xAxisHeight - detailsHeight + 10
 
-  const barWidth = { width: 20 }
+  const barWidth = { width: 23 }
 
   // Calculate which yLabels to show & how to scale the graph vertically
   const maxElapsed = _.reduce(sitsByHalfDay, (memo, sits) => Math.max(memo, _.sum(_.map(sits, 'elapsed'))), 0)
@@ -98,35 +98,31 @@ function BarView(props: Props) {
         contentOffset={{ x: numDaysToShow * 50, y: 0 }}
         horizontal
         indicatorStyle="white"
-        style={{
-          marginLeft: 35,
-        }}
+        style={{ marginLeft: 35 }}
       >
         {ranges.map((range, index) => (
           <View key={index}>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => setSelected(selected === range ? undefined : range)}
-              style={[
-                {
-                  justifyContent: 'flex-end',
-                  marginRight: index % 2 ? 12 : 4,
-                  minHeight: barGraphHeight,
-                },
-                range === selected &&
-                  !sitsByHalfDay[range] && {
-                    borderBottomWidth: 2,
-                    borderColor: range[range.length - 2] === 'a' ? morningYellow : eveningPurple,
-                    marginBottom: -2,
-                  },
-              ]}
+              style={{
+                justifyContent: 'flex-end',
+                minHeight: barGraphHeight,
+                paddingLeft: index % 2 ? 2 : 8,
+                paddingRight: index % 2 ? 7 : 2,
+              }}
             >
               {sitsByHalfDay[range] ? (
                 [...sitsByHalfDay[range]].reverse().map((sit, index2) => (
                   <View
                     key={index2}
                     style={{
-                      backgroundColor: range === selected ? '#BCC1BD' : '#69736C',
+                      backgroundColor:
+                        range !== selected
+                          ? '#69736C'
+                          : range[range.length - 2] === 'a'
+                          ? morningYellow
+                          : eveningPurple,
                       height: sit.elapsed * minuteHeight + 1,
                       marginTop: 2,
                       ...barWidth,
@@ -135,7 +131,17 @@ function BarView(props: Props) {
                 ))
               ) : (
                 // Empty range
-                <View style={barWidth} />
+                <View
+                  style={[
+                    barWidth,
+                    range === selected && {
+                      borderColor: range[range.length - 2] === 'a' ? morningYellow : eveningPurple,
+                      borderStyle: 'dashed',
+                      borderWidth: 1,
+                      marginBottom: -2,
+                    },
+                  ]}
+                />
               )}
             </TouchableOpacity>
 
@@ -144,13 +150,14 @@ function BarView(props: Props) {
               {!(index % 2) && (
                 <>
                   {/* tick marks */}
-                  <View style={{ backgroundColor: '#fff2', height: 4, left: 21, top: 4, width: 1 }} />
+                  <View style={{ backgroundColor: '#fff2', height: 4, left: 33, top: 4, width: 1 }} />
 
                   {/* date labels */}
                   <Text
                     style={{
                       bottom: 25,
                       color: '#fff3',
+                      left: 10,
                       position: 'absolute',
                       textAlign: 'center',
                       transform: [{ rotate: '40deg' }],
