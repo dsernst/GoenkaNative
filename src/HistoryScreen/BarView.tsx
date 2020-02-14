@@ -54,19 +54,19 @@ function BarView(props: Props) {
   const xAxisHeight = 60
   const barTopMargin = 15
   const detailsHeight = 59
-  const barHeight = safeHeight - contentAboveBarView - barTopMargin - xAxisHeight - detailsHeight + 10
+  const barGraphHeight = safeHeight - contentAboveBarView - barTopMargin - xAxisHeight - detailsHeight + 10
 
   const barWidth = { width: 20 }
 
   const yLabels = [60, 45, 30, 15, '']
-  const minuteHeight = barHeight / 60
+  const minuteHeight = barGraphHeight / 60
 
   return (
     <View style={{ marginHorizontal: 15, marginTop: barTopMargin }}>
       {/* y axis */}
       <View
         style={{
-          height: barHeight + 17,
+          height: barGraphHeight + 17,
           justifyContent: 'space-between',
           position: 'absolute',
         }}
@@ -104,7 +104,7 @@ function BarView(props: Props) {
                 {
                   justifyContent: 'flex-end',
                   marginRight: index % 2 ? 12 : 4,
-                  minHeight: barHeight,
+                  minHeight: barGraphHeight,
                 },
                 range === selected &&
                   !sitsByHalfDay[range] && { borderBottomWidth: 2, borderColor: '#06c93acc', marginBottom: -2 },
