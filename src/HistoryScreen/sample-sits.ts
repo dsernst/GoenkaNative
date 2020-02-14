@@ -38,7 +38,7 @@ const exampleSits = [
   },
   {
     daysAgo: 4,
-    duration: 40,
+    duration: 30,
     time: '21:47',
   },
   {

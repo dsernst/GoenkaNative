@@ -48,103 +48,106 @@ function BarView(props: Props) {
   // Calc height for Details ScrollView
   const detailsYPos = 445
   const backButtonHeight = 83
-  const safeHeight = Dimensions.get('window').height - props.safeAreaInsetTop - props.safeAreaInsetBottom
+  const { height: screenHeight, width: screenWidth } = Dimensions.get('window')
+  const safeHeight = screenHeight - props.safeAreaInsetTop - props.safeAreaInsetBottom
   const detailsHeight = safeHeight - detailsYPos - backButtonHeight
 
+  const yLabels = [60, 45, 30, 15, '']
+  const barHeight = 120
+
   return (
-    <View style={{ marginLeft: 15, marginRight: 30, marginTop: 60 }}>
-      <View style={{ flexDirection: 'row' }}>
-        {/* y axis */}
-        <View style={{ justifyContent: 'flex-end', marginBottom: 83, paddingRight: 6 }}>
-          <View style={{ alignItems: 'center', bottom: 7, flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <Text style={{ color: '#fff5' }}>60</Text>
-            <View style={{ backgroundColor: '#fff5', height: 1, marginLeft: 5, width: 7 }} />
+    <View style={{ marginLeft: 15, marginRight: 15, marginTop: 30 }}>
+      {/* y axis */}
+      <View
+        style={{
+          height: barHeight + 17,
+          justifyContent: 'space-between',
+          position: 'absolute',
+        }}
+      >
+        {yLabels.map(label => (
+          <View key={label} style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <Text style={{ color: '#fff3' }}>{label}</Text>
+            <View style={{ backgroundColor: '#fff1', height: 1, marginLeft: 15, width: screenWidth - 94 }} />
           </View>
-          <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 7 }}>
-            <Text style={{ color: '#fff5' }}>45</Text>
-            <View style={{ backgroundColor: '#fff5', height: 1, marginLeft: 5, width: 7 }} />
-          </View>
-          <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 13 }}>
-            <Text style={{ color: '#fff5' }}>30</Text>
-            <View style={{ backgroundColor: '#fff5', height: 1, marginLeft: 5, width: 7 }} />
-          </View>
-          <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 12 }}>
-            <Text style={{ color: '#fff5' }}>15</Text>
-            <View style={{ backgroundColor: '#fff5', height: 1, marginLeft: 5, width: 7 }} />
-          </View>
-        </View>
-
-        {/* Main bar graph content */}
-        <ScrollView
-          contentContainerStyle={{
-            alignItems: 'flex-end',
-            justifyContent: 'flex-end',
-            paddingLeft: 20,
-            paddingRight: 40,
-          }}
-          contentOffset={{ x: numDaysToShow * 50, y: 0 }}
-          horizontal
-          indicatorStyle="white"
-        >
-          {ranges.map((range, index) => (
-            <View key={index}>
-              <TouchableOpacity
-                onPress={() => setSelected(selected === range ? undefined : range)}
-                style={[
-                  {
-                    justifyContent: 'flex-end',
-                    marginRight: index % 2 ? 12 : 4,
-                    minHeight: 120,
-                  },
-                  range === selected &&
-                    !sitsByHalfDay[range] && { borderBottomWidth: 2, borderColor: '#06c93acc', marginBottom: -2 },
-                ]}
-              >
-                {sitsByHalfDay[range] ? (
-                  [...sitsByHalfDay[range]].reverse().map((sit, index2) => (
-                    <View
-                      key={index2}
-                      style={{
-                        backgroundColor: `#fff${range === selected ? 'b' : '6'}`,
-                        height: sit.elapsed * 2 + 1,
-                        marginTop: 2,
-                        ...barWidth,
-                      }}
-                    />
-                  ))
-                ) : (
-                  // Empty range
-                  <View style={barWidth} />
-                )}
-              </TouchableOpacity>
-
-              {/* x axis */}
-              <View style={{ borderColor: '#fff2', borderTopWidth: 1, height: 60 }}>
-                {!(index % 2) && (
-                  <>
-                    {/* tick marks */}
-                    <View style={{ backgroundColor: '#fff2', height: 4, left: 21, top: 4, width: 1 }} />
-
-                    {/* date labels */}
-                    <Text
-                      style={{
-                        bottom: 25,
-                        color: '#fff4',
-                        position: 'absolute',
-                        textAlign: 'center',
-                        transform: [{ rotate: '40deg' }],
-                        width: 42,
-                      }}
-                    >
-                      {dayjs(range).format('M/D')}
-                    </Text>
-                  </>
-                )}
-              </View>
-            </View>
-          ))}
-        </ScrollView>
+        ))}
       </View>
+
+      {/* Main bar graph content */}
+      <ScrollView
+        contentContainerStyle={{
+          alignItems: 'flex-end',
+          justifyContent: 'flex-end',
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingTop: 7,
+        }}
+        contentOffset={{ x: numDaysToShow * 50, y: 0 }}
+        horizontal
+        indicatorStyle="white"
+        style={{
+          marginLeft: 35,
+        }}
+      >
+        {ranges.map((range, index) => (
+          <View key={index}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setSelected(selected === range ? undefined : range)}
+              style={[
+                {
+                  justifyContent: 'flex-end',
+                  marginRight: index % 2 ? 12 : 4,
+                  minHeight: 120,
+                },
+                range === selected &&
+                  !sitsByHalfDay[range] && { borderBottomWidth: 2, borderColor: '#06c93acc', marginBottom: -2 },
+              ]}
+            >
+              {sitsByHalfDay[range] ? (
+                [...sitsByHalfDay[range]].reverse().map((sit, index2) => (
+                  <View
+                    key={index2}
+                    style={{
+                      backgroundColor: range === selected ? '#BCC1BD' : '#69736C',
+                      height: sit.elapsed * 2 + 1,
+                      marginTop: 2,
+                      ...barWidth,
+                    }}
+                  />
+                ))
+              ) : (
+                // Empty range
+                <View style={barWidth} />
+              )}
+            </TouchableOpacity>
+
+            {/* x axis */}
+            <View style={{ height: xAxisHeight }}>
+              {!(index % 2) && (
+                <>
+                  {/* tick marks */}
+                  <View style={{ backgroundColor: '#fff2', height: 4, left: 21, top: 4, width: 1 }} />
+
+                  {/* date labels */}
+                  <Text
+                    style={{
+                      bottom: 25,
+                      color: '#fff3',
+                      position: 'absolute',
+                      textAlign: 'center',
+                      transform: [{ rotate: '40deg' }],
+                      width: 42,
+                    }}
+                  >
+                    {dayjs(range).format('M/D')}
+                  </Text>
+                </>
+              )}
+            </View>
+          </View>
+        ))}
+      </ScrollView>
 
       {/* Selected date details */}
       {selected && (
@@ -198,5 +201,6 @@ function BarView(props: Props) {
 }
 
 const barWidth = { width: 20 }
+const xAxisHeight = 60
 
 export default BarView
