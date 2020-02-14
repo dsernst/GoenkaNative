@@ -58,22 +58,6 @@ const shortVersion = version
     .join('\n')
   fs.writeFileSync(gradleBuildPath, newGradleFile)
 
-  // Make sure package.json's version.patch matches versionCode
-  const packageJsonPath = './package.json'
-  const packageJson = fs.readFileSync(packageJsonPath, 'utf8')
-  const newPackageJson = packageJson
-    .split('\n')
-    .map(line => {
-      // Increment versionCode (must be unique, but hidden from users)
-      if (line.startsWith('  "version": ')) {
-        return `${line.slice(0, 14)}${shortVersion}.${newVersionCode}",`
-      }
-
-      return line
-    })
-    .join('\n')
-  fs.writeFileSync(packageJsonPath, newPackageJson)
-
   // Write new version number to iOS's Info.plist
   await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${shortVersion}" ${plistPath}`)
   await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${newVersionCode}" ${plistPath}`)
@@ -81,5 +65,5 @@ const shortVersion = version
   // Add the changed files to git's index before it commits
   await exec('git add .')
 
-  console.log(`✅ Updated ios & android apps to v${shortVersion}(${newVersionCode})`)
+  console.log(`✅ Updated ios & android apps to v${version}(${newVersionCode})`)
 })()
