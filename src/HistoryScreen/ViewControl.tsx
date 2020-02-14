@@ -7,9 +7,9 @@ const color = '#405147'
 export default ({ toggleView, viewIndex }: { toggleView: (index: number) => void; viewIndex: number }) => (
   <View
     style={{
-      marginBottom: 5,
+      marginBottom: 20,
       marginHorizontal: 30,
-      paddingVertical: 15,
+      marginTop: 25,
     }}
   >
     <SegmentedControlTab

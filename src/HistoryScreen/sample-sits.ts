@@ -28,6 +28,11 @@ const exampleSits = [
   },
   {
     daysAgo: 2,
+    duration: 1,
+    time: '21:50',
+  },
+  {
+    daysAgo: 2,
     duration: 60,
     time: '11:57',
   },
@@ -44,7 +49,17 @@ const exampleSits = [
   {
     daysAgo: 4,
     duration: 15,
-    time: '10:27',
+    time: '10:47',
+  },
+  {
+    daysAgo: 4,
+    duration: 15,
+    time: '10:25',
+  },
+  {
+    daysAgo: 4,
+    duration: 15,
+    time: '10:07',
   },
   {
     daysAgo: 6,

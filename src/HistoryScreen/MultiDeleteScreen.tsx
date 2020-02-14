@@ -53,8 +53,8 @@ function MultiDeleteHistoryScreen(props: Props) {
           borderRadius: 7,
           height: 29,
           justifyContent: 'center',
-          marginBottom: 28,
-          marginTop: 28,
+          marginBottom: 20,
+          marginTop: 36,
           width: 170,
         }}
       >

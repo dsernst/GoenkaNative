@@ -52,11 +52,9 @@ function BarView(props: Props) {
   const safeHeight = screenHeight - props.safeAreaInsetTop - backButtonHeight - props.safeAreaInsetBottom
 
   const xAxisHeight = 60
-  const barTopMargin = 30
-  const detailsHeight = Math.min(selectedSits.length, 4) * 23
-  const barHeight = safeHeight - contentAboveBarView - barTopMargin - xAxisHeight - detailsHeight
-
-  console.log({ backButtonHeight, barHeight, contentAboveBarView, detailsHeight, safeHeight, screenHeight })
+  const barTopMargin = 15
+  const detailsHeight = 59
+  const barHeight = safeHeight - contentAboveBarView - barTopMargin - xAxisHeight - detailsHeight + 10
 
   const barWidth = { width: 20 }
 

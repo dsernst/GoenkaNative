@@ -16,7 +16,6 @@ export default (props: Props) => {
         color: '#fffe',
         fontWeight: '600',
         lineHeight: 21,
-        marginBottom: 10,
         textAlign: 'center',
       }}
     >
