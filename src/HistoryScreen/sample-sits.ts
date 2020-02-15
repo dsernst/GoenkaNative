@@ -3,8 +3,8 @@ import dayjs from 'dayjs'
 const exampleSits = [
   {
     daysAgo: 0,
-    duration: 45,
-    time: '18:01',
+    duration: 20,
+    time: '13:01',
   },
   {
     daysAgo: 0,
@@ -13,7 +13,7 @@ const exampleSits = [
   },
   {
     daysAgo: 1,
-    duration: 45,
+    duration: 35,
     time: '20:58',
   },
   {
@@ -43,14 +43,14 @@ const exampleSits = [
   },
   {
     daysAgo: 4,
-    duration: 30,
+    duration: 20,
     time: '21:47',
   },
-  {
-    daysAgo: 4,
-    duration: 15,
-    time: '10:47',
-  },
+  // {
+  //   daysAgo: 4,
+  //   duration: 15,
+  //   time: '10:47',
+  // },
   {
     daysAgo: 4,
     duration: 15,
