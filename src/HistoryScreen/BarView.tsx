@@ -95,7 +95,7 @@ function BarView(props: Props) {
           paddingRight: 10,
           paddingTop: 7,
         }}
-        contentOffset={{ x: numDaysToShow * 50, y: 0 }}
+        contentOffset={{ x: numDaysToShow * 60, y: 0 }}
         horizontal
         indicatorStyle="white"
         style={{ marginLeft: 35 }}
