@@ -3,7 +3,7 @@ import { Alert } from 'react-native'
 
 import { Props } from './reducer'
 
-function FirstOpenQuestionScreen({ isOldStudent, setState }: Props) {
+function InitQuestionScreen({ isOldStudent, setState }: Props) {
   const [shownPrompt, setShownPrompt] = useState(false)
 
   if (isOldStudent !== null) {
@@ -42,4 +42,4 @@ For help and/or questions with this app, email hi@goenka.app`,
   return <></>
 }
 
-export default FirstOpenQuestionScreen
+export default InitQuestionScreen

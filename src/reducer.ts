@@ -4,7 +4,7 @@ import Sound from 'react-native-sound'
 
 import { ScreenNames } from './screens'
 
-const INITIAL_SCREEN = 'FirstOpenQuestionScreen'
+const INITIAL_SCREEN = 'InitQuestionScreen'
 
 export type Sit = {
   date: Date
