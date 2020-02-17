@@ -1,5 +1,4 @@
-import { firebase } from '@react-native-firebase/auth'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Text } from 'react-native'
 
 import BackButton from '../../BackButton'
@@ -12,14 +11,6 @@ import LoggedIn from './LoggedIn'
 const SyncScreen = (props: Props) => {
   const [confirmation, setConfirmation] = useState()
   const [unverifiedPhone, setUnverifiedPhone] = useState()
-  const { setState } = props
-
-  useEffect(() => {
-    const subscriber = firebase.auth().onAuthStateChanged(user => {
-      setState({ user })
-    })
-    return subscriber // unsubscribe on unmount
-  }, [setState])
 
   return (
     <>
