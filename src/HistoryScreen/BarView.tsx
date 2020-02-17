@@ -60,9 +60,9 @@ function BarView(props: Props) {
 
   // Calculate which yLabels to show & how to scale the graph vertically
   const maxElapsed = _.reduce(sitsByHalfDay, (memo, sits) => Math.max(memo, _.sum(_.map(sits, 'elapsed'))), 0)
-  const yLabels = [...[60, 45, 30].filter(l => l < maxElapsed + 15), 15, '']
+  const yLabels = [..._.range(180, 14, -15).filter(l => l < maxElapsed + 15), '']
 
-  // @ts-ignore: yLabel[0] will always be a number
+  // @ts-ignore: yLabels[0] will always be a number
   const minuteHeight = barGraphHeight / yLabels[0]
 
   const morningYellow = 'rgb(255, 204, 0)'

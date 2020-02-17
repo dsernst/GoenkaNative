@@ -36,6 +36,11 @@ const exampleSits = [
     duration: 60,
     time: '11:57',
   },
+  // {
+  //   daysAgo: 2,
+  //   duration: 5,
+  //   time: '08:23',
+  // },
   {
     daysAgo: 3,
     duration: 35,
