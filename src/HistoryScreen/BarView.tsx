@@ -73,7 +73,7 @@ function BarView(props: Props) {
       {/* y axis */}
       <View
         style={{
-          height: barGraphHeight + 17,
+          height: barGraphHeight + 14,
           justifyContent: 'space-between',
           position: 'absolute',
         }}
@@ -112,7 +112,7 @@ function BarView(props: Props) {
                 paddingRight: index % 2 ? 7 : 2,
               }}
             >
-              {sitsByHalfDay[range] ? (
+              {sitsByHalfDay[range]?.filter(sit => sit.elapsed).length ? (
                 [...sitsByHalfDay[range]].reverse().map((sit, index2) => (
                   <View
                     key={index2}
@@ -123,8 +123,9 @@ function BarView(props: Props) {
                           : range[range.length - 2] === 'a'
                           ? morningYellow
                           : eveningPurple,
-                      height: sit.elapsed * minuteHeight + 1,
-                      marginTop: 2,
+                      borderColor: '#001709',
+                      borderTopWidth: index2 === 0 ? 0 : 1,
+                      height: sit.elapsed * minuteHeight,
                       ...barWidth,
                     }}
                   />
