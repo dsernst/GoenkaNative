@@ -802,7 +802,7 @@
 				DEVELOPMENT_TEAM = WZW4T5P3XR;
 				INFOPLIST_FILE = GoenkaNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.9.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -824,7 +824,7 @@
 				DEVELOPMENT_TEAM = WZW4T5P3XR;
 				INFOPLIST_FILE = GoenkaNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.9.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
