@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Dimensions, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 import { Props } from '../reducer'
+import ScrollViewOffset from './ScrollViewOffset'
 
 const cachedGroupBy = _.memoize(_.groupBy)
 type State = string | undefined
@@ -87,7 +88,7 @@ function BarView(props: Props) {
       </View>
 
       {/* Main bar graph content */}
-      <ScrollView
+      <ScrollViewOffset
         contentContainerStyle={{
           alignItems: 'flex-end',
           justifyContent: 'flex-end',
@@ -95,9 +96,9 @@ function BarView(props: Props) {
           paddingRight: 10,
           paddingTop: 7,
         }}
-        contentOffset={{ x: numDaysToShow * 60, y: 0 }}
         horizontal
         indicatorStyle="white"
+        startAtEnd
         style={{ marginLeft: 35 }}
       >
         {ranges.map((range, index) => (
@@ -172,7 +173,7 @@ function BarView(props: Props) {
             </View>
           </View>
         ))}
-      </ScrollView>
+      </ScrollViewOffset>
 
       {/* Selected date details */}
       {selected && (
