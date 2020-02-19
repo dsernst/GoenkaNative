@@ -2,10 +2,11 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import BackButton from '../../BackButton'
+import { Props } from '../../reducer'
 import TitleBar from '../../TitleBar'
 import EnterFriendPhone from './EnterFriendPhone'
 
-const FriendsScreen = () => {
+const FriendsScreen = (props: Props) => {
   return (
     <>
       <TitleBar name="FRIEND NOTIFICATIONS" />
@@ -21,7 +22,7 @@ const FriendsScreen = () => {
         Add Friends
       </Text>
 
-      <EnterFriendPhone />
+      {props.user ? <EnterFriendPhone user={props.user} /> : <Text style={{ color: '#fffa' }}>Not logged in</Text>}
 
       <BackButton to="SettingsScreen" />
     </>

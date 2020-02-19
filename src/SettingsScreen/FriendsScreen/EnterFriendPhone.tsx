@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
+import React, { useRef, useState } from 'react'
 import { Text, TextInput, TouchableOpacity } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const EnterFriendPhone = ({}: {}) => {
+import SendRequestButton from './SendRequestButton'
+
+const EnterFriendPhone = ({ user }: { user: FirebaseAuthTypes.User }) => {
   const [phone, setPhone] = useState('')
   const [error, setError] = useState()
   const [submitting, setSubmitting] = useState(false)
-  useEffect(() => {
-    if (!error && !submitting && phone.length === 12 && !phone.includes('+')) {
-      submit()
-    }
-  })
+  const [potentialFriend, setPotentialFriend] = useState()
 
   const textInput = useRef<TextInput>(null)
 
@@ -27,6 +27,7 @@ const EnterFriendPhone = ({}: {}) => {
         onChangeText={val => {
           setError(undefined)
           setSubmitting(false)
+          setPotentialFriend(undefined)
           setPhone(prettyFormat(val))
         }}
         placeholder="415 867 5309"
@@ -46,6 +47,7 @@ const EnterFriendPhone = ({}: {}) => {
 
       <TouchableOpacity
         activeOpacity={0.7}
+        disabled={!!potentialFriend}
         onPress={submit}
         style={{
           alignItems: 'center',
@@ -55,6 +57,7 @@ const EnterFriendPhone = ({}: {}) => {
           flexDirection: 'row',
           justifyContent: 'center',
           marginTop: 15,
+          opacity: potentialFriend ? 0.7 : 1,
           paddingHorizontal: 15,
           paddingVertical: 7,
         }}
@@ -75,35 +78,52 @@ const EnterFriendPhone = ({}: {}) => {
             marginTop: 14,
           }}
         >
-          Submitting...
+          Searching...
         </Text>
       )}
 
       {error && (
         <Text
           style={{
-            color: '#f00d',
+            color: '#ff5e5e',
             marginTop: 14,
           }}
         >
           {error}
         </Text>
       )}
+
+      {potentialFriend && <SendRequestButton potentialFriend={potentialFriend} user={user} />}
     </TouchableOpacity>
   )
 
   async function submit() {
     const phoneNumber = formatPhoneNumber(phone)
-    console.log('called EnterFriendPhone.submit() ', phoneNumber)
+    // console.log('called EnterFriendPhone.submit() ', phoneNumber)
+    let foundUser
 
     setError(undefined)
     setSubmitting(true)
+    setPotentialFriend(undefined)
     try {
-      setSubmitting(false)
+      foundUser = (
+        await firestore()
+          .collection('users')
+          .where('phone', '==', phoneNumber)
+          .get()
+      ).docs.map(doc => ({ id: doc.id, ...doc.data() }))[0]
     } catch (err) {
-      setSubmitting(false)
       return setError(err.toString())
     }
+    setSubmitting(false)
+
+    if (!foundUser) {
+      return setError(
+        "Can't find a user record for that number.\n\nAre you sure it's correct?\n\nMaybe they need to backup first?",
+      )
+    }
+
+    setPotentialFriend(foundUser)
   }
 
   function prettyFormat(phoneString: string) {
