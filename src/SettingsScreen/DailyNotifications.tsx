@@ -140,7 +140,7 @@ function DailyNotificationSettings(props: Props) {
           activeOpacity={0.7}
           key={key}
           onPress={() => toggleNotification(key)}
-          style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15 }}
+          style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 20 }}
         >
           <View style={{ flexDirection: 'row' }}>
             <Icon
@@ -170,7 +170,6 @@ function DailyNotificationSettings(props: Props) {
         style={{
           alignItems: 'flex-start',
           flexDirection: 'row',
-          marginTop: 10,
           minHeight: 41,
           paddingHorizontal: 40,
         }}
