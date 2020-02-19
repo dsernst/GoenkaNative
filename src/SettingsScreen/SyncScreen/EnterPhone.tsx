@@ -126,10 +126,10 @@ const EnterPhone = ({
 
     // If they pressed backspace, auto subtract the spaces we added
     // or let them edit normally
-    if (sanitized.length < phone.length) {
-      if (sanitized.length === 8 || sanitized.length === 4) {
-        if (sanitized[sanitized.length - 1] === ' ') {
-          return sanitized.slice(0, -1)
+    if (phoneString.length < phone.length) {
+      if (phone.length === 8 || phone.length === 4) {
+        if (phone[phone.length - 1] === ' ') {
+          return phoneString.slice(0, -1)
         }
       }
       return sanitized
