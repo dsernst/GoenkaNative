@@ -48,14 +48,11 @@ function AcceptedRequests({
               Alert.alert('Are you sure?', 'This will stop them from seeing your notifications as well.', [
                 { text: 'Cancel' },
                 {
-                  // onPress: () =>
-                  // firestore()
-                  //   .collection('pendingFriendRequests')
-                  //   .doc(request.id)
-                  //   .update({
-                  //     accepted: firestore.FieldValue.delete(),
-                  //     rejected: new Date(),
-                  //   }),
+                  onPress: () =>
+                    firestore()
+                      .collection('pendingFriendRequests')
+                      .doc(request.id)
+                      .delete(),
                   style: 'destructive',
                   text: 'Delete',
                 },
