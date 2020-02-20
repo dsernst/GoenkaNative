@@ -10,7 +10,6 @@ import TitleBar from '../TitleBar'
 import AuthedInfo from './AuthedInfo'
 import DailyNotificationSettings from './DailyNotifications'
 import Friends from './Friends/Friends'
-// import LoginFlow from './LoginFlow'
 import MoreInfoSection from './MoreInfo'
 import Section from './Section'
 import Sync from './Sync/Sync'
@@ -32,12 +31,18 @@ function SettingsScreen(props: Props) {
         <Section
           Content={Friends}
           icon={{ Set: Ionicons, name: 'ios-people', size: 23 }}
+          requiresLogin
           title="Friend notifications"
         />
 
-        <Section Content={Sync} icon={{ Set: Octicons, name: 'sync', size: 19 }} title="Backup your sit history" />
+        <Section
+          Content={Sync}
+          icon={{ Set: Octicons, name: 'sync', size: 19 }}
+          requiresLogin
+          title="Backup your sit history"
+        />
 
-        {user && <AuthedInfo {...props} />}
+        {user && <AuthedInfo user={user} />}
 
         <MoreInfoSection />
       </ScrollView>

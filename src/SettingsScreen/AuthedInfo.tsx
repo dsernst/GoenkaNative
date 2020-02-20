@@ -1,11 +1,11 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import auth from '@react-native-firebase/auth'
 import React from 'react'
 import { Alert, Text, TouchableOpacity, View } from 'react-native'
 
-import { Props } from '../reducer'
 import { prettyDisplayPhone } from './Friends/phone-helpers'
 
-function AuthedInfo({ user }: Props) {
+function AuthedInfo({ user }: { user: FirebaseAuthTypes.User }) {
   return (
     <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 30, paddingLeft: 10 }}>
       <Text style={{ color: '#fff9' }}>Verified as:</Text>

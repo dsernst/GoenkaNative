@@ -4,15 +4,17 @@ import Octicons from 'react-native-vector-icons/Octicons'
 import { connect } from 'react-redux'
 
 import { Props, State, Toggleables, setStatePayload } from '../reducer'
+import LoginFlow from './LoginFlow'
 
 type SectionProps = Props & {
   Content: (props: Props) => JSX.Element
   icon: { Set: typeof Octicons; name: string; size: number }
+  requiresLogin?: boolean
   title: string
 }
 
 function Section(props: SectionProps) {
-  const { Content, icon, title } = props
+  const { Content, icon, requiresLogin, title, user } = props
   const [enabled, setEnabled] = useState(false)
   const { Set } = icon
 
@@ -46,7 +48,9 @@ function Section(props: SectionProps) {
           style={{ marginLeft: 'auto', paddingTop: 3 }}
         />
       </TouchableOpacity>
-      <View style={{ paddingHorizontal: 18 }}>{enabled && <Content {...props} />}</View>
+      <View style={{ paddingHorizontal: 18 }}>
+        {enabled && (requiresLogin && !user ? <LoginFlow {...props} /> : <Content {...props} user={props.user} />)}
+      </View>
     </View>
   )
 }
