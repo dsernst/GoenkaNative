@@ -9,10 +9,10 @@ import { formatPhoneNumber, prettyFormat } from './phone-helpers'
 import SendRequestButton from './SendRequestButton'
 
 const EnterFriendPhone = ({
-  pendingFriendRequests,
+  outgoingFriendRequests,
   user,
 }: {
-  pendingFriendRequests: PendingFriendRequest[]
+  outgoingFriendRequests: PendingFriendRequest[]
   user: FirebaseAuthTypes.User
 }) => {
   const [phone, setPhone] = useState('')
@@ -54,7 +54,7 @@ const EnterFriendPhone = ({
             flex: 1,
             fontSize: 18,
             paddingLeft: 10,
-            paddingVertical: 10,
+            paddingVertical: 7,
           }}
           value={phone}
         />
@@ -73,7 +73,6 @@ const EnterFriendPhone = ({
             marginLeft: 10,
             opacity: potentialFriend ? 0.7 : 1,
             paddingHorizontal: 10,
-            paddingVertical: 7,
           }}
         >
           <MaterialCommunityIcons
@@ -127,7 +126,7 @@ const EnterFriendPhone = ({
     setError(undefined)
     textInput.current?.blur()
 
-    if (pendingFriendRequests.some(request => request.to_phone === phoneNumber)) {
+    if (outgoingFriendRequests.some(request => request.to_phone === phoneNumber)) {
       return setError('You already sent them a friend request')
     }
 

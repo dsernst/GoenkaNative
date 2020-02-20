@@ -41,10 +41,11 @@ export interface State extends ToggleableStates {
   duration: number
   history: Sit[]
   historyViewIndex: number
+  incomingFriendRequests: PendingFriendRequest[]
   isOldStudent: boolean | null
   latestTrack: Sound | null
   onlineSits: OnlineSit[]
-  pendingFriendRequests: PendingFriendRequest[]
+  outgoingFriendRequests: PendingFriendRequest[]
   pmNotificationTime: Date
   safeAreaInsetBottom: number
   safeAreaInsetTop: number
@@ -73,11 +74,12 @@ const initialState: State = {
   hasExtendedMetta: false,
   history: [],
   historyViewIndex: 1,
+  incomingFriendRequests: [],
   isEnoughTime: true,
   isOldStudent: null,
   latestTrack: null,
   onlineSits: [],
-  pendingFriendRequests: [],
+  outgoingFriendRequests: [],
   pmNotification: false,
   pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
   safeAreaInsetBottom: 0,

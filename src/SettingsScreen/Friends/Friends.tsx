@@ -3,16 +3,19 @@ import React from 'react'
 
 import { Props } from '../../reducer'
 import EnterFriendPhone from './EnterFriendPhone'
-import PendingRequests from './PendingRequests'
+import IncomingRequests from './IncomingRequests'
+import OutgoingRequests from './OutgoingRequests'
 
 const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
-  const { pendingFriendRequests } = props
+  const { incomingFriendRequests, outgoingFriendRequests } = props
 
   return (
     <>
-      <EnterFriendPhone pendingFriendRequests={pendingFriendRequests} user={props.user} />
+      <EnterFriendPhone outgoingFriendRequests={outgoingFriendRequests} user={props.user} />
 
-      {!!pendingFriendRequests?.length && <PendingRequests pendingFriendRequests={pendingFriendRequests} />}
+      {!!outgoingFriendRequests?.length && <OutgoingRequests outgoingFriendRequests={outgoingFriendRequests} />}
+
+      {!!incomingFriendRequests?.length && <IncomingRequests incomingFriendRequests={incomingFriendRequests} />}
     </>
   )
 }

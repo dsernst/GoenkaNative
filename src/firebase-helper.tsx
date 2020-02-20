@@ -4,23 +4,29 @@ import firestore from '@react-native-firebase/firestore'
 import { PendingFriendRequest, setStatePayload } from './reducer'
 
 function init(setState: (payload: setStatePayload) => void) {
-  let unsubscribeFromPendingFriendRequests: (() => void) | undefined
   let unsubscribeFromOnlineSits: (() => void) | undefined
+  let unsubscribeFromOutgoingFriendRequests: (() => void) | undefined
+  let unsubscribeFromIncomingFriendRequests: (() => void) | undefined
   const unsubscribeFromAuth = firebase.auth().onAuthStateChanged(user => {
     console.log('auth state changed:', user)
     setState({ user })
 
     // If no user, cancel existing subscriptions
     if (!user) {
-      if (unsubscribeFromPendingFriendRequests) {
-        console.log('unsubscribeFromPendingFriendRequests()')
-        unsubscribeFromPendingFriendRequests()
-        unsubscribeFromPendingFriendRequests = undefined
-      }
       if (unsubscribeFromOnlineSits) {
         console.log('unsubscribeFromOnlineSits()')
         unsubscribeFromOnlineSits()
         unsubscribeFromOnlineSits = undefined
+      }
+      if (unsubscribeFromOutgoingFriendRequests) {
+        console.log('unsubscribeFromOutgoingFriendRequests()')
+        unsubscribeFromOutgoingFriendRequests()
+        unsubscribeFromOutgoingFriendRequests = undefined
+      }
+      if (unsubscribeFromIncomingFriendRequests) {
+        console.log('unsubscribeFromIncomingFriendRequests()')
+        unsubscribeFromIncomingFriendRequests()
+        unsubscribeFromIncomingFriendRequests = undefined
       }
       return
     }
@@ -43,22 +49,35 @@ function init(setState: (payload: setStatePayload) => void) {
         })
       })
 
-    console.log('Subscribing to pending friend requests')
-    unsubscribeFromPendingFriendRequests = firestore()
+    console.log('Subscribing to outgoing friend requests')
+    unsubscribeFromOutgoingFriendRequests = firestore()
       .collection('pendingFriendRequests')
       .where('from', '==', user.uid)
       .onSnapshot(results => {
-        console.log("firestore().collection('pendingFriendRequests').onSnapshot()")
+        console.log('outgoing pendingFriendRequests.onSnapshot()')
         setState({
           // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
-          pendingFriendRequests: results.docs.map((doc): PendingFriendRequest => ({ id: doc.id, ...doc.data() })),
+          outgoingFriendRequests: results.docs.map((doc): PendingFriendRequest => ({ id: doc.id, ...doc.data() })),
+        })
+      })
+
+    console.log('Subscribing to incoming friend requests')
+    unsubscribeFromIncomingFriendRequests = firestore()
+      .collection('pendingFriendRequests')
+      .where('to_user_id', '==', user.uid)
+      .onSnapshot(results => {
+        console.log('incoming pendingFriendRequests.onSnapshot()')
+        setState({
+          // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
+          incomingFriendRequests: results.docs.map((doc): PendingFriendRequest => ({ id: doc.id, ...doc.data() })),
         })
       })
   })
 
   return () => {
-    unsubscribeFromPendingFriendRequests && unsubscribeFromPendingFriendRequests()
     unsubscribeFromOnlineSits && unsubscribeFromOnlineSits()
+    unsubscribeFromOutgoingFriendRequests && unsubscribeFromOutgoingFriendRequests()
+    unsubscribeFromIncomingFriendRequests && unsubscribeFromIncomingFriendRequests()
     unsubscribeFromAuth()
   }
 }
