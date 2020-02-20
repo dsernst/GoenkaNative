@@ -67,9 +67,26 @@ function init(setState: (payload: setStatePayload) => void) {
       .where('to_user_id', '==', user.uid)
       .onSnapshot(results => {
         console.log('incoming pendingFriendRequests.onSnapshot()')
-        setState({
+        const incomingFriendRequests: PendingFriendRequest[] = []
+        const acceptedFriendRequests: PendingFriendRequest[] = []
+        const rejectedFriendRequests: PendingFriendRequest[] = []
+
+        results.docs.forEach(doc => {
           // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
-          incomingFriendRequests: results.docs.map((doc): PendingFriendRequest => ({ id: doc.id, ...doc.data() })),
+          const request: PendingFriendRequest = { id: doc.id, ...doc.data() }
+          if (request.accepted) {
+            acceptedFriendRequests.push(request)
+          } else if (request.rejected) {
+            rejectedFriendRequests.push(request)
+          } else {
+            incomingFriendRequests.push(request)
+          }
+        })
+
+        setState({
+          acceptedFriendRequests,
+          incomingFriendRequests,
+          rejectedFriendRequests,
         })
       })
   })

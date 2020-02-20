@@ -16,9 +16,11 @@ export type Sit = {
 }
 
 export type PendingFriendRequest = {
+  accepted?: Date
   created_at: Date
   from: string
   id: string
+  rejected?: Date
   to_phone: string
   to_user_id: string
 }
@@ -37,6 +39,7 @@ type ToggleableStates = {
 }
 
 export interface State extends ToggleableStates {
+  acceptedFriendRequests: PendingFriendRequest[]
   amNotificationTime: Date
   duration: number
   history: Sit[]
@@ -47,6 +50,7 @@ export interface State extends ToggleableStates {
   onlineSits: OnlineSit[]
   outgoingFriendRequests: PendingFriendRequest[]
   pmNotificationTime: Date
+  rejectedFriendRequests: PendingFriendRequest[]
   safeAreaInsetBottom: number
   safeAreaInsetTop: number
   screen: ScreenNames
@@ -65,6 +69,7 @@ export interface Props extends State {
 }
 
 const initialState: State = {
+  acceptedFriendRequests: [],
   amNotification: false,
   amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
   autoSyncCompletedSits: true,
@@ -82,6 +87,7 @@ const initialState: State = {
   outgoingFriendRequests: [],
   pmNotification: false,
   pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
+  rejectedFriendRequests: [],
   safeAreaInsetBottom: 0,
   safeAreaInsetTop: 18,
   screen: INITIAL_SCREEN,
