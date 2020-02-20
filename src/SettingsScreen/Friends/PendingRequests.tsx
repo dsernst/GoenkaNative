@@ -2,7 +2,8 @@ import firestore from '@react-native-firebase/firestore'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
-import { PendingFriendRequest } from './EnterFriendPhone'
+import { PendingFriendRequest } from '../../reducer'
+import { prettyDisplayPhone } from './phone-helpers'
 
 function PendingRequests({ pendingFriendRequests }: { pendingFriendRequests: PendingFriendRequest[] }) {
   return (
@@ -25,12 +26,6 @@ function PendingRequests({ pendingFriendRequests }: { pendingFriendRequests: Pen
       ))}
     </>
   )
-}
-
-function prettyDisplayPhone(phone: string) {
-  return phone.length !== 12
-    ? phone
-    : `${phone.slice(0, 2)} ${phone.slice(2, 5)} ${phone.slice(5, 8)} ${phone.slice(8, 12)}`
 }
 
 export default PendingRequests

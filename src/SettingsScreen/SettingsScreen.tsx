@@ -7,13 +7,16 @@ import Octicons from 'react-native-vector-icons/Octicons'
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
+import AuthedInfo from './AuthedInfo'
 import DailyNotificationSettings from './DailyNotifications'
-import FriendsScreen from './Friends/Friends'
+import Friends from './Friends/Friends'
+// import LoginFlow from './LoginFlow'
 import MoreInfoSection from './MoreInfo'
 import Section from './Section'
-import SyncScreen from './Sync/Sync'
+import Sync from './Sync/Sync'
 
-function SettingsScreen({ onlineSits, pendingFriendRequests }: Props) {
+function SettingsScreen(props: Props) {
+  const { onlineSits, pendingFriendRequests, user } = props
   console.log({ onlineSits: onlineSits.length, pendingFriendRequests: pendingFriendRequests.length })
   return (
     <>
@@ -27,16 +30,14 @@ function SettingsScreen({ onlineSits, pendingFriendRequests }: Props) {
         />
 
         <Section
-          Content={FriendsScreen}
+          Content={Friends}
           icon={{ Set: Ionicons, name: 'ios-people', size: 23 }}
           title="Friend notifications"
         />
 
-        <Section
-          Content={SyncScreen}
-          icon={{ Set: Octicons, name: 'sync', size: 19 }}
-          title="Backup your sit history"
-        />
+        <Section Content={Sync} icon={{ Set: Octicons, name: 'sync', size: 19 }} title="Backup your sit history" />
+
+        {user && <AuthedInfo {...props} />}
 
         <MoreInfoSection />
       </ScrollView>
