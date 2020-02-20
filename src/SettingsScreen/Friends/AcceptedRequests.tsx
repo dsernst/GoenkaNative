@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore'
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Text, TouchableOpacity, View } from 'react-native'
 
 import { PendingFriendRequest } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
@@ -11,20 +11,28 @@ function AcceptedRequests({ acceptedFriendRequests }: { acceptedFriendRequests: 
       <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Friends:</Text>
       {acceptedFriendRequests?.map(request => (
         <View key={request.id} style={{ alignItems: 'center', flexDirection: 'row', marginTop: 15 }}>
-          <Text style={{ color: '#fffa' }}>{prettyDisplayPhone(request.to_phone)}&nbsp; &nbsp;—&nbsp; &nbsp;</Text>
           <TouchableOpacity
             onPress={() =>
-              firestore()
-                .collection('pendingFriendRequests')
-                .doc(request.id)
-                .update({
-                  accepted: firestore.FieldValue.delete(),
-                  rejected: new Date(),
-                })
+              Alert.alert('Are you sure?', 'This will stop them from seeing your notifications as well.', [
+                { text: 'Cancel' },
+                {
+                  onPress: () =>
+                    firestore()
+                      .collection('pendingFriendRequests')
+                      .doc(request.id)
+                      .update({
+                        accepted: firestore.FieldValue.delete(),
+                        rejected: new Date(),
+                      }),
+                  style: 'destructive',
+                  text: 'Delete',
+                },
+              ])
             }
           >
-            <Text style={{ color: '#9CDCFEee' }}>Delete</Text>
+            <Text style={{ color: '#ff5e5eee' }}>&nbsp; ✗&nbsp; </Text>
           </TouchableOpacity>
+          <Text style={{ color: '#fffa' }}>&nbsp; {prettyDisplayPhone(request.to_phone)}</Text>
         </View>
       ))}
     </>
