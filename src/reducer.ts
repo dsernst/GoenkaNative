@@ -15,6 +15,16 @@ export type Sit = {
   selected?: boolean
 }
 
+export type PendingFriendRequest = {
+  created_at: Date
+  from: string
+  id: string
+  to_phone: string
+  to_user_id: string
+}
+
+type OnlineSit = Sit & { id: string; user_id: string }
+
 type ToggleableStates = {
   amNotification: boolean
   autoSyncCompletedSits: boolean
@@ -33,6 +43,8 @@ export interface State extends ToggleableStates {
   historyViewIndex: number
   isOldStudent: boolean | null
   latestTrack: Sound | null
+  onlineSits: OnlineSit[]
+  pendingFriendRequests: PendingFriendRequest[]
   pmNotificationTime: Date
   safeAreaInsetBottom: number
   safeAreaInsetTop: number
@@ -64,6 +76,8 @@ const initialState: State = {
   isEnoughTime: true,
   isOldStudent: null,
   latestTrack: null,
+  onlineSits: [],
+  pendingFriendRequests: [],
   pmNotification: false,
   pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
   safeAreaInsetBottom: 0,

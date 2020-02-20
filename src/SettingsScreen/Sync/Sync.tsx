@@ -5,7 +5,7 @@ import EnterPhone from './EnterPhone'
 import EnterVerificationCode from './EnterVerificationCode'
 import LoggedIn from './LoggedIn'
 
-const SyncScreen = (props: Props) => {
+const Sync = (props: Props) => {
   const [confirmation, setConfirmation] = useState()
   const [unverifiedPhone, setUnverifiedPhone] = useState()
 
@@ -31,4 +31,4 @@ const SyncScreen = (props: Props) => {
   )
 }
 
-export default SyncScreen
+export default Sync

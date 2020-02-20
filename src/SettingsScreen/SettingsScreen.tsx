@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import Octicons from 'react-native-vector-icons/Octicons'
 
 import BackButton from '../BackButton'
+import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
 import DailyNotificationSettings from './DailyNotifications'
 import FriendsScreen from './Friends/Friends'
@@ -12,7 +13,8 @@ import MoreInfoSection from './MoreInfo'
 import Section from './Section'
 import SyncScreen from './Sync/Sync'
 
-function SettingsScreen() {
+function SettingsScreen({ onlineSits, pendingFriendRequests }: Props) {
+  console.log({ onlineSits: onlineSits.length, pendingFriendRequests: pendingFriendRequests.length })
   return (
     <>
       <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 17 }} />
@@ -39,7 +41,7 @@ function SettingsScreen() {
         <MoreInfoSection />
       </ScrollView>
 
-      <BackButton />
+      <BackButton saveSpace />
     </>
   )
 }

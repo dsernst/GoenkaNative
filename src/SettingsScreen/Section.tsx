@@ -24,7 +24,7 @@ function Section(props: SectionProps) {
         style={{
           alignItems: 'center',
           alignSelf: 'center',
-          borderColor: '#fff4',
+          borderColor: '#fff1',
           borderRadius: 8,
           borderWidth: 1,
           flexDirection: 'row',

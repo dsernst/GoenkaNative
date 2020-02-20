@@ -1,47 +1,16 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore'
 import _ from 'lodash'
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { Alert, Platform, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native'
 import Octicons from 'react-native-vector-icons/Octicons'
 
 import SitRow from '../../HistoryScreen/SitRow'
-import { Props, Sit } from '../../reducer'
+import { Props } from '../../reducer'
 
-type OnlineSit = Sit & { id: string; user_id: string }
-type State = OnlineSit[] | undefined
 type LoggedInProps = Props & { user: FirebaseAuthTypes.User }
 
-const LoggedIn = ({ autoSyncCompletedSits, history, setState, toggle, user }: LoggedInProps) => {
-  const [onlineSits, setOnlineSits] = useState<State>()
-
-  const getSits = useCallback(
-    () =>
-      firestore()
-        .collection('sits')
-        .where('user_id', '==', user.uid)
-        .orderBy('date', 'desc'),
-    [user.uid],
-  )
-
-  // On load, fetch our sits
-  useEffect(() => {
-    console.log('Subscribing to online sits')
-    const unsubscribe = getSits().onSnapshot(results => {
-      console.log("firestore().collection('sits').onSnapshot()")
-      setOnlineSits(
-        results.docs
-          // @ts-ignore: doc.data() has imprecise typing, manually specify instead
-          .map((doc): { date: FirebaseFirestoreTypes.Timestamp } & OnlineSit => ({ id: doc.id, ...doc.data() }))
-
-          // Convert Firebase Timestamp to normal js Date
-          .map(d => ({ ...d, date: d.date.toDate() })),
-      )
-    })
-
-    return () => unsubscribe() // Stop listening for updates on unmount
-  }, [getSits])
-
+const LoggedIn = ({ autoSyncCompletedSits, history, onlineSits, setState, toggle, user }: LoggedInProps) => {
   const onlineSitsByDate = _.keyBy(onlineSits, oS => oS.date.getTime())
   const localSitsByDate = _.keyBy(history, s => s.date.getTime())
 

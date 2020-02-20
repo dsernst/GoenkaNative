@@ -4,16 +4,9 @@ import React, { RefObject, useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
+import { PendingFriendRequest } from '../../reducer'
 import { formatPhoneNumber, prettyFormat } from './phone-helpers'
 import SendRequestButton from './SendRequestButton'
-
-export type PendingFriendRequest = {
-  created_at: Date
-  from: string
-  id: string
-  to_phone: string
-  to_user_id: string
-}
 
 const EnterFriendPhone = ({
   pendingFriendRequests,
@@ -52,8 +45,8 @@ const EnterFriendPhone = ({
             color: '#fffd',
             flex: 1,
             fontSize: 18,
+            paddingLeft: 10,
             paddingVertical: 10,
-            textAlign: 'center',
           }}
           value={phone}
         />

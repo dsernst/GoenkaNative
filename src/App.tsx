@@ -1,4 +1,3 @@
-import { firebase } from '@react-native-firebase/auth'
 import _ from 'lodash'
 import React, { useEffect } from 'react'
 import { Animated, StatusBar, View, YellowBox } from 'react-native'
@@ -6,6 +5,7 @@ import SplashScreen from 'react-native-splash-screen'
 import { connect } from 'react-redux'
 
 import c, { SoundWithDelay } from './clips'
+import firebaseHelper from './firebase-helper'
 import { Props, State, Toggleables, setStatePayload } from './reducer'
 import safeAreaHelper from './safe-area-helper'
 import screens from './screens'
@@ -28,15 +28,9 @@ function App(props: Props) {
   useEffect(() => {
     // console.log('Init effect')
     safeAreaHelper.init(setState)
+    const unsubscribeFromFirebase = firebaseHelper.init(setState)
     SplashScreen.hide() // Wait for JS to load before hiding splash screen
-  }, [setState])
-
-  // Init firebase auth
-  useEffect(() => {
-    const subscriber = firebase.auth().onAuthStateChanged(user => {
-      setState({ user })
-    })
-    return subscriber // unsubscribe on unmount
+    return () => unsubscribeFromFirebase()
   }, [setState])
 
   // Play new track
