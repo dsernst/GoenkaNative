@@ -1,14 +1,18 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import React, { useState } from 'react'
+import React, { Dispatch, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 function SendRequestButton({
   potentialFriend,
+  setPhone,
+  setPotentialFriend,
   user,
 }: {
   potentialFriend: { id: string; phone: string }
+  setPhone: Dispatch<string>
+  setPotentialFriend: Dispatch<undefined>
   user: FirebaseAuthTypes.User
 }) {
   const [error, setError] = useState()
@@ -82,6 +86,8 @@ function SendRequestButton({
       return setError(err.toString())
     }
     setSubmitting(false)
+    setPotentialFriend(undefined)
+    setPhone('')
   }
 }
 

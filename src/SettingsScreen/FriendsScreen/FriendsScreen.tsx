@@ -51,7 +51,7 @@ const FriendsScreen = (props: Props) => {
 
       <EnterFriendPhone pendingFriendRequests={pendingFriendRequests} textInput={textInput} user={props.user} />
 
-      {pendingFriendRequests.length && <PendingRequests pendingFriendRequests={pendingFriendRequests} />}
+      {!!pendingFriendRequests?.length && <PendingRequests pendingFriendRequests={pendingFriendRequests} />}
 
       <BackButton to="SettingsScreen" />
     </TouchableOpacity>

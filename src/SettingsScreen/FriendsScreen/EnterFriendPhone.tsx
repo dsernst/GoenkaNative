@@ -1,6 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import React, { Ref, useState } from 'react'
+import React, { RefObject, useState } from 'react'
 import { Text, TextInput, TouchableOpacity } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -21,7 +21,7 @@ const EnterFriendPhone = ({
   user,
 }: {
   pendingFriendRequests: PendingFriendRequest[]
-  textInput: Ref<TextInput>
+  textInput: RefObject<TextInput>
   user: FirebaseAuthTypes.User
 }) => {
   const [phone, setPhone] = useState('')
@@ -107,7 +107,14 @@ const EnterFriendPhone = ({
         </Text>
       )}
 
-      {potentialFriend && <SendRequestButton potentialFriend={potentialFriend} user={user} />}
+      {potentialFriend && (
+        <SendRequestButton
+          potentialFriend={potentialFriend}
+          setPhone={setPhone}
+          setPotentialFriend={setPotentialFriend}
+          user={user}
+        />
+      )}
     </>
   )
 
@@ -117,6 +124,7 @@ const EnterFriendPhone = ({
     let foundUser
 
     setError(undefined)
+    textInput.current?.blur()
 
     if (pendingFriendRequests.some(request => request.to_phone === phoneNumber)) {
       return setError('You already sent them a friend request')
