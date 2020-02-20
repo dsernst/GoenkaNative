@@ -3,7 +3,7 @@ import { Linking, Text, View } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export default () => (
-  <View style={{ flexDirection: 'row', marginRight: 30, marginTop: 50 }}>
+  <View style={{ flexDirection: 'row', marginRight: 30 }}>
     <Ionicons
       color="#fff8"
       name="ios-information-circle-outline"

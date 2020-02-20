@@ -1,71 +1,43 @@
 import React from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { ScrollView } from 'react-native'
+import Entypo from 'react-native-vector-icons/Entypo'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Octicons from 'react-native-vector-icons/Octicons'
 
 import BackButton from '../BackButton'
-import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
 import DailyNotificationSettings from './DailyNotifications'
+import FriendsScreen from './Friends/Friends'
 import MoreInfoSection from './MoreInfo'
+import Section from './Section'
+import SyncScreen from './Sync/Sync'
 
-function SettingsScreen(props: Props) {
+function SettingsScreen() {
   return (
     <>
-      <TitleBar name="SETTINGS" showVersion />
-      <DailyNotificationSettings {...props} />
+      <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 17 }} />
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => props.setState({ screen: 'SyncScreen' })}
-        style={{
-          alignItems: 'center',
-          alignSelf: 'center',
-          borderColor: '#fff7',
-          borderRadius: 8,
-          borderWidth: 1,
-          flexDirection: 'row',
-          height: 39,
-          marginTop: 50,
-          paddingHorizontal: 15,
-        }}
-      >
-        <Octicons color="#fffa" name="sync" size={18} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
-        <Text style={{ color: '#fff9', fontSize: 18 }}>Backup your sit history</Text>
-        <Octicons
-          color="#fff5"
-          name={'chevron-right'}
-          size={18}
-          style={{ paddingLeft: 24, paddingTop: 3, width: 35 }}
+      <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 16 }}>
+        <Section
+          Content={DailyNotificationSettings}
+          icon={{ Set: Entypo, name: 'notification', size: 17 }}
+          title="Daily notifications"
         />
-      </TouchableOpacity>
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => props.setState({ screen: 'FriendsScreen' })}
-        style={{
-          alignItems: 'center',
-          alignSelf: 'center',
-          borderColor: '#fff7',
-          borderRadius: 8,
-          borderWidth: 1,
-          flexDirection: 'row',
-          height: 39,
-          marginTop: 30,
-          paddingHorizontal: 15,
-        }}
-      >
-        <Ionicons color="#fffa" name="ios-people" size={25} style={{ paddingLeft: 1, paddingTop: 4, width: 39 }} />
-        <Text style={{ color: '#fff9', fontSize: 18 }}>Friend Notifications</Text>
-        <Octicons
-          color="#fff5"
-          name={'chevron-right'}
-          size={18}
-          style={{ paddingLeft: 24, paddingTop: 3, width: 35 }}
+        <Section
+          Content={FriendsScreen}
+          icon={{ Set: Ionicons, name: 'ios-people', size: 23 }}
+          title="Friend notifications"
         />
-      </TouchableOpacity>
 
-      <MoreInfoSection />
+        <Section
+          Content={SyncScreen}
+          icon={{ Set: Octicons, name: 'sync', size: 19 }}
+          title="Backup your sit history"
+        />
+
+        <MoreInfoSection />
+      </ScrollView>
 
       <BackButton />
     </>

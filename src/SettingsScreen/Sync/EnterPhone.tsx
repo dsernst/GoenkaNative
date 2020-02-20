@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Text, TextInput, TouchableOpacity } from 'react-native'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 
-import { formatPhoneNumber, prettyFormat } from '../FriendsScreen/phone-helpers'
+import { formatPhoneNumber, prettyFormat } from '../Friends/phone-helpers'
 
 const EnterPhone = ({
   setConfirmation,

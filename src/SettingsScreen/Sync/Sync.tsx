@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import { Text } from 'react-native'
 
-import BackButton from '../../BackButton'
 import { Props } from '../../reducer'
-import TitleBar from '../../TitleBar'
 import EnterPhone from './EnterPhone'
 import EnterVerificationCode from './EnterVerificationCode'
 import LoggedIn from './LoggedIn'
@@ -14,19 +11,6 @@ const SyncScreen = (props: Props) => {
 
   return (
     <>
-      <TitleBar name="SYNC" />
-
-      <Text
-        style={{
-          color: '#fff9',
-          fontSize: 18,
-          fontWeight: '600',
-          marginTop: 14,
-        }}
-      >
-        Backup your sit history
-      </Text>
-
       {props.user ? (
         <LoggedIn {...props} user={props.user} />
       ) : !confirmation ? (
@@ -43,8 +27,6 @@ const SyncScreen = (props: Props) => {
           unverifiedPhone={unverifiedPhone}
         />
       )}
-
-      <BackButton to="SettingsScreen" />
     </>
   )
 }

@@ -2,9 +2,7 @@ import firestore from '@react-native-firebase/firestore'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Text, TextInput, TouchableOpacity } from 'react-native'
 
-import BackButton from '../../BackButton'
 import { Props } from '../../reducer'
-import TitleBar from '../../TitleBar'
 import EnterFriendPhone, { PendingFriendRequest } from './EnterFriendPhone'
 import PendingRequests from './PendingRequests'
 
@@ -34,26 +32,23 @@ const FriendsScreen = (props: Props) => {
     return () => unsubscribe() // Stop listening for updates on unmount
   }, [getPendingRequests])
 
+  console.log({ pendingFriendRequests })
+
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => textInput.current?.blur()} style={{ flex: 1 }}>
-      <TitleBar name="FRIEND NOTIFICATIONS" />
-
       <Text
         style={{
           color: '#fff9',
           fontSize: 18,
-          fontWeight: '600',
-          marginTop: 14,
+          fontWeight: '500',
         }}
       >
-        Add Friends
+        Add friend by phone number:
       </Text>
 
       <EnterFriendPhone pendingFriendRequests={pendingFriendRequests} textInput={textInput} user={props.user} />
 
       {!!pendingFriendRequests?.length && <PendingRequests pendingFriendRequests={pendingFriendRequests} />}
-
-      <BackButton to="SettingsScreen" />
     </TouchableOpacity>
   )
 }

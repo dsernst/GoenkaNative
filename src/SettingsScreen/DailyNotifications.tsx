@@ -140,7 +140,12 @@ function DailyNotificationSettings(props: Props) {
           activeOpacity={0.7}
           key={key}
           onPress={() => toggleNotification(key)}
-          style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 20 }}
+          style={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingBottom: 20,
+          }}
         >
           <View style={{ flexDirection: 'row' }}>
             <Icon
@@ -149,7 +154,7 @@ function DailyNotificationSettings(props: Props) {
               size={22}
               style={{ paddingLeft: key === 'evening' ? 4 : 0, width: 35 }}
             />
-            <Text style={{ color: '#fffa', fontSize: 18 }}>Notification each {key}?</Text>
+            <Text style={{ color: '#fffa', fontSize: 16 }}>Notification each {key}?</Text>
           </View>
           <Switch
             onValueChange={() => toggleNotification(key)}
@@ -171,7 +176,7 @@ function DailyNotificationSettings(props: Props) {
           alignItems: 'flex-start',
           flexDirection: 'row',
           minHeight: 41,
-          paddingHorizontal: 40,
+          paddingHorizontal: 34,
         }}
       >
         {AdjustTimeTuples.map(([isOn, setPickerVisible, style, time]) => (

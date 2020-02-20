@@ -1,7 +1,7 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import React, { RefObject, useState } from 'react'
-import { Text, TextInput, TouchableOpacity } from 'react-native'
+import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { formatPhoneNumber, prettyFormat } from './phone-helpers'
@@ -31,59 +31,59 @@ const EnterFriendPhone = ({
 
   return (
     <>
-      <Text style={{ color: '#fff9', marginTop: 15 }}>What is their phone number?</Text>
-
-      <TextInput
-        autoCapitalize="none"
-        autoCompleteType="tel"
-        autoCorrect={false}
-        keyboardType="phone-pad"
-        onChangeText={newVal => {
-          setError(undefined)
-          setSubmitting(false)
-          setPotentialFriend(undefined)
-          setPhone(prettyFormat(newVal, phone))
-        }}
-        placeholder="415 867 5309"
-        placeholderTextColor="#fff5"
-        ref={textInput}
-        style={{
-          backgroundColor: '#353d38',
-          borderRadius: 7,
-          color: '#fffd',
-          fontSize: 18,
-          marginTop: 15,
-          paddingVertical: 10,
-          textAlign: 'center',
-        }}
-        value={phone}
-      />
-
-      <TouchableOpacity
-        activeOpacity={0.7}
-        disabled={!!potentialFriend}
-        onPress={submit}
-        style={{
-          alignItems: 'center',
-          borderColor: '#fff4',
-          borderRadius: 8,
-          borderWidth: 1,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: 15,
-          opacity: potentialFriend ? 0.7 : 1,
-          paddingHorizontal: 15,
-          paddingVertical: 7,
-        }}
-      >
-        <MaterialCommunityIcons
-          color="#fffa"
-          name="account-search"
-          size={20}
-          style={{ paddingLeft: 4, paddingRight: 8, paddingTop: 2 }}
+      <View style={{ flexDirection: 'row', marginTop: 14 }}>
+        <TextInput
+          autoCapitalize="none"
+          autoCompleteType="tel"
+          autoCorrect={false}
+          keyboardType="phone-pad"
+          onChangeText={newVal => {
+            setError(undefined)
+            setSubmitting(false)
+            setPotentialFriend(undefined)
+            setPhone(prettyFormat(newVal, phone))
+          }}
+          placeholder="415 867 5309"
+          placeholderTextColor="#fff5"
+          ref={textInput}
+          style={{
+            backgroundColor: '#353d38',
+            borderRadius: 5,
+            color: '#fffd',
+            flex: 1,
+            fontSize: 18,
+            paddingVertical: 10,
+            textAlign: 'center',
+          }}
+          value={phone}
         />
-        <Text style={{ color: '#fff9', fontSize: 18, fontWeight: '600' }}>Lookup</Text>
-      </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          disabled={!!potentialFriend}
+          onPress={submit}
+          style={{
+            alignItems: 'center',
+            borderColor: '#fff4',
+            borderRadius: 5,
+            borderWidth: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginLeft: 10,
+            opacity: potentialFriend ? 0.7 : 1,
+            paddingHorizontal: 10,
+            paddingVertical: 7,
+          }}
+        >
+          <MaterialCommunityIcons
+            color="#fffa"
+            name="account-search"
+            size={20}
+            style={{ paddingLeft: 2, paddingRight: 8, paddingTop: 2 }}
+          />
+          <Text style={{ color: '#fff9', fontSize: 17, fontWeight: '500' }}>Lookup</Text>
+        </TouchableOpacity>
+      </View>
 
       {submitting && (
         <Text
