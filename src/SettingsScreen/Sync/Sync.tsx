@@ -29,7 +29,7 @@ const Sync = ({ autoSyncCompletedSits, history, onlineSits, setState, toggle, us
       </Text>
 
       {/* Sits online: y */}
-      <Text style={{ color: '#fff9', fontSize: 15, marginTop: 15, paddingLeft: 39 }}>
+      <Text style={{ color: '#fff9', fontSize: 15, marginTop: 15, paddingLeft: 37 }}>
         and&nbsp;
         <Text style={{ color: '#fffd', fontWeight: '500' }}>{!onlineSits ? '[loading...]' : onlineSits.length}</Text>
         &nbsp;sit{onlineSits?.length !== 1 && 's'} saved online.
@@ -95,7 +95,7 @@ const Sync = ({ autoSyncCompletedSits, history, onlineSits, setState, toggle, us
         </>
       ) : (
         <>
-          <View style={{ height: 40, marginTop: 30 }}>
+          <View style={{ height: 38, marginTop: 20 }}>
             {allSynced ? (
               // All sync'd message
               <Text style={{ color: '#56cc6a', fontSize: 16, fontWeight: '700', marginTop: 10, textAlign: 'center' }}>
@@ -140,7 +140,7 @@ const Sync = ({ autoSyncCompletedSits, history, onlineSits, setState, toggle, us
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: 15,
+              marginTop: 5,
               paddingVertical: 15,
             }}
           >

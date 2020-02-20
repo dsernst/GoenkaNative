@@ -1,6 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import React, { RefObject, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -10,21 +10,29 @@ import SendRequestButton from './SendRequestButton'
 
 const EnterFriendPhone = ({
   pendingFriendRequests,
-  textInput,
   user,
 }: {
   pendingFriendRequests: PendingFriendRequest[]
-  textInput: RefObject<TextInput>
   user: FirebaseAuthTypes.User
 }) => {
   const [phone, setPhone] = useState('')
   const [error, setError] = useState()
   const [submitting, setSubmitting] = useState(false)
   const [potentialFriend, setPotentialFriend] = useState()
+  const textInput = useRef<TextInput>(null)
 
   return (
     <>
-      <View style={{ flexDirection: 'row', marginTop: 14 }}>
+      <Text
+        style={{
+          color: '#fff9',
+          fontSize: 14,
+        }}
+      >
+        Add friend by phone number:
+      </Text>
+
+      <View style={{ flexDirection: 'row', marginTop: 10 }}>
         <TextInput
           autoCapitalize="none"
           autoCompleteType="tel"

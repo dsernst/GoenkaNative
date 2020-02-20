@@ -15,13 +15,14 @@ import Section from './Section'
 import Sync from './Sync/Sync'
 
 function SettingsScreen(props: Props) {
-  const { onlineSits, pendingFriendRequests, user } = props
-  console.log({ onlineSits: onlineSits.length, pendingFriendRequests: pendingFriendRequests.length })
+  const { user } = props
   return (
     <>
       <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 17 }} />
 
       <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 16 }}>
+        {user && <AuthedInfo user={user} />}
+
         <Section
           Content={DailyNotificationSettings}
           icon={{ Set: Entypo, name: 'notification', size: 17 }}
@@ -41,8 +42,6 @@ function SettingsScreen(props: Props) {
           requiresLogin
           title="Backup your sit history"
         />
-
-        {user && <AuthedInfo user={user} />}
 
         <MoreInfoSection />
       </ScrollView>

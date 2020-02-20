@@ -7,7 +7,7 @@ import { Props, State, Toggleables, setStatePayload } from '../reducer'
 import LoginFlow from './LoginFlow'
 
 type SectionProps = Props & {
-  Content: (props: Props) => JSX.Element
+  Content: (props: any) => JSX.Element
   icon: { Set: typeof Octicons; name: string; size: number }
   requiresLogin?: boolean
   title: string
@@ -49,7 +49,7 @@ function Section(props: SectionProps) {
         />
       </TouchableOpacity>
       <View style={{ paddingHorizontal: 18 }}>
-        {enabled && (requiresLogin && !user ? <LoginFlow {...props} /> : <Content {...props} user={props.user} />)}
+        {enabled && (requiresLogin && !user ? <LoginFlow {...props} /> : <Content {...props} />)}
       </View>
     </View>
   )

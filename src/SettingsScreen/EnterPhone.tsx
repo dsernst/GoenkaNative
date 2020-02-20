@@ -1,7 +1,7 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import React, { useEffect, useRef, useState } from 'react'
-import { Text, TextInput, TouchableOpacity } from 'react-native'
-import Fontisto from 'react-native-vector-icons/Fontisto'
+import React, { useEffect, useState } from 'react'
+import { Text, TextInput, TouchableOpacity, View } from 'react-native'
+import Entypo from 'react-native-vector-icons/Entypo'
 
 import { formatPhoneNumber, prettyFormat } from './Friends/phone-helpers'
 
@@ -23,56 +23,53 @@ const EnterPhone = ({
     }
   })
 
-  const textInput = useRef<TextInput>(null)
-
   return (
-    <TouchableOpacity activeOpacity={1} onPress={() => textInput.current?.blur()} style={{ flex: 1 }}>
-      <Text style={{ color: '#fff9', marginTop: 15 }}>What is your phone number?</Text>
+    <>
+      <Text style={{ color: '#fffb', marginTop: 15 }}>What is your phone number?</Text>
 
-      <TextInput
-        autoCapitalize="none"
-        autoCompleteType="tel"
-        autoCorrect={false}
-        autoFocus
-        keyboardType="phone-pad"
-        onChangeText={newVal => {
-          setError(undefined)
-          setSubmitting(false)
-          setPhone(prettyFormat(newVal, phone))
-        }}
-        placeholder="415 867 5309"
-        placeholderTextColor="#fff5"
-        ref={textInput}
-        style={{
-          backgroundColor: '#353d38',
-          borderRadius: 7,
-          color: '#fffd',
-          fontSize: 18,
-          marginTop: 15,
-          paddingVertical: 10,
-          textAlign: 'center',
-        }}
-        value={phone}
-      />
+      <View style={{ flexDirection: 'row', marginTop: 10 }}>
+        <TextInput
+          autoCapitalize="none"
+          autoCompleteType="tel"
+          autoCorrect={false}
+          autoFocus
+          keyboardType="phone-pad"
+          onChangeText={newVal => {
+            setError(undefined)
+            setSubmitting(false)
+            setPhone(prettyFormat(newVal, phone))
+          }}
+          placeholder="415 867 5309"
+          placeholderTextColor="#fff5"
+          style={{
+            backgroundColor: '#353d38',
+            borderRadius: 7,
+            color: '#fffd',
+            flex: 1,
+            fontSize: 18,
+            padding: 10,
+          }}
+          value={phone}
+        />
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={submit}
-        style={{
-          alignItems: 'center',
-          borderColor: '#fff4',
-          borderRadius: 8,
-          borderWidth: 1,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: 15,
-          paddingHorizontal: 15,
-          paddingVertical: 7,
-        }}
-      >
-        <Fontisto color="#fffa" name="save" size={16} style={{ paddingLeft: 4, paddingTop: 2, width: 30 }} />
-        <Text style={{ color: '#fff9', fontSize: 18, fontWeight: '600' }}>Save</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={submit}
+          style={{
+            alignItems: 'center',
+            borderColor: '#fff3',
+            borderRadius: 5,
+            borderWidth: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginLeft: 10,
+            paddingHorizontal: 13,
+          }}
+        >
+          <Entypo color="#fffa" name="login" size={15} style={{ paddingRight: 12, paddingTop: 1 }} />
+          <Text style={{ color: '#fff9', fontSize: 16, fontWeight: '500' }}>Login</Text>
+        </TouchableOpacity>
+      </View>
 
       {submitting && (
         <Text
@@ -95,7 +92,7 @@ const EnterPhone = ({
           {error}
         </Text>
       )}
-    </TouchableOpacity>
+    </>
   )
 
   async function submit() {

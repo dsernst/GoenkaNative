@@ -2,15 +2,16 @@ import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import auth from '@react-native-firebase/auth'
 import React from 'react'
 import { Alert, Text, TouchableOpacity, View } from 'react-native'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import { prettyDisplayPhone } from './Friends/phone-helpers'
 
 function AuthedInfo({ user }: { user: FirebaseAuthTypes.User }) {
   return (
-    <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 30, paddingLeft: 10 }}>
-      <Text style={{ color: '#fff9' }}>Verified as:</Text>
+    <View style={{ alignItems: 'center', flexDirection: 'row', left: 17, marginBottom: 30, marginTop: 10 }}>
+      <AntDesign color="#fffa" name="checkcircle" size={19} style={{ marginRight: 15, top: 1 }} />
       <TouchableOpacity
-        onLongPress={() =>
+        onPress={() =>
           Alert.alert('Would you like to logout?', '', [
             { text: 'Cancel' },
             {
@@ -22,9 +23,10 @@ function AuthedInfo({ user }: { user: FirebaseAuthTypes.User }) {
             },
           ])
         }
-        style={{ padding: 10, paddingRight: 0 }}
+        style={{ alignItems: 'center', flexDirection: 'row' }}
       >
-        <Text style={{ alignSelf: 'center', color: '#fffd', fontStyle: 'italic', fontWeight: '500' }}>
+        <Text style={{ color: '#fff9' }}>Logged in as:</Text>
+        <Text style={{ alignSelf: 'center', color: '#fffd', fontStyle: 'italic', fontWeight: '500', padding: 10 }}>
           {prettyDisplayPhone(user.phoneNumber!)}
         </Text>
       </TouchableOpacity>
