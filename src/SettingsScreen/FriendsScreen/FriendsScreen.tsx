@@ -5,12 +5,12 @@ import { Text, TextInput, TouchableOpacity } from 'react-native'
 import BackButton from '../../BackButton'
 import { Props } from '../../reducer'
 import TitleBar from '../../TitleBar'
-import EnterFriendPhone from './EnterFriendPhone'
+import EnterFriendPhone, { PendingFriendRequest } from './EnterFriendPhone'
 import PendingRequests from './PendingRequests'
 
 const FriendsScreen = (props: Props) => {
   const { user } = props
-  const [pendingFriendRequests, setPendingFriendRequests] = useState()
+  const [pendingFriendRequests, setPendingFriendRequests] = useState<PendingFriendRequest[]>([])
   const textInput = useRef<TextInput>(null)
 
   const getPendingRequests = useCallback(
@@ -27,7 +27,8 @@ const FriendsScreen = (props: Props) => {
     console.log('Subscribing to pending friend requests')
     const unsubscribe = getPendingRequests().onSnapshot(results => {
       console.log("firestore().collection('pendingFriendRequests').onSnapshot()")
-      setPendingFriendRequests(results.docs.map(doc => ({ id: doc.id, ...doc.data() })))
+      // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
+      setPendingFriendRequests(results.docs.map((doc): PendingFriendRequest => ({ id: doc.id, ...doc.data() })))
     })
 
     return () => unsubscribe() // Stop listening for updates on unmount
@@ -48,9 +49,9 @@ const FriendsScreen = (props: Props) => {
         Add Friends
       </Text>
 
-      <EnterFriendPhone textInput={textInput} user={props.user} />
+      <EnterFriendPhone pendingFriendRequests={pendingFriendRequests} textInput={textInput} user={props.user} />
 
-      {pendingFriendRequests?.length && <PendingRequests pendingFriendRequests={pendingFriendRequests} />}
+      {pendingFriendRequests.length && <PendingRequests pendingFriendRequests={pendingFriendRequests} />}
 
       <BackButton to="SettingsScreen" />
     </TouchableOpacity>

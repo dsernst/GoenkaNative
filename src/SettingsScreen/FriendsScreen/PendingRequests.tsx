@@ -1,7 +1,9 @@
 import React from 'react'
 import { Text } from 'react-native'
 
-function PendingRequests({ pendingFriendRequests }) {
+import { PendingFriendRequest } from './EnterFriendPhone'
+
+function PendingRequests({ pendingFriendRequests }: { pendingFriendRequests: PendingFriendRequest[] }) {
   return (
     <>
       <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Outgoing Friend Requests:</Text>

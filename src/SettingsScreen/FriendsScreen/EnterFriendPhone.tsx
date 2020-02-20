@@ -4,9 +4,26 @@ import React, { Ref, useState } from 'react'
 import { Text, TextInput, TouchableOpacity } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
+import { formatPhoneNumber, prettyFormat } from './phone-helpers'
 import SendRequestButton from './SendRequestButton'
 
-const EnterFriendPhone = ({ textInput, user }: { textInput: Ref<TextInput>; user: FirebaseAuthTypes.User }) => {
+export type PendingFriendRequest = {
+  created_at: Date
+  from: string
+  id: string
+  to_phone: string
+  to_user_id: string
+}
+
+const EnterFriendPhone = ({
+  pendingFriendRequests,
+  textInput,
+  user,
+}: {
+  pendingFriendRequests: PendingFriendRequest[]
+  textInput: Ref<TextInput>
+  user: FirebaseAuthTypes.User
+}) => {
   const [phone, setPhone] = useState('')
   const [error, setError] = useState()
   const [submitting, setSubmitting] = useState(false)
@@ -21,11 +38,11 @@ const EnterFriendPhone = ({ textInput, user }: { textInput: Ref<TextInput>; user
         autoCompleteType="tel"
         autoCorrect={false}
         keyboardType="phone-pad"
-        onChangeText={val => {
+        onChangeText={newVal => {
           setError(undefined)
           setSubmitting(false)
           setPotentialFriend(undefined)
-          setPhone(prettyFormat(val))
+          setPhone(prettyFormat(newVal, phone))
         }}
         placeholder="415 867 5309"
         placeholderTextColor="#fff5"
@@ -100,8 +117,14 @@ const EnterFriendPhone = ({ textInput, user }: { textInput: Ref<TextInput>; user
     let foundUser
 
     setError(undefined)
+
+    if (pendingFriendRequests.some(request => request.to_phone === phoneNumber)) {
+      return setError('You already sent them a friend request')
+    }
+
     setSubmitting(true)
     setPotentialFriend(undefined)
+
     try {
       foundUser = (
         await firestore()
@@ -122,53 +145,6 @@ const EnterFriendPhone = ({ textInput, user }: { textInput: Ref<TextInput>; user
 
     setPotentialFriend(foundUser)
   }
-
-  function prettyFormat(phoneString: string) {
-    const sanitized = phoneString
-      .split('')
-      .filter(char => /[0-9|+| ]/.test(char)) // Only allow numbers, +, and spaces
-      .join('')
-
-    // Don't format if they included a '+' (custom country code)
-    if (sanitized.includes('+')) {
-      return sanitized
-    }
-
-    // If they pressed backspace, auto subtract the spaces we added
-    // or let them edit normally
-    if (phoneString.length < phone.length) {
-      if (phone.length === 8 || phone.length === 4) {
-        if (phone[phone.length - 1] === ' ') {
-          return phoneString.slice(0, -1)
-        }
-      }
-      return sanitized
-    }
-
-    // Add a space after their 3rd and 6th number
-    if (sanitized.length === 3 || sanitized.length === 7) {
-      return sanitized + ' '
-    }
-
-    // Don't let them add more than 12 characters
-    if (sanitized.length > 12) {
-      return phone
-    }
-
-    return sanitized
-  }
-}
-
-function formatPhoneNumber(phoneString: string) {
-  const numbersOnly = phoneString
-    .split('')
-    .filter(char => /[0-9]/.test(char)) // Drop non number characters
-    .join('')
-
-  if (numbersOnly.length === 10) {
-    return '+1' + numbersOnly
-  }
-  return '+' + numbersOnly
 }
 
 export default EnterFriendPhone
