@@ -9,7 +9,13 @@ import OutgoingRequests from './OutgoingRequests'
 import RejectedRequests from './RejectedRequests'
 
 const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
-  const { acceptedFriendRequests, incomingFriendRequests, outgoingFriendRequests, rejectedFriendRequests } = props
+  const {
+    acceptedIncomingFriendRequests,
+    acceptedOutgoingFriendRequests,
+    incomingFriendRequests,
+    outgoingFriendRequests,
+    rejectedFriendRequests,
+  } = props
 
   return (
     <>
@@ -17,7 +23,12 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
 
       {!!incomingFriendRequests?.length && <IncomingRequests incomingFriendRequests={incomingFriendRequests} />}
       {!!outgoingFriendRequests?.length && <OutgoingRequests outgoingFriendRequests={outgoingFriendRequests} />}
-      {!!acceptedFriendRequests?.length && <AcceptedRequests acceptedFriendRequests={acceptedFriendRequests} />}
+      {(!!acceptedIncomingFriendRequests?.length || !!acceptedOutgoingFriendRequests?.length) && (
+        <AcceptedRequests
+          acceptedIncomingFriendRequests={acceptedIncomingFriendRequests}
+          acceptedOutgoingFriendRequests={acceptedOutgoingFriendRequests}
+        />
+      )}
       {!!rejectedFriendRequests?.length && <RejectedRequests rejectedFriendRequests={rejectedFriendRequests} />}
     </>
   )

@@ -55,9 +55,23 @@ function init(setState: (payload: setStatePayload) => void) {
       .where('from', '==', user.uid)
       .onSnapshot(results => {
         console.log('outgoing pendingFriendRequests.onSnapshot()')
-        setState({
+
+        const outgoingFriendRequests: PendingFriendRequest[] = []
+        const acceptedOutgoingFriendRequests: PendingFriendRequest[] = []
+
+        results.docs.forEach(doc => {
           // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
-          outgoingFriendRequests: results.docs.map((doc): PendingFriendRequest => ({ id: doc.id, ...doc.data() })),
+          const request: PendingFriendRequest = { id: doc.id, ...doc.data() }
+          if (request.accepted) {
+            acceptedOutgoingFriendRequests.push(request)
+          } else {
+            outgoingFriendRequests.push(request)
+          }
+        })
+
+        setState({
+          acceptedOutgoingFriendRequests,
+          outgoingFriendRequests,
         })
       })
 
@@ -68,14 +82,14 @@ function init(setState: (payload: setStatePayload) => void) {
       .onSnapshot(results => {
         console.log('incoming pendingFriendRequests.onSnapshot()')
         const incomingFriendRequests: PendingFriendRequest[] = []
-        const acceptedFriendRequests: PendingFriendRequest[] = []
+        const acceptedIncomingFriendRequests: PendingFriendRequest[] = []
         const rejectedFriendRequests: PendingFriendRequest[] = []
 
         results.docs.forEach(doc => {
           // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
           const request: PendingFriendRequest = { id: doc.id, ...doc.data() }
           if (request.accepted) {
-            acceptedFriendRequests.push(request)
+            acceptedIncomingFriendRequests.push(request)
           } else if (request.rejected) {
             rejectedFriendRequests.push(request)
           } else {
@@ -84,7 +98,7 @@ function init(setState: (payload: setStatePayload) => void) {
         })
 
         setState({
-          acceptedFriendRequests,
+          acceptedIncomingFriendRequests,
           incomingFriendRequests,
           rejectedFriendRequests,
         })

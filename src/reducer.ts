@@ -39,7 +39,8 @@ type ToggleableStates = {
 }
 
 export interface State extends ToggleableStates {
-  acceptedFriendRequests: PendingFriendRequest[]
+  acceptedIncomingFriendRequests: PendingFriendRequest[]
+  acceptedOutgoingFriendRequests: PendingFriendRequest[]
   amNotificationTime: Date
   duration: number
   history: Sit[]
@@ -69,7 +70,8 @@ export interface Props extends State {
 }
 
 const initialState: State = {
-  acceptedFriendRequests: [],
+  acceptedIncomingFriendRequests: [],
+  acceptedOutgoingFriendRequests: [],
   amNotification: false,
   amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
   autoSyncCompletedSits: true,
