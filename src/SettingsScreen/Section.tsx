@@ -26,7 +26,7 @@ function Section(props: SectionProps) {
         style={{
           alignItems: 'center',
           alignSelf: 'center',
-          borderColor: '#fff1',
+          borderColor: enabled ? '#9CDCFE55' : '#fff1',
           borderRadius: 8,
           borderWidth: 1,
           flexDirection: 'row',
@@ -37,9 +37,9 @@ function Section(props: SectionProps) {
         }}
       >
         <View style={{ alignItems: 'center', marginRight: 10, width: 25 }}>
-          <Set color="#fffa" {...icon} style={{ paddingTop: 2 }} />
+          <Set color={enabled ? '#fffd' : '#fff8'} {...icon} style={{ paddingTop: 2 }} />
         </View>
-        <Text style={{ color: '#fff9', fontSize: 16 }}>{title}</Text>
+        <Text style={{ color: enabled ? '#fffd' : '#fff8', fontSize: 16 }}>{title}</Text>
 
         <Octicons
           color="#fff5"

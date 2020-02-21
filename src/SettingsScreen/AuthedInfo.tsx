@@ -9,7 +9,7 @@ import { prettyDisplayPhone } from './Friends/phone-helpers'
 function AuthedInfo({ user }: { user: FirebaseAuthTypes.User }) {
   return (
     <View style={{ alignItems: 'center', flexDirection: 'row', left: 17, marginBottom: 30, marginTop: 10 }}>
-      <AntDesign color="#fffa" name="checkcircle" size={19} style={{ marginRight: 15, top: 1 }} />
+      <AntDesign color="#fff8" name="checkcircle" size={19} style={{ marginRight: 15, top: 1 }} />
       <TouchableOpacity
         onPress={() =>
           Alert.alert('Would you like to logout?', '', [
