@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 import c, { SoundWithDelay } from './clips'
 import firebaseHelper from './firebase-helper'
+import onesignalHelper from './onesignal-helper'
 import { Props, State, Toggleables, setStatePayload } from './reducer'
 import safeAreaHelper from './safe-area-helper'
 import screens from './screens'
@@ -29,8 +30,12 @@ function App(props: Props) {
     // console.log('Init effect')
     safeAreaHelper.init(setState)
     const unsubscribeFromFirebase = firebaseHelper.init(setState)
+    const unsubscribeFromOnesignal = onesignalHelper.init()
     SplashScreen.hide() // Wait for JS to load before hiding splash screen
-    return () => unsubscribeFromFirebase()
+    return () => {
+      unsubscribeFromFirebase()
+      unsubscribeFromOnesignal()
+    }
   }, [setState])
 
   // Play new track

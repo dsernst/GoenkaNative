@@ -49,13 +49,3 @@ target 'GoenkaNative' do
 
   use_native_modules!
 end
-
-target 'GoenkaNative-tvOS' do
-  # Pods for GoenkaNative-tvOS
-
-  target 'GoenkaNative-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-end

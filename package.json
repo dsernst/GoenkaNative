@@ -52,6 +52,7 @@
     "react-native-device-info": "^5.5.1",
     "react-native-keep-awake": "^4.0.0",
     "react-native-modal-datetime-picker": "^8.1.1",
+    "react-native-onesignal": "^3.6.4",
     "react-native-push-notification": "^3.1.9",
     "react-native-segmented-control-tab": "^3.4.1",
     "react-native-sound": "^0.11.0",
