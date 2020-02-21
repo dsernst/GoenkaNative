@@ -78,8 +78,10 @@
   "devDependencies": {
     "chalk": "^3.0.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "firebase-admin": "^8.9.2",
     "prettier": "^1.19.1",
-    "strip-json-comments": "^3.0.1"
+    "strip-json-comments": "^3.0.1",
+    "ts-node": "^8.6.2"
   },
   "prettier": {
     "bracketSpacing": true,

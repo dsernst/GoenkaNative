@@ -69,3 +69,7 @@ android/google-upload-key
 
 # Built bundles
 *.aab
+
+# Manually added
+goenkatimer-firebase-adminsdk-2lqcs-f9c0d551b4.json
+firebase.ts
