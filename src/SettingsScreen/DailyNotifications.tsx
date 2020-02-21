@@ -39,7 +39,7 @@ function DailyNotificationSettings(props: Props) {
 
   // Reset local notifications if settings were adjusted
   useEffect(() => {
-    console.log('Updating local notifications')
+    console.log('🔴 Updating local notifications')
 
     // Clear old notifications
     PushNotification.cancelAllLocalNotifications()

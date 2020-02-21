@@ -8,7 +8,7 @@ function init(setState: (payload: setStatePayload) => void) {
   let unsubscribeFromOutgoingFriendRequests: (() => void) | undefined
   let unsubscribeFromIncomingFriendRequests: (() => void) | undefined
   const unsubscribeFromAuth = firebase.auth().onAuthStateChanged(user => {
-    console.log('auth state changed:', user)
+    console.log('🛂 auth state changed:', user)
     setState({ user })
 
     // If no user, cancel existing subscriptions
@@ -38,7 +38,7 @@ function init(setState: (payload: setStatePayload) => void) {
       .where('user_id', '==', user.uid)
       .orderBy('date', 'desc')
       .onSnapshot(results => {
-        console.log("firestore().collection('sits').onSnapshot()")
+        console.log('⬇️  sits.onSnapshot()')
         setState({
           onlineSits: results.docs
             // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
@@ -54,7 +54,7 @@ function init(setState: (payload: setStatePayload) => void) {
       .collection('friendRequests')
       .where('from_user_id', '==', user.uid)
       .onSnapshot(results => {
-        console.log('outgoing friendRequests.onSnapshot()')
+        console.log('⬇️  outgoing friendRequests.onSnapshot()')
 
         const outgoingFriendRequests: FriendRequest[] = []
         const acceptedOutgoingFriendRequests: FriendRequest[] = []
@@ -80,7 +80,7 @@ function init(setState: (payload: setStatePayload) => void) {
       .collection('friendRequests')
       .where('to_user_id', '==', user.uid)
       .onSnapshot(results => {
-        console.log('incoming friendRequests.onSnapshot()')
+        console.log('⬇️  incoming friendRequests.onSnapshot()')
         const incomingFriendRequests: FriendRequest[] = []
         const acceptedIncomingFriendRequests: FriendRequest[] = []
         const rejectedFriendRequests: FriendRequest[] = []
