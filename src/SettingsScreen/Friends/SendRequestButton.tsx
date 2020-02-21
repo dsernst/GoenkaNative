@@ -75,10 +75,11 @@ function SendRequestButton({
     try {
       console.log('send a friend request to:', potentialFriend.phone)
       firestore()
-        .collection('pendingFriendRequests')
+        .collection('friendRequests')
         .add({
           created_at: new Date(),
-          from: user.uid,
+          from_phone: user.phoneNumber,
+          from_user_id: user.uid,
           to_phone: potentialFriend.phone,
           to_user_id: potentialFriend.id,
         })

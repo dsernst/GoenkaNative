@@ -2,10 +2,10 @@ import firestore from '@react-native-firebase/firestore'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
-import { PendingFriendRequest } from '../../reducer'
+import { FriendRequest } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
 
-function RejectedRequests({ rejectedFriendRequests }: { rejectedFriendRequests: PendingFriendRequest[] }) {
+function RejectedRequests({ rejectedFriendRequests }: { rejectedFriendRequests: FriendRequest[] }) {
   return (
     <>
       <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Rejected Friend Requests:</Text>
@@ -15,7 +15,7 @@ function RejectedRequests({ rejectedFriendRequests }: { rejectedFriendRequests: 
           <TouchableOpacity
             onPress={() =>
               firestore()
-                .collection('pendingFriendRequests')
+                .collection('friendRequests')
                 .doc(request.id)
                 .update({
                   accepted: new Date(),

@@ -1,7 +1,7 @@
 import { firebase } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 
-import { PendingFriendRequest, setStatePayload } from './reducer'
+import { FriendRequest, setStatePayload } from './reducer'
 
 function init(setState: (payload: setStatePayload) => void) {
   let unsubscribeFromOnlineSits: (() => void) | undefined
@@ -51,17 +51,17 @@ function init(setState: (payload: setStatePayload) => void) {
 
     console.log('Subscribing to outgoing friend requests')
     unsubscribeFromOutgoingFriendRequests = firestore()
-      .collection('pendingFriendRequests')
-      .where('from', '==', user.uid)
+      .collection('friendRequests')
+      .where('from_user_id', '==', user.uid)
       .onSnapshot(results => {
-        console.log('outgoing pendingFriendRequests.onSnapshot()')
+        console.log('outgoing friendRequests.onSnapshot()')
 
-        const outgoingFriendRequests: PendingFriendRequest[] = []
-        const acceptedOutgoingFriendRequests: PendingFriendRequest[] = []
+        const outgoingFriendRequests: FriendRequest[] = []
+        const acceptedOutgoingFriendRequests: FriendRequest[] = []
 
         results.docs.forEach(doc => {
           // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
-          const request: PendingFriendRequest = { id: doc.id, ...doc.data() }
+          const request: FriendRequest = { id: doc.id, ...doc.data() }
           if (request.accepted) {
             acceptedOutgoingFriendRequests.push(request)
           } else {
@@ -77,17 +77,17 @@ function init(setState: (payload: setStatePayload) => void) {
 
     console.log('Subscribing to incoming friend requests')
     unsubscribeFromIncomingFriendRequests = firestore()
-      .collection('pendingFriendRequests')
+      .collection('friendRequests')
       .where('to_user_id', '==', user.uid)
       .onSnapshot(results => {
-        console.log('incoming pendingFriendRequests.onSnapshot()')
-        const incomingFriendRequests: PendingFriendRequest[] = []
-        const acceptedIncomingFriendRequests: PendingFriendRequest[] = []
-        const rejectedFriendRequests: PendingFriendRequest[] = []
+        console.log('incoming friendRequests.onSnapshot()')
+        const incomingFriendRequests: FriendRequest[] = []
+        const acceptedIncomingFriendRequests: FriendRequest[] = []
+        const rejectedFriendRequests: FriendRequest[] = []
 
         results.docs.forEach(doc => {
           // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
-          const request: PendingFriendRequest = { id: doc.id, ...doc.data() }
+          const request: FriendRequest = { id: doc.id, ...doc.data() }
           if (request.accepted) {
             acceptedIncomingFriendRequests.push(request)
           } else if (request.rejected) {

@@ -2,15 +2,15 @@ import firestore from '@react-native-firebase/firestore'
 import React from 'react'
 import { Alert, Text, TouchableOpacity, View } from 'react-native'
 
-import { PendingFriendRequest } from '../../reducer'
+import { FriendRequest } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
 
 function AcceptedRequests({
   acceptedIncomingFriendRequests,
   acceptedOutgoingFriendRequests,
 }: {
-  acceptedIncomingFriendRequests: PendingFriendRequest[]
-  acceptedOutgoingFriendRequests: PendingFriendRequest[]
+  acceptedIncomingFriendRequests: FriendRequest[]
+  acceptedOutgoingFriendRequests: FriendRequest[]
 }) {
   return (
     <>
@@ -24,7 +24,7 @@ function AcceptedRequests({
                 {
                   onPress: () =>
                     firestore()
-                      .collection('pendingFriendRequests')
+                      .collection('friendRequests')
                       .doc(request.id)
                       .update({
                         accepted: firestore.FieldValue.delete(),
@@ -38,7 +38,7 @@ function AcceptedRequests({
           >
             <Text style={{ color: '#ff5e5eee' }}>&nbsp; ✗&nbsp; </Text>
           </TouchableOpacity>
-          <Text style={{ color: '#fffa' }}>&nbsp; {prettyDisplayPhone(request.to_phone)}</Text>
+          <Text style={{ color: '#fffa' }}>&nbsp; {prettyDisplayPhone(request.from_phone)}</Text>
         </View>
       ))}
       {acceptedOutgoingFriendRequests?.map(request => (
@@ -50,7 +50,7 @@ function AcceptedRequests({
                 {
                   onPress: () =>
                     firestore()
-                      .collection('pendingFriendRequests')
+                      .collection('friendRequests')
                       .doc(request.id)
                       .delete(),
                   style: 'destructive',

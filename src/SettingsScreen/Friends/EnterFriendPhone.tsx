@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { PendingFriendRequest } from '../../reducer'
+import { FriendRequest } from '../../reducer'
 import { formatPhoneNumber, prettyFormat } from './phone-helpers'
 import SendRequestButton from './SendRequestButton'
 
@@ -12,7 +12,7 @@ const EnterFriendPhone = ({
   outgoingFriendRequests,
   user,
 }: {
-  outgoingFriendRequests: PendingFriendRequest[]
+  outgoingFriendRequests: FriendRequest[]
   user: FirebaseAuthTypes.User
 }) => {
   const [phone, setPhone] = useState('')

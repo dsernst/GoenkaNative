@@ -2,10 +2,10 @@ import firestore from '@react-native-firebase/firestore'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
-import { PendingFriendRequest } from '../../reducer'
+import { FriendRequest } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
 
-function IncomingRequests({ incomingFriendRequests }: { incomingFriendRequests: PendingFriendRequest[] }) {
+function IncomingRequests({ incomingFriendRequests }: { incomingFriendRequests: FriendRequest[] }) {
   return (
     <>
       <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>
@@ -14,11 +14,11 @@ function IncomingRequests({ incomingFriendRequests }: { incomingFriendRequests: 
       </Text>
       {incomingFriendRequests?.map(request => (
         <View key={request.id} style={{ alignItems: 'center', flexDirection: 'row', marginTop: 15 }}>
-          <Text style={{ color: '#fffa' }}>{prettyDisplayPhone(request.to_phone)}:&nbsp; &nbsp; &nbsp;</Text>
+          <Text style={{ color: '#fffa' }}>{prettyDisplayPhone(request.from_phone)}:&nbsp; &nbsp; &nbsp;</Text>
           <TouchableOpacity
             onPress={() =>
               firestore()
-                .collection('pendingFriendRequests')
+                .collection('friendRequests')
                 .doc(request.id)
                 .update({ rejected: new Date() })
             }
@@ -28,7 +28,7 @@ function IncomingRequests({ incomingFriendRequests }: { incomingFriendRequests: 
           <TouchableOpacity
             onPress={() =>
               firestore()
-                .collection('pendingFriendRequests')
+                .collection('friendRequests')
                 .doc(request.id)
                 .update({ accepted: new Date() })
             }

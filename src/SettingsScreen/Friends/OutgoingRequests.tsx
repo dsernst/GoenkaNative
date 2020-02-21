@@ -2,10 +2,10 @@ import firestore from '@react-native-firebase/firestore'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
-import { PendingFriendRequest } from '../../reducer'
+import { FriendRequest } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
 
-function OutgoingRequests({ outgoingFriendRequests }: { outgoingFriendRequests: PendingFriendRequest[] }) {
+function OutgoingRequests({ outgoingFriendRequests }: { outgoingFriendRequests: FriendRequest[] }) {
   return (
     <>
       <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Outgoing Friend Requests:</Text>
@@ -15,7 +15,7 @@ function OutgoingRequests({ outgoingFriendRequests }: { outgoingFriendRequests: 
           <TouchableOpacity
             onPress={() =>
               firestore()
-                .collection('pendingFriendRequests')
+                .collection('friendRequests')
                 .doc(request.id)
                 .delete()
             }

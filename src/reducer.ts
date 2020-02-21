@@ -15,10 +15,11 @@ export type Sit = {
   selected?: boolean
 }
 
-export type PendingFriendRequest = {
+export type FriendRequest = {
   accepted?: Date
   created_at: Date
-  from: string
+  from_phone: string
+  from_user_id: string
   id: string
   rejected?: Date
   to_phone: string
@@ -39,19 +40,19 @@ type ToggleableStates = {
 }
 
 export interface State extends ToggleableStates {
-  acceptedIncomingFriendRequests: PendingFriendRequest[]
-  acceptedOutgoingFriendRequests: PendingFriendRequest[]
+  acceptedIncomingFriendRequests: FriendRequest[]
+  acceptedOutgoingFriendRequests: FriendRequest[]
   amNotificationTime: Date
   duration: number
   history: Sit[]
   historyViewIndex: number
-  incomingFriendRequests: PendingFriendRequest[]
+  incomingFriendRequests: FriendRequest[]
   isOldStudent: boolean | null
   latestTrack: Sound | null
   onlineSits: OnlineSit[]
-  outgoingFriendRequests: PendingFriendRequest[]
+  outgoingFriendRequests: FriendRequest[]
   pmNotificationTime: Date
-  rejectedFriendRequests: PendingFriendRequest[]
+  rejectedFriendRequests: FriendRequest[]
   safeAreaInsetBottom: number
   safeAreaInsetTop: number
   screen: ScreenNames
