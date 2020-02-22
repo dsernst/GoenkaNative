@@ -2,6 +2,7 @@ import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import React, { Dispatch, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
+import OneSignal from 'react-native-onesignal'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 function SendRequestButton({
@@ -10,7 +11,7 @@ function SendRequestButton({
   setPotentialFriend,
   user,
 }: {
-  potentialFriend: { id: string; phone: string }
+  potentialFriend: { id: string; onesignal_id: string; phone: string }
   setPhone: Dispatch<string>
   setPotentialFriend: Dispatch<undefined>
   user: FirebaseAuthTypes.User
@@ -83,6 +84,7 @@ function SendRequestButton({
           to_phone: potentialFriend.phone,
           to_user_id: potentialFriend.id,
         })
+      OneSignal.postNotification({ en: 'New friend request' }, {}, [potentialFriend.onesignal_id])
     } catch (err) {
       return setError(err.toString())
     }
