@@ -2,16 +2,33 @@ import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
 import { StatusBar, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
+import OneSignal from 'react-native-onesignal'
 
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
+import { prettyDisplayPhone } from '../SettingsScreen/Friends/phone-helpers'
 import BeHappyText from './BeHappyText'
 import CountdownCircle from './CountdownCircle'
 import pressStop from './press-stop'
 
 function CountdownScreen(props: Props) {
-  const { autoSyncCompletedSits, duration, finished, history, setState, toggle, user } = props
+  const {
+    acceptedIncomingFriendRequests,
+    acceptedOutgoingFriendRequests,
+    autoSyncCompletedSits,
+    duration,
+    finished,
+    history,
+    setState,
+    toggle,
+    user,
+  } = props
   const [hideStatusBar, setHideStatusBar] = useState(true)
+
+  const friendsToNotify = [
+    ...acceptedIncomingFriendRequests.map(ifr => ifr.from_onesignal_id),
+    ...acceptedOutgoingFriendRequests.map(ofr => ofr.to_onesignal_id),
+  ]
 
   return (
     <>
@@ -33,6 +50,17 @@ function CountdownScreen(props: Props) {
                 if (!user) {
                   return console.log('  Not logged in.')
                 }
+
+                OneSignal.postNotification(
+                  {
+                    en: `Your friend ${prettyDisplayPhone(
+                      user.phoneNumber!,
+                    )} just finished a ${duration} minute sit 🙂`,
+                  },
+                  {},
+                  friendsToNotify,
+                )
+
                 if (!autoSyncCompletedSits) {
                   return console.log('  AutoSync disabled.')
                 }
