@@ -1,6 +1,8 @@
-import OneSignal from 'react-native-onesignal' // Import package from node modules
+import OneSignal from 'react-native-onesignal'
 
-function init() {
+import { setStatePayload } from './reducer'
+
+function init(setState: (payload: setStatePayload) => void) {
   OneSignal.init('bcfb2833-18d0-4b12-8e53-647f1068c5a8', {
     kOSSettingsKeyAutoPrompt: false,
     kOSSettingsKeyInFocusDisplayOption: 2,
@@ -9,6 +11,10 @@ function init() {
   OneSignal.addEventListener('received', onReceived)
   OneSignal.addEventListener('opened', onOpened)
   // OneSignal.addEventListener('ids', onIds)
+
+  OneSignal.checkPermissions(osLevelPermissions => {
+    setState({ notifications_allowed: !!osLevelPermissions.alert })
+  })
 
   return () => {
     OneSignal.removeEventListener('received', onReceived)

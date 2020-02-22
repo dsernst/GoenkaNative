@@ -3,6 +3,7 @@ import React from 'react'
 
 import { Props } from '../../reducer'
 import AcceptedRequests from './AcceptedRequests'
+import EnableNotificationPermissions from './EnableNotificationPermissions'
 import EnterFriendPhone from './EnterFriendPhone'
 import IncomingRequests from './IncomingRequests'
 import OutgoingRequests from './OutgoingRequests'
@@ -13,9 +14,14 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
     acceptedIncomingFriendRequests,
     acceptedOutgoingFriendRequests,
     incomingFriendRequests,
+    notifications_allowed,
     outgoingFriendRequests,
     rejectedFriendRequests,
   } = props
+
+  if (!notifications_allowed) {
+    return <EnableNotificationPermissions {...props} />
+  }
 
   return (
     <>

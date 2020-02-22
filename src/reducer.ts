@@ -49,6 +49,7 @@ export interface State extends ToggleableStates {
   incomingFriendRequests: FriendRequest[]
   isOldStudent: boolean | null
   latestTrack: Sound | null
+  notifications_allowed: boolean
   onlineSits: OnlineSit[]
   outgoingFriendRequests: FriendRequest[]
   pmNotificationTime: Date
@@ -86,6 +87,7 @@ const initialState: State = {
   isEnoughTime: true,
   isOldStudent: null,
   latestTrack: null,
+  notifications_allowed: false,
   onlineSits: [],
   outgoingFriendRequests: [],
   pmNotification: false,

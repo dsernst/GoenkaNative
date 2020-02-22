@@ -30,7 +30,7 @@ function App(props: Props) {
     // console.log('Init effect')
     safeAreaHelper.init(setState)
     const unsubscribeFromFirebase = firebaseHelper.init(setState)
-    const unsubscribeFromOnesignal = onesignalHelper.init()
+    const unsubscribeFromOnesignal = onesignalHelper.init(setState)
     SplashScreen.hide() // Wait for JS to load before hiding splash screen
     return () => {
       unsubscribeFromFirebase()
