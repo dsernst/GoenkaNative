@@ -126,6 +126,10 @@ const EnterFriendPhone = ({
     setError(undefined)
     textInput.current?.blur()
 
+    if (phoneNumber === user.phoneNumber) {
+      return setError("You can't send a request to yourself, silly 😅")
+    }
+
     if (outgoingFriendRequests.some(request => request.to_phone === phoneNumber)) {
       return setError('You already sent them a friend request')
     }
