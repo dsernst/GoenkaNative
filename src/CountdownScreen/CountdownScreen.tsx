@@ -39,7 +39,7 @@ function CountdownScreen(props: Props) {
                 setTimeout(async () => {
                   await firestore()
                     .collection('sits')
-                    .add({ ...history[0], user_id: user.uid })
+                    .add({ ...history[0], user_id: user.uid, user_phone: user.phoneNumber })
                   console.log('  Success 👍')
                 }, 500)
               }}

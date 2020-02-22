@@ -112,7 +112,7 @@ const Sync = ({ autoSyncCompletedSits, history, onlineSits, setState, toggle, us
                     .forEach(unsyncedSit =>
                       firestore()
                         .collection('sits')
-                        .add({ ...unsyncedSit, user_id: user.uid }),
+                        .add({ ...unsyncedSit, user_id: user.uid, user_phone: user.phoneNumber }),
                     )
                 }}
                 style={{

@@ -1,9 +1,9 @@
 diff --git a/node_modules/react-native-onesignal/index.d.ts b/node_modules/react-native-onesignal/index.d.ts
 new file mode 100644
-index 0000000..327287e
+index 0000000..d1bab90
 --- /dev/null
 +++ b/node_modules/react-native-onesignal/index.d.ts
-@@ -0,0 +1,254 @@
+@@ -0,0 +1,256 @@
 +// from https://github.com/OneSignal/react-native-onesignal/issues/453#issuecomment-404003702
 +
 +declare module 'react-native-onesignal' {
@@ -181,12 +181,12 @@ index 0000000..327287e
 +
 +        /**
 +         * P2P notification
-+         * @param {object} contents Sample: { en: 'English Message', tr: 'Türkçe Mesaj' }
-+         * @param {object} data Some data for payload
-+         * @param {Array<string>} playerIds OneSignal Player Ids you want to send message to.
-+         * @param {object} otherParameters Sample: {"ios_attachments" : {"image1" : "{image_url}"}}
++         * @param contents Sample: { en: 'English Message', tr: 'Türkçe Mesaj' }
++         * @param data Some data for payload
++         * @param playerIds OneSignal Player Ids you want to send message to.
++         * @param otherParameters Sample: {"ios_attachments" : {"image1" : "{image_url}"}}
 +         */
-+        public static postNotification(contents: object, data: object, playerIds: string[], otherParameters?: object): void;
++        public static postNotification(contents: object, data: object, playerIds: string[] | null, otherParameters?: object): void;
 +
 +        /**
 +         * Cancels a single OneSignal notification based on its Android notification integer id. You can get the notification Id when invoking OneSignal.onNotificationOpened while receiving a notification.
@@ -256,5 +256,7 @@ index 0000000..327287e
 +        public static promptForPushNotificationsWithUserResponse(
 +            callback: (permission: boolean) => void,
 +        ): void
++
++        public static setExternalUserId(externalId: string): void
 +    }
 +}

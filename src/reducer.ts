@@ -18,15 +18,15 @@ export type Sit = {
 export type FriendRequest = {
   accepted?: Date
   created_at: Date
+  from_onesignal_id: string
   from_phone: string
-  from_user_id: string
   id: string
   rejected?: Date
+  to_onesignal_id: string
   to_phone: string
-  to_user_id: string
 }
 
-type OnlineSit = Sit & { id: string; user_id: string }
+type OnlineSit = Sit & { id: string; user_id: string; user_phone?: string }
 
 type ToggleableStates = {
   amNotification: boolean
@@ -50,6 +50,7 @@ export interface State extends ToggleableStates {
   isOldStudent: boolean | null
   latestTrack: Sound | null
   notifications_allowed: boolean
+  onesignal_id: string | null
   onlineSits: OnlineSit[]
   outgoingFriendRequests: FriendRequest[]
   pmNotificationTime: Date
@@ -88,6 +89,7 @@ const initialState: State = {
   isOldStudent: null,
   latestTrack: null,
   notifications_allowed: false,
+  onesignal_id: null,
   onlineSits: [],
   outgoingFriendRequests: [],
   pmNotification: false,

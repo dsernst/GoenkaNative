@@ -10,16 +10,21 @@ function init(setState: (payload: setStatePayload) => void) {
 
   OneSignal.addEventListener('received', onReceived)
   OneSignal.addEventListener('opened', onOpened)
-  // OneSignal.addEventListener('ids', onIds)
+  OneSignal.addEventListener('ids', saveId)
 
   OneSignal.checkPermissions(osLevelPermissions => {
     setState({ notifications_allowed: !!osLevelPermissions.alert })
   })
 
+  function saveId(device: any) {
+    // console.log('OneSignal Device info: ', device)
+    setState({ onesignal_id: device.userId })
+  }
+
   return () => {
     OneSignal.removeEventListener('received', onReceived)
     OneSignal.removeEventListener('opened', onOpened)
-    // OneSignal.removeEventListener('ids', onIds)
+    OneSignal.removeEventListener('ids', saveId)
   }
 }
 
@@ -35,7 +40,3 @@ function onOpened(openResult: any) {
   console.log('isActive: ', openResult.notification.isAppInFocus)
   console.log('openResult: ', openResult)
 }
-
-// function onIds(device: any) {
-//   console.log('OneSignal Device info: ', device)
-// }

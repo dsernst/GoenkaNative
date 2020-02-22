@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
+import OneSignal from 'react-native-onesignal'
 
 import { FriendRequest } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
@@ -26,12 +27,18 @@ function IncomingRequests({ incomingFriendRequests }: { incomingFriendRequests: 
             <Text style={{ color: '#ff5e5eee' }}>✗&nbsp; Reject</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() =>
+            onPress={() => {
               firestore()
                 .collection('friendRequests')
                 .doc(request.id)
                 .update({ accepted: new Date() })
-            }
+
+              OneSignal.postNotification(
+                { en: `${prettyDisplayPhone(request.to_phone!)} accepted your friend request :)` },
+                {},
+                [request.from_onesignal_id],
+              )
+            }}
             style={{ marginLeft: 30 }}
           >
             <Text style={{ color: '#9CDCFEee' }}>✓ Accept</Text>

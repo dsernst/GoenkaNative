@@ -9,9 +9,11 @@ import { formatPhoneNumber, prettyFormat } from './phone-helpers'
 import SendRequestButton from './SendRequestButton'
 
 const EnterFriendPhone = ({
+  onesignal_id,
   outgoingFriendRequests,
   user,
 }: {
+  onesignal_id: string | null
   outgoingFriendRequests: FriendRequest[]
   user: FirebaseAuthTypes.User
 }) => {
@@ -109,6 +111,7 @@ const EnterFriendPhone = ({
 
       {potentialFriend && (
         <SendRequestButton
+          onesignal_id={onesignal_id}
           potentialFriend={potentialFriend}
           setPhone={setPhone}
           setPotentialFriend={setPotentialFriend}
@@ -138,12 +141,14 @@ const EnterFriendPhone = ({
     setPotentialFriend(undefined)
 
     try {
-      foundUser = (
-        await firestore()
-          .collection('users')
-          .where('phone', '==', phoneNumber)
-          .get()
-      ).docs.map(doc => ({ id: doc.id, ...doc.data() }))[0]
+      const doc = await firestore()
+        .collection('users')
+        .doc(phoneNumber)
+        .get()
+
+      if (doc.exists) {
+        foundUser = { id: doc.id, ...doc.data() }
+      }
     } catch (err) {
       return setError(err.toString())
     }

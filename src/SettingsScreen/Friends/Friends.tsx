@@ -25,7 +25,7 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
 
   return (
     <>
-      <EnterFriendPhone outgoingFriendRequests={outgoingFriendRequests} user={props.user} />
+      <EnterFriendPhone outgoingFriendRequests={outgoingFriendRequests} user={props.user} {...props} />
 
       {!!incomingFriendRequests?.length && <IncomingRequests incomingFriendRequests={incomingFriendRequests} />}
       {!!outgoingFriendRequests?.length && <OutgoingRequests outgoingFriendRequests={outgoingFriendRequests} />}

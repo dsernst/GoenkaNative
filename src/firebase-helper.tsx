@@ -52,7 +52,7 @@ function init(setState: (payload: setStatePayload) => void) {
     console.log('Subscribing to outgoing friend requests')
     unsubscribeFromOutgoingFriendRequests = firestore()
       .collection('friendRequests')
-      .where('from_user_id', '==', user.uid)
+      .where('from_phone', '==', user.phoneNumber)
       .onSnapshot(results => {
         console.log('⬇️  outgoing friendRequests.onSnapshot()')
 
@@ -78,7 +78,7 @@ function init(setState: (payload: setStatePayload) => void) {
     console.log('Subscribing to incoming friend requests')
     unsubscribeFromIncomingFriendRequests = firestore()
       .collection('friendRequests')
-      .where('to_user_id', '==', user.uid)
+      .where('to_phone', '==', user.phoneNumber)
       .onSnapshot(results => {
         console.log('⬇️  incoming friendRequests.onSnapshot()')
         const incomingFriendRequests: FriendRequest[] = []
