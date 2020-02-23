@@ -46,7 +46,7 @@ function CountdownScreen(props: Props) {
               minutes
               onTimeFinished={() => {
                 toggle('finished')()
-                console.log('Attempting to autoSync completed sit...')
+                console.log('...Attempting to autoSync completed sit')
                 if (!user) {
                   return console.log('  Not logged in.')
                 }
@@ -68,7 +68,7 @@ function CountdownScreen(props: Props) {
                   await firestore()
                     .collection('sits')
                     .add({ ...history[0], user_id: user.uid, user_phone: user.phoneNumber })
-                  console.log('  Success 👍')
+                  console.log('⬆️  Autosync complete.')
                 }, 500)
               }}
               onTimeInterval={(elapsed: number) => {
