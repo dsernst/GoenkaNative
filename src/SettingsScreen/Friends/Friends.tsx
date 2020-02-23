@@ -8,11 +8,13 @@ import EnterFriendPhone from './EnterFriendPhone'
 import IncomingRequests from './IncomingRequests'
 import OutgoingRequests from './OutgoingRequests'
 import RejectedRequests from './RejectedRequests'
+import SetDisplayName from './SetDisplayName'
 
 const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
   const {
     acceptedIncomingFriendRequests,
     acceptedOutgoingFriendRequests,
+    displayName,
     incomingFriendRequests,
     notifications_allowed,
     outgoingFriendRequests,
@@ -21,6 +23,10 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
 
   if (!notifications_allowed) {
     return <EnableNotificationPermissions {...props} />
+  }
+
+  if (!displayName) {
+    return <SetDisplayName />
   }
 
   return (
