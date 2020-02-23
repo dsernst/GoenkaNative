@@ -99,6 +99,10 @@ const EnterPhone = ({
     const phoneNumber = formatPhoneNumber(phone)
     console.log('called EnterPhone.submit() ', phoneNumber)
 
+    if (phoneNumber === '+15555555555') {
+      auth().settings.appVerificationDisabledForTesting = true
+    }
+
     setError(undefined)
     setSubmitting(true)
     try {
