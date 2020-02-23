@@ -31,7 +31,7 @@ const EnterFriendPhone = ({
           fontSize: 14,
         }}
       >
-        Add friend by phone number:
+        Add a friend by phone number:
       </Text>
 
       <View style={{ flexDirection: 'row', marginTop: 10 }}>

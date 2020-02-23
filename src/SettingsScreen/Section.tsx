@@ -8,13 +8,14 @@ import LoginFlow from './LoginFlow'
 
 type SectionProps = Props & {
   Content: (props: any) => JSX.Element
+  description: string
   icon: { Set: typeof Octicons; name: string; size: number }
   requiresLogin?: boolean
   title: string
 }
 
 function Section(props: SectionProps) {
-  const { Content, icon, requiresLogin, title, user } = props
+  const { Content, description, icon, requiresLogin, title, user } = props
   const [enabled, setEnabled] = useState(false)
   const { Set } = icon
 
@@ -49,7 +50,12 @@ function Section(props: SectionProps) {
         />
       </TouchableOpacity>
       <View style={{ paddingHorizontal: 18 }}>
-        {enabled && (requiresLogin && !user ? <LoginFlow {...props} /> : <Content {...props} />)}
+        {enabled && (
+          <>
+            {description && <Text style={{ color: '#fffa', fontWeight: '600', marginBottom: 30 }}>{description}</Text>}
+            {requiresLogin && !user ? <LoginFlow {...props} /> : <Content {...props} />}
+          </>
+        )}
       </View>
     </View>
   )

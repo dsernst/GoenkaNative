@@ -25,12 +25,14 @@ function SettingsScreen(props: Props) {
 
         <Section
           Content={DailyNotificationSettings}
+          description="Turn on daily reminders to sit."
           icon={{ Set: Entypo, name: 'notification', size: 17 }}
           title="Daily notifications"
         />
 
         <Section
           Content={Friends}
+          description="Turn on notifications for when you or a friend complete a sit."
           icon={{ Set: Ionicons, name: 'ios-people', size: 23 }}
           requiresLogin
           title="Friend notifications"
@@ -38,6 +40,7 @@ function SettingsScreen(props: Props) {
 
         <Section
           Content={Sync}
+          description="Backup your sit history to the cloud, in case you lose your device, etc."
           icon={{ Set: Octicons, name: 'sync', size: 19 }}
           requiresLogin
           title="Backup your sit history"
