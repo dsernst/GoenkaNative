@@ -21,8 +21,9 @@ const EnterPhone = ({
         await confirmation.confirm(code)
       } catch (err) {
         setSubmitting(false)
-        console.log(err.toString())
-        return setError(err.toString())
+        const errMsg: string = err.toString()
+        console.log(errMsg)
+        return setError(errMsg.includes('invalid-verification-code') ? 'Invalid verification code' : errMsg)
       }
     }
     if (code.length === 6) {
