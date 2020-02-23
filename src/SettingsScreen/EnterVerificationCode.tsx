@@ -24,12 +24,11 @@ const EnterPhone = ({
         console.log(err.toString())
         return setError(err.toString())
       }
-      setConfirmation(undefined)
     }
     if (code.length === 6) {
       submit()
     }
-  }, [confirmation, code, setConfirmation])
+  }, [confirmation, code])
 
   return (
     <>
