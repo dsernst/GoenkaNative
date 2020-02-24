@@ -14,9 +14,9 @@ function IncomingRequests({
   incomingFriendRequests: FriendRequest[]
 }) {
   return (
-    <>
-      <Text style={{ color: '#fff8', fontWeight: '600', marginTop: 30 }}>
-        <Text style={{ color: '#DCDC33dd' }}>{incomingFriendRequests.length}</Text>&nbsp; Incoming Friend Request
+    <View style={{ marginBottom: 50 }}>
+      <Text style={{ color: '#fffa', fontWeight: '600' }}>
+        <Text style={{ color: '#DCDC33dd' }}>{incomingFriendRequests.length}</Text>&nbsp; New Friend Request
         {incomingFriendRequests.length > 1 ? 's' : ''}:
       </Text>
       {incomingFriendRequests?.map(request => (
@@ -42,7 +42,7 @@ function IncomingRequests({
           </View>
         </View>
       ))}
-    </>
+    </View>
   )
 }
 

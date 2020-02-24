@@ -31,18 +31,21 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
 
   return (
     <>
-      <EnterFriendPhone user={props.user} {...props} />
-
       {!!incomingFriendRequests?.length && (
         <IncomingRequests displayName={displayName} incomingFriendRequests={incomingFriendRequests} />
       )}
+
+      <EnterFriendPhone user={props.user} {...props} />
+
       {!!outgoingFriendRequests?.length && <OutgoingRequests outgoingFriendRequests={outgoingFriendRequests} />}
+
       {(!!acceptedIncomingFriendRequests?.length || !!acceptedOutgoingFriendRequests?.length) && (
         <AcceptedRequests
           acceptedIncomingFriendRequests={acceptedIncomingFriendRequests}
           acceptedOutgoingFriendRequests={acceptedOutgoingFriendRequests}
         />
       )}
+
       {!!rejectedFriendRequests?.length && (
         <RejectedRequests displayName={displayName} rejectedFriendRequests={rejectedFriendRequests} />
       )}
