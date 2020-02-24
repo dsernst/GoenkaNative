@@ -14,7 +14,7 @@ function AcceptedRequests({
 }) {
   return (
     <>
-      <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Accepted:</Text>
+      <Text style={{ color: '#fff7', fontWeight: '600', marginTop: 30 }}>Accepted:</Text>
       {acceptedIncomingFriendRequests?.map(request => (
         <View key={request.id} style={{ flexDirection: 'row', marginTop: 15 }}>
           <TouchableOpacity
@@ -40,7 +40,7 @@ function AcceptedRequests({
             <Text style={{ color: '#ff5e5eee' }}>&nbsp; ✗&nbsp; </Text>
           </TouchableOpacity>
           <View style={{ marginLeft: 5 }}>
-            <Text style={{ color: '#fffa' }}>&nbsp; {request.from_name}</Text>
+            <Text style={{ color: '#fffb' }}>&nbsp; {request.from_name}</Text>
             <Text style={{ color: '#fff5' }}>&nbsp; {prettyDisplayPhone(request.from_phone)}</Text>
           </View>
         </View>

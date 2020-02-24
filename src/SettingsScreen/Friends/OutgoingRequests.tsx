@@ -8,7 +8,7 @@ import { prettyDisplayPhone } from './phone-helpers'
 function OutgoingRequests({ outgoingFriendRequests }: { outgoingFriendRequests: FriendRequest[] }) {
   return (
     <>
-      <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Outgoing Friend Requests:</Text>
+      <Text style={{ color: '#fff8', fontWeight: '600', marginTop: 30 }}>Outgoing Friend Requests:</Text>
       {outgoingFriendRequests?.map(request => (
         <View key={request.id} style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
           <View style={{ maxWidth: 140 }}>

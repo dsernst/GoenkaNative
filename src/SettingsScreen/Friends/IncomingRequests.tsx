@@ -15,14 +15,14 @@ function IncomingRequests({
 }) {
   return (
     <>
-      <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>
+      <Text style={{ color: '#fff8', fontWeight: '600', marginTop: 30 }}>
         <Text style={{ color: '#DCDC33dd' }}>{incomingFriendRequests.length}</Text>&nbsp; Incoming Friend Request
-        {incomingFriendRequests.length > 1 ? 's' : ''}
+        {incomingFriendRequests.length > 1 ? 's' : ''}:
       </Text>
       {incomingFriendRequests?.map(request => (
         <View key={request.id} style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
           <View style={{ maxWidth: 140 }}>
-            <Text style={{ color: '#fffa' }}>{request.from_name}</Text>
+            <Text style={{ color: '#fffc' }}>{request.from_name}</Text>
             <Text style={{ color: '#fff5' }}>{prettyDisplayPhone(request.from_phone)}</Text>
           </View>
           <View style={{ alignItems: 'center', flexDirection: 'row' }}>
