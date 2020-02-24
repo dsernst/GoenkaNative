@@ -10,18 +10,23 @@ function OutgoingRequests({ outgoingFriendRequests }: { outgoingFriendRequests: 
     <>
       <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Outgoing Friend Requests:</Text>
       {outgoingFriendRequests?.map(request => (
-        <View key={request.id} style={{ alignItems: 'center', flexDirection: 'row', marginTop: 15 }}>
-          <Text style={{ color: '#fffa' }}>{prettyDisplayPhone(request.to_phone)}&nbsp; &nbsp;—&nbsp; &nbsp;</Text>
-          <TouchableOpacity
-            onPress={() =>
-              firestore()
-                .collection('friendRequests')
-                .doc(request.id)
-                .delete()
-            }
-          >
-            <Text style={{ color: '#9CDCFEee' }}>Cancel</Text>
-          </TouchableOpacity>
+        <View key={request.id} style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
+          <View style={{ maxWidth: 140 }}>
+            <Text style={{ color: '#fffa' }}>{request.to_name}</Text>
+            <Text style={{ color: '#fff5' }}>{prettyDisplayPhone(request.to_phone)}</Text>
+          </View>
+          <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+            <TouchableOpacity
+              onPress={() =>
+                firestore()
+                  .collection('friendRequests')
+                  .doc(request.id)
+                  .delete()
+              }
+            >
+              <Text style={{ color: '#ff5e5eee' }}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       ))}
     </>

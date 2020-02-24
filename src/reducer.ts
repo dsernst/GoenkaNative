@@ -23,6 +23,7 @@ export type FriendRequest = {
   from_phone: string
   id: string
   rejected?: Date
+  to_name: string
   to_onesignal_id: string
   to_phone: string
 }
