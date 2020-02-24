@@ -79,7 +79,7 @@ function SendRequestButton({
     setError(undefined)
     setSubmitting(true)
     try {
-      console.log('send a friend request to:', potentialFriend.id)
+      console.log('👬 sending a friend request to:', potentialFriend.id)
       firestore()
         .collection('friendRequests')
         .add({
