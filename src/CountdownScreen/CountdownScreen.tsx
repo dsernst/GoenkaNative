@@ -6,7 +6,6 @@ import OneSignal from 'react-native-onesignal'
 
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
-import { prettyDisplayPhone } from '../SettingsScreen/Friends/phone-helpers'
 import BeHappyText from './BeHappyText'
 import CountdownCircle from './CountdownCircle'
 import pressStop from './press-stop'
@@ -16,6 +15,7 @@ function CountdownScreen(props: Props) {
     acceptedIncomingFriendRequests,
     acceptedOutgoingFriendRequests,
     autoSyncCompletedSits,
+    displayName,
     duration,
     finished,
     history,
@@ -53,9 +53,7 @@ function CountdownScreen(props: Props) {
 
                 OneSignal.postNotification(
                   {
-                    en: `Your friend ${prettyDisplayPhone(
-                      user.phoneNumber!,
-                    )} just finished a ${duration} minute sit 🙂`,
+                    en: `Your friend ${displayName} just finished a ${duration} minute sit 🙂`,
                   },
                   {},
                   friendsToNotify,
