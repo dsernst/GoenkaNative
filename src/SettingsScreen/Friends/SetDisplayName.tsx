@@ -1,3 +1,4 @@
+import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -5,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { Props } from '../../reducer'
 
-function SetDisplayName({ setState }: Props) {
+function SetDisplayName({ onesignal_id, setState, user }: Props) {
   const [name, setName] = useState('')
 
   return (
@@ -37,7 +38,13 @@ function SetDisplayName({ setState }: Props) {
 
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => setState({ displayName: name })}
+          onPress={() => {
+            setState({ displayName: name })
+            firestore()
+              .collection('users')
+              .doc(user!.phoneNumber!)
+              .set({ name, onesignal_id })
+          }}
           style={{
             alignItems: 'center',
             borderColor: '#fff3',
