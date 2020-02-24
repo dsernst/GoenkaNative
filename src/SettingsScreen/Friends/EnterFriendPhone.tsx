@@ -147,7 +147,7 @@ const EnterFriendPhone = (props: Props) => {
 
     if (!foundUser) {
       return setError(
-        "Can't find a user record for that number.\n\nAre you sure it's correct?\n\nMaybe they need to backup first?",
+        "Can't find anyone with that number.\nAre you sure it's correct?\n\nThey need a display name to become visible.",
       )
     }
 
