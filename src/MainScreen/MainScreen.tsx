@@ -27,12 +27,18 @@ function MainScreen(props: Props) {
     duration,
     hasChanting,
     hasExtendedMetta,
+    history,
     incomingFriendRequests,
     isEnoughTime,
+    onlineSits,
     setState,
     showHistoryBtnTooltip,
     toggle,
+    user,
   } = props
+
+  const numNotifications = incomingFriendRequests.length + (user ? history.length - onlineSits?.length : 0)
+
   return (
     <>
       {/* DurationPicker */}
@@ -110,7 +116,7 @@ function MainScreen(props: Props) {
           style={{ padding: 15, paddingLeft: 0, width: 50 }}
         >
           <AntIcon color="#fff3" name="setting" size={30} />
-          {!!incomingFriendRequests.length && (
+          {!!numNotifications && (
             <View
               style={{
                 backgroundColor: '#f8ff70',
@@ -121,7 +127,7 @@ function MainScreen(props: Props) {
                 top: 5,
               }}
             >
-              <Text style={{ color: '#000', fontSize: 11, fontWeight: '700' }}>{incomingFriendRequests.length}</Text>
+              <Text style={{ color: '#000', fontSize: 11, fontWeight: '700' }}>{numNotifications}</Text>
             </View>
           )}
         </TouchableOpacity>
