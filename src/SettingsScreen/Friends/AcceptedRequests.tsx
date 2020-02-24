@@ -14,7 +14,7 @@ function AcceptedRequests({
 }) {
   return (
     <>
-      <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Friends:</Text>
+      <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Accepted:</Text>
       {acceptedIncomingFriendRequests?.map(request => (
         <View key={request.id} style={{ flexDirection: 'row', marginTop: 15 }}>
           <TouchableOpacity

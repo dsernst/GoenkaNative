@@ -43,7 +43,9 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
           acceptedOutgoingFriendRequests={acceptedOutgoingFriendRequests}
         />
       )}
-      {!!rejectedFriendRequests?.length && <RejectedRequests rejectedFriendRequests={rejectedFriendRequests} />}
+      {!!rejectedFriendRequests?.length && (
+        <RejectedRequests displayName={displayName} rejectedFriendRequests={rejectedFriendRequests} />
+      )}
     </>
   )
 }

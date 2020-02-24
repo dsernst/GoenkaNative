@@ -36,21 +36,7 @@ function IncomingRequests({
             >
               <Text style={{ color: '#ff5e5eee' }}>✗&nbsp; Reject</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                firestore()
-                  .collection('friendRequests')
-                  .doc(request.id)
-                  .update({ accepted: new Date(), to_name: displayName })
-
-                OneSignal.postNotification(
-                  { en: `${displayName} (${prettyDisplayPhone(request.to_phone!)}) accepted your friend request :)` },
-                  {},
-                  [request.from_onesignal_id],
-                )
-              }}
-              style={{ marginLeft: 30 }}
-            >
+            <TouchableOpacity onPress={acceptRequest(request, displayName)} style={{ marginLeft: 30 }}>
               <Text style={{ color: '#9CDCFEee' }}>✓ Accept</Text>
             </TouchableOpacity>
           </View>
@@ -61,3 +47,18 @@ function IncomingRequests({
 }
 
 export default IncomingRequests
+
+export function acceptRequest(request: FriendRequest, displayName: string) {
+  return () => {
+    firestore()
+      .collection('friendRequests')
+      .doc(request.id)
+      .update({ accepted: new Date(), to_name: displayName })
+
+    OneSignal.postNotification(
+      { en: `${displayName} (${prettyDisplayPhone(request.to_phone!)}) accepted your friend request :)` },
+      {},
+      [request.from_onesignal_id],
+    )
+  }
+}
