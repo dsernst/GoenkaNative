@@ -23,7 +23,16 @@ import pressPlay from './press-play'
 const { width: screenWidth } = Dimensions.get('window')
 
 function MainScreen(props: Props) {
-  const { duration, hasChanting, hasExtendedMetta, isEnoughTime, setState, showHistoryBtnTooltip, toggle } = props
+  const {
+    duration,
+    hasChanting,
+    hasExtendedMetta,
+    incomingFriendRequests,
+    isEnoughTime,
+    setState,
+    showHistoryBtnTooltip,
+    toggle,
+  } = props
   return (
     <>
       {/* DurationPicker */}
@@ -95,12 +104,26 @@ function MainScreen(props: Props) {
           marginTop: 'auto',
         }}
       >
-        {/* spacer */}
+        {/* SettingsBtn */}
         <TouchableOpacity
           onPress={() => setState({ screen: 'SettingsScreen' })}
           style={{ padding: 15, paddingLeft: 0, width: 50 }}
         >
           <AntIcon color="#fff3" name="setting" size={30} />
+          {!!incomingFriendRequests.length && (
+            <View
+              style={{
+                backgroundColor: '#f8ff70',
+                borderRadius: 30,
+                left: 30,
+                paddingHorizontal: 4,
+                position: 'absolute',
+                top: 5,
+              }}
+            >
+              <Text style={{ color: '#000', fontSize: 11, fontWeight: '700' }}>{incomingFriendRequests.length}</Text>
+            </View>
+          )}
         </TouchableOpacity>
 
         {/* StartBtn */}

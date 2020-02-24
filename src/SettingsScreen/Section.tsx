@@ -8,6 +8,7 @@ import LoginFlow from './LoginFlow'
 
 type SectionProps = Props & {
   Content: (props: any) => JSX.Element
+  badgeNumber?: number
   description: string
   icon: { Set: typeof Octicons; name: string; size: number }
   requiresLogin?: boolean
@@ -15,7 +16,7 @@ type SectionProps = Props & {
 }
 
 function Section(props: SectionProps) {
-  const { Content, description, icon, requiresLogin, title, user } = props
+  const { Content, badgeNumber, description, icon, requiresLogin, title, user } = props
   const [enabled, setEnabled] = useState(false)
   const { Set } = icon
 
@@ -41,6 +42,19 @@ function Section(props: SectionProps) {
           <Set color={enabled ? '#fffd' : '#fff8'} {...icon} style={{ paddingTop: 2 }} />
         </View>
         <Text style={{ color: enabled ? '#fffd' : '#fff8', fontSize: 16 }}>{title}</Text>
+
+        {!!badgeNumber && (
+          <View
+            style={{
+              backgroundColor: `#f8ff70${enabled ? '' : '88'}`,
+              borderRadius: 30,
+              marginLeft: 15,
+              paddingHorizontal: 5,
+            }}
+          >
+            <Text style={{ color: '#000', fontWeight: '700' }}>{badgeNumber}</Text>
+          </View>
+        )}
 
         <Octicons
           color="#fff5"
