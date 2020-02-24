@@ -11,7 +11,7 @@ function RejectedRequests({ rejectedFriendRequests }: { rejectedFriendRequests: 
       <Text style={{ color: '#fffa', fontWeight: '600', marginTop: 30 }}>Rejected Friend Requests:</Text>
       {rejectedFriendRequests?.map(request => (
         <View key={request.id} style={{ alignItems: 'center', flexDirection: 'row', marginTop: 15 }}>
-          <Text style={{ color: '#fffa' }}>{prettyDisplayPhone(request.to_phone)}&nbsp; &nbsp;—&nbsp; &nbsp;</Text>
+          <Text style={{ color: '#fffa' }}>{prettyDisplayPhone(request.from_phone)}&nbsp; &nbsp;—&nbsp; &nbsp;</Text>
           <TouchableOpacity
             onPress={() =>
               firestore()

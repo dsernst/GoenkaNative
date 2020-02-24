@@ -1,22 +1,14 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import React, { useRef, useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { FriendRequest } from '../../reducer'
+import { Props } from '../../reducer'
 import { formatPhoneNumber, prettyFormat } from './phone-helpers'
 import SendRequestButton from './SendRequestButton'
 
-const EnterFriendPhone = ({
-  onesignal_id,
-  outgoingFriendRequests,
-  user,
-}: {
-  onesignal_id: string | null
-  outgoingFriendRequests: FriendRequest[]
-  user: FirebaseAuthTypes.User
-}) => {
+const EnterFriendPhone = (props: Props) => {
+  const { outgoingFriendRequests, user } = props
   const [phone, setPhone] = useState('')
   const [error, setError] = useState()
   const [submitting, setSubmitting] = useState(false)
@@ -111,11 +103,10 @@ const EnterFriendPhone = ({
 
       {potentialFriend && (
         <SendRequestButton
-          onesignal_id={onesignal_id}
           potentialFriend={potentialFriend}
           setPhone={setPhone}
           setPotentialFriend={setPotentialFriend}
-          user={user}
+          {...props}
         />
       )}
     </>
@@ -129,7 +120,7 @@ const EnterFriendPhone = ({
     setError(undefined)
     textInput.current?.blur()
 
-    if (phoneNumber === user.phoneNumber) {
+    if (phoneNumber === user!.phoneNumber) {
       return setError("You can't send a request to yourself, silly 😅")
     }
 

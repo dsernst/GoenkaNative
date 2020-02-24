@@ -1,25 +1,25 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import React, { Dispatch, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import OneSignal from 'react-native-onesignal'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
+import { Props } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
 
+type SendRequestButtonProps = Props & {
+  potentialFriend: { id: string; onesignal_id: string }
+  setPhone: Dispatch<string>
+  setPotentialFriend: Dispatch<undefined>
+}
 function SendRequestButton({
+  displayName,
   onesignal_id,
   potentialFriend,
   setPhone,
   setPotentialFriend,
   user,
-}: {
-  onesignal_id: string | null
-  potentialFriend: { id: string; onesignal_id: string }
-  setPhone: Dispatch<string>
-  setPotentialFriend: Dispatch<undefined>
-  user: FirebaseAuthTypes.User
-}) {
+}: SendRequestButtonProps) {
   const [error, setError] = useState()
   const [submitting, setSubmitting] = useState(false)
 
@@ -84,14 +84,17 @@ function SendRequestButton({
         .collection('friendRequests')
         .add({
           created_at: new Date(),
+          from_name: displayName,
           from_onesignal_id: onesignal_id,
-          from_phone: user.phoneNumber,
+          from_phone: user!.phoneNumber,
           to_onesignal_id: potentialFriend.onesignal_id,
           to_phone: potentialFriend.id,
         })
-      OneSignal.postNotification({ en: `New friend request from ${prettyDisplayPhone(user.phoneNumber!)}` }, {}, [
-        potentialFriend.onesignal_id,
-      ])
+      OneSignal.postNotification(
+        { en: `New friend request from ${displayName} (${prettyDisplayPhone(user!.phoneNumber!)})` },
+        {},
+        [potentialFriend.onesignal_id],
+      )
     } catch (err) {
       return setError(err.toString())
     }
