@@ -15,7 +15,7 @@ import Section from './Section'
 import Sync from './Sync/Sync'
 
 function SettingsScreen(props: Props) {
-  const { incomingFriendRequests, user } = props
+  const { history, incomingFriendRequests, onlineSits, user } = props
   return (
     <>
       <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 17 }} />
@@ -41,6 +41,7 @@ function SettingsScreen(props: Props) {
         />
 
         <Section
+          badgeNumber={history.length - onlineSits?.length}
           Content={Sync}
           description="Backup your sit history to the cloud, in case you lose your device, etc."
           icon={{ Set: Octicons, name: 'sync', size: 19 }}
