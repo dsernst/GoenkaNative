@@ -53,7 +53,7 @@ export function acceptRequest(request: FriendRequest, displayName: string) {
     firestore()
       .collection('friendRequests')
       .doc(request.id)
-      .update({ accepted: new Date(), from_notifs: true, to_name: displayName, to_notifs: true })
+      .update({ accepted: new Date(), from_wants_notifs: true, to_name: displayName, to_wants_notifs: true })
 
     OneSignal.postNotification(
       { en: `${displayName} (${prettyDisplayPhone(request.to_phone!)}) accepted your friend request :)` },

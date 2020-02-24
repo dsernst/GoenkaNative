@@ -26,8 +26,8 @@ function CountdownScreen(props: Props) {
   const [hideStatusBar, setHideStatusBar] = useState(true)
 
   const friendsToNotify = [
-    ...acceptedIncomingFriendRequests.filter(ifr => ifr.from_notifs).map(ifr => ifr.from_onesignal_id),
-    ...acceptedOutgoingFriendRequests.filter(ifr => ifr.to_notifs).map(ofr => ofr.to_onesignal_id),
+    ...acceptedIncomingFriendRequests.filter(ifr => ifr.from_wants_notifs).map(ifr => ifr.from_onesignal_id),
+    ...acceptedOutgoingFriendRequests.filter(ifr => ifr.to_wants_notifs).map(ofr => ofr.to_onesignal_id),
   ]
 
   return (

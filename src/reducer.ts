@@ -19,15 +19,15 @@ export type FriendRequest = {
   accepted?: Date
   created_at: Date
   from_name: string
-  from_notifs: boolean
   from_onesignal_id: string
   from_phone: string
+  from_wants_notifs: boolean
   id: string
   rejected?: Date
   to_name: string
-  to_notifs: boolean
   to_onesignal_id: string
   to_phone: string
+  to_wants_notifs: boolean
 }
 
 type OnlineSit = Sit & { id: string; user_id: string; user_phone?: string }

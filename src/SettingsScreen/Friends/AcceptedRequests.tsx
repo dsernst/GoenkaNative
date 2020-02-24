@@ -24,15 +24,15 @@ function AcceptedRequests({
       acceptedIncomingFriendRequests,
       request => request.from_name,
       request => request.from_phone,
-      request => request.to_notifs,
-      request => ({ to_notifs: !request.to_notifs }),
+      request => request.to_wants_notifs,
+      request => ({ to_wants_notifs: !request.to_wants_notifs }),
     ],
     [
       acceptedOutgoingFriendRequests,
       request => request.to_name,
       request => request.to_phone,
-      request => request.from_notifs,
-      request => ({ from_notifs: !request.from_notifs }),
+      request => request.from_wants_notifs,
+      request => ({ from_wants_notifs: !request.from_wants_notifs }),
     ],
   ]
 
