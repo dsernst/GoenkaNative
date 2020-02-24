@@ -8,7 +8,7 @@ import { Props } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
 
 type SendRequestButtonProps = Props & {
-  potentialFriend: { id: string; onesignal_id: string }
+  potentialFriend: { id: string; name: string; onesignal_id: string }
   setPhone: Dispatch<string>
   setPotentialFriend: Dispatch<undefined>
 }
@@ -25,7 +25,10 @@ function SendRequestButton({
 
   return (
     <View style={{ marginTop: 30 }}>
-      <Text style={{ color: '#fffc' }}>Found! Send friend request?</Text>
+      <Text style={{ color: '#fffa' }}>
+        Found <Text style={{ color: '#fffc', fontWeight: '700' }}>{potentialFriend.name}</Text>!{'\n'}Send friend
+        request?
+      </Text>
 
       <TouchableOpacity
         activeOpacity={0.7}
@@ -87,6 +90,7 @@ function SendRequestButton({
           from_name: displayName,
           from_onesignal_id: onesignal_id,
           from_phone: user!.phoneNumber,
+          to_name: potentialFriend.name,
           to_onesignal_id: potentialFriend.onesignal_id,
           to_phone: potentialFriend.id,
         })
