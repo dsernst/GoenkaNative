@@ -33,7 +33,7 @@ function SettingsScreen(props: Props) {
         <Section
           badgeNumber={incomingFriendRequests.length}
           Content={Friends}
-          description="Turn on notifications for when you or a friend complete a sit."
+          description="Get notified when friends complete a sit."
           icon={{ Set: Ionicons, name: 'ios-people', size: 23 }}
           requiresLogin
           title="Friend notifications"
