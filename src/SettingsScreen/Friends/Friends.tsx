@@ -26,7 +26,7 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
   }
 
   if (!displayName) {
-    return <SetDisplayName />
+    return <SetDisplayName {...props} />
   }
 
   return (

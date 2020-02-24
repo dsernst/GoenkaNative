@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Foundation from 'react-native-vector-icons/Foundation'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
-function SetDisplayName() {
+import { Props } from '../../reducer'
+
+function SetDisplayName({ setState }: Props) {
   const [name, setName] = useState('')
 
   return (
@@ -35,7 +37,7 @@ function SetDisplayName() {
 
         <TouchableOpacity
           activeOpacity={0.7}
-          //   onPress={submit}
+          onPress={() => setState({ displayName: name })}
           style={{
             alignItems: 'center',
             borderColor: '#fff3',
@@ -47,7 +49,7 @@ function SetDisplayName() {
             paddingHorizontal: 13,
           }}
         >
-          <Foundation color="#fffa" name="save" size={15} style={{ paddingRight: 12, paddingTop: 1 }} />
+          <Ionicons color="#fffa" name="ios-save" size={15} style={{ paddingRight: 12, paddingTop: 1 }} />
           <Text style={{ color: '#fff9', fontSize: 16, fontWeight: '500' }}>Set</Text>
         </TouchableOpacity>
       </View>

@@ -43,6 +43,7 @@ export interface State extends ToggleableStates {
   acceptedIncomingFriendRequests: FriendRequest[]
   acceptedOutgoingFriendRequests: FriendRequest[]
   amNotificationTime: Date
+  displayName: string | null
   duration: number
   history: Sit[]
   historyViewIndex: number
@@ -78,6 +79,7 @@ const initialState: State = {
   amNotification: false,
   amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
   autoSyncCompletedSits: true,
+  displayName: null,
   duration: 60,
   finished: false,
   hasChanting: true,

@@ -21,7 +21,7 @@ function SettingsScreen(props: Props) {
       <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 17 }} />
 
       <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 16 }}>
-        {user && <AuthedInfo user={user} />}
+        {user && <AuthedInfo {...props} user={user} />}
 
         <Section
           Content={DailyNotificationSettings}
