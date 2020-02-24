@@ -49,6 +49,7 @@ export interface State extends ToggleableStates {
   amNotificationTime: Date
   displayName: string | null
   duration: number
+  expandFriendsSection?: boolean
   history: Sit[]
   historyViewIndex: number
   incomingFriendRequests: FriendRequest[]

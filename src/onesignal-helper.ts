@@ -9,7 +9,7 @@ function init(setState: (payload: setStatePayload) => void) {
   })
 
   OneSignal.addEventListener('received', onReceived)
-  OneSignal.addEventListener('opened', onOpened)
+  OneSignal.addEventListener('opened', onOpened(setState))
   OneSignal.addEventListener('ids', saveId)
 
   OneSignal.checkPermissions(osLevelPermissions => {
@@ -34,9 +34,15 @@ function onReceived(notification: any) {
   console.log('Notification received: ', notification)
 }
 
-function onOpened(openResult: any) {
-  console.log('Message: ', openResult.notification.payload.body)
-  console.log('Data: ', openResult.notification.payload.additionalData)
-  console.log('isActive: ', openResult.notification.isAppInFocus)
-  console.log('openResult: ', openResult)
+function onOpened(setState: (payload: setStatePayload) => void) {
+  return (openResult: any) => {
+    console.log('Message: ', openResult.notification.payload.body)
+    console.log('Data: ', openResult.notification.payload.additionalData)
+    console.log('isActive: ', openResult.notification.isAppInFocus)
+    console.log('openResult: ', openResult)
+
+    if (openResult.notification.payload.body.includes('New friend request')) {
+      setState({ expandFriendsSection: true, screen: 'SettingsScreen' })
+    }
+  }
 }

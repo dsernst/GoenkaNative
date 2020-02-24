@@ -36,6 +36,7 @@ function SettingsScreen(props: Props) {
           description="Get notified when friends complete a sit."
           icon={{ Set: Ionicons, name: 'ios-people', size: 23 }}
           requiresLogin
+          startExpandedKey="expandFriendsSection"
           title="Friend notifications"
         />
 

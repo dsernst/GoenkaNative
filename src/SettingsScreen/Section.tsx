@@ -12,13 +12,20 @@ type SectionProps = Props & {
   description: string
   icon: { Set: typeof Octicons; name: string; size: number }
   requiresLogin?: boolean
+  startExpandedKey?: 'expandFriendsSection'
   title: string
 }
 
 function Section(props: SectionProps) {
-  const { Content, badgeNumber, description, icon, requiresLogin, title, user } = props
+  const { Content, badgeNumber, description, icon, requiresLogin, startExpandedKey, title, user } = props
   const [enabled, setEnabled] = useState(false)
+  const [wasAutoExpanded, setWasAutoExpanded] = useState()
   const { Set } = icon
+
+  if (startExpandedKey && props[startExpandedKey] && !wasAutoExpanded) {
+    setWasAutoExpanded(true) // Prevents endless loop
+    setEnabled(true)
+  }
 
   return (
     <View style={{ marginBottom: enabled ? 50 : 30 }}>
