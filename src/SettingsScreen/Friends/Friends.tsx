@@ -33,7 +33,9 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
     <>
       <EnterFriendPhone user={props.user} {...props} />
 
-      {!!incomingFriendRequests?.length && <IncomingRequests incomingFriendRequests={incomingFriendRequests} />}
+      {!!incomingFriendRequests?.length && (
+        <IncomingRequests displayName={displayName} incomingFriendRequests={incomingFriendRequests} />
+      )}
       {!!outgoingFriendRequests?.length && <OutgoingRequests outgoingFriendRequests={outgoingFriendRequests} />}
       {(!!acceptedIncomingFriendRequests?.length || !!acceptedOutgoingFriendRequests?.length) && (
         <AcceptedRequests

@@ -99,7 +99,7 @@ const EnterPhone = ({
     const phoneNumber = formatPhoneNumber(phone)
     console.log('called EnterPhone.submit() ', phoneNumber)
 
-    if (phoneNumber === '+15555555555') {
+    if (['+15555555555', '+19999999999'].includes(phoneNumber)) {
       auth().settings.appVerificationDisabledForTesting = true
     }
 

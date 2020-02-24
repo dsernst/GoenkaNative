@@ -18,6 +18,7 @@ export type Sit = {
 export type FriendRequest = {
   accepted?: Date
   created_at: Date
+  from_name: string
   from_onesignal_id: string
   from_phone: string
   id: string
