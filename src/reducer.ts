@@ -19,11 +19,13 @@ export type FriendRequest = {
   accepted?: Date
   created_at: Date
   from_name: string
+  from_notifs: boolean
   from_onesignal_id: string
   from_phone: string
   id: string
   rejected?: Date
   to_name: string
+  to_notifs: boolean
   to_onesignal_id: string
   to_phone: string
 }

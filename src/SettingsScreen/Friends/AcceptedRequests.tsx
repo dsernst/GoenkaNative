@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore'
-import React, { useState } from 'react'
+import React from 'react'
 import { Alert, Platform, Switch, Text, TouchableOpacity, View } from 'react-native'
 
 import { FriendRequest } from '../../reducer'
@@ -13,19 +13,35 @@ function AcceptedRequests({
   acceptedOutgoingFriendRequests: FriendRequest[]
 }) {
   // Unique values for incoming vs outgoing friend requests
-  const tuple: [FriendRequest[], (request: FriendRequest) => string, (request: FriendRequest) => string][] = [
-    [acceptedIncomingFriendRequests, request => request.from_name, request => request.from_phone],
-    [acceptedOutgoingFriendRequests, request => request.to_name, request => request.to_phone],
+  const tuple: [
+    FriendRequest[],
+    (request: FriendRequest) => string,
+    (request: FriendRequest) => string,
+    (request: FriendRequest) => boolean,
+    (request: FriendRequest) => object,
+  ][] = [
+    [
+      acceptedIncomingFriendRequests,
+      request => request.from_name,
+      request => request.from_phone,
+      request => request.to_notifs,
+      request => ({ to_notifs: !request.to_notifs }),
+    ],
+    [
+      acceptedOutgoingFriendRequests,
+      request => request.to_name,
+      request => request.to_phone,
+      request => request.from_notifs,
+      request => ({ from_notifs: !request.from_notifs }),
+    ],
   ]
-
-  const [isOn, setOn] = useState(true)
 
   return (
     <>
       <Text style={{ color: '#fff7', fontWeight: '600', marginTop: 30 }}>Accepted:</Text>
-      {tuple.map(([requests, getName, getPhone]) =>
+      {tuple.map(([requests, getName, getPhone, getNotifs, toggleNotifs]) =>
         requests?.map(request => (
-          <View key={request.id} style={{ flexDirection: 'row', marginTop: 15, opacity: isOn ? 1 : 0.3 }}>
+          <View key={request.id} style={{ flexDirection: 'row', marginTop: 15, opacity: getNotifs(request) ? 1 : 0.3 }}>
             <TouchableOpacity
               onPress={() =>
                 Alert.alert(
@@ -52,21 +68,23 @@ function AcceptedRequests({
               <Text style={{ color: '#fffb' }}>&nbsp; {getName(request)}</Text>
               <Text style={{ color: '#fff5' }}>&nbsp; {prettyDisplayPhone(getPhone(request))}</Text>
             </View>
-            <TouchableOpacity
-              style={{ alignItems: 'center', alignSelf: 'flex-start', flexDirection: 'row', marginLeft: 'auto' }}
-            >
-              <Switch
-                onValueChange={() => setOn(!isOn)}
-                style={{
-                  alignSelf: 'flex-end',
-                  paddingVertical: 10,
-                  transform: Platform.OS === 'ios' ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [],
-                }}
-                thumbColor="white"
-                trackColor={{ false: 'null', true: 'rgb(10, 132, 255)' }}
-                value={isOn}
-              />
-            </TouchableOpacity>
+            <Switch
+              onValueChange={() =>
+                firestore()
+                  .collection('friendRequests')
+                  .doc(request.id)
+                  .update(toggleNotifs(request))
+              }
+              style={{
+                alignSelf: 'flex-end',
+                marginLeft: 'auto',
+                paddingVertical: 10,
+                transform: Platform.OS === 'ios' ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [],
+              }}
+              thumbColor="white"
+              trackColor={{ false: 'null', true: 'rgb(10, 132, 255)' }}
+              value={getNotifs(request)}
+            />
           </View>
         )),
       )}
