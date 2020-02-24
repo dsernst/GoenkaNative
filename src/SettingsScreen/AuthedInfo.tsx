@@ -31,13 +31,19 @@ function AuthedInfo({ displayName, setState, user }: AuthInfoProps) {
         }
         style={{ alignItems: 'center', flexDirection: 'row' }}
       >
-        <Text style={{ color: '#fff9' }}>Logged in as:</Text>
-        <View style={{ marginBottom: 10, paddingLeft: 15, top: 15 }}>
-          <Text style={{ color: '#fffb', fontWeight: '500' }}>{displayName}</Text>
-          <Text style={{ color: '#fff7', fontStyle: 'italic', marginTop: 2 }}>
+        <Text style={{ color: '#fff9', marginRight: 15 }}>Logged in as:</Text>
+        {displayName ? (
+          <View style={{ marginBottom: 10, top: 15 }}>
+            <Text style={{ color: '#fffb', fontWeight: '500' }}>{displayName}</Text>
+            <Text style={{ color: '#fff7', fontStyle: 'italic', marginTop: 2 }}>
+              {prettyDisplayPhone(user.phoneNumber!)}
+            </Text>
+          </View>
+        ) : (
+          <Text style={{ color: '#fffb', fontStyle: 'italic', fontWeight: '500' }}>
             {prettyDisplayPhone(user.phoneNumber!)}
           </Text>
-        </View>
+        )}
       </TouchableOpacity>
     </View>
   )
