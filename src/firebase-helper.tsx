@@ -38,7 +38,7 @@ function init(setState: (payload: setStatePayload) => void) {
       .where('user_id', '==', user.uid)
       .orderBy('date', 'desc')
       .onSnapshot(results => {
-        console.log('⬇️  sits.onSnapshot()')
+        console.log('⬇️  db snapshot: sits')
         setState({
           onlineSits: results.docs
             // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
@@ -54,7 +54,7 @@ function init(setState: (payload: setStatePayload) => void) {
       .collection('friendRequests')
       .where('from_phone', '==', user.phoneNumber)
       .onSnapshot(results => {
-        console.log('⬇️  outgoing friendRequests.onSnapshot()')
+        console.log('⬇️  db snapshot: outgoing friendRequests')
 
         const outgoingFriendRequests: FriendRequest[] = []
         const acceptedOutgoingFriendRequests: FriendRequest[] = []
@@ -80,7 +80,7 @@ function init(setState: (payload: setStatePayload) => void) {
       .collection('friendRequests')
       .where('to_phone', '==', user.phoneNumber)
       .onSnapshot(results => {
-        console.log('⬇️  incoming friendRequests.onSnapshot()')
+        console.log('⬇️  db snapshot: incoming friendRequests')
         const incomingFriendRequests: FriendRequest[] = []
         const acceptedIncomingFriendRequests: FriendRequest[] = []
         const rejectedFriendRequests: FriendRequest[] = []
