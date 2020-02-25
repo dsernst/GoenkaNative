@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import OneSignal from 'react-native-onesignal'
 
 import { setStatePayload } from './reducer'
@@ -12,9 +13,13 @@ function init(setState: (payload: setStatePayload) => void) {
   OneSignal.addEventListener('opened', onOpened(setState))
   OneSignal.addEventListener('ids', saveId)
 
-  OneSignal.checkPermissions(osLevelPermissions => {
-    setState({ notifications_allowed: !!osLevelPermissions.alert })
-  })
+  if (Platform.OS === 'android') {
+    setState({ notifications_allowed: true })
+  } else {
+    OneSignal.checkPermissions(osLevelPermissions => {
+      setState({ notifications_allowed: !!osLevelPermissions.alert })
+    })
+  }
 
   function saveId(device: any) {
     // console.log('OneSignal Device info: ', device)
