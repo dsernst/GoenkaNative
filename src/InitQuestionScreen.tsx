@@ -6,7 +6,7 @@ import { Props } from './reducer'
 function InitQuestionScreen({ isOldStudent, setState }: Props) {
   const [shownPrompt, setShownPrompt] = useState(false)
 
-  if (isOldStudent !== null) {
+  if (isOldStudent !== null || process.env.NODE_ENV === 'development') {
     setState({ screen: 'MainScreen' })
   } else if (!shownPrompt) {
     setShownPrompt(true)
