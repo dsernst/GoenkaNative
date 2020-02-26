@@ -111,8 +111,9 @@ function CheckContactsScreen(props: Props) {
                         {contact.givenName} {contact.familyName}
                       </Text>
                       {title === 'Available to Friend' &&
-                        contact.phoneNumbers.map((pN: PhoneNumber) => (
+                        contact.phoneNumbers.map((pN: PhoneNumber, index2) => (
                           <View
+                            key={index2}
                             style={{
                               alignItems: 'center',
                               flexDirection: 'row',
