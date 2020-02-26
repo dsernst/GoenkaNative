@@ -44,11 +44,13 @@ type ToggleableStates = {
   showHistoryBtnTooltip: boolean
 }
 
+type ContactType = 'alreadyFriends' | 'availableToFriend' | 'notOnApp' | 'pendingRequests'
+
 export interface State extends ToggleableStates {
   acceptedIncomingFriendRequests: FriendRequest[]
   acceptedOutgoingFriendRequests: FriendRequest[]
   amNotificationTime: Date
-  contacts?: Contact[]
+  contacts?: (Contact & { type?: ContactType })[]
   displayName: string | null
   duration: number
   expandFriendsSection?: boolean

@@ -1,7 +1,6 @@
 import firestore from '@react-native-firebase/firestore'
 import bluebird from 'bluebird'
-import _ from 'lodash'
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import { Contact } from 'react-native-contacts'
 
@@ -19,25 +18,6 @@ function CheckContactsScreen(props: Props) {
     outgoingFriendRequests,
   } = props
 
-  type State = {
-    alreadyFriends: Contact[]
-    availableToFriend: Contact[]
-    notOnApp: Contact[]
-    pendingRequests: Contact[]
-  }
-
-  const [{ alreadyFriends, availableToFriend, notOnApp, pendingRequests }, dispatch] = useReducer(
-    (
-      oldState: State,
-      action: { contact: Contact; type: 'alreadyFriends' | 'availableToFriend' | 'notOnApp' | 'pendingRequests' },
-    ): State => {
-      const newState = _.cloneDeep(oldState)
-      newState[action.type].push(action.contact)
-      return newState
-    },
-    { alreadyFriends: [], availableToFriend: [], notOnApp: [], pendingRequests: [] },
-  )
-
   const pendingRequestsPhones = [
     ...incomingFriendRequests.map(fr => fr.from_phone),
     ...outgoingFriendRequests.map(fr => fr.to_phone),
@@ -48,15 +28,19 @@ function CheckContactsScreen(props: Props) {
     ...acceptedOutgoingFriendRequests.map(fr => fr.to_phone),
   ]
 
+  const [, forceRender] = useState({})
+
   useEffect(() => {
     console.log('🔍 Searching contacts for users')
     contacts?.forEach(async contact => {
       const phoneNumbers = contact.phoneNumbers.map(pN => formatPhoneNumber(pN.number))
 
       if (phoneNumbers.some(n => pendingRequestsPhones.includes(n))) {
-        dispatch({ contact, type: 'pendingRequests' })
+        contact.type = 'pendingRequests'
+        forceRender({})
       } else if (phoneNumbers.some(n => alreadyFriendsPhones.includes(n))) {
-        dispatch({ contact, type: 'alreadyFriends' })
+        contact.type = 'alreadyFriends'
+        forceRender({})
       } else {
         const dbResults = await bluebird.map(
           phoneNumbers,
@@ -67,19 +51,31 @@ function CheckContactsScreen(props: Props) {
               .get(),
         )
         if (dbResults.some(doc => doc.exists)) {
-          dispatch({ contact, type: 'availableToFriend' })
+          contact.type = 'availableToFriend'
+          forceRender({})
         } else {
-          dispatch({ contact, type: 'notOnApp' })
+          contact.type = 'notOnApp'
+          forceRender({})
         }
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  if (!contacts) {
+    return (
+      <>
+        <TitleBar name="ERROR LOADING CONTACTS" />
+        <BackButton saveSpace to="SettingsScreen" />
+      </>
+    )
+  }
+
   const tuple: [Contact[], string][] = [
-    [availableToFriend, 'Available to Friend'],
-    [alreadyFriends, 'Already Friends'],
-    [pendingRequests, 'Friend Request Pending'],
-    [notOnApp, 'Not On App'],
+    [contacts?.filter(c => c.type === 'availableToFriend'), 'Available to Friend'],
+    [contacts?.filter(c => c.type === 'alreadyFriends'), 'Already Friends'],
+    [contacts?.filter(c => c.type === 'pendingRequests'), 'Friend Request Pending'],
+    [contacts?.filter(c => c.type === 'notOnApp'), 'Not On App'],
   ]
 
   return (
@@ -91,7 +87,7 @@ function CheckContactsScreen(props: Props) {
           ([array, title]) =>
             !!array.length && (
               <View key={title} style={{ marginBottom: 30 }}>
-                <Text style={{ color: '#fffc', fontSize: 18, fontWeight: '600', marginBottom: 15 }}>{title}:</Text>
+                <Text style={{ color: '#fff6', fontSize: 13, fontWeight: '600', marginBottom: 15 }}>{title}:</Text>
                 {array
                   .sort((a, b) => new Intl.Collator().compare(a.familyName, b.familyName))
                   .map((contact, index) => (
