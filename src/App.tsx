@@ -76,7 +76,11 @@ function App(props: Props) {
           backgroundColor: '#001709',
           flex: 1,
           paddingBottom: safeAreaInsetBottom,
-          paddingHorizontal: !['HistoryScreen', 'MultiDeleteScreen', 'SettingsScreen'].includes(screen) ? 24 : 8,
+          paddingHorizontal: !['HistoryScreen', 'MultiDeleteScreen', 'SettingsScreen', 'CheckContactsScreen'].includes(
+            screen,
+          )
+            ? 24
+            : 8,
           paddingTop: safeAreaInsetTop,
         }}
       >

@@ -1,21 +1,26 @@
 import firestore from '@react-native-firebase/firestore'
 import bluebird from 'bluebird'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Text, View } from 'react-native'
-import { Contact } from 'react-native-contacts'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { PhoneNumber } from 'react-native-contacts'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 import BackButton from '../../BackButton'
-import { Props } from '../../reducer'
+import { ContactWithType, Props } from '../../reducer'
 import TitleBar from '../../TitleBar'
 import { formatPhoneNumber } from './phone-helpers'
+import { sendFriendRequest } from './SendRequestButton'
 
 function CheckContactsScreen(props: Props) {
   const {
     acceptedIncomingFriendRequests,
     acceptedOutgoingFriendRequests,
     contacts,
+    displayName,
     incomingFriendRequests,
+    onesignal_id,
     outgoingFriendRequests,
+    user,
   } = props
 
   const pendingRequestsPhones = [
@@ -52,6 +57,12 @@ function CheckContactsScreen(props: Props) {
         )
         if (dbResults.some(doc => doc.exists)) {
           contact.type = 'availableToFriend'
+          dbResults.forEach((doc, index) => {
+            if (doc.exists) {
+              // @ts-ignore: doesn't know doc.data() type
+              contact.phoneNumbers[index].foundUser = { id: doc.id, ...doc.data() }
+            }
+          })
           forceRender({})
         } else {
           contact.type = 'notOnApp'
@@ -71,7 +82,7 @@ function CheckContactsScreen(props: Props) {
     )
   }
 
-  const tuple: [Contact[], string][] = [
+  const tuple: [ContactWithType[], string][] = [
     [contacts?.filter(c => c.type === 'availableToFriend'), 'Available to Friend'],
     [contacts?.filter(c => c.type === 'alreadyFriends'), 'Already Friends'],
     [contacts?.filter(c => c.type === 'pendingRequests'), 'Friend Request Pending'],
@@ -80,7 +91,7 @@ function CheckContactsScreen(props: Props) {
 
   return (
     <>
-      <TitleBar name="CONTACTS" />
+      <TitleBar name="CONTACTS" style={{ marginHorizontal: 17 }} />
 
       <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 16 }}>
         {tuple.map(
@@ -91,9 +102,55 @@ function CheckContactsScreen(props: Props) {
                 {array
                   .sort((a, b) => new Intl.Collator().compare(a.familyName, b.familyName))
                   .map((contact, index) => (
-                    <Text key={index} style={{ color: '#fffc', fontSize: 18, marginBottom: 15 }}>
-                      {contact.givenName} {contact.familyName}
-                    </Text>
+                    <View key={index} style={{ marginBottom: 15 }}>
+                      <Text style={{ color: '#fffc', fontSize: 18 }}>
+                        {contact.givenName} {contact.familyName}
+                      </Text>
+                      {title === 'Available to Friend' &&
+                        contact.phoneNumbers.map((pN: PhoneNumber) => (
+                          <View
+                            style={{
+                              alignItems: 'center',
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              marginTop: 3,
+                            }}
+                          >
+                            <Text style={{ color: '#fff8' }}>{pN.number}</Text>
+                            {pN.foundUser && (
+                              <TouchableOpacity
+                                onPress={async () => {
+                                  await sendFriendRequest({
+                                    displayName,
+                                    onesignal_id,
+                                    potentialFriend: pN.foundUser!,
+                                    user,
+                                  })
+                                  contact.type = 'pendingRequests'
+                                  forceRender({})
+                                }}
+                                style={{
+                                  alignItems: 'center',
+                                  borderColor: '#fff7',
+                                  borderRadius: 6,
+                                  borderWidth: 1,
+                                  flexDirection: 'row',
+                                  padding: 4,
+                                  paddingHorizontal: 11,
+                                }}
+                              >
+                                <MaterialIcons
+                                  color="#fffa"
+                                  name="person-add"
+                                  size={15}
+                                  style={{ paddingRight: 7, top: 1 }}
+                                />
+                                <Text style={{ color: '#fffb' }}>Send Request</Text>
+                              </TouchableOpacity>
+                            )}
+                          </View>
+                        ))}
+                    </View>
                   ))}
               </View>
             ),

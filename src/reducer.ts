@@ -45,12 +45,13 @@ type ToggleableStates = {
 }
 
 type ContactType = 'alreadyFriends' | 'availableToFriend' | 'notOnApp' | 'pendingRequests'
+export type ContactWithType = Contact & { type?: ContactType }
 
 export interface State extends ToggleableStates {
   acceptedIncomingFriendRequests: FriendRequest[]
   acceptedOutgoingFriendRequests: FriendRequest[]
   amNotificationTime: Date
-  contacts?: (Contact & { type?: ContactType })[]
+  contacts?: ContactWithType[]
   displayName: string | null
   duration: number
   expandFriendsSection?: boolean
