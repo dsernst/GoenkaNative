@@ -100,7 +100,7 @@ function CheckContactsScreen(props: Props) {
               <View key={title} style={{ marginBottom: 30 }}>
                 <Text style={{ color: '#fff6', fontSize: 13, fontWeight: '600', marginBottom: 15 }}>{title}:</Text>
                 {array
-                  .sort((a, b) => new Intl.Collator().compare(a.familyName, b.familyName))
+                  .sort((a, b) => new Intl.Collator().compare(a.givenName, b.givenName))
                   .map((contact, index) => (
                     <View key={index} style={{ marginBottom: 15 }}>
                       <Text style={{ color: '#fffc', fontSize: 18 }}>
