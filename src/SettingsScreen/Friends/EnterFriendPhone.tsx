@@ -16,7 +16,7 @@ const EnterFriendPhone = (props: Props) => {
   const textInput = useRef<TextInput>(null)
 
   return (
-    <>
+    <View style={{ marginHorizontal: 15 }}>
       <Text
         style={{
           color: '#fff9',
@@ -109,7 +109,7 @@ const EnterFriendPhone = (props: Props) => {
           {...props}
         />
       )}
-    </>
+    </View>
   )
 
   async function submit() {

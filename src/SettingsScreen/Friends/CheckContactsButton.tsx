@@ -5,7 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import { Props } from '../../reducer'
 
-function SearchContactsButton({ setState }: Props) {
+function CheckContactsButton({ setState }: Props) {
   return (
     <TouchableOpacity
       onPress={() => {
@@ -25,13 +25,13 @@ function SearchContactsButton({ setState }: Props) {
       }}
       style={{
         alignItems: 'center',
-        borderColor: '#fff7',
+        borderColor: '#fff4',
         borderRadius: 4,
         borderWidth: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        marginBottom: 15,
-        marginHorizontal: 25,
+        marginBottom: 20,
+        marginHorizontal: 20,
         paddingVertical: 5,
       }}
     >
@@ -41,4 +41,4 @@ function SearchContactsButton({ setState }: Props) {
   )
 }
 
-export default SearchContactsButton
+export default CheckContactsButton

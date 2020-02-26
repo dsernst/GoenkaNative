@@ -38,7 +38,7 @@ function AcceptedRequests({
 
   return (
     <>
-      <Text style={{ color: '#fff7', fontWeight: '600', marginTop: 30 }}>Accepted:</Text>
+      <Text style={{ color: '#fff4', fontWeight: '600', marginTop: 30 }}>Accepted:</Text>
       {tuple.map(([requests, getName, getPhone, getNotifs, toggleNotifs]) =>
         requests?.map(request => (
           <View key={request.id} style={{ flexDirection: 'row', marginTop: 15, opacity: getNotifs(request) ? 1 : 0.3 }}>

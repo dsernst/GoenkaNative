@@ -3,12 +3,12 @@ import React from 'react'
 
 import { Props } from '../../reducer'
 import AcceptedRequests from './AcceptedRequests'
+import SearchContactsButton from './CheckContactsButton'
 import EnableNotificationPermissions from './EnableNotificationPermissions'
 import EnterFriendPhone from './EnterFriendPhone'
 import IncomingRequests from './IncomingRequests'
 import OutgoingRequests from './OutgoingRequests'
 import RejectedRequests from './RejectedRequests'
-import SearchContactsButton from './SearchContactsButton'
 import SetDisplayName from './SetDisplayName'
 
 const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
