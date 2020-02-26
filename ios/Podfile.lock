@@ -455,6 +455,8 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
+  - react-native-contacts (5.0.7):
+    - React
   - react-native-keep-awake (4.0.0):
     - React
   - react-native-onesignal (3.6.4):
@@ -544,6 +546,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -623,6 +626,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-contacts:
+    :path: "../node_modules/react-native-contacts"
   react-native-keep-awake:
     :path: "../node_modules/react-native-keep-awake"
   react-native-onesignal:
@@ -707,6 +712,7 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
+  react-native-contacts: a30bebe23ddeda7c34bf97cfa5f952201efc5329
   react-native-keep-awake: afad8a51dfef9fe9655a6344771be32c8596d774
   react-native-onesignal: 80fc3683083d23b17a2aba180f965dc83bd77efd
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865

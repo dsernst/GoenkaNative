@@ -8,6 +8,7 @@ import EnterFriendPhone from './EnterFriendPhone'
 import IncomingRequests from './IncomingRequests'
 import OutgoingRequests from './OutgoingRequests'
 import RejectedRequests from './RejectedRequests'
+import SearchContactsButton from './SearchContactsButton'
 import SetDisplayName from './SetDisplayName'
 
 const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
@@ -34,6 +35,8 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
       {!!incomingFriendRequests?.length && (
         <IncomingRequests displayName={displayName} incomingFriendRequests={incomingFriendRequests} />
       )}
+
+      <SearchContactsButton {...props} />
 
       <EnterFriendPhone user={props.user} {...props} />
 

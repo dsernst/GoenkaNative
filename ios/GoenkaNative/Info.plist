@@ -71,6 +71,8 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>This lets you quickly look up friends already using the app</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

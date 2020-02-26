@@ -1,5 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { Animated } from 'react-native'
+import { Contact } from 'react-native-contacts'
 import Sound from 'react-native-sound'
 
 import { ScreenNames } from './screens'
@@ -47,6 +48,7 @@ export interface State extends ToggleableStates {
   acceptedIncomingFriendRequests: FriendRequest[]
   acceptedOutgoingFriendRequests: FriendRequest[]
   amNotificationTime: Date
+  contacts?: Contact[]
   displayName: string | null
   duration: number
   expandFriendsSection?: boolean

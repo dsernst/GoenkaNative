@@ -23,7 +23,7 @@ const EnterFriendPhone = (props: Props) => {
           fontSize: 14,
         }}
       >
-        Add a friend by phone number:
+        Or add a friend by phone number:
       </Text>
 
       <View style={{ flexDirection: 'row', marginTop: 10 }}>

@@ -3,9 +3,11 @@ import HistoryScreen from './HistoryScreen/HistoryScreen'
 import MultiDeleteScreen from './HistoryScreen/MultiDeleteScreen'
 import InitQuestionScreen from './InitQuestionScreen'
 import MainScreen from './MainScreen/MainScreen'
+import CheckContactsScreen from './SettingsScreen/Friends/CheckContactsScreen'
 import SettingsScreen from './SettingsScreen/SettingsScreen'
 
 export default {
+  CheckContactsScreen,
   CountdownScreen,
   HistoryScreen,
   InitQuestionScreen,
@@ -21,3 +23,4 @@ export type ScreenNames =
   | 'SettingsScreen'
   | 'MultiDeleteScreen'
   | 'InitQuestionScreen'
+  | 'CheckContactsScreen'
