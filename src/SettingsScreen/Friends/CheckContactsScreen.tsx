@@ -20,6 +20,7 @@ function CheckContactsScreen(props: Props) {
     incomingFriendRequests,
     onesignal_id,
     outgoingFriendRequests,
+    setState,
     user,
   } = props
 
@@ -88,6 +89,9 @@ function CheckContactsScreen(props: Props) {
     [contacts?.filter(c => c.type === 'pendingRequests'), 'Friend Request Pending'],
     [contacts?.filter(c => c.type === 'notOnApp'), 'Not On App'],
   ]
+
+  // Keep friends section open when navigating Back
+  setState({ expandFriendsSection: true })
 
   return (
     <>
