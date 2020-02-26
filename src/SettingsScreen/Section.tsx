@@ -17,7 +17,7 @@ type SectionProps = Props & {
 }
 
 function Section(props: SectionProps) {
-  const { Content, badgeNumber, description, icon, requiresLogin, startExpandedKey, title, user } = props
+  const { Content, badgeNumber, description, icon, requiresLogin, setState, startExpandedKey, title, user } = props
   const [enabled, setEnabled] = useState(false)
   const [wasAutoExpanded, setWasAutoExpanded] = useState()
   const { Set } = icon
@@ -25,6 +25,7 @@ function Section(props: SectionProps) {
   if (startExpandedKey && props[startExpandedKey] && !wasAutoExpanded) {
     setWasAutoExpanded(true) // Prevents endless loop
     setEnabled(true)
+    setState({ expandFriendsSection: false })
   }
 
   return (
