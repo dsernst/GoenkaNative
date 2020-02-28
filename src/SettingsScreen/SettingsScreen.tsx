@@ -15,7 +15,7 @@ import Section from './Section'
 import Sync from './Sync/Sync'
 
 function SettingsScreen(props: Props) {
-  const { history, incomingFriendRequests, onlineSits, user } = props
+  const { displayName, history, incomingFriendRequests, onlineSits, user } = props
   return (
     <>
       <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 17 }} />
@@ -31,7 +31,7 @@ function SettingsScreen(props: Props) {
         />
 
         <Section
-          badgeNumber={incomingFriendRequests.length}
+          badgeNumber={incomingFriendRequests.length + Number(user && !displayName)}
           Content={Friends}
           description="Get notified when friends complete a sit."
           icon={{ Set: Ionicons, name: 'ios-people', size: 23 }}

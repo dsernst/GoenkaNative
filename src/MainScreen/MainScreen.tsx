@@ -24,6 +24,7 @@ const { width: screenWidth } = Dimensions.get('window')
 
 function MainScreen(props: Props) {
   const {
+    displayName,
     duration,
     hasChanting,
     hasExtendedMetta,
@@ -37,7 +38,9 @@ function MainScreen(props: Props) {
     user,
   } = props
 
-  const numNotifications = incomingFriendRequests.length + (user ? history.length - onlineSits?.length : 0)
+  const numUnsyncdSits = user ? history.length - onlineSits?.length : 0
+  const missingDisplayName = Number(user && !displayName)
+  const numNotifications = numUnsyncdSits + missingDisplayName + incomingFriendRequests.length
 
   return (
     <>
