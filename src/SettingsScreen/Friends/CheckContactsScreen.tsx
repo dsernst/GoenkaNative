@@ -1,8 +1,9 @@
 import firestore from '@react-native-firebase/firestore'
 import bluebird from 'bluebird'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, SectionList, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { PhoneNumber } from 'react-native-contacts'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
@@ -25,6 +26,8 @@ const CheckContactsScreen = (props: Props) => {
     setState,
     user,
   } = props
+
+  const [filter, setFilter] = useState('')
 
   const pendingRequestsPhones = [
     ...incomingFriendRequests.map(fr => fr.from_phone),
@@ -62,12 +65,22 @@ const CheckContactsScreen = (props: Props) => {
     )
   }
 
+  const filteredContacts = (type?: string) =>
+    contacts
+      .filter(
+        c =>
+          filter === '' ||
+          c.givenName.toLowerCase().includes(filter.toLowerCase()) ||
+          c.familyName.toLowerCase().includes(filter.toLowerCase()),
+      )
+      .filter(c => c.type === type)
+
   const allData: { data: ContactWithType[]; title: string }[] = [
-    { data: contacts?.filter(c => c.type === 'availableToFriend'), title: 'Available to Friend' },
-    { data: contacts?.filter(c => c.type === 'alreadyFriends'), title: 'Already Friends' },
-    { data: contacts?.filter(c => c.type === 'pendingRequests'), title: 'Friend Request Pending' },
-    { data: contacts?.filter(c => c.type === 'notOnApp'), title: 'Not On App' },
-    { data: contacts?.filter(c => !c.type), title: 'Unchecked' },
+    { data: filteredContacts('availableToFriend'), title: 'Available to Friend' },
+    { data: filteredContacts('alreadyFriends'), title: 'Already Friends' },
+    { data: filteredContacts('pendingRequests'), title: 'Friend Request Pending' },
+    { data: filteredContacts('notOnApp'), title: 'Not On App' },
+    { data: filteredContacts(), title: 'Unchecked' },
   ].map(s => ({
     ...s,
     data: s.data.sort((a, b) => new Intl.Collator().compare(a.givenName, b.givenName)),
@@ -79,6 +92,29 @@ const CheckContactsScreen = (props: Props) => {
   return (
     <>
       <TitleBar name="CONTACTS" style={{ marginBottom: 1, marginHorizontal: 18 }} />
+
+      <View>
+        <TextInput
+          autoCorrect={false}
+          clearButtonMode="always"
+          onChangeText={setFilter}
+          placeholder="Filter"
+          placeholderTextColor="#fff5"
+          returnKeyType="done"
+          style={{
+            backgroundColor: '#353d38',
+            borderRadius: 7,
+            color: '#fffd',
+            fontSize: 18,
+            marginHorizontal: 18,
+            marginVertical: 10,
+            padding: 10,
+            paddingLeft: 35,
+          }}
+          value={filter}
+        />
+        <EvilIcons color="#fff8" name="search" size={20} style={{ left: 26, position: 'absolute', top: 23 }} />
+      </View>
 
       <SectionList
         indicatorStyle="white"
