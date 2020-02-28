@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
@@ -11,7 +11,7 @@ import ViewControl from './ViewControl'
 
 const HistoryScreen = (props: Props) => (
   <>
-    <TitleBar name="HISTORY" style={{ marginHorizontal: 17 }} />
+    <TitleBar name="HISTORY" style={{ marginHorizontal: 18 }} />
 
     <CurrentStreaks {...props} />
 
@@ -24,5 +24,6 @@ const HistoryScreen = (props: Props) => (
     <BackButton saveSpace />
   </>
 )
+HistoryScreen.paddingHorizontal = 2
 
-export default memo(HistoryScreen)
+export default HistoryScreen

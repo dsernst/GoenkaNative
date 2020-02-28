@@ -8,7 +8,7 @@ export default ({ toggleView, viewIndex }: { toggleView: (index: number) => void
   <View
     style={{
       marginBottom: 20,
-      marginHorizontal: 30,
+      marginHorizontal: 36,
       marginTop: 25,
     }}
   >

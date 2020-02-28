@@ -11,7 +11,7 @@ import TitleBar from '../../TitleBar'
 import { formatPhoneNumber } from './phone-helpers'
 import { sendFriendRequest } from './SendRequestButton'
 
-function CheckContactsScreen(props: Props) {
+const CheckContactsScreen = (props: Props) => {
   const {
     acceptedIncomingFriendRequests,
     acceptedOutgoingFriendRequests,
@@ -95,9 +95,9 @@ function CheckContactsScreen(props: Props) {
 
   return (
     <>
-      <TitleBar name="CONTACTS" style={{ marginHorizontal: 17 }} />
+      <TitleBar name="CONTACTS" style={{ marginHorizontal: 18 }} />
 
-      <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 16 }}>
+      <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 22 }}>
         {tuple.map(
           ([array, title]) =>
             !!array.length && (
@@ -166,5 +166,6 @@ function CheckContactsScreen(props: Props) {
     </>
   )
 }
+CheckContactsScreen.paddingHorizontal = 2
 
 export default CheckContactsScreen

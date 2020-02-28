@@ -12,7 +12,7 @@ function MultiDeleteHistoryScreen(props: Props) {
 
   return (
     <>
-      <TitleBar name="MULTI DELETE" style={{ marginHorizontal: 17 }} />
+      <TitleBar name="MULTI DELETE" style={{ marginHorizontal: 18 }} />
 
       <Text
         style={{
@@ -92,5 +92,6 @@ function MultiDeleteHistoryScreen(props: Props) {
     </>
   )
 }
+MultiDeleteHistoryScreen.paddingHorizontal = 2
 
 export default MultiDeleteHistoryScreen

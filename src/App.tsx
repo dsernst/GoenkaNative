@@ -76,11 +76,8 @@ function App(props: Props) {
           backgroundColor: '#001709',
           flex: 1,
           paddingBottom: safeAreaInsetBottom,
-          paddingHorizontal: !['HistoryScreen', 'MultiDeleteScreen', 'SettingsScreen', 'CheckContactsScreen'].includes(
-            screen,
-          )
-            ? 24
-            : 8,
+          // @ts-ignore paddingHorizontal is an optional prop, but ts inference misses it
+          paddingHorizontal: typeof Screen.paddingHorizontal === 'number' ? Screen.paddingHorizontal : 24,
           paddingTop: safeAreaInsetTop,
         }}
       >

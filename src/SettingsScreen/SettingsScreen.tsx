@@ -14,13 +14,13 @@ import MoreInfoSection from './MoreInfo'
 import Section from './Section'
 import Sync from './Sync/Sync'
 
-function SettingsScreen(props: Props) {
+const SettingsScreen = (props: Props) => {
   const { displayName, history, incomingFriendRequests, onlineSits, user } = props
   return (
     <>
-      <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 17 }} />
+      <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 18 }} />
 
-      <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 16 }}>
+      <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 20 }}>
         {user && <AuthedInfo {...props} user={user} />}
 
         <Section
@@ -56,5 +56,7 @@ function SettingsScreen(props: Props) {
     </>
   )
 }
+
+SettingsScreen.paddingHorizontal = 2
 
 export default SettingsScreen

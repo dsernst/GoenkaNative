@@ -35,7 +35,7 @@ function Calendar(props: Props) {
   const detailsHeight = safeHeight - detailsYPos - backButtonHeight
 
   return (
-    <View style={{ marginHorizontal: 19 }}>
+    <View style={{ marginHorizontal: 25 }}>
       {/* Month selector */}
       <View
         style={{

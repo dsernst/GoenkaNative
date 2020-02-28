@@ -70,7 +70,7 @@ function BarView(props: Props) {
   const eveningPurple = 'rgb(175, 82, 222)'
 
   return (
-    <View style={{ marginHorizontal: 15, marginTop: barTopMargin }}>
+    <View style={{ marginHorizontal: 21, marginTop: barTopMargin }}>
       {/* y axis */}
       <View
         style={{
@@ -82,7 +82,7 @@ function BarView(props: Props) {
         {yLabels.map(label => (
           <View key={label} style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
             <Text style={{ color: '#fff3' }}>{label}</Text>
-            <View style={{ backgroundColor: '#fff1', height: 1, marginLeft: 15, width: screenWidth - 94 }} />
+            <View style={{ backgroundColor: '#fff1', height: 1, marginLeft: 11, width: screenWidth - 85 }} />
           </View>
         ))}
       </View>
