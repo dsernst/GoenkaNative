@@ -1,5 +1,5 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo'
 
@@ -17,11 +17,6 @@ const EnterPhone = ({
   const [phone, setPhone] = useState('')
   const [error, setError] = useState()
   const [submitting, setSubmitting] = useState(false)
-  useEffect(() => {
-    if (!error && !submitting && !unverifiedPhone && phone.length === 12 && !phone.includes('+')) {
-      submit()
-    }
-  })
 
   return (
     <>
@@ -38,6 +33,10 @@ const EnterPhone = ({
             setError(undefined)
             setSubmitting(false)
             setPhone(prettyFormat(newVal, phone))
+
+            if (newVal.length === 12 && !error && !submitting && !unverifiedPhone && !newVal.includes('+')) {
+              submit(newVal)
+            }
           }}
           placeholder="415 867 5309"
           placeholderTextColor="#fff5"
@@ -54,7 +53,7 @@ const EnterPhone = ({
 
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={submit}
+          onPress={() => submit(phone)}
           style={{
             alignItems: 'center',
             borderColor: '#fff3',
@@ -95,8 +94,8 @@ const EnterPhone = ({
     </>
   )
 
-  async function submit() {
-    const phoneNumber = formatPhoneNumber(phone)
+  async function submit(submittedPhone: string) {
+    const phoneNumber = formatPhoneNumber(submittedPhone)
     console.log('called EnterPhone.submit() ', phoneNumber)
 
     if (['+15555555555', '+19999999999'].includes(phoneNumber)) {
