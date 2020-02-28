@@ -23,7 +23,7 @@ function clip(filename: string, delay: number = 0) {
 const clips: { [key: string]: SoundWithDelay } = {
   closingChanting: clip('closingchanting.mp3', 2),
   closingMetta: clip('closingmetta.mp3'),
-  extendedMetta: clip('extendedmetta.mp3', 1),
+  extendedMetta: clip('extendedmetta.mp3', 14),
   introChanting: clip('introchanting.mp3', 5),
   introInstructions: clip('introinstructions.mp3', 1),
 }
