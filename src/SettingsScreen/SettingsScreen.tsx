@@ -18,9 +18,9 @@ const SettingsScreen = (props: Props) => {
   const { displayName, history, incomingFriendRequests, onlineSits, user } = props
   return (
     <>
-      <TitleBar name="SETTINGS" showVersion style={{ marginHorizontal: 18 }} />
+      <TitleBar name="SETTINGS" showVersion style={{ marginBottom: 1, marginHorizontal: 18 }} />
 
-      <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 20 }}>
+      <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 20, paddingTop: 17 }}>
         {user && <AuthedInfo {...props} user={user} />}
 
         <Section

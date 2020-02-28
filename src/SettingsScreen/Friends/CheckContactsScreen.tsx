@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore'
 import bluebird from 'bluebird'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import { PhoneNumber } from 'react-native-contacts'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -16,6 +16,7 @@ const CheckContactsScreen = (props: Props) => {
   const {
     acceptedIncomingFriendRequests,
     acceptedOutgoingFriendRequests,
+    backgroundColor,
     contacts,
     displayName,
     incomingFriendRequests,
@@ -61,126 +62,137 @@ const CheckContactsScreen = (props: Props) => {
     )
   }
 
-  const tuple: [ContactWithType[], string][] = [
-    [contacts?.filter(c => c.type === 'availableToFriend'), 'Available to Friend'],
-    [contacts?.filter(c => c.type === 'alreadyFriends'), 'Already Friends'],
-    [contacts?.filter(c => c.type === 'pendingRequests'), 'Friend Request Pending'],
-    [contacts?.filter(c => c.type === 'notOnApp'), 'Not On App'],
-    [contacts?.filter(c => !c.type), 'Unchecked'],
-  ]
+  const allData: { data: ContactWithType[]; title: string }[] = [
+    { data: contacts?.filter(c => c.type === 'availableToFriend'), title: 'Available to Friend' },
+    { data: contacts?.filter(c => c.type === 'alreadyFriends'), title: 'Already Friends' },
+    { data: contacts?.filter(c => c.type === 'pendingRequests'), title: 'Friend Request Pending' },
+    { data: contacts?.filter(c => c.type === 'notOnApp'), title: 'Not On App' },
+    { data: contacts?.filter(c => !c.type), title: 'Unchecked' },
+  ].map(s => ({
+    ...s,
+    data: s.data.sort((a, b) => new Intl.Collator().compare(a.givenName, b.givenName)),
+  }))
 
   // Keep friends section open when navigating Back
   setState({ expandFriendsSection: true })
 
   return (
     <>
-      <TitleBar name="CONTACTS" style={{ marginHorizontal: 18 }} />
+      <TitleBar name="CONTACTS" style={{ marginBottom: 1, marginHorizontal: 18 }} />
 
-      <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 22 }}>
-        {tuple.map(
-          ([array, title]) =>
-            !!array.length && (
-              <View key={title} style={{ marginBottom: 30 }}>
-                <Text style={{ color: '#fff6', fontSize: 13, fontWeight: '600', marginBottom: 15 }}>
-                  {array.length} {title}:
-                </Text>
+      <SectionList
+        indicatorStyle="white"
+        keyExtractor={item => item.recordID}
+        renderItem={({ item: contact }) => {
+          return (
+            // {/* Contact row */}
+            <TouchableOpacity
+              disabled={!(!contact.type || contact.type === 'notOnApp')}
+              onPress={() => {
+                contact.checking = true
+                lookupContacts([contact])
+                forceRender({})
+              }}
+              style={{ marginBottom: 5, marginHorizontal: 22, marginTop: 15 }}
+            >
+              {/* Contact name */}
+              <Text style={{ color: '#fffc', fontSize: 18 }}>
+                {contact.checking && <ActivityIndicator style={{ paddingRight: 10 }} />}
+                {contact.givenName} {contact.familyName}
+                {!contact.givenName && !contact.familyName && (
+                  // show number if no name
+                  <Text style={{ opacity: 0.6 }}>{contact.phoneNumbers[0]?.number}</Text>
+                )}
+              </Text>
 
-                {/* Tap to check instructions */}
-                {title === 'Unchecked' && (
+              {/* Phone number (only shown if onApp) */}
+              {contact.type === 'availableToFriend' &&
+                contact.phoneNumbers.map((pN: PhoneNumber, index2) => (
                   <View
+                    key={index2}
                     style={{
-                      borderColor: '#fff3',
-                      borderRadius: 6,
-                      borderWidth: 1,
+                      alignItems: 'center',
                       flexDirection: 'row',
-                      padding: 10,
-                      position: 'absolute',
-                      right: 0,
-                      width: 145,
+                      justifyContent: 'space-between',
+                      marginTop: 3,
                     }}
                   >
-                    <Ionicons color="#fff8" name="ios-information-circle-outline" size={16} style={{ top: 7 }} />
-                    <Text style={{ color: '#fff6', fontSize: 14, fontStyle: 'italic', marginLeft: 10 }}>
-                      Tap a name to check for user
-                    </Text>
+                    <Text style={{ color: '#fff8' }}>{pN.number}</Text>
+
+                    {/* Send Request btn */}
+                    {pN.foundUser && (
+                      <TouchableOpacity
+                        onPress={async () => {
+                          await sendFriendRequest({
+                            displayName,
+                            onesignal_id,
+                            potentialFriend: pN.foundUser!,
+                            user,
+                          })
+                          contact.type = 'pendingRequests'
+                          forceRender({})
+                        }}
+                        style={{
+                          alignItems: 'center',
+                          borderColor: '#fff7',
+                          borderRadius: 6,
+                          borderWidth: 1,
+                          flexDirection: 'row',
+                          padding: 4,
+                          paddingHorizontal: 11,
+                        }}
+                      >
+                        <MaterialIcons color="#fffa" name="person-add" size={15} style={{ paddingRight: 7, top: 1 }} />
+                        <Text style={{ color: '#fffb' }}>Send Request</Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
-                )}
+                ))}
+            </TouchableOpacity>
+          )
+        }}
+        renderSectionFooter={({ section }) => <View style={{ height: section.data.length ? 30 : 0 }} />}
+        renderSectionHeader={({ section }) => {
+          const { data, title } = section
+          if (!data.length) {
+            return <></>
+          }
 
-                {/* List of names */}
-                {array
-                  .sort((a, b) => new Intl.Collator().compare(a.givenName, b.givenName))
-                  .map((contact, index) => (
-                    // {/* Contact row */}
-                    <TouchableOpacity
-                      disabled={!(!contact.type || contact.type === 'notOnApp')}
-                      key={index}
-                      onPress={() => {
-                        contact.checking = true
-                        lookupContacts([contact])
-                        forceRender({})
-                      }}
-                      style={{ marginBottom: 15 }}
-                    >
-                      {/* Contact name */}
-                      <Text style={{ color: '#fffc', fontSize: 18 }}>
-                        {contact.checking && <ActivityIndicator style={{ paddingRight: 10 }} />}
-                        {contact.givenName} {contact.familyName}
-                      </Text>
+          return (
+            <View key={title} style={{ backgroundColor: '#001207' }}>
+              <Text
+                style={{ color: '#fff6', fontSize: 13, fontWeight: '600', marginVertical: 7, paddingHorizontal: 20 }}
+              >
+                {data.length} {title}:
+              </Text>
 
-                      {/* Phone number (only shown if onApp) */}
-                      {title === 'Available to Friend' &&
-                        contact.phoneNumbers.map((pN: PhoneNumber, index2) => (
-                          <View
-                            key={index2}
-                            style={{
-                              alignItems: 'center',
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              marginTop: 3,
-                            }}
-                          >
-                            <Text style={{ color: '#fff8' }}>{pN.number}</Text>
-
-                            {/* Send Request btn */}
-                            {pN.foundUser && (
-                              <TouchableOpacity
-                                onPress={async () => {
-                                  await sendFriendRequest({
-                                    displayName,
-                                    onesignal_id,
-                                    potentialFriend: pN.foundUser!,
-                                    user,
-                                  })
-                                  contact.type = 'pendingRequests'
-                                  forceRender({})
-                                }}
-                                style={{
-                                  alignItems: 'center',
-                                  borderColor: '#fff7',
-                                  borderRadius: 6,
-                                  borderWidth: 1,
-                                  flexDirection: 'row',
-                                  padding: 4,
-                                  paddingHorizontal: 11,
-                                }}
-                              >
-                                <MaterialIcons
-                                  color="#fffa"
-                                  name="person-add"
-                                  size={15}
-                                  style={{ paddingRight: 7, top: 1 }}
-                                />
-                                <Text style={{ color: '#fffb' }}>Send Request</Text>
-                              </TouchableOpacity>
-                            )}
-                          </View>
-                        ))}
-                    </TouchableOpacity>
-                  ))}
-              </View>
-            ),
-        )}
-      </ScrollView>
+              {/* Tap to check instructions */}
+              {title === 'Unchecked' && (
+                <View
+                  style={{
+                    backgroundColor,
+                    borderColor: '#fff3',
+                    borderRadius: 6,
+                    borderWidth: 1,
+                    flexDirection: 'row',
+                    padding: 10,
+                    position: 'absolute',
+                    right: 10,
+                    top: 40,
+                    width: 145,
+                  }}
+                >
+                  <Ionicons color="#fff8" name="ios-information-circle-outline" size={16} style={{ top: 7 }} />
+                  <Text style={{ color: '#fff6', fontSize: 14, fontStyle: 'italic', marginLeft: 10 }}>
+                    Tap a name to check for user
+                  </Text>
+                </View>
+              )}
+            </View>
+          )
+        }}
+        sections={allData}
+      />
 
       <BackButton saveSpace to="SettingsScreen" />
     </>
