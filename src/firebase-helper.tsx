@@ -17,16 +17,16 @@ function init(setState: (payload: setStatePayload) => void) {
     }
 
     // If logged in, subscribe to user's sits & friend requests
-    console.log('Subscribing to online sits')
+    console.log('Subscribing to onlineSits')
     unsubscribeFromOnlineSits = firestore()
       .collection('sits')
       .where('user_id', '==', user.uid)
       .orderBy('date', 'desc')
       .onSnapshot(results => {
         if (!results) {
-          return console.log('🚫 db snapshot: no results for sits')
+          return console.log('🚫 db snapshot: no results for onlineSits')
         }
-        console.log('⬇️  db snapshot: sits')
+        console.log('⬇️  db snapshot: onlineSits')
         setState({
           onlineSits: results.docs
             // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
@@ -37,15 +37,15 @@ function init(setState: (payload: setStatePayload) => void) {
         })
       })
 
-    console.log('Subscribing to outgoing friend requests')
+    console.log('Subscribing to outgoingFriendRequests')
     unsubscribeFromOutgoingFriendRequests = firestore()
       .collection('friendRequests')
       .where('from_phone', '==', user.phoneNumber)
       .onSnapshot(results => {
         if (!results) {
-          return console.log('🚫 db snapshot: no results for outgoing friendRequests')
+          return console.log('🚫 db snapshot: no results for outgoingFriendRequests')
         }
-        console.log('⬇️  db snapshot: outgoing friendRequests')
+        console.log('⬇️  db snapshot: outgoingFriendRequests')
 
         const outgoingFriendRequests: FriendRequest[] = []
         const acceptedOutgoingFriendRequests: FriendRequest[] = []
@@ -66,15 +66,15 @@ function init(setState: (payload: setStatePayload) => void) {
         })
       })
 
-    console.log('Subscribing to incoming friend requests')
+    console.log('Subscribing to incomingFriendRequests')
     unsubscribeFromIncomingFriendRequests = firestore()
       .collection('friendRequests')
       .where('to_phone', '==', user.phoneNumber)
       .onSnapshot(results => {
         if (!results) {
-          return console.log('🚫 db snapshot: no results for incoming friendRequests')
+          return console.log('🚫 db snapshot: no results for incomingFriendRequests')
         }
-        console.log('⬇️  db snapshot: incoming friendRequests')
+        console.log('⬇️  db snapshot: incomingFriendRequests')
         const incomingFriendRequests: FriendRequest[] = []
         const acceptedIncomingFriendRequests: FriendRequest[] = []
         const rejectedFriendRequests: FriendRequest[] = []
@@ -106,17 +106,17 @@ function init(setState: (payload: setStatePayload) => void) {
 
   function unsubscribeFromData() {
     if (unsubscribeFromOnlineSits) {
-      console.log('unsubscribeFromOnlineSits()')
+      console.log('Unsubscribing from onlineSits')
       unsubscribeFromOnlineSits()
       unsubscribeFromOnlineSits = undefined
     }
     if (unsubscribeFromOutgoingFriendRequests) {
-      console.log('unsubscribeFromOutgoingFriendRequests()')
+      console.log('Unsubscribing from outgoingFriendRequests')
       unsubscribeFromOutgoingFriendRequests()
       unsubscribeFromOutgoingFriendRequests = undefined
     }
     if (unsubscribeFromIncomingFriendRequests) {
-      console.log('unsubscribeFromIncomingFriendRequests()')
+      console.log('Unsubscribing from incomingFriendRequests')
       unsubscribeFromIncomingFriendRequests()
       unsubscribeFromIncomingFriendRequests = undefined
     }
