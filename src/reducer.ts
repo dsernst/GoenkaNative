@@ -45,7 +45,7 @@ type ToggleableStates = {
 }
 
 type ContactType = 'alreadyFriends' | 'availableToFriend' | 'notOnApp' | 'pendingRequests'
-export type ContactWithType = Contact & { type?: ContactType }
+export type ContactWithType = Contact & { checking?: boolean; type?: ContactType }
 
 export interface State extends ToggleableStates {
   acceptedIncomingFriendRequests: FriendRequest[]

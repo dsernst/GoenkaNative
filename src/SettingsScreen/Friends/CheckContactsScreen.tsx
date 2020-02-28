@@ -1,8 +1,9 @@
 import firestore from '@react-native-firebase/firestore'
 import bluebird from 'bluebird'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { PhoneNumber } from 'react-native-contacts'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 import BackButton from '../../BackButton'
@@ -37,7 +38,7 @@ const CheckContactsScreen = (props: Props) => {
   const [, forceRender] = useState({})
 
   useEffect(() => {
-    console.log('🔍 Searching contacts for users')
+    console.log('🔍 Searching contacts for existing friend requests')
     contacts?.forEach(async contact => {
       const phoneNumbers = contact.phoneNumbers.map(pN => formatPhoneNumber(pN.number))
 
@@ -47,32 +48,9 @@ const CheckContactsScreen = (props: Props) => {
       } else if (phoneNumbers.some(n => alreadyFriendsPhones.includes(n))) {
         contact.type = 'alreadyFriends'
         forceRender({})
-      } else {
-        const dbResults = await bluebird.map(
-          phoneNumbers,
-          async phoneNumber =>
-            await firestore()
-              .collection('users')
-              .doc(phoneNumber)
-              .get(),
-        )
-        if (dbResults.some(doc => doc.exists)) {
-          contact.type = 'availableToFriend'
-          dbResults.forEach((doc, index) => {
-            if (doc.exists) {
-              // @ts-ignore: doesn't know doc.data() type
-              contact.phoneNumbers[index].foundUser = { id: doc.id, ...doc.data() }
-            }
-          })
-          forceRender({})
-        } else {
-          contact.type = 'notOnApp'
-          forceRender({})
-        }
       }
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!contacts) {
     return (
@@ -88,6 +66,7 @@ const CheckContactsScreen = (props: Props) => {
     [contacts?.filter(c => c.type === 'alreadyFriends'), 'Already Friends'],
     [contacts?.filter(c => c.type === 'pendingRequests'), 'Friend Request Pending'],
     [contacts?.filter(c => c.type === 'notOnApp'), 'Not On App'],
+    [contacts?.filter(c => !c.type), 'Unchecked'],
   ]
 
   // Keep friends section open when navigating Back
@@ -102,14 +81,53 @@ const CheckContactsScreen = (props: Props) => {
           ([array, title]) =>
             !!array.length && (
               <View key={title} style={{ marginBottom: 30 }}>
-                <Text style={{ color: '#fff6', fontSize: 13, fontWeight: '600', marginBottom: 15 }}>{title}:</Text>
+                <Text style={{ color: '#fff6', fontSize: 13, fontWeight: '600', marginBottom: 15 }}>
+                  {array.length} {title}:
+                </Text>
+
+                {/* Tap to check instructions */}
+                {title === 'Unchecked' && (
+                  <View
+                    style={{
+                      borderColor: '#fff3',
+                      borderRadius: 6,
+                      borderWidth: 1,
+                      flexDirection: 'row',
+                      padding: 10,
+                      position: 'absolute',
+                      right: 0,
+                      width: 145,
+                    }}
+                  >
+                    <Ionicons color="#fff8" name="ios-information-circle-outline" size={16} style={{ top: 7 }} />
+                    <Text style={{ color: '#fff6', fontSize: 14, fontStyle: 'italic', marginLeft: 10 }}>
+                      Tap a name to check for user
+                    </Text>
+                  </View>
+                )}
+
+                {/* List of names */}
                 {array
                   .sort((a, b) => new Intl.Collator().compare(a.givenName, b.givenName))
                   .map((contact, index) => (
-                    <View key={index} style={{ marginBottom: 15 }}>
+                    // {/* Contact row */}
+                    <TouchableOpacity
+                      disabled={!(!contact.type || contact.type === 'notOnApp')}
+                      key={index}
+                      onPress={() => {
+                        contact.checking = true
+                        lookupContacts([contact])
+                        forceRender({})
+                      }}
+                      style={{ marginBottom: 15 }}
+                    >
+                      {/* Contact name */}
                       <Text style={{ color: '#fffc', fontSize: 18 }}>
+                        {contact.checking && <ActivityIndicator style={{ paddingRight: 10 }} />}
                         {contact.givenName} {contact.familyName}
                       </Text>
+
+                      {/* Phone number (only shown if onApp) */}
                       {title === 'Available to Friend' &&
                         contact.phoneNumbers.map((pN: PhoneNumber, index2) => (
                           <View
@@ -122,6 +140,8 @@ const CheckContactsScreen = (props: Props) => {
                             }}
                           >
                             <Text style={{ color: '#fff8' }}>{pN.number}</Text>
+
+                            {/* Send Request btn */}
                             {pN.foundUser && (
                               <TouchableOpacity
                                 onPress={async () => {
@@ -155,7 +175,7 @@ const CheckContactsScreen = (props: Props) => {
                             )}
                           </View>
                         ))}
-                    </View>
+                    </TouchableOpacity>
                   ))}
               </View>
             ),
@@ -165,6 +185,34 @@ const CheckContactsScreen = (props: Props) => {
       <BackButton saveSpace to="SettingsScreen" />
     </>
   )
+
+  function lookupContacts(contactsToLookup: ContactWithType[]) {
+    contactsToLookup.forEach(async contact => {
+      const phoneNumbers = contact.phoneNumbers.map(pN => formatPhoneNumber(pN.number))
+
+      const dbResults = await bluebird.map(
+        phoneNumbers,
+        async phoneNumber =>
+          await firestore()
+            .collection('users')
+            .doc(phoneNumber)
+            .get(),
+      )
+      if (dbResults.some(doc => doc.exists)) {
+        contact.type = 'availableToFriend'
+        dbResults.forEach((doc, index) => {
+          if (doc.exists) {
+            // @ts-ignore: doesn't know doc.data() type
+            contact.phoneNumbers[index].foundUser = { id: doc.id, ...doc.data() }
+          }
+        })
+      } else {
+        contact.type = 'notOnApp'
+      }
+      contact.checking = false
+      forceRender({})
+    })
+  }
 }
 CheckContactsScreen.paddingHorizontal = 2
 
