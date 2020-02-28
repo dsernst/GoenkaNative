@@ -19,7 +19,7 @@ const EnterPhone = ({
 
   return (
     <>
-      <Text style={{ color: '#fffb', marginTop: 15 }}>What is your phone number?</Text>
+      <Text style={{ color: '#fffb', marginTop: 20 }}>What is your phone number?</Text>
 
       <View style={{ flexDirection: 'row', marginTop: 10 }}>
         <TextInput

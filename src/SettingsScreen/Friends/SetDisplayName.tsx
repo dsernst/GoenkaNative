@@ -6,17 +6,26 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { Props } from '../../reducer'
 
-function SetDisplayName({ onesignal_id, setState, user }: Props) {
+function SetDisplayName({ backgroundColor, onesignal_id, setState, user }: Props) {
   const [name, setName] = useState('')
 
   return (
-    <>
-      <Text style={{ color: '#fffb', fontWeight: '600', marginTop: 10 }}>
-        <FontAwesome name="user" size={15} />
+    <View style={{ borderColor: '#f8ff7044', borderRadius: 8, borderWidth: 1, padding: 10 }}>
+      <Text
+        style={{
+          alignSelf: 'center',
+          backgroundColor,
+          color: '#fff7',
+          paddingHorizontal: 10,
+          position: 'absolute',
+          top: -9,
+        }}
+      >
+        <FontAwesome color="#f8ff7099" name="user" size={15} />
         &nbsp; Set Display Name
       </Text>
 
-      <Text style={{ color: '#fffb', marginTop: 10 }}>How can other people recognize you?</Text>
+      <Text style={{ color: '#fffb', marginTop: 15 }}>How can other people recognize you?</Text>
 
       <View style={{ flexDirection: 'row', marginTop: 10 }}>
         <TextInput
@@ -60,7 +69,7 @@ function SetDisplayName({ onesignal_id, setState, user }: Props) {
           <Text style={{ color: '#fff9', fontSize: 16, fontWeight: '500' }}>Set</Text>
         </TouchableOpacity>
       </View>
-    </>
+    </View>
   )
 }
 

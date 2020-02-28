@@ -7,30 +7,32 @@ import EnterPhone from './EnterPhone'
 import EnterVerificationCode from './EnterVerificationCode'
 
 const LoginFlow = (props: Props) => {
+  const { backgroundColor } = props
   const [confirmation, setConfirmation] = useState()
   const [unverifiedPhone, setUnverifiedPhone] = useState()
 
   return (
-    <>
+    <View style={{ borderColor: '#5594fa33', borderRadius: 8, borderWidth: 1, padding: 10 }}>
+      <Text
+        style={{
+          alignSelf: 'center',
+          backgroundColor,
+          color: '#fff7',
+          fontSize: 16,
+          paddingHorizontal: 10,
+          position: 'absolute',
+          top: -9,
+        }}
+      >
+        <Feather color="#5594faaa" name="alert-circle" size={18} />
+        &nbsp; Requires Login
+      </Text>
       {!confirmation ? (
-        <>
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              marginBottom: 5,
-            }}
-          >
-            <Feather color="#5594faaa" name="alert-circle" size={18} style={{ paddingRight: 10 }} />
-            <Text style={{ color: '#fff7', fontSize: 16 }}>Requires Login</Text>
-          </View>
-          <EnterPhone
-            setConfirmation={setConfirmation}
-            setUnverifiedPhone={setUnverifiedPhone}
-            unverifiedPhone={unverifiedPhone}
-          />
-        </>
+        <EnterPhone
+          setConfirmation={setConfirmation}
+          setUnverifiedPhone={setUnverifiedPhone}
+          unverifiedPhone={unverifiedPhone}
+        />
       ) : (
         <EnterVerificationCode
           {...props}
@@ -39,7 +41,7 @@ const LoginFlow = (props: Props) => {
           unverifiedPhone={unverifiedPhone}
         />
       )}
-    </>
+    </View>
   )
 }
 

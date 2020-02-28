@@ -51,6 +51,7 @@ export interface State extends ToggleableStates {
   acceptedIncomingFriendRequests: FriendRequest[]
   acceptedOutgoingFriendRequests: FriendRequest[]
   amNotificationTime: Date
+  backgroundColor: string
   contacts?: ContactWithType[]
   displayName: string | null
   duration: number
@@ -89,6 +90,7 @@ const initialState: State = {
   amNotification: false,
   amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
   autoSyncCompletedSits: true,
+  backgroundColor: '#001709',
   displayName: null,
   duration: 60,
   finished: false,

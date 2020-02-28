@@ -13,6 +13,7 @@ import screens from './screens'
 
 function App(props: Props) {
   const {
+    backgroundColor,
     duration,
     hasChanting,
     hasExtendedMetta,
@@ -67,13 +68,13 @@ function App(props: Props) {
   return (
     <>
       <StatusBar
-        backgroundColor={showHistoryBtnTooltip ? '#000c04' : '#001709'} // Android only
+        backgroundColor={showHistoryBtnTooltip ? '#000c04' : backgroundColor} // Android only
         barStyle="light-content"
         translucent // Android only
       />
       <View
         style={{
-          backgroundColor: '#001709',
+          backgroundColor,
           flex: 1,
           paddingBottom: safeAreaInsetBottom,
           // @ts-ignore paddingHorizontal is an optional prop, but ts inference misses it

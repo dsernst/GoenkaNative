@@ -10,7 +10,7 @@ const cachedGroupBy = _.memoize(_.groupBy)
 type State = string | undefined
 
 function BarView(props: Props) {
-  const { history } = props
+  const { backgroundColor, history } = props
   const [selected, setSelected] = useState<State>()
 
   // If empty history
@@ -124,7 +124,7 @@ function BarView(props: Props) {
                           : range[range.length - 2] === 'a'
                           ? morningYellow
                           : eveningPurple,
-                      borderColor: '#001709',
+                      borderColor: backgroundColor,
                       borderTopWidth: index2 === 0 ? 0 : 1,
                       height: sit.elapsed * minuteHeight,
                       ...barWidth,
