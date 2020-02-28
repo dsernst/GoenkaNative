@@ -8,7 +8,6 @@ import { formatPhoneNumber, prettyFormat } from './Friends/phone-helpers'
 const EnterPhone = ({
   setConfirmation,
   setUnverifiedPhone,
-  unverifiedPhone,
 }: {
   setConfirmation: React.Dispatch<FirebaseAuthTypes.ConfirmationResult>
   setUnverifiedPhone: React.Dispatch<string>
@@ -34,7 +33,7 @@ const EnterPhone = ({
             setSubmitting(false)
             setPhone(prettyFormat(newVal, phone))
 
-            if (newVal.length === 12 && !error && !submitting && !unverifiedPhone && !newVal.includes('+')) {
+            if (newVal.length === 12 && !newVal.includes('+')) {
               submit(newVal)
             }
           }}
@@ -84,7 +83,7 @@ const EnterPhone = ({
       {error && (
         <Text
           style={{
-            color: '#f00d',
+            color: '#ff5e5e',
             marginTop: 14,
           }}
         >
@@ -96,7 +95,7 @@ const EnterPhone = ({
 
   async function submit(submittedPhone: string) {
     const phoneNumber = formatPhoneNumber(submittedPhone)
-    console.log('called EnterPhone.submit() ', phoneNumber)
+    console.log('Attempting sign in:', phoneNumber)
 
     if (['+15555555555', '+19999999999'].includes(phoneNumber)) {
       auth().settings.appVerificationDisabledForTesting = true

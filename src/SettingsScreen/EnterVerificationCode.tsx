@@ -1,5 +1,5 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 const EnterPhone = ({
@@ -14,22 +14,6 @@ const EnterPhone = ({
   const [code, setCode] = useState('')
   const [error, setError] = useState()
   const [submitting, setSubmitting] = useState(false)
-  useEffect(() => {
-    async function submit() {
-      setSubmitting(true)
-      try {
-        await confirmation.confirm(code)
-      } catch (err) {
-        setSubmitting(false)
-        const errMsg: string = err.toString()
-        console.log(errMsg)
-        return setError(errMsg.includes('invalid-verification-code') ? 'Invalid verification code' : errMsg)
-      }
-    }
-    if (code.length === 6) {
-      submit()
-    }
-  }, [confirmation, code])
 
   return (
     <>
@@ -50,9 +34,21 @@ const EnterPhone = ({
         autoCorrect={false}
         autoFocus
         keyboardType="number-pad"
-        onChangeText={val => {
+        onChangeText={async newVal => {
           setError(undefined)
-          setCode(val)
+          setCode(newVal)
+
+          if (newVal.length === 6) {
+            setSubmitting(true)
+            try {
+              await confirmation.confirm(newVal)
+            } catch (err) {
+              setSubmitting(false)
+              const errMsg: string = err.toString()
+              console.log(errMsg)
+              return setError(errMsg.includes('invalid-verification-code') ? 'Invalid verification code' : errMsg)
+            }
+          }
         }}
         placeholder="123456"
         placeholderTextColor="#fff5"
@@ -61,7 +57,7 @@ const EnterPhone = ({
           borderRadius: 7,
           color: '#fffd',
           fontSize: 18,
-          marginTop: 15,
+          marginTop: 10,
           paddingVertical: 10,
           textAlign: 'center',
         }}
@@ -82,7 +78,7 @@ const EnterPhone = ({
       {error && (
         <Text
           style={{
-            color: '#f00d',
+            color: '#ff5e5e',
             marginTop: 14,
           }}
         >
