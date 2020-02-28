@@ -13,22 +13,7 @@ function init(setState: (payload: setStatePayload) => void) {
 
     // If no user, cancel existing subscriptions
     if (!user) {
-      if (unsubscribeFromOnlineSits) {
-        console.log('unsubscribeFromOnlineSits()')
-        unsubscribeFromOnlineSits()
-        unsubscribeFromOnlineSits = undefined
-      }
-      if (unsubscribeFromOutgoingFriendRequests) {
-        console.log('unsubscribeFromOutgoingFriendRequests()')
-        unsubscribeFromOutgoingFriendRequests()
-        unsubscribeFromOutgoingFriendRequests = undefined
-      }
-      if (unsubscribeFromIncomingFriendRequests) {
-        console.log('unsubscribeFromIncomingFriendRequests()')
-        unsubscribeFromIncomingFriendRequests()
-        unsubscribeFromIncomingFriendRequests = undefined
-      }
-      return
+      return unsubscribeFromData()
     }
 
     // If logged in, subscribe to user's sits & friend requests
@@ -106,10 +91,26 @@ function init(setState: (payload: setStatePayload) => void) {
   })
 
   return () => {
-    unsubscribeFromOnlineSits && unsubscribeFromOnlineSits()
-    unsubscribeFromOutgoingFriendRequests && unsubscribeFromOutgoingFriendRequests()
-    unsubscribeFromIncomingFriendRequests && unsubscribeFromIncomingFriendRequests()
+    unsubscribeFromData()
     unsubscribeFromAuth()
+  }
+
+  function unsubscribeFromData() {
+    if (unsubscribeFromOnlineSits) {
+      console.log('unsubscribeFromOnlineSits()')
+      unsubscribeFromOnlineSits()
+      unsubscribeFromOnlineSits = undefined
+    }
+    if (unsubscribeFromOutgoingFriendRequests) {
+      console.log('unsubscribeFromOutgoingFriendRequests()')
+      unsubscribeFromOutgoingFriendRequests()
+      unsubscribeFromOutgoingFriendRequests = undefined
+    }
+    if (unsubscribeFromIncomingFriendRequests) {
+      console.log('unsubscribeFromIncomingFriendRequests()')
+      unsubscribeFromIncomingFriendRequests()
+      unsubscribeFromIncomingFriendRequests = undefined
+    }
   }
 }
 
