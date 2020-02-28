@@ -1,4 +1,4 @@
-import { firebase } from '@react-native-firebase/auth'
+import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 
 import { FriendRequest, setStatePayload } from './reducer'
@@ -7,7 +7,7 @@ function init(setState: (payload: setStatePayload) => void) {
   let unsubscribeFromOnlineSits: (() => void) | undefined
   let unsubscribeFromOutgoingFriendRequests: (() => void) | undefined
   let unsubscribeFromIncomingFriendRequests: (() => void) | undefined
-  const unsubscribeFromAuth = firebase.auth().onAuthStateChanged(user => {
+  const unsubscribeFromAuth = auth().onAuthStateChanged(user => {
     console.log('🛂 auth state changed:', user)
     setState({ user })
 
@@ -23,6 +23,9 @@ function init(setState: (payload: setStatePayload) => void) {
       .where('user_id', '==', user.uid)
       .orderBy('date', 'desc')
       .onSnapshot(results => {
+        if (!results) {
+          return console.log('🚫 db snapshot: no results for sits')
+        }
         console.log('⬇️  db snapshot: sits')
         setState({
           onlineSits: results.docs
@@ -39,6 +42,9 @@ function init(setState: (payload: setStatePayload) => void) {
       .collection('friendRequests')
       .where('from_phone', '==', user.phoneNumber)
       .onSnapshot(results => {
+        if (!results) {
+          return console.log('🚫 db snapshot: no results for outgoing friendRequests')
+        }
         console.log('⬇️  db snapshot: outgoing friendRequests')
 
         const outgoingFriendRequests: FriendRequest[] = []
@@ -65,6 +71,9 @@ function init(setState: (payload: setStatePayload) => void) {
       .collection('friendRequests')
       .where('to_phone', '==', user.phoneNumber)
       .onSnapshot(results => {
+        if (!results) {
+          return console.log('🚫 db snapshot: no results for incoming friendRequests')
+        }
         console.log('⬇️  db snapshot: incoming friendRequests')
         const incomingFriendRequests: FriendRequest[] = []
         const acceptedIncomingFriendRequests: FriendRequest[] = []
