@@ -27,11 +27,11 @@ const fs = require('fs')
 const exec = promisify(require('child_process').exec)
 
 const plistPath = require('path').join(__dirname, './ios/GoenkaNative/Info.plist')
-let newVersionCode
-const shortVersion = version
+const versionCode = version
   .split('.')
-  .slice(0, 2)
-  .join('.')
+  .map(num => (Number(num) < 10 ? '0' + num : num))
+  .join('')
+
 ;(async () => {
   // Update Android's build.gradle file
   const gradleBuildPath = './android/app/build.gradle'
@@ -42,15 +42,13 @@ const shortVersion = version
       // Increment versionCode (must be unique, but hidden from users)
       const versionCodeIndex = line.indexOf('versionCode ')
       if (versionCodeIndex !== -1) {
-        const oldVersionCode = Number(line.slice(versionCodeIndex + 12).trim())
-        newVersionCode = oldVersionCode + 1
-        return line.slice(0, versionCodeIndex + 12) + newVersionCode
+        return line.slice(0, versionCodeIndex + 12) + versionCode
       }
 
       // Update versionName (user-facing)
       const versionNameIndex = line.indexOf('versionName ')
       if (versionNameIndex !== -1) {
-        return line.slice(0, versionNameIndex + 13) + shortVersion + '"'
+        return line.slice(0, versionNameIndex + 13) + version + '"'
       }
 
       return line
@@ -59,11 +57,11 @@ const shortVersion = version
   fs.writeFileSync(gradleBuildPath, newGradleFile)
 
   // Write new version number to iOS's Info.plist
-  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${shortVersion}" ${plistPath}`)
-  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${newVersionCode}" ${plistPath}`)
+  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${version}" ${plistPath}`)
+  await exec(`/usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${versionCode}" ${plistPath}`)
 
   // Add the changed files to git's index before it commits
   await exec('git add .')
 
-  console.log(`✅ Updated ios & android apps to v${version}(${newVersionCode})`)
+  console.log(`✅ Updated ios & android apps to v${version}(${versionCode})`)
 })()
