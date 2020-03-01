@@ -35,6 +35,7 @@
 		E9AF92D323DD1A270003B181 /* introchanting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CE23DD1A260003B181 /* introchanting.mp3 */; };
 		E9AF92D423DD1A270003B181 /* introinstructions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92CF23DD1A260003B181 /* introinstructions.mp3 */; };
 		E9AF92D523DD1A270003B181 /* extendedmetta.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9AF92D023DD1A260003B181 /* extendedmetta.mp3 */; };
+		E9C6F4EA240C58AB00188F7A /* closinggood.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E9C6F4E9240C58AB00188F7A /* closinggood.mp3 */; };
 		EF9639C0CBB447D7A463D17E /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE7CDE5100E54E2A8BA7033B /* FontAwesome5_Regular.ttf */; };
 		F220A15B794B4E09963FADDC /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04660E133ECD4E87AB3DFFD5 /* Entypo.ttf */; };
 /* End PBXBuildFile section */
@@ -94,6 +95,7 @@
 		E9AF92CF23DD1A260003B181 /* introinstructions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = introinstructions.mp3; sourceTree = "<group>"; };
 		E9AF92D023DD1A260003B181 /* extendedmetta.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = extendedmetta.mp3; sourceTree = "<group>"; };
 		E9AF92D623E3A9B00003B181 /* GoenkaNative.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = GoenkaNative.entitlements; path = GoenkaNative/GoenkaNative.entitlements; sourceTree = "<group>"; };
+		E9C6F4E9240C58AB00188F7A /* closinggood.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = closinggood.mp3; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F753344AD2C6459DB2B603AC /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				E9AF92CC23DD1A260003B181 /* closingchanting.mp3 */,
 				E9AF92CD23DD1A260003B181 /* closingmetta.mp3 */,
 				E9AF92D023DD1A260003B181 /* extendedmetta.mp3 */,
+				E9C6F4E9240C58AB00188F7A /* closinggood.mp3 */,
 				E9AF92CE23DD1A260003B181 /* introchanting.mp3 */,
 				E9671B0423E41C360033EFA0 /* templebell.mp3 */,
 				E90D85AE23EA905F003859BC /* GoogleService-Info.plist */,
@@ -345,6 +348,7 @@
 				F220A15B794B4E09963FADDC /* Entypo.ttf in Resources */,
 				E9AF92D223DD1A270003B181 /* closingmetta.mp3 in Resources */,
 				0090E0745E114599B790DCEA /* EvilIcons.ttf in Resources */,
+				E9C6F4EA240C58AB00188F7A /* closinggood.mp3 in Resources */,
 				33D2F5B683CA4FAEAEF41F44 /* Feather.ttf in Resources */,
 				00B30310BF44447CA5A3679E /* FontAwesome.ttf in Resources */,
 				4C1D28F551E044279C5C960E /* FontAwesome5_Brands.ttf in Resources */,

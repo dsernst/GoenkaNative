@@ -45,10 +45,17 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
     setState({ latestTrack: c.introInstructions })
   }
 
+  //
   // Calculate closing time
-  const closingMettaTime = (duration * 60 - c.closingMetta.length) * 1000
+  //
 
-  let extendedMettaTime = closingMettaTime
+  // If < 4 min sit, use short "good, good" clip
+  // Otherwise "Bhavatu Sabba Mangalam"
+  const closingClip = duration < 4 ? c.closingGood : c.closingMetta
+
+  const closingClipTime = (duration * 60 - closingClip.length) * 1000
+
+  let extendedMettaTime = closingClipTime
   if (hasExtendedMetta) {
     // Begin extendedMetta so it ends just before closingMetta
     extendedMettaTime -= c.extendedMetta.length * 1000
@@ -69,11 +76,11 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
     )
   }
 
-  // Begin closingMetta so it ends when countdown hits zero.
+  // Begin closingClip so it ends when countdown hits zero.
   timeouts.push(
     setTimeout(() => {
-      setState({ latestTrack: c.closingMetta.setVolume(0.5) })
-    }, closingMettaTime),
+      setState({ latestTrack: closingClip.setVolume(0.5) })
+    }, closingClipTime),
   )
   setState({ timeouts })
 }
