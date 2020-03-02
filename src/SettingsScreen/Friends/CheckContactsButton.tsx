@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, PermissionsAndroid, Text, TouchableOpacity } from 'react-native'
+import { Alert, PermissionsAndroid, Platform, Text, TouchableOpacity } from 'react-native'
 import Contacts from 'react-native-contacts'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
@@ -18,11 +18,13 @@ function CheckContactsButton({ contacts, setState }: Props) {
             return setState({ screen: 'CheckContactsScreen' })
           }
 
-          await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-            buttonPositive: 'Continue',
-            message: 'This lets you quickly look up friends already using the app.',
-            title: 'Contacts',
-          })
+          if (Platform.OS === 'android') {
+            await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+              buttonPositive: 'Continue',
+              message: 'This lets you quickly look up friends already using the app.',
+              title: 'Contacts',
+            })
+          }
 
           Contacts.getAllWithoutPhotos((err, loadedContacts) => {
             if (err) {
