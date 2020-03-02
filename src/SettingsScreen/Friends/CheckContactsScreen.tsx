@@ -133,7 +133,7 @@ const CheckContactsScreen = (props: Props) => {
             >
               {/* Contact name */}
               <Text style={{ color: '#fffc', fontSize: 18 }}>
-                {contact.checking && <ActivityIndicator style={{ paddingRight: 10 }} />}
+                {contact.checking && <ActivityIndicator style={{ height: 18, paddingRight: 40, width: 30 }} />}
                 {contact.givenName} {contact.familyName}
                 {!contact.givenName && !contact.familyName && (
                   // show number if no name
