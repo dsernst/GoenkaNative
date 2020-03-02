@@ -24,7 +24,7 @@ const clips: { [key: string]: SoundWithDelay } = {
   closingChanting: clip('closingchanting.mp3', 2),
   closingGood: clip('closinggood.mp3'),
   closingMetta: clip('closingmetta.mp3'),
-  extendedMetta: clip('extendedmetta.mp3', 14),
+  extendedMetta: clip('extendedmetta.mp3', 10),
   introChanting: clip('introchanting.mp3', 5),
   introInstructions: clip('introinstructions.mp3', 1),
 }
