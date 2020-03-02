@@ -1,11 +1,12 @@
 <resources>
 
+    <color name="goenka_green">#001709</color>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:textColor">#000000</item>
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
+        <item name="android:windowBackground">@color/goenka_green</item>
     </style>
 
     <style name="SpinnerItem">

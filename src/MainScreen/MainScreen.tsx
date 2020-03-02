@@ -169,7 +169,7 @@ function MainScreen(props: Props) {
         {/* HistoryBtn */}
         <Tooltip
           childContentSpacing={0}
-          content={<Text style={{ fontWeight: '500' }}>Your history</Text>}
+          content={<Text style={{ color: '#000', fontWeight: '500' }}>Your history</Text>}
           contentStyle={{ backgroundColor: '#ccc', left: screenWidth / 2 - 78 }}
           isVisible={showHistoryBtnTooltip}
           onClose={toggle('showHistoryBtnTooltip')}
