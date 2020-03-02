@@ -142,8 +142,8 @@ android {
         applicationId "com.goenkanative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 020200
-        versionName "2.2.0"
+        versionCode 020201
+        versionName "2.2.1"
         multiDexEnabled true
     }
     splits {
