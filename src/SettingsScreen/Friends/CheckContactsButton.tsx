@@ -12,18 +12,22 @@ function CheckContactsButton({ contacts, setState }: Props) {
     <>
       <TouchableOpacity
         onPress={async () => {
+          if (Platform.OS === 'android') {
+            const permission = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS)
+            if (permission === 'denied') {
+              return
+            } else if (permission === 'never_ask_again') {
+              return Alert.alert(
+                'You blocked this app from seeing Contacts',
+                'To re-enable, go to Settings > Apps & notifications > Goenka Timer > Permissions > Contacts.',
+              )
+            }
+          }
+
           setLoading(true)
 
           if (contacts) {
             return setState({ screen: 'CheckContactsScreen' })
-          }
-
-          if (Platform.OS === 'android') {
-            await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-              buttonPositive: 'Continue',
-              message: 'This lets you quickly look up friends already using the app.',
-              title: 'Contacts',
-            })
           }
 
           Contacts.getAllWithoutPhotos((err, loadedContacts) => {
