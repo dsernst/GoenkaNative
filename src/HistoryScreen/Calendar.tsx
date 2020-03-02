@@ -184,7 +184,8 @@ function Calendar(props: Props) {
                 {/* Only one sit message */}
                 {selectedSits.length === 1 && (
                   <Text style={{ color: '#fff5', fontStyle: 'italic', marginLeft: 10, marginTop: 10 }}>
-                    Try to sit twice per day, even if only for 1 minute. &nbsp;&nbsp;ツ
+                    Try to sit twice per day, even if only for 1 minute. &nbsp;&nbsp;
+                    <Text style={{ color: '#fff9' }}>ツ</Text>
                   </Text>
                 )}
               </ScrollView>
