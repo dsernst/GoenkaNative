@@ -46,7 +46,8 @@ function onOpened(setState: (payload: setStatePayload) => void) {
     console.log('isActive: ', openResult.notification.isAppInFocus)
     console.log('openResult: ', openResult)
 
-    if (openResult.notification.payload.body.includes('New friend request')) {
+    const body = openResult.notification.payload.body
+    if (body.includes('New friend request') || body.includes('Go send them a friend request')) {
       setState({ expandFriendsSection: true, screen: 'SettingsScreen' })
     }
   }
