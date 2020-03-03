@@ -1,6 +1,7 @@
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
-import { StatusBar, TouchableWithoutFeedback, View } from 'react-native'
+import { Platform, StatusBar, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import OneSignal from 'react-native-onesignal'
 
@@ -68,6 +69,11 @@ function CountdownScreen(props: Props) {
                     .add({ ...history[0], user_id: user.uid, user_phone: user.phoneNumber })
                   console.log('⬆️  Autosync complete.')
                 }, 500)
+
+                // Clear Notification Center reminders
+                if (Platform.OS === 'ios') {
+                  PushNotificationIOS.removeAllDeliveredNotifications()
+                }
               }}
               onTimeInterval={(elapsed: number) => {
                 const newHistory = [...history]
