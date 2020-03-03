@@ -14,8 +14,18 @@ service cloud.firestore {
     match /users/{phone_number} {
       // anyone logged in can GET
       allow get: if request.auth != null;
-      // only writeable if yours
+      // writeable if yours
       allow write: if request.auth.token.phone_number == phone_number
+
+      match /contactsNotOnApp/{contact_number} {
+        // writeable if nested within your user doc
+        allow write: if request.auth.token.phone_number == phone_number
+      }
+    }
+
+    // collectionGroup 'contactsNotOnApp' read/writeable if about you
+    match /{path=**}/contactsNotOnApp/{doc} {
+      allow read, write: if request.auth.token.phone_number == resource.data.phoneNumber
     }
 
     match /sits/{document=**} {

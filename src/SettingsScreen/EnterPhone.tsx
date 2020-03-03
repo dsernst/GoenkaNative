@@ -97,7 +97,7 @@ const EnterPhone = ({
     const phoneNumber = formatPhoneNumber(submittedPhone)
     console.log('Attempting sign in:', phoneNumber)
 
-    if (['+15555555555', '+19999999999'].includes(phoneNumber)) {
+    if (['+15555555555', '+19999999999', '+15555228243'].includes(phoneNumber)) {
       auth().settings.appVerificationDisabledForTesting = true
     }
 

@@ -256,6 +256,14 @@ const CheckContactsScreen = (props: Props) => {
         })
       } else {
         contact.type = 'notOnApp'
+        phoneNumbers.forEach(pN =>
+          firestore()
+            .collection('users')
+            .doc(user!.phoneNumber!)
+            .collection('contactsNotOnApp')
+            .doc(pN)
+            .set({ created_at: new Date(), name: `${contact.givenName} ${contact.familyName}`, phoneNumber: pN }),
+        )
       }
       contact.checking = false
       forceRender({})

@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
+import OneSignal from 'react-native-onesignal'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
@@ -53,6 +54,7 @@ function SetDisplayName({ backgroundColor, onesignal_id, setState, user }: Props
               .collection('users')
               .doc(user!.phoneNumber!)
               .set({ name, onesignal_id })
+            lookupFriendsAwaitingMySignup()
           }}
           style={{
             alignItems: 'center',
@@ -71,6 +73,30 @@ function SetDisplayName({ backgroundColor, onesignal_id, setState, user }: Props
       </View>
     </View>
   )
+
+  function lookupFriendsAwaitingMySignup() {
+    console.log('Looking for contactsNotOnApp docs about me:', user!.phoneNumber)
+    firestore()
+      .collectionGroup('contactsNotOnApp')
+      .where('phoneNumber', '==', user!.phoneNumber)
+      .get()
+      .then(results => {
+        if (!results) {
+          return console.warn('🚫 db: problem getting contactsNotOnApp')
+        }
+        results.docs.forEach(async doc => {
+          const parent = (await doc!.ref!.parent!.parent!.get()).data()
+          const data = doc.data()
+
+          doc.ref.update({ signed_up: new Date() })
+          OneSignal.postNotification(
+            { en: `Your contact ${data.name} just registered. Go send them a friend request!` },
+            {},
+            [parent!.onesignal_id],
+          )
+        })
+      })
+  }
 }
 
 export default SetDisplayName
