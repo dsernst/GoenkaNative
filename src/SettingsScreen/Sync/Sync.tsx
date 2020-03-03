@@ -44,7 +44,7 @@ const Sync = ({ autoSyncCompletedSits, history, onlineSits, setState, toggle, us
           <ScrollView>
             {onlineOnlySits?.map((s, index) => (
               <View key={index}>
-                <SitRow history={onlineOnlySits} i={s} index={index} />
+                <SitRow alwaysShowDayLabel history={onlineOnlySits} i={s} index={index} />
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 20 }}>
                   {/* Discard btn */}

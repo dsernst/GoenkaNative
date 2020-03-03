@@ -7,12 +7,14 @@ const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeig
 
 const SitRow = ({
   ITEM_HEIGHT = 36,
+  alwaysShowDayLabel,
   history,
   i,
   index,
   onlineSitsByDate,
 }: {
   ITEM_HEIGHT?: number
+  alwaysShowDayLabel?: boolean
   history: Sit[]
   i: Sit
   index: number
@@ -22,7 +24,7 @@ const SitRow = ({
     <View style={{ alignItems: 'center', flexDirection: 'row', height: ITEM_HEIGHT, paddingHorizontal: 24 }}>
       {/* day label */}
       <View style={{ alignItems: 'flex-end', marginRight: 10, width: 90 }}>
-        <Faded>{dayLabel(i.date, index, history)}</Faded>
+        <Faded>{dayLabel(i.date, index, history, alwaysShowDayLabel)}</Faded>
       </View>
 
       {/* sit details */}
@@ -80,9 +82,9 @@ const SitRow = ({
   )
 }
 
-function dayLabel(date: Date, index: number, history: any) {
+function dayLabel(date: Date, index: number, history: any, alwaysShow?: boolean) {
   // Only show label for first item of a particular day
-  if (index > 0 && history[index - 1].date.getDate() === date.getDate()) {
+  if (!alwaysShow && index > 0 && history[index - 1].date.getDate() === date.getDate()) {
     return ''
   }
 
