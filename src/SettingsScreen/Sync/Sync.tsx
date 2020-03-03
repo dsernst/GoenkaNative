@@ -99,7 +99,7 @@ const Sync = ({ autoSyncCompletedSits, history, onlineSits, setState, toggle, us
             {allSynced ? (
               // All sync'd message
               <Text style={{ color: '#56cc6a', fontSize: 16, fontWeight: '700', marginTop: 10, textAlign: 'center' }}>
-                All sync'ed &nbsp;&nbsp;&nbsp;ツ
+                All sync'd &nbsp;&nbsp;&nbsp;ツ
               </Text>
             ) : (
               // Sync now button
