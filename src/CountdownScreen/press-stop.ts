@@ -8,22 +8,18 @@ export default ({ history, latestTrack, setState, timeouts, titleOpacity }: Prop
     toValue: 1,
   }).start()
 
+  // Clear all of the timeouts
+  timeouts.forEach(t => clearTimeout(t))
+  setState({ timeouts: [] })
+
   // Stop audio
   if (latestTrack) {
     latestTrack.stop()
+    setState({ latestTrack: null })
   }
-
-  // Clear all of the setTimeouts
-  const newTimeouts = [...timeouts]
-  let t = newTimeouts.pop()
-  while (t) {
-    clearTimeout(t)
-    t = newTimeouts.pop()
-  }
-  setState({ timeouts: newTimeouts })
 
   // Go back to MainScreen
-  setState({ finished: false, latestTrack: null, screen: 'MainScreen' })
+  setState({ finished: false, screen: 'MainScreen' })
 
   // Turn on HistoryBtnTooltip if this was their first sit
   if (history.length === 1) {
