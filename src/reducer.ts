@@ -33,6 +33,15 @@ export type FriendRequest = {
 
 type OnlineSit = Sit & { id: string; user_id: string; user_phone?: string }
 
+export type RecentlyJoinedContact = {
+  id: string
+  name: string
+  new_name: string
+  new_onesignal_id: string
+  phoneNumber: string
+  signed_up: Date
+}
+
 type ToggleableStates = {
   amNotification: boolean
   autoSyncCompletedSits: boolean
@@ -66,6 +75,7 @@ export interface State extends ToggleableStates {
   onlineSits: OnlineSit[]
   outgoingFriendRequests: FriendRequest[]
   pmNotificationTime: Date
+  recentlyJoinedContacts: RecentlyJoinedContact[]
   rejectedFriendRequests: FriendRequest[]
   safeAreaInsetBottom: number
   safeAreaInsetTop: number
@@ -108,6 +118,7 @@ const initialState: State = {
   outgoingFriendRequests: [],
   pmNotification: false,
   pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
+  recentlyJoinedContacts: [],
   rejectedFriendRequests: [],
   safeAreaInsetBottom: 0,
   safeAreaInsetTop: 18,

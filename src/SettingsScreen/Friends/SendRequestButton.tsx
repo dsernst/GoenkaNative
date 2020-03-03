@@ -64,7 +64,7 @@ function SendRequestButton({
             marginTop: 14,
           }}
         >
-          Searching...
+          Sending...
         </Text>
       )}
 

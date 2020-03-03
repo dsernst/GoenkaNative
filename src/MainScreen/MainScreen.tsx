@@ -32,6 +32,7 @@ function MainScreen(props: Props) {
     incomingFriendRequests,
     isEnoughTime,
     onlineSits,
+    recentlyJoinedContacts,
     setState,
     showHistoryBtnTooltip,
     toggle,
@@ -40,7 +41,8 @@ function MainScreen(props: Props) {
 
   const numUnsyncdSits = user ? history.length - onlineSits?.length : 0
   const missingDisplayName = Number(user && !displayName)
-  const numNotifications = numUnsyncdSits + missingDisplayName + incomingFriendRequests.length
+  const numNotifications =
+    numUnsyncdSits + missingDisplayName + incomingFriendRequests.length + recentlyJoinedContacts.length
 
   return (
     <>

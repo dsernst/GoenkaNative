@@ -8,6 +8,7 @@ import EnableNotificationPermissions from './EnableNotificationPermissions'
 import EnterFriendPhone from './EnterFriendPhone'
 import IncomingRequests from './IncomingRequests'
 import OutgoingRequests from './OutgoingRequests'
+import RecentlyJoinedContact from './RecentlyJoinedContact'
 import RejectedRequests from './RejectedRequests'
 import SetDisplayName from './SetDisplayName'
 
@@ -19,6 +20,7 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
     incomingFriendRequests,
     notifications_allowed,
     outgoingFriendRequests,
+    recentlyJoinedContacts,
     rejectedFriendRequests,
   } = props
 
@@ -36,9 +38,16 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
         <IncomingRequests displayName={displayName} incomingFriendRequests={incomingFriendRequests} />
       )}
 
-      <SearchContactsButton {...props} />
-
-      <EnterFriendPhone user={props.user} {...props} />
+      {recentlyJoinedContacts.length ? (
+        recentlyJoinedContacts.map(rJC => (
+          <RecentlyJoinedContact key={rJC.phoneNumber} recentlyJoinedContact={rJC} {...props} />
+        ))
+      ) : (
+        <>
+          <SearchContactsButton {...props} />
+          <EnterFriendPhone user={props.user} {...props} />
+        </>
+      )}
 
       {!!outgoingFriendRequests?.length && <OutgoingRequests outgoingFriendRequests={outgoingFriendRequests} />}
 

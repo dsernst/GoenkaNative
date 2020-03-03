@@ -1,12 +1,15 @@
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
+import bluebird from 'bluebird'
 
-import { FriendRequest, setStatePayload } from './reducer'
+import { FriendRequest, RecentlyJoinedContact, setStatePayload } from './reducer'
 
 function init(setState: (payload: setStatePayload) => void) {
   let unsubscribeFromOnlineSits: (() => void) | undefined
   let unsubscribeFromOutgoingFriendRequests: (() => void) | undefined
   let unsubscribeFromIncomingFriendRequests: (() => void) | undefined
+  let unsubscribeFromRecentlyJoinedContacts: (() => void) | undefined
+
   const unsubscribeFromAuth = auth().onAuthStateChanged(user => {
     console.log('🛂 auth state changed:', user)
     setState({ user })
@@ -97,6 +100,38 @@ function init(setState: (payload: setStatePayload) => void) {
           rejectedFriendRequests,
         })
       })
+
+    console.log('Subscribing to recentlyJoinedContacts')
+    unsubscribeFromRecentlyJoinedContacts = firestore()
+      .collection('users')
+      .doc(user.phoneNumber!)
+      .collection('contactsNotOnApp')
+      .where('signed_up', '>', new Date('2020-01-01'))
+      .onSnapshot(async results => {
+        if (!results) {
+          return console.log('🚫 db snapshot: no results for recentlyJoinedContacts')
+        }
+        console.log('⬇️  db snapshot: recentlyJoinedContacts')
+        const recentlyJoinedContacts = await bluebird.map(
+          results.docs
+            // @ts-ignore: doc.data() has imprecise typing so manually specifying instead
+            .map((doc: RecentlyJoinedContact) => ({ id: doc.id, ...doc.data() })),
+          async (rJC: RecentlyJoinedContact) =>
+            await firestore()
+              .collection('users')
+              .doc(rJC.phoneNumber)
+              .get()
+              .then(doc => ({
+                ...rJC,
+                new_name: doc.data()?.name,
+                new_onesignal_id: doc.data()?.onesignal_id,
+              })),
+        )
+
+        setState({
+          recentlyJoinedContacts,
+        })
+      })
   })
 
   return () => {
@@ -119,6 +154,11 @@ function init(setState: (payload: setStatePayload) => void) {
       console.log('Unsubscribing from incomingFriendRequests')
       unsubscribeFromIncomingFriendRequests()
       unsubscribeFromIncomingFriendRequests = undefined
+    }
+    if (unsubscribeFromRecentlyJoinedContacts) {
+      console.log('Unsubscribing from recentlyJoinedContacts')
+      unsubscribeFromRecentlyJoinedContacts()
+      unsubscribeFromRecentlyJoinedContacts = undefined
     }
   }
 }
