@@ -54,7 +54,7 @@ function Section(props: SectionProps) {
         {!!badgeNumber && (
           <View
             style={{
-              backgroundColor: `#f8ff70${enabled ? '' : 'aa'}`,
+              backgroundColor: `#f8ff70${enabled ? '' : 'bb'}`,
               borderRadius: 30,
               marginLeft: 15,
               paddingHorizontal: 5,

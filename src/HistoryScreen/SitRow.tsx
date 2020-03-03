@@ -10,17 +10,22 @@ const SitRow = ({
   history,
   i,
   index,
+  onlineSitsByDate,
 }: {
   ITEM_HEIGHT?: number
   history: Sit[]
   i: Sit
   index: number
+  onlineSitsByDate?: any
 }) => {
   return (
     <View style={{ alignItems: 'center', flexDirection: 'row', height: ITEM_HEIGHT, paddingHorizontal: 24 }}>
+      {/* day label */}
       <View style={{ alignItems: 'flex-end', marginRight: 10, width: 90 }}>
         <Faded>{dayLabel(i.date, index, history)}</Faded>
       </View>
+
+      {/* sit details */}
       <View
         style={{
           backgroundColor: i.selected ? '#f004' : undefined,
@@ -29,6 +34,7 @@ const SitRow = ({
           paddingRight: 8,
         }}
       >
+        {/* start time */}
         <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
           <Text
             style={{
@@ -40,7 +46,10 @@ const SitRow = ({
             {dayjs(i.date).format('h[:]mma')}
           </Text>
         </View>
+
         <Faded style={{ top: 2 }}> for &nbsp;</Faded>
+
+        {/* duration */}
         <Text
           style={{
             color: '#fffb',
@@ -51,6 +60,21 @@ const SitRow = ({
           {i.elapsed < i.duration && i.elapsed + ' of '}
           {i.duration} min
         </Text>
+
+        {/* isUnsync'ed dot */}
+        {onlineSitsByDate && !onlineSitsByDate[i.date.getTime()] && (
+          <View
+            style={{
+              backgroundColor: '#f8ff70cc',
+              borderRadius: 30,
+              height: 5,
+              left: 7,
+              marginRight: 10,
+              top: 7,
+              width: 5,
+            }}
+          />
+        )}
       </View>
     </View>
   )
