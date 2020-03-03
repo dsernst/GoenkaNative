@@ -160,10 +160,12 @@ const CheckContactsScreen = (props: Props) => {
                       <TouchableOpacity
                         onPress={async () => {
                           await sendFriendRequest({
-                            displayName,
-                            onesignal_id,
-                            potentialFriend: pN.foundUser!,
-                            user,
+                            from_name: displayName!,
+                            from_onesignal_id: onesignal_id!,
+                            from_phone: user!.phoneNumber!,
+                            to_name: pN.foundUser!.name,
+                            to_onesignal_id: pN.foundUser!.onesignal_id,
+                            to_phone: pN.number,
                           })
                           contact.type = 'pendingRequests'
                           forceRender({})

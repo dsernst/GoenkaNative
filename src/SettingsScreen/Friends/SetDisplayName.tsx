@@ -88,6 +88,10 @@ function SetDisplayName({ backgroundColor, onesignal_id, setState, user }: Props
           const parent = (await doc!.ref!.parent!.parent!.get()).data()
           const data = doc.data()
 
+          if (data.signed_up) {
+            return // Don't send multiple notifications
+          }
+
           doc.ref.update({ signed_up: new Date() })
           OneSignal.postNotification(
             { en: `Your contact ${data.name} just registered. Go send them a friend request!` },

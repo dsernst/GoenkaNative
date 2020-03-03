@@ -1,4 +1,3 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import React, { Dispatch, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -85,7 +84,14 @@ function SendRequestButton({
     setError(undefined)
     setSubmitting(true)
     try {
-      sendFriendRequest({ displayName, onesignal_id, potentialFriend, user })
+      sendFriendRequest({
+        from_name: displayName!,
+        from_onesignal_id: onesignal_id!,
+        from_phone: user!.phoneNumber!,
+        to_name: potentialFriend.name,
+        to_onesignal_id: potentialFriend.onesignal_id,
+        to_phone: potentialFriend.id,
+      })
     } catch (err) {
       return setError(err.toString())
     }
@@ -98,31 +104,25 @@ function SendRequestButton({
 export default SendRequestButton
 
 export async function sendFriendRequest({
-  displayName,
-  onesignal_id,
-  potentialFriend,
-  user,
+  from_name,
+  from_onesignal_id,
+  from_phone,
+  to_name,
+  to_onesignal_id,
+  to_phone,
 }: {
-  displayName: string | null
-  onesignal_id: string | null
-  potentialFriend: User
-  user: FirebaseAuthTypes.User | null
+  from_name: string
+  from_onesignal_id: string
+  from_phone: string
+  to_name: string
+  to_onesignal_id: string
+  to_phone: string
 }) {
-  console.log('👬 sending a friend request to:', potentialFriend.id)
+  console.log('👬 sending a friend request to:', to_phone)
   await firestore()
     .collection('friendRequests')
-    .add({
-      created_at: new Date(),
-      from_name: displayName,
-      from_onesignal_id: onesignal_id,
-      from_phone: user!.phoneNumber,
-      to_name: potentialFriend.name,
-      to_onesignal_id: potentialFriend.onesignal_id,
-      to_phone: potentialFriend.id,
-    })
-  OneSignal.postNotification(
-    { en: `New friend request from ${displayName} (${prettyDisplayPhone(user!.phoneNumber!)})` },
-    {},
-    [potentialFriend.onesignal_id],
-  )
+    .add({ created_at: new Date(), from_name, from_onesignal_id, from_phone, to_name, to_onesignal_id, to_phone })
+  OneSignal.postNotification({ en: `New friend request from ${from_name} (${prettyDisplayPhone(from_phone!)})` }, {}, [
+    to_onesignal_id,
+  ])
 }

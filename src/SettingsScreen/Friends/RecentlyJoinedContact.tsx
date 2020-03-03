@@ -101,11 +101,23 @@ function RecentlyJoinedContact({ displayName, onesignal_id, recentlyJoinedContac
     setError(undefined)
     setSubmitting(true)
     try {
-      sendFriendRequest({ displayName, onesignal_id, potentialFriend: recentlyJoinedContact, user })
+      await sendFriendRequest({
+        from_name: displayName!,
+        from_onesignal_id: onesignal_id!,
+        from_phone: user!.phoneNumber!,
+        to_name: recentlyJoinedContact.new_name,
+        to_onesignal_id: recentlyJoinedContact.new_onesignal_id,
+        to_phone: recentlyJoinedContact.phoneNumber,
+      })
+      await firestore()
+        .collection('users')
+        .doc(user!.phoneNumber!)
+        .collection('contactsNotOnApp')
+        .doc(recentlyJoinedContact.phoneNumber)
+        .delete()
     } catch (err) {
       return setError(err.toString())
     }
-    setSubmitting(false)
   }
 }
 
