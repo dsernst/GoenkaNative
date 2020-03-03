@@ -29,7 +29,7 @@ const exec = promisify(require('child_process').exec)
 const plistPath = require('path').join(__dirname, './ios/GoenkaNative/Info.plist')
 const versionCode = version
   .split('.')
-  .map(num => (Number(num) < 10 ? '0' + num : num))
+  .map((num, index) => (Number(num) < 10 && index > 0 ? '0' + num : num))
   .join('')
 
 ;(async () => {
