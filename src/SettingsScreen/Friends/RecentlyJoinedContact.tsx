@@ -1,3 +1,4 @@
+import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -22,7 +23,14 @@ function RecentlyJoinedContact({ displayName, onesignal_id, recentlyJoinedContac
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => {}} // TODO
+          onPress={() =>
+            firestore()
+              .collection('users')
+              .doc(user!.phoneNumber!)
+              .collection('contactsNotOnApp')
+              .doc(recentlyJoinedContact.phoneNumber)
+              .delete()
+          }
           style={{
             alignItems: 'center',
             borderColor: '#fff4',
