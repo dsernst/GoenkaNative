@@ -3,9 +3,19 @@ import { Alert, PermissionsAndroid, Platform, Text, TouchableOpacity } from 'rea
 import Contacts from 'react-native-contacts'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
-import { Props } from '../../reducer'
+import { ContactWithType, Props } from '../../reducer'
+import { formatPhoneNumber } from './phone-helpers'
 
-function CheckContactsButton({ contacts, setState }: Props) {
+function CheckContactsButton({
+  acceptedIncomingFriendRequests,
+  acceptedOutgoingFriendRequests,
+  contacts,
+  contactsNotOnApp,
+  incomingFriendRequests,
+  outgoingFriendRequests,
+  recentlyJoinedContacts,
+  setState,
+}: Props) {
   const [loading, setLoading] = useState(false)
 
   return (
@@ -30,7 +40,7 @@ function CheckContactsButton({ contacts, setState }: Props) {
             return setState({ screen: 'CheckContactsScreen' })
           }
 
-          Contacts.getAllWithoutPhotos((err, loadedContacts) => {
+          Contacts.getAllWithoutPhotos((err, loadedContacts: ContactWithType[]) => {
             if (err) {
               if (err === 'denied') {
                 return Alert.alert(
@@ -41,6 +51,32 @@ function CheckContactsButton({ contacts, setState }: Props) {
               console.log(err)
               return Alert.alert(err)
             }
+
+            const pendingRequestsPhones = [
+              ...incomingFriendRequests.map(fr => fr.from_phone),
+              ...outgoingFriendRequests.map(fr => fr.to_phone),
+            ]
+
+            const alreadyFriendsPhones = [
+              ...acceptedIncomingFriendRequests.map(fr => fr.from_phone),
+              ...acceptedOutgoingFriendRequests.map(fr => fr.to_phone),
+            ]
+
+            console.log('🔍 Marking contacts we already know about')
+            loadedContacts?.forEach(async contact => {
+              const phoneNumbers = contact.phoneNumbers.map(pN => formatPhoneNumber(pN.number))
+
+              if (phoneNumbers.some(n => alreadyFriendsPhones.includes(n))) {
+                contact.type = 'alreadyFriends'
+              } else if (phoneNumbers.some(n => pendingRequestsPhones.includes(n))) {
+                contact.type = 'pendingRequests'
+              } else if (phoneNumbers.some(n => recentlyJoinedContacts.map(c => c.phoneNumber).includes(n))) {
+                contact.type = 'availableToFriend'
+              } else if (phoneNumbers.some(n => contactsNotOnApp.map(c => c.phoneNumber).includes(n))) {
+                contact.type = 'notOnApp'
+              }
+            })
+
             setState({ contacts: loadedContacts, screen: 'CheckContactsScreen' })
           })
         }}

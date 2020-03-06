@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore'
 import bluebird from 'bluebird'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ActivityIndicator, SectionList, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { PhoneNumber } from 'react-native-contacts'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
@@ -14,51 +14,11 @@ import { formatPhoneNumber } from './phone-helpers'
 import { sendFriendRequest } from './SendRequestButton'
 
 const CheckContactsScreen = (props: Props) => {
-  const {
-    acceptedIncomingFriendRequests,
-    acceptedOutgoingFriendRequests,
-    backgroundColor,
-    contacts,
-    contactsNotOnApp,
-    displayName,
-    incomingFriendRequests,
-    onesignal_id,
-    outgoingFriendRequests,
-    setState,
-    user,
-  } = props
+  const { backgroundColor, contacts, displayName, onesignal_id, setState, user } = props
 
   const [filter, setFilter] = useState('')
 
-  const pendingRequestsPhones = [
-    ...incomingFriendRequests.map(fr => fr.from_phone),
-    ...outgoingFriendRequests.map(fr => fr.to_phone),
-  ]
-
-  const alreadyFriendsPhones = [
-    ...acceptedIncomingFriendRequests.map(fr => fr.from_phone),
-    ...acceptedOutgoingFriendRequests.map(fr => fr.to_phone),
-  ]
-
   const [, forceRender] = useState({})
-
-  useEffect(() => {
-    console.log('🔍 Searching contacts for existing friend requests')
-    contacts?.forEach(async contact => {
-      const phoneNumbers = contact.phoneNumbers.map(pN => formatPhoneNumber(pN.number))
-
-      if (phoneNumbers.some(n => pendingRequestsPhones.includes(n))) {
-        contact.type = 'pendingRequests'
-        forceRender({})
-      } else if (phoneNumbers.some(n => alreadyFriendsPhones.includes(n))) {
-        contact.type = 'alreadyFriends'
-        forceRender({})
-      } else if (phoneNumbers.some(n => contactsNotOnApp.map(c => c.phoneNumber).includes(n))) {
-        contact.type = 'notOnApp'
-        forceRender({})
-      }
-    })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!contacts) {
     return (
