@@ -18,8 +18,9 @@ service cloud.firestore {
       allow write: if request.auth.token.phone_number == phone_number
 
       match /contactsNotOnApp/{contact_number} {
-        // read/writeable if nested within your user doc
+        // read/writeable if nested within your user doc or about you
         allow read, write: if request.auth.token.phone_number == phone_number
+        allow read, write: if request.auth.token.phone_number == contact_number
       }
     }
 

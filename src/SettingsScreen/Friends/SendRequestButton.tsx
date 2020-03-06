@@ -122,6 +122,17 @@ export async function sendFriendRequest({
   await firestore()
     .collection('friendRequests')
     .add({ created_at: new Date(), from_name, from_onesignal_id, from_phone, to_name, to_onesignal_id, to_phone })
+
+  // Delete this persons recentlyJoinedContact entry for me (redundant w/ incomingFriendRequest)
+  // Silently fails if there isn't one (which is ok)
+  firestore()
+    .collection('users')
+    .doc(to_phone)
+    .collection('contactsNotOnApp')
+    .doc(from_phone)
+    .delete()
+
+  // Send them a notification
   OneSignal.postNotification({ en: `New friend request from ${from_name} (${prettyDisplayPhone(from_phone!)})` }, {}, [
     to_onesignal_id,
   ])
