@@ -62,7 +62,7 @@ const CheckContactsScreen = (props: Props) => {
           autoCorrect={false}
           clearButtonMode="always"
           onChangeText={setFilter}
-          placeholder="Filter"
+          placeholder="Search"
           placeholderTextColor="#fff5"
           returnKeyType="done"
           style={{
