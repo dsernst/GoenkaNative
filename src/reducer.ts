@@ -33,13 +33,16 @@ export type FriendRequest = {
 
 type OnlineSit = Sit & { id: string; user_id: string; user_phone?: string }
 
-export type RecentlyJoinedContact = {
+export type ContactDoc = {
   id: string
   name: string
+  phoneNumber: string
+  signed_up?: Date
+}
+
+export type RecentlyJoinedContact = ContactDoc & {
   new_name: string
   new_onesignal_id: string
-  phoneNumber: string
-  signed_up: Date
 }
 
 type ToggleableStates = {
@@ -62,6 +65,7 @@ export interface State extends ToggleableStates {
   amNotificationTime: Date
   backgroundColor: string
   contacts?: ContactWithType[]
+  contactsNotOnApp: ContactDoc[]
   displayName: string | null
   duration: number
   expandFriendsSection?: boolean
@@ -101,6 +105,7 @@ const initialState: State = {
   amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
   autoSyncCompletedSits: true,
   backgroundColor: '#001709',
+  contactsNotOnApp: [],
   displayName: null,
   duration: 60,
   finished: false,

@@ -19,6 +19,7 @@ const CheckContactsScreen = (props: Props) => {
     acceptedOutgoingFriendRequests,
     backgroundColor,
     contacts,
+    contactsNotOnApp,
     displayName,
     incomingFriendRequests,
     onesignal_id,
@@ -51,6 +52,9 @@ const CheckContactsScreen = (props: Props) => {
         forceRender({})
       } else if (phoneNumbers.some(n => alreadyFriendsPhones.includes(n))) {
         contact.type = 'alreadyFriends'
+        forceRender({})
+      } else if (phoneNumbers.some(n => contactsNotOnApp.map(c => c.phoneNumber).includes(n))) {
+        contact.type = 'notOnApp'
         forceRender({})
       }
     })
