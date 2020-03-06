@@ -14,7 +14,7 @@ function RecentlyJoinedContact({ displayName, onesignal_id, recentlyJoinedContac
   const [submitting, setSubmitting] = useState(false)
 
   return (
-    <View style={{ marginTop: 0 }}>
+    <View style={{ marginBottom: 30 }}>
       <Text style={{ color: '#fffa' }}>
         Your contact <Text style={{ color: '#fffc', fontWeight: '700' }}>{recentlyJoinedContact.name}</Text> signed up
         as <Text style={{ color: '#f8ff70', fontWeight: '700' }}>{recentlyJoinedContact.new_name}</Text>!
