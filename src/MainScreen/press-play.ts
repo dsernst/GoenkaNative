@@ -1,5 +1,4 @@
 import { Animated, Easing } from 'react-native'
-import Sound from 'react-native-sound'
 
 import c from '../clips'
 import { Props } from '../reducer'
@@ -10,9 +9,6 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
   if (!history.length) {
     await firstSitInstructions()
   }
-
-  // Required for Sounds to be playable while iOS is in Vibrate mode
-  Sound.setCategory('Playback')
 
   const timeouts = []
   // Switch screens

@@ -6,6 +6,10 @@ export class SoundWithDelay extends Sound {
   length: number = 0
 }
 
+// Category: 'Playback' — Required for Sounds to be playable while iOS is in Vibrate mode
+// mixWithOthers: true — Allow other audio apps to play at the same time
+Sound.setCategory('Playback', true)
+
 // Helper function so we don't have to repeat bundle or errHandler
 function clip(filename: string, delay: number = 0) {
   const c = new SoundWithDelay(filename, Sound.MAIN_BUNDLE, function showErrors(error: string) {
