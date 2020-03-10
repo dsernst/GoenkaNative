@@ -75,7 +75,7 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
   // Begin closingClip so it ends when countdown hits zero.
   timeouts.push(
     setTimeout(() => {
-      setState({ latestTrack: closingClip.setVolume(0.5) })
+      setState({ latestTrack: closingClip.setVolume(0.4) })
     }, closingClipTime),
   )
   setState({ timeouts })
