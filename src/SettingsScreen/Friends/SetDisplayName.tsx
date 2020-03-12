@@ -7,7 +7,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { Props } from '../../reducer'
 
-function SetDisplayName({ backgroundColor, onesignal_id, setState, user }: Props) {
+function SetDisplayName({
+  acceptedIncomingFriendRequests,
+  acceptedOutgoingFriendRequests,
+  backgroundColor,
+  incomingFriendRequests,
+  onesignal_id,
+  outgoingFriendRequests,
+  rejectedFriendRequests,
+  setState,
+  user,
+}: Props) {
   const [name, setName] = useState('')
 
   return (
@@ -55,6 +65,7 @@ function SetDisplayName({ backgroundColor, onesignal_id, setState, user }: Props
               .doc(user!.phoneNumber!)
               .set({ name, onesignal_id })
             lookupFriendsAwaitingMySignup()
+            updateFriendRequests()
           }}
           style={{
             alignItems: 'center',
@@ -100,6 +111,25 @@ function SetDisplayName({ backgroundColor, onesignal_id, setState, user }: Props
           )
         })
       })
+  }
+  function updateFriendRequests() {
+    console.log('Updating friend requests')
+    ;[acceptedIncomingFriendRequests, incomingFriendRequests, rejectedFriendRequests].forEach(arr =>
+      arr.forEach(fr =>
+        firestore()
+          .collection('friendRequests')
+          .doc(fr.id)
+          .update({ to_name: name }),
+      ),
+    )
+    ;[acceptedOutgoingFriendRequests, outgoingFriendRequests].forEach(arr =>
+      arr.forEach(fr =>
+        firestore()
+          .collection('friendRequests')
+          .doc(fr.id)
+          .update({ from_name: name }),
+      ),
+    )
   }
 }
 
