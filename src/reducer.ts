@@ -56,8 +56,8 @@ type ToggleableStates = {
   showHistoryBtnTooltip: boolean
 }
 
-type ContactType = 'alreadyFriends' | 'availableToFriend' | 'notOnApp' | 'pendingRequests'
-export type ContactWithType = Contact & { checking?: boolean; type?: ContactType }
+export type ContactType = 'alreadyFriends' | 'availableToFriend' | 'notOnApp' | 'pendingRequests'
+export type ContactWithType = Contact & { checking?: boolean; display_name?: string; type?: ContactType }
 
 export interface State extends ToggleableStates {
   acceptedIncomingFriendRequests: FriendRequest[]

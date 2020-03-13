@@ -3,7 +3,7 @@ import { Alert, PermissionsAndroid, Platform, Text, TouchableOpacity } from 'rea
 import Contacts from 'react-native-contacts'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
-import { ContactWithType, Props } from '../../reducer'
+import { ContactType, ContactWithType, FriendRequest, Props } from '../../reducer'
 import { formatPhoneNumber } from './phone-helpers'
 
 function CheckContactsButton({
@@ -52,29 +52,34 @@ function CheckContactsButton({
               return Alert.alert(err)
             }
 
-            const pendingRequestsPhones = [
-              ...incomingFriendRequests.map(fr => fr.from_phone),
-              ...outgoingFriendRequests.map(fr => fr.to_phone),
-            ]
+            type AK = { name?: string; phone: string; type: ContactType }
 
-            const alreadyFriendsPhones = [
-              ...acceptedIncomingFriendRequests.map(fr => fr.from_phone),
-              ...acceptedOutgoingFriendRequests.map(fr => fr.to_phone),
+            const FRtoAK = (type: ContactType, direction: string) => (fr: FriendRequest): AK => ({
+              name: direction === 'to' ? fr.to_name : fr.from_name,
+              phone: direction === 'to' ? fr.to_phone : fr.from_phone,
+              type,
+            })
+
+            const alreadyKnown: AK[] = [
+              ...incomingFriendRequests.map(FRtoAK('pendingRequests', 'from')),
+              ...outgoingFriendRequests.map(FRtoAK('pendingRequests', 'to')),
+              ...acceptedIncomingFriendRequests.map(FRtoAK('alreadyFriends', 'from')),
+              ...acceptedOutgoingFriendRequests.map(FRtoAK('alreadyFriends', 'to')),
+              ...recentlyJoinedContacts.map(
+                (c): AK => ({ name: c.new_name, phone: c.phoneNumber, type: 'availableToFriend' }),
+              ),
+              ...contactsNotOnApp.map((c): AK => ({ phone: c.phoneNumber, type: 'notOnApp' })),
             ]
 
             console.log('🔍 Marking contacts we already know about')
             loadedContacts?.forEach(async contact => {
-              const phoneNumbers = contact.phoneNumbers.map(pN => formatPhoneNumber(pN.number))
-
-              if (phoneNumbers.some(n => alreadyFriendsPhones.includes(n))) {
-                contact.type = 'alreadyFriends'
-              } else if (phoneNumbers.some(n => pendingRequestsPhones.includes(n))) {
-                contact.type = 'pendingRequests'
-              } else if (phoneNumbers.some(n => recentlyJoinedContacts.map(c => c.phoneNumber).includes(n))) {
-                contact.type = 'availableToFriend'
-              } else if (phoneNumbers.some(n => contactsNotOnApp.map(c => c.phoneNumber).includes(n))) {
-                contact.type = 'notOnApp'
-              }
+              contact.phoneNumbers
+                .map(pN => formatPhoneNumber(pN.number))
+                .some(n =>
+                  alreadyKnown.some(
+                    aK => aK.phone === n && (contact.type = aK.type) && (contact.display_name = aK.name),
+                  ),
+                )
             })
 
             setState({ contacts: loadedContacts, screen: 'CheckContactsScreen' })

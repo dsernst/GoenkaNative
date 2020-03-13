@@ -84,6 +84,24 @@ const CheckContactsScreen = (props: Props) => {
         indicatorStyle="white"
         keyExtractor={item => item.recordID}
         renderItem={({ item: contact }) => {
+          let name = `${contact.givenName} ${contact.familyName}`
+          // Show number if no name
+          if (!contact.givenName && !contact.familyName) {
+            name = contact.phoneNumbers[0]?.number
+          }
+
+          // Show their chosen display_name if different
+          let name2ndLine
+          if (
+            contact.type &&
+            contact.display_name &&
+            ['alreadyFriends', 'availableToFriend', 'pendingRequests'].includes(contact.type) &&
+            contact.display_name !== name
+          ) {
+            name2ndLine = name
+            name = contact.display_name
+          }
+
           return (
             // {/* Contact row */}
             <TouchableOpacity
@@ -98,12 +116,9 @@ const CheckContactsScreen = (props: Props) => {
               {/* Contact name */}
               <Text style={{ color: '#fffc', fontSize: 18 }}>
                 {contact.checking && <ActivityIndicator style={{ height: 18, paddingRight: 40, width: 30 }} />}
-                {contact.givenName} {contact.familyName}
-                {!contact.givenName && !contact.familyName && (
-                  // show number if no name
-                  <Text style={{ opacity: 0.6 }}>{contact.phoneNumbers[0]?.number}</Text>
-                )}
+                {name}
               </Text>
+              {name2ndLine && <Text style={{ color: '#fff4' }}>{name2ndLine}</Text>}
 
               {/* Phone number (only shown if onApp) */}
               {contact.type === 'availableToFriend' &&
@@ -217,7 +232,9 @@ const CheckContactsScreen = (props: Props) => {
         dbResults.forEach((doc, index) => {
           if (doc.exists) {
             // @ts-ignore: doesn't know doc.data() type
-            contact.phoneNumbers[index].foundUser = { id: doc.id, ...doc.data() }
+            const data: { name: string; onesignal_id: string } = doc.data()
+            contact.phoneNumbers[index].foundUser = { id: doc.id, ...data }
+            contact.display_name = data.name
           }
         })
       } else {
