@@ -25,7 +25,7 @@ const Sync = ({ autoSyncCompletedSits, history, onlineSits, setState, toggle, us
       <Text style={{ color: '#fff9', fontSize: 15 }}>
         You have&nbsp;
         <Text style={{ color: '#fffd', fontWeight: '500' }}>{history.length}</Text>
-        &nbsp;sit{history.length !== 1 && 's'} recorded on this devices,
+        &nbsp;sit{history.length !== 1 && 's'} recorded on this device,
       </Text>
 
       {/* Sits online: y */}
