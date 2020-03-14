@@ -144,7 +144,7 @@ const CheckContactsScreen = (props: Props) => {
                             from_phone: user!.phoneNumber!,
                             to_name: pN.foundUser!.name,
                             to_onesignal_id: pN.foundUser!.onesignal_id,
-                            to_phone: pN.number,
+                            to_phone: formatPhoneNumber(pN.number),
                           })
                           contact.type = 'pendingRequests'
                           forceRender({})
