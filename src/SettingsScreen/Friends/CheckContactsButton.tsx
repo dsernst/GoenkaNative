@@ -1,3 +1,4 @@
+import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
 import { Alert, PermissionsAndroid, Platform, Text, TouchableOpacity } from 'react-native'
 import Contacts from 'react-native-contacts'
@@ -52,9 +53,11 @@ function CheckContactsButton({
               return Alert.alert(err)
             }
 
-            type AK = { name?: string; phone: string; type: ContactType }
+            type AK = { direction?: string; fr_id?: string; name?: string; phone: string; type: ContactType }
 
             const FRtoAK = (type: ContactType, direction: string) => (fr: FriendRequest): AK => ({
+              direction,
+              fr_id: fr.id,
               name: direction === 'to' ? fr.to_name : fr.from_name,
               phone: direction === 'to' ? fr.to_phone : fr.from_phone,
               type,
@@ -76,9 +79,21 @@ function CheckContactsButton({
               contact.phoneNumbers
                 .map(pN => formatPhoneNumber(pN.number))
                 .some(n =>
-                  alreadyKnown.some(
-                    aK => aK.phone === n && (contact.type = aK.type) && (contact.display_name = aK.name),
-                  ),
+                  alreadyKnown.some(aK => {
+                    if (aK.phone === n) {
+                      contact.type = aK.type
+                      contact.display_name = aK.name
+                      if (aK.fr_id) {
+                        firestore()
+                          .collection('friendRequests')
+                          .doc(aK.fr_id)
+                          .update({
+                            [`${aK.direction}_contact_book_name`]: `${contact.givenName} ${contact.familyName}`,
+                          })
+                      }
+                    }
+                    return aK.phone === n
+                  }),
                 )
             })
 
