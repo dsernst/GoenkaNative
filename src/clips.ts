@@ -25,7 +25,7 @@ function clip(filename: string, delay: number = 0) {
 
 // Load in our clips w/ desired delays (seconds) before starting next clip
 const clips: { [key: string]: SoundWithDelay } = {
-  closingChanting: clip('closingchanting.mp3', 2),
+  closingChanting: clip('closingchanting.mp3', 3),
   closingGood: clip('closinggood.mp3'),
   closingMetta: clip('closingmetta.mp3'),
   extendedMetta: clip('extendedmetta.mp3', 10),
