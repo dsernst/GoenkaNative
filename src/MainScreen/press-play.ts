@@ -47,7 +47,7 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
 
   // If < 4 min sit, use short "good, good" clip
   // Otherwise "Bhavatu Sabba Mangalam"
-  const closingClip = duration < 4 ? c.closingGood : c.closingMetta
+  const closingClip = duration < 6 ? c.closingGood : c.closingMetta
 
   const closingClipTime = (duration * 60 - closingClip.length) * 1000
 
