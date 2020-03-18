@@ -11,7 +11,7 @@ const EnterPhone = ({
 }: {
   setConfirmation: React.Dispatch<FirebaseAuthTypes.ConfirmationResult>
   setUnverifiedPhone: React.Dispatch<string>
-  unverifiedPhone: string
+  unverifiedPhone?: string
 }) => {
   const [phone, setPhone] = useState('')
   const [error, setError] = useState()

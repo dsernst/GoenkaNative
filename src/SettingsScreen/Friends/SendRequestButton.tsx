@@ -7,7 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Props } from '../../reducer'
 import { prettyDisplayPhone } from './phone-helpers'
 
-type User = { id: string; name: string; onesignal_id: string }
+export type User = { id: string; name: string; onesignal_id: string }
 
 type SendRequestButtonProps = Props & {
   potentialFriend: User

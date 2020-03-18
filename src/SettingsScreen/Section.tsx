@@ -19,7 +19,7 @@ type SectionProps = Props & {
 function Section(props: SectionProps) {
   const { Content, badgeNumber, description, icon, requiresLogin, setState, startExpandedKey, title, user } = props
   const [enabled, setEnabled] = useState(false)
-  const [wasAutoExpanded, setWasAutoExpanded] = useState()
+  const [wasAutoExpanded, setWasAutoExpanded] = useState<boolean>()
   const { Set } = icon
 
   if (startExpandedKey && props[startExpandedKey] && !wasAutoExpanded) {

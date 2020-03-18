@@ -1,3 +1,4 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import React, { useState } from 'react'
 import { Text, View } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
@@ -8,8 +9,8 @@ import EnterVerificationCode from './EnterVerificationCode'
 
 const LoginFlow = (props: Props) => {
   const { backgroundColor } = props
-  const [confirmation, setConfirmation] = useState()
-  const [unverifiedPhone, setUnverifiedPhone] = useState()
+  const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult>()
+  const [unverifiedPhone, setUnverifiedPhone] = useState<string>()
 
   return (
     <View style={{ borderColor: '#5594fa33', borderRadius: 8, borderWidth: 1, padding: 10 }}>
@@ -38,7 +39,7 @@ const LoginFlow = (props: Props) => {
           {...props}
           confirmation={confirmation}
           setConfirmation={setConfirmation}
-          unverifiedPhone={unverifiedPhone}
+          unverifiedPhone={unverifiedPhone!}
         />
       )}
     </View>

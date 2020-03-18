@@ -5,14 +5,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { Props } from '../../reducer'
 import { formatPhoneNumber, prettyFormat } from './phone-helpers'
-import SendRequestButton from './SendRequestButton'
+import SendRequestButton, { User } from './SendRequestButton'
 
 const EnterFriendPhone = (props: Props) => {
   const { outgoingFriendRequests, user } = props
   const [phone, setPhone] = useState('')
-  const [error, setError] = useState()
+  const [error, setError] = useState<string>()
   const [submitting, setSubmitting] = useState(false)
-  const [potentialFriend, setPotentialFriend] = useState()
+  const [potentialFriend, setPotentialFriend] = useState<User>()
   const textInput = useRef<TextInput>(null)
 
   return (
@@ -115,7 +115,7 @@ const EnterFriendPhone = (props: Props) => {
   async function submit() {
     const phoneNumber = formatPhoneNumber(phone)
     // console.log('called EnterFriendPhone.submit() ', phoneNumber)
-    let foundUser
+    let foundUser: User | undefined
 
     setError(undefined)
     textInput.current?.blur()
@@ -138,6 +138,7 @@ const EnterFriendPhone = (props: Props) => {
         .get()
 
       if (doc.exists) {
+        // @ts-ignore: doc.data() has imprecise typing so manually specified instead
         foundUser = { id: doc.id, ...doc.data() }
       }
     } catch (err) {

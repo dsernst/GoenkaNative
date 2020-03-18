@@ -12,7 +12,7 @@ const EnterPhone = ({
   unverifiedPhone: string
 }) => {
   const [code, setCode] = useState('')
-  const [error, setError] = useState()
+  const [error, setError] = useState<string>()
   const [submitting, setSubmitting] = useState(false)
 
   return (
