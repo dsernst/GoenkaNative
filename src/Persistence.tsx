@@ -38,6 +38,7 @@ const store = createStore(
         'historyViewIndex',
         'isOldStudent',
         'displayName',
+        'notifications_allowed',
       ],
     },
     reducer,

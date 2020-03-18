@@ -6,37 +6,43 @@ import { Props } from './reducer'
 function InitQuestionScreen({ isOldStudent, setState }: Props) {
   const [shownPrompt, setShownPrompt] = useState(false)
 
+  const NextScreen = 'InitFriendsScreen'
+
   if (isOldStudent !== null || process.env.NODE_ENV === 'development') {
-    setState({ screen: 'MainScreen' })
+    setState({ screen: NextScreen })
   } else if (!shownPrompt) {
     setShownPrompt(true)
-    Alert.alert('Welcome', 'Have you completed a Vipassana course taught by S.N. Goenka?', [
-      {
-        onPress: () => {
-          Alert.alert('Welcome, fellow meditator', 'For help and/or questions, email: hi@goenka.app', [
-            { onPress: () => setState({ isOldStudent: true, screen: 'MainScreen' }), text: 'OK' },
-          ])
+    Alert.alert(
+      'Welcome',
+      'Have you completed a Vipassana course taught by S.N. Goenka?\n\nThis does not affect functionality.',
+      [
+        {
+          onPress: () => {
+            Alert.alert('Welcome, fellow meditator', 'For help and/or questions, email: hi@goenka.app', [
+              { onPress: () => setState({ isOldStudent: true, screen: NextScreen }), text: 'OK' },
+            ])
+          },
+          text: 'Yes',
         },
-        text: 'Yes',
-      },
-      {
-        onPress: () => {
-          Alert.alert(
-            'Welcome',
-            `You are still welcome to use this app, but it may not be as useful for you until you complete a 10-day Vipassana meditation course.
+        {
+          onPress: () => {
+            Alert.alert(
+              'Welcome',
+              `You are still welcome to use this app, but it was designed for Old Students and may not be as useful for you until you complete a 10-day Vipassana meditation course.
 
-The courses are freely offered without charge, by Old Students who wish to share this technique with others.
+The courses are free — including food, housing, & instruction — and run by volunteers at hundreds of locations around the world.
 
-Visit _dhamma.org_ for more information.
+Visit dhamma.org for more information.
 
 For help and/or questions with this app, email hi@goenka.app`,
-            [{ onPress: () => setState({ isOldStudent: false, screen: 'MainScreen' }), text: 'OK' }],
-          )
+              [{ onPress: () => setState({ isOldStudent: false, screen: NextScreen }), text: 'OK' }],
+            )
+          },
+          style: 'destructive',
+          text: 'No',
         },
-        style: 'destructive',
-        text: 'No',
-      },
-    ])
+      ],
+    )
   }
 
   return <></>

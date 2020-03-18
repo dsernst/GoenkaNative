@@ -6,9 +6,11 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import { formatPhoneNumber, prettyFormat } from './Friends/phone-helpers'
 
 const EnterPhone = ({
+  onFocus,
   setConfirmation,
   setUnverifiedPhone,
 }: {
+  onFocus?: () => void
   setConfirmation: React.Dispatch<FirebaseAuthTypes.ConfirmationResult>
   setUnverifiedPhone: React.Dispatch<string>
   unverifiedPhone?: string
@@ -26,7 +28,7 @@ const EnterPhone = ({
           autoCapitalize="none"
           autoCompleteType="tel"
           autoCorrect={false}
-          autoFocus
+          autoFocus={!onFocus}
           keyboardType="phone-pad"
           onChangeText={newVal => {
             setError(undefined)
@@ -37,6 +39,7 @@ const EnterPhone = ({
               submit(newVal)
             }
           }}
+          onFocus={() => onFocus && onFocus()}
           placeholder="415 867 5309"
           placeholderTextColor="#fff5"
           style={{

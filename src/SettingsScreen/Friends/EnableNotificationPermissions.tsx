@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import { Alert, Text, TouchableOpacity } from 'react-native'
+import { Alert, Text, TouchableOpacity, ViewStyle } from 'react-native'
 import OneSignal from 'react-native-onesignal'
 import Feather from 'react-native-vector-icons/Feather'
 
 import { Props } from '../../reducer'
 
-function EnableNotificationPermissions({ setState }: Props) {
+function EnableNotificationPermissions({ setState, style }: Props & { style?: ViewStyle }) {
   useEffect(() => {
     OneSignal.checkPermissions(osLevelPermissions => {
       setState({ notifications_allowed: !!osLevelPermissions.alert })
@@ -36,9 +36,10 @@ function EnableNotificationPermissions({ setState }: Props) {
         marginBottom: 5,
         marginHorizontal: 15,
         paddingVertical: 5,
+        ...style,
       }}
     >
-      <Feather color="#ff5e5eee" name="alert-circle" size={18} style={{ paddingRight: 10 }} />
+      <Feather color="#f8ff70cc" name="alert-circle" size={18} style={{ paddingRight: 10 }} />
       <Text style={{ color: '#fff7', fontSize: 16 }}>Enable notifications</Text>
     </TouchableOpacity>
   )

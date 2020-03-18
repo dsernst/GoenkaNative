@@ -12,21 +12,25 @@ function SetDisplayName({
   acceptedOutgoingFriendRequests,
   backgroundColor,
   incomingFriendRequests,
+  noBorder,
   onesignal_id,
   outgoingFriendRequests,
   rejectedFriendRequests,
   setState,
   user,
-}: Props) {
+}: Props & { noBorder?: boolean }) {
   const [name, setName] = useState('')
 
   return (
-    <View style={{ borderColor: '#f8ff7044', borderRadius: 8, borderWidth: 1, padding: 10 }}>
+    <View
+      style={{ borderColor: '#f8ff7044', borderRadius: 8, borderWidth: noBorder ? 0 : 1, padding: noBorder ? 0 : 10 }}
+    >
       <Text
         style={{
           alignSelf: 'center',
           backgroundColor,
           color: '#fff7',
+          opacity: noBorder ? 0 : 1,
           paddingHorizontal: 10,
           position: 'absolute',
           top: -9,

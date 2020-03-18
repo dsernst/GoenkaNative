@@ -31,6 +31,7 @@ function MainScreen(props: Props) {
     history,
     incomingFriendRequests,
     isEnoughTime,
+    notifications_allowed,
     onlineSits,
     recentlyJoinedContacts,
     setState,
@@ -40,9 +41,8 @@ function MainScreen(props: Props) {
   } = props
 
   const numUnsyncdSits = user ? history.length - onlineSits?.length : 0
-  const missingDisplayName = Number(user && !displayName)
-  const numNotifications =
-    numUnsyncdSits + missingDisplayName + incomingFriendRequests.length + recentlyJoinedContacts.length
+  const friendable = Number(user && (!displayName || !notifications_allowed))
+  const numNotifications = numUnsyncdSits + friendable + incomingFriendRequests.length + recentlyJoinedContacts.length
 
   return (
     <>

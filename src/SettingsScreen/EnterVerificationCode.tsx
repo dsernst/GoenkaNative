@@ -2,12 +2,14 @@ import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 
-const EnterPhone = ({
+const EnterVerificationCode = ({
   confirmation,
+  onFocus,
   setConfirmation,
   unverifiedPhone,
 }: {
   confirmation: FirebaseAuthTypes.ConfirmationResult
+  onFocus?: () => void
   setConfirmation: React.Dispatch<undefined>
   unverifiedPhone: string
 }) => {
@@ -50,6 +52,7 @@ const EnterPhone = ({
             }
           }
         }}
+        onFocus={() => onFocus && onFocus()}
         placeholder="123456"
         placeholderTextColor="#fff5"
         style={{
@@ -95,4 +98,4 @@ function prettyPhoneNumber(phoneNumber: string) {
   )}`
 }
 
-export default EnterPhone
+export default EnterVerificationCode
