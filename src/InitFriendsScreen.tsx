@@ -12,7 +12,8 @@ import TitleBar from './TitleBar'
 
 function InitFriendsScreen(props: Props) {
   const { displayName, notifications_allowed, setState, user } = props
-  if (notifications_allowed || process.env.NODE_ENV === 'development') {
+
+  if (notifications_allowed) {
     setState({ screen: 'MainScreen' })
   }
 
