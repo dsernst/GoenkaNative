@@ -35,7 +35,8 @@ const CheckContactsScreen = (props: Props) => {
         c =>
           filter === '' ||
           c.givenName.toLowerCase().includes(filter.toLowerCase()) ||
-          c.familyName.toLowerCase().includes(filter.toLowerCase()),
+          c.familyName.toLowerCase().includes(filter.toLowerCase()) ||
+          `${c.givenName} ${c.familyName}`.toLowerCase().includes(filter.toLowerCase()),
       )
       .filter(c => c.type === type)
 
