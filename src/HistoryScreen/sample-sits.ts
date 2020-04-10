@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import _ from 'lodash'
 
 const exampleSits = [
   {
@@ -67,20 +68,29 @@ const exampleSits = [
     time: '10:07',
   },
   {
+    daysAgo: 5,
+    duration: 75,
+    time: '3:07',
+  },
+  {
     daysAgo: 6,
     duration: 15,
     time: '8:55',
   },
 ]
 
-const sits = exampleSits.map(s => ({
-  ...s,
-  date: dayjs()
-    .hour(Number(s.time.split(':')[0]))
-    .minute(Number(s.time.split(':')[1]))
-    .subtract(s.daysAgo, 'day')
-    .toDate(),
-  elapsed: s.duration,
-}))
+const sits = _.flatten(
+  _.range(20).map(r =>
+    exampleSits.map(s => ({
+      ...s,
+      date: dayjs()
+        .hour(Number(s.time.split(':')[0]))
+        .minute(Number(s.time.split(':')[1]))
+        .subtract(s.daysAgo + r * 7, 'day')
+        .toDate(),
+      elapsed: s.duration,
+    })),
+  ),
+)
 
 export default sits

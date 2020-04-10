@@ -2,13 +2,12 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import { Props } from '../reducer'
-import calcStreak from './calc-streak'
+import calcStreaks from './calc-streaks'
 
 export default (props: Props) => {
   const { history } = props
   const dates = history.map(h => h.date)
-  const dailyStreak = calcStreak(dates)
-  const twiceADayStreak = calcStreak(dates, 2)
+  const [dailyStreak, twiceADayStreak] = calcStreaks(dates)
 
   return (
     <Text
