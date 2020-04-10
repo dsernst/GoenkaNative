@@ -1,13 +1,16 @@
+import { memoize } from 'lodash'
 import React from 'react'
 import { Text } from 'react-native'
 
 import { Props } from '../reducer'
 import calcStreaks from './calc-streaks'
 
+const calcStreaksMemoized = memoize(calcStreaks)
+
 export default (props: Props) => {
   const { history } = props
   const dates = history.map(h => h.date)
-  const [dailyStreak, twiceADayStreak] = calcStreaks(dates)
+  const [dailyStreak, twiceADayStreak] = calcStreaksMemoized(dates)
 
   return (
     <Text
