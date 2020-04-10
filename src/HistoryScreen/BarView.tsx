@@ -1,10 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs'
 import _ from 'lodash'
 import React, { useState } from 'react'
-import { Dimensions, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 import { Props } from '../reducer'
-import ScrollViewOffset from './ScrollViewOffset'
 
 const cachedGroupBy = _.memoize(_.groupBy)
 type State = string | undefined
@@ -58,6 +57,7 @@ function BarView(props: Props) {
   const barGraphHeight = safeHeight - contentAboveBarView - barTopMargin - xAxisHeight - detailsHeight + 10
 
   const barWidth = { width: 23 }
+  const rangeWidth = barWidth.width + 10
 
   // Calculate which yLabels to show & how to scale the graph vertically
   const maxElapsed = _.reduce(sitsByHalfDay, (memo, sits) => Math.max(memo, _.sum(_.map(sits, 'elapsed'))), 0)
@@ -88,7 +88,7 @@ function BarView(props: Props) {
       </View>
 
       {/* Main bar graph content */}
-      <ScrollViewOffset
+      <FlatList
         contentContainerStyle={{
           alignItems: 'flex-end',
           justifyContent: 'flex-end',
@@ -96,12 +96,13 @@ function BarView(props: Props) {
           paddingRight: 10,
           paddingTop: 7,
         }}
+        data={ranges}
+        getItemLayout={(_data, index) => ({ index, length: rangeWidth, offset: rangeWidth * index })}
         horizontal
         indicatorStyle="white"
-        startAtEnd
-        style={{ marginLeft: 35 }}
-      >
-        {ranges.map((range, index) => (
+        initialScrollIndex={ranges.length - 1}
+        keyExtractor={(_item, index) => String(index)}
+        renderItem={({ index, item: range }) => (
           <View key={index}>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -172,8 +173,9 @@ function BarView(props: Props) {
               )}
             </View>
           </View>
-        ))}
-      </ScrollViewOffset>
+        )}
+        style={{ marginLeft: 35 }}
+      />
 
       {/* Selected date details */}
       {selected && (
