@@ -5,7 +5,7 @@ const firstSitInstructions = async () =>
     Alert.alert(
       'First time instructions:',
       `
-1) Leave the app open to keep the timer running.
+1) You must leave the app open to keep the timer running.
 
 2) Your phone won't auto-lock while the timer is running.
 
