@@ -4,7 +4,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'sort-keys-fix', 'typescript-sort-keys', 'sort-destructure-keys', 'unicorn'],
   root: true,
   rules: {
-    'lines-between-class-members': ['warn'],
+    'lines-between-class-members': ['warn', 'always', { exceptAfterSingleLine: true }],
     'no-alert': ['off'],
     'no-template-curly-in-string': 1,
     'no-warning-comments': [2, { location: 'anywhere', terms: ['nocommit'] }],

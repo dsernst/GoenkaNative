@@ -4,7 +4,7 @@ import { Animated, StatusBar, View, YellowBox } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { connect } from 'react-redux'
 
-import c, { SoundWithDelay } from './clips'
+import c, { SoundPlus } from './clips'
 import firebaseHelper from './firebase-helper'
 import onesignalHelper from './onesignal-helper'
 import { Props, State, Toggleables, setStatePayload } from './reducer'
@@ -41,13 +41,13 @@ function App(props: Props) {
 
   // Play new track
   useEffect(() => {
-    latestTrack?.play()
+    latestTrack?.setVolume(latestTrack.volume).play()
   }, [latestTrack])
 
   // If timing settings changed, check if duration is enough
   useEffect(() => {
     // console.log('Checking if duration is enough')
-    const queue: SoundWithDelay[] = [c.introInstructions, c.closingMetta]
+    const queue: SoundPlus[] = [c.introInstructions, c.closingMetta]
     if (hasChanting) {
       queue.push(c.introChanting, c.closingChanting)
     }

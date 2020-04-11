@@ -1,8 +1,8 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { Animated } from 'react-native'
 import { Contact } from 'react-native-contacts'
-import Sound from 'react-native-sound'
 
+import { SoundPlus } from './clips'
 import { ScreenNames } from './screens'
 
 const INITIAL_SCREEN = 'InitQuestionScreen'
@@ -73,7 +73,7 @@ export interface State extends ToggleableStates {
   historyViewIndex: number
   incomingFriendRequests: FriendRequest[]
   isOldStudent: boolean | null
-  latestTrack: Sound | null
+  latestTrack: SoundPlus | null
   notifications_allowed: boolean
   onesignal_id: string | null
   onlineSits: OnlineSit[]

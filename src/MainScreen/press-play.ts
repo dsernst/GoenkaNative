@@ -58,7 +58,7 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
 
     timeouts.push(
       setTimeout(() => {
-        setState({ latestTrack: c.extendedMetta.setVolume(1) })
+        setState({ latestTrack: c.extendedMetta })
       }, extendedMettaTime),
     )
   }
@@ -67,7 +67,7 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
     // Begin closingChanting so it ends just before metta starts.
     timeouts.push(
       setTimeout(() => {
-        setState({ latestTrack: c.closingChanting.setVolume(0.5) })
+        setState({ latestTrack: c.closingChanting })
       }, extendedMettaTime - c.closingChanting.length * 1000),
     )
   }
@@ -75,7 +75,7 @@ async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, set
   // Begin closingClip so it ends when countdown hits zero.
   timeouts.push(
     setTimeout(() => {
-      setState({ latestTrack: closingClip.setVolume(0.4) })
+      setState({ latestTrack: closingClip })
     }, closingClipTime),
   )
   setState({ timeouts })
