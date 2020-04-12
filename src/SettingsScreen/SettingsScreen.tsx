@@ -55,7 +55,7 @@ const SettingsScreen = (props: Props) => {
         <Section
           badgeNumber={user ? history.length - onlineSits?.length : 0}
           Content={Sync}
-          description="Backup your sit history to the cloud, in case you lose your device, etc."
+          description="Sync your sit history to the cloud, in case you lose your device."
           icon={{ Set: Octicons, name: 'sync', size: 19 }}
           requiresLogin
           title="Backup your sit history"
