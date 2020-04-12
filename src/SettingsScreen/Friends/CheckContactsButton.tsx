@@ -113,7 +113,7 @@ function CheckContactsButton({
         }}
       >
         <AntDesign color="#fff9" name="contacts" size={18} style={{ paddingRight: 10 }} />
-        <Text style={{ color: '#fffb', fontSize: 16 }}>Check phone contacts</Text>
+        <Text style={{ color: '#fffb', fontSize: 16 }}>Search phone contacts</Text>
       </TouchableOpacity>
 
       {loading && (
