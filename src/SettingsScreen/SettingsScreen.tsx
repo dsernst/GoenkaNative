@@ -45,7 +45,7 @@ const SettingsScreen = (props: Props) => {
             recentlyJoinedContacts.length
           }
           Content={Friends}
-          description="Get notified when friends complete a sit."
+          description="Notify friends when either of you complete a sit."
           icon={{ Set: Ionicons, name: 'ios-people', size: 23 }}
           requiresLogin
           startExpandedKey="expandFriendsSection"
