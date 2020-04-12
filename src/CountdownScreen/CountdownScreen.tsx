@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Platform, StatusBar, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import OneSignal from 'react-native-onesignal'
+import SystemSetting from 'react-native-system-setting'
 
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
@@ -25,11 +26,21 @@ function CountdownScreen(props: Props) {
     user,
   } = props
   const [hideStatusBar, setHideStatusBar] = useState(true)
+  const [wasAirplaneModeOnAtFinish, setWasAirplaneModeOnAtFinish] = useState(false)
 
   const friendsToNotify = [
     ...acceptedIncomingFriendRequests.filter(ifr => ifr.from_wants_notifs).map(ifr => ifr.from_onesignal_id),
     ...acceptedOutgoingFriendRequests.filter(ifr => ifr.to_wants_notifs).map(ofr => ofr.to_onesignal_id),
   ]
+
+  const sendFriendNotification = () =>
+    OneSignal.postNotification(
+      {
+        en: `Your friend ${displayName} just finished a ${duration} minute sit 🙂`,
+      },
+      {},
+      friendsToNotify,
+    )
 
   return (
     <>
@@ -45,20 +56,20 @@ function CountdownScreen(props: Props) {
               duration={duration}
               labelStyle={{ color: '#fff3', fontSize: 18 }}
               minutes
-              onTimeFinished={() => {
+              onTimeFinished={async () => {
                 toggle('finished')()
                 console.log('...Attempting to autoSync completed sit')
                 if (!user) {
                   return console.log('  Not logged in.')
                 }
 
-                OneSignal.postNotification(
-                  {
-                    en: `Your friend ${displayName} just finished a ${duration} minute sit 🙂`,
-                  },
-                  {},
-                  friendsToNotify,
-                )
+                // Check if airplane mode is activated
+                const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
+                if (!airplaneEnabled) {
+                  sendFriendNotification()
+                } else {
+                  setWasAirplaneModeOnAtFinish(true)
+                }
 
                 if (!autoSyncCompletedSits) {
                   return console.log('  AutoSync disabled.')
