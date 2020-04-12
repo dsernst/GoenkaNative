@@ -1,7 +1,7 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
-import { Platform, StatusBar, TouchableWithoutFeedback, View } from 'react-native'
+import { Platform, StatusBar, Text, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import OneSignal from 'react-native-onesignal'
 import SystemSetting from 'react-native-system-setting'
@@ -96,7 +96,15 @@ function CountdownScreen(props: Props) {
               textStyle={{ color: '#fffc', fontSize: 40 }}
             />
           ) : (
-            <BeHappyText />
+            <>
+              <BeHappyText />
+              {wasAirplaneModeOnAtFinish && (
+                <Text style={{ color: '#E5883977', fontSize: 18, fontStyle: 'italic', textAlign: 'center', top: 180 }}>
+                  <Text style={{ fontWeight: '600' }}>Airplane mode:</Text>
+                  {'\n'} couldn't send Friend Notification
+                </Text>
+              )}
+            </>
           )}
         </View>
       </TouchableWithoutFeedback>
