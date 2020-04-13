@@ -1,7 +1,7 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
-import { Platform, StatusBar, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { Platform, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import OneSignal from 'react-native-onesignal'
 import SystemSetting from 'react-native-system-setting'
@@ -27,6 +27,7 @@ function CountdownScreen(props: Props) {
   } = props
   const [hideStatusBar, setHideStatusBar] = useState(true)
   const [wasAirplaneModeOnAtFinish, setWasAirplaneModeOnAtFinish] = useState(false)
+  const [checkingAirplaneMode, setCheckingAirplaneMode] = useState(false)
 
   const friendsToNotify = [
     ...acceptedIncomingFriendRequests.filter(ifr => ifr.from_wants_notifs).map(ifr => ifr.from_onesignal_id),
@@ -99,16 +100,44 @@ function CountdownScreen(props: Props) {
             <>
               <BeHappyText />
               {wasAirplaneModeOnAtFinish && (
-                <Text style={{ color: '#E5883977', fontSize: 18, fontStyle: 'italic', textAlign: 'center', top: 180 }}>
-                  <Text style={{ fontWeight: '600' }}>Airplane mode:</Text>
-                  {'\n'} couldn't send Friend Notification
-                </Text>
+                <TouchableOpacity
+                  onPress={async () => {
+                    // Check if airplane mode was switched off
+                    setCheckingAirplaneMode(true)
+                    const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
+                    if (!airplaneEnabled) {
+                      sendFriendNotification()
+                      setWasAirplaneModeOnAtFinish(false)
+                    }
+                    setCheckingAirplaneMode(false)
+                  }}
+                >
+                  <Text
+                    style={{ color: '#E5883977', fontSize: 18, fontStyle: 'italic', textAlign: 'center', top: 180 }}
+                  >
+                    <Text style={{ fontWeight: '600' }}>Airplane mode:</Text>
+                    {'\n'} {checkingAirplaneMode ? 'checking...' : "couldn't send Friend Notification"}
+                  </Text>
+                </TouchableOpacity>
               )}
             </>
           )}
         </View>
       </TouchableWithoutFeedback>
-      <BackButton onPress={() => pressStop(props)} text={finished ? 'Back' : 'Stop'} />
+      <BackButton
+        onPress={async () => {
+          if (wasAirplaneModeOnAtFinish) {
+            // Try sending FriendNotif again
+            const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
+            if (!airplaneEnabled) {
+              sendFriendNotification()
+            }
+          }
+
+          pressStop(props)
+        }}
+        text={finished ? 'Back' : 'Stop'}
+      />
     </>
   )
 }
