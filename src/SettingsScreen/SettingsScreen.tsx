@@ -7,6 +7,7 @@ import Octicons from 'react-native-vector-icons/Octicons'
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import TitleBar from '../TitleBar'
+import AirplaneMode from './AirplaneMode'
 import AuthedInfo from './AuthedInfo'
 import DailyNotificationSettings from './DailyNotifications'
 import Friends from './Friends/Friends'
@@ -59,6 +60,13 @@ const SettingsScreen = (props: Props) => {
           icon={{ Set: Octicons, name: 'sync', size: 19 }}
           requiresLogin
           title="Backup your sit history"
+        />
+
+        <Section
+          Content={AirplaneMode}
+          description="Can help block incoming distractions."
+          icon={{ Set: Ionicons, name: 'md-airplane', size: 19 }}
+          title="Airplane mode"
         />
 
         <MoreInfoSection />

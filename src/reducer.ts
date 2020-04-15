@@ -46,6 +46,7 @@ export type RecentlyJoinedContact = ContactDoc & {
 }
 
 type ToggleableStates = {
+  airplaneModeReminder?: boolean
   amNotification: boolean
   autoSyncCompletedSits: boolean
   finished: boolean

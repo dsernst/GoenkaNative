@@ -39,6 +39,7 @@ const store = createStore(
         'isOldStudent',
         'displayName',
         'notifications_allowed',
+        'airplaneModeReminder',
       ],
     },
     reducer,

@@ -1,10 +1,31 @@
-import { Animated, Easing } from 'react-native'
+import { Alert, Animated, Easing } from 'react-native'
+import SystemSetting from 'react-native-system-setting'
 
 import c from '../clips'
 import { Props } from '../reducer'
 import firstSitInstructions from './first-sit-instruction'
 
-async function pressPlay({ duration, hasChanting, hasExtendedMetta, history, setState, titleOpacity }: Props) {
+async function pressPlay({
+  airplaneModeReminder,
+  duration,
+  hasChanting,
+  hasExtendedMetta,
+  history,
+  setState,
+  titleOpacity,
+}: Props) {
+  // Reminder to turn on Airplane mode, if requested
+  if (airplaneModeReminder) {
+    const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
+    if (!airplaneEnabled) {
+      await new Promise(resolve =>
+        Alert.alert('Airplane mode reminder', undefined, [
+          { onPress: () => resolve(), style: 'cancel', text: 'Continue' },
+        ]),
+      )
+    }
+  }
+
   // Show instructions if this is their first sit
   if (!history.length) {
     await firstSitInstructions()
