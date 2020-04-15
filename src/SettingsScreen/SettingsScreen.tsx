@@ -33,6 +33,22 @@ const SettingsScreen = (props: Props) => {
         {user && <AuthedInfo {...props} user={user} />}
 
         <Section
+          Content={AirplaneMode}
+          description="Can help block incoming distractions."
+          icon={{ Set: Ionicons, name: 'md-airplane', size: 19 }}
+          title="Airplane mode"
+        />
+
+        <Section
+          badgeNumber={user ? history.length - onlineSits?.length : 0}
+          Content={Sync}
+          description="Sync your sit history to the cloud, in case you lose your device."
+          icon={{ Set: Octicons, name: 'sync', size: 19 }}
+          requiresLogin
+          title="Backup your sit history"
+        />
+
+        <Section
           Content={DailyNotificationSettings}
           description="Turn on daily reminders to sit."
           icon={{ Set: Entypo, name: 'notification', size: 17 }}
@@ -51,22 +67,6 @@ const SettingsScreen = (props: Props) => {
           requiresLogin
           startExpandedKey="expandFriendsSection"
           title="Friend notifications"
-        />
-
-        <Section
-          badgeNumber={user ? history.length - onlineSits?.length : 0}
-          Content={Sync}
-          description="Sync your sit history to the cloud, in case you lose your device."
-          icon={{ Set: Octicons, name: 'sync', size: 19 }}
-          requiresLogin
-          title="Backup your sit history"
-        />
-
-        <Section
-          Content={AirplaneMode}
-          description="Can help block incoming distractions."
-          icon={{ Set: Ionicons, name: 'md-airplane', size: 19 }}
-          title="Airplane mode"
         />
 
         <MoreInfoSection />
