@@ -63,6 +63,7 @@ export type ContactWithType = Contact & { checking?: boolean; display_name?: str
 export interface State extends ToggleableStates {
   acceptedIncomingFriendRequests: FriendRequest[]
   acceptedOutgoingFriendRequests: FriendRequest[]
+  airplaneModeReminderOpacity: Animated.Value
   amNotificationTime: Date
   backgroundColor: string
   contacts?: ContactWithType[]
@@ -102,6 +103,7 @@ export interface Props extends State {
 const initialState: State = {
   acceptedIncomingFriendRequests: [],
   acceptedOutgoingFriendRequests: [],
+  airplaneModeReminderOpacity: new Animated.Value(0),
   amNotification: false,
   amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
   autoSyncCompletedSits: true,

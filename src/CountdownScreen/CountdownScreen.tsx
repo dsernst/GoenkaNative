@@ -1,7 +1,7 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
-import { Platform, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Animated, Platform, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import OneSignal from 'react-native-onesignal'
 import SystemSetting from 'react-native-system-setting'
@@ -16,6 +16,7 @@ function CountdownScreen(props: Props) {
   const {
     acceptedIncomingFriendRequests,
     acceptedOutgoingFriendRequests,
+    airplaneModeReminderOpacity,
     autoSyncCompletedSits,
     displayName,
     duration,
@@ -49,51 +50,67 @@ function CountdownScreen(props: Props) {
       <TouchableWithoutFeedback onPressIn={() => setHideStatusBar(false)} onPressOut={() => setHideStatusBar(true)}>
         <View style={{ alignItems: 'center', marginTop: 80 }}>
           {!finished ? (
-            <CountdownCircle
-              bgColor="#001709"
-              borderWidth={4}
-              color="#0a2013"
-              duration={duration}
-              labelStyle={{ color: '#fff3', fontSize: 18 }}
-              minutes
-              onTimeFinished={async () => {
-                toggle('finished')()
-                console.log('...Attempting to autoSync completed sit')
-                if (!user) {
-                  return console.log('  Not logged in.')
-                }
+            <>
+              <CountdownCircle
+                bgColor="#001709"
+                borderWidth={4}
+                color="#0a2013"
+                duration={duration}
+                labelStyle={{ color: '#fff3', fontSize: 18 }}
+                minutes
+                onTimeFinished={async () => {
+                  toggle('finished')()
+                  console.log('...Attempting to autoSync completed sit')
+                  if (!user) {
+                    return console.log('  Not logged in.')
+                  }
 
-                // Check if airplane mode is activated
-                const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
-                setIsAirplaneModeOn(airplaneEnabled)
-                if (!airplaneEnabled) {
-                  sendFriendNotification()
-                }
+                  // Check if airplane mode is activated
+                  const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
+                  setIsAirplaneModeOn(airplaneEnabled)
+                  if (!airplaneEnabled) {
+                    sendFriendNotification()
+                  }
 
-                if (!autoSyncCompletedSits) {
-                  return console.log('  AutoSync disabled.')
-                }
-                setTimeout(async () => {
-                  await firestore()
-                    .collection('sits')
-                    .add({ ...history[0], user_id: user.uid, user_phone: user.phoneNumber })
-                  console.log('⬆️  Autosync complete.')
-                }, 500)
+                  if (!autoSyncCompletedSits) {
+                    return console.log('  AutoSync disabled.')
+                  }
+                  setTimeout(async () => {
+                    await firestore()
+                      .collection('sits')
+                      .add({ ...history[0], user_id: user.uid, user_phone: user.phoneNumber })
+                    console.log('⬆️  Autosync complete.')
+                  }, 500)
 
-                // Clear Notification Center reminders
-                if (Platform.OS === 'ios') {
-                  PushNotificationIOS.removeAllDeliveredNotifications()
-                }
-              }}
-              onTimeInterval={(elapsed: number) => {
-                const newHistory = [...history]
-                newHistory[0].elapsed = elapsed
-                setState({ history: newHistory })
-              }}
-              radius={80}
-              shadowColor="#001709"
-              textStyle={{ color: '#fffc', fontSize: 40 }}
-            />
+                  // Clear Notification Center reminders
+                  if (Platform.OS === 'ios') {
+                    PushNotificationIOS.removeAllDeliveredNotifications()
+                  }
+                }}
+                onTimeInterval={(elapsed: number) => {
+                  const newHistory = [...history]
+                  newHistory[0].elapsed = elapsed
+                  setState({ history: newHistory })
+                }}
+                radius={80}
+                shadowColor="#001709"
+                textStyle={{ color: '#fffc', fontSize: 40 }}
+              />
+
+              {/* Airplane Mode reminder  */}
+              <Animated.Text
+                style={{
+                  color: '#E58839',
+                  fontSize: 18,
+                  fontStyle: 'italic',
+                  fontWeight: '600',
+                  marginTop: 80,
+                  opacity: airplaneModeReminderOpacity,
+                }}
+              >
+                Airplane mode reminder
+              </Animated.Text>
+            </>
           ) : (
             <>
               <BeHappyText />
