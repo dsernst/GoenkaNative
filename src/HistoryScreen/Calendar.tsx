@@ -77,7 +77,7 @@ function Calendar(props: Props) {
       {/* Header Row: days of week */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 10 }}>
         {'SMTWTFS'.split('').map((letter, index) => (
-          <Text key={index} style={{ color: '#fff6' }}>
+          <Text key={index} style={{ color: '#fff6', textAlign: 'center', width: cellWidth }}>
             {letter}
           </Text>
         ))}
