@@ -57,6 +57,9 @@ function DailyNotificationSettings(props: Props) {
           repeatType: 'day',
           soundName: 'templebell.mp3',
           title: `${dayjs(time).format('h[:]mma')} sit`,
+          largeIcon: "ic_stat_ic_launcher", 
+          smallIcon: "ic_stat_ic_launcher", 
+          color: "yellow",
         })
       }
     })
