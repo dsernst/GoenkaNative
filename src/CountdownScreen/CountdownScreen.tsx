@@ -128,7 +128,7 @@ function CountdownScreen(props: Props) {
                 >
                   <Text style={{ color: '#E5883977', fontStyle: 'italic', padding: 20, textAlign: 'center' }}>
                     <Text style={{ fontSize: 18, fontWeight: '600' }}>
-                      Airplane mode: {isAirplaneModeOn ? 'on' : 'off'}
+                      Airplane mode {isAirplaneModeOn ? 'on' : 'off'}
                     </Text>
                     {'\n'} Tap to retry sending Friend Notification
                   </Text>
