@@ -25,8 +25,11 @@ function calcNext(date: Date) {
 
   // 2) IF nextNotifTime date is < right now
   if (nextNotificationTime.isBefore(now)) {
-    //  THEN add 1day to NotifTime
-    nextNotificationTime = nextNotificationTime.add(1, 'day')
+    // add days until we are ahead of now
+    let dayDifference = now.toDate().getTime() - nextNotificationTime.toDate().getTime();
+    let daysToAdd = Math.ceil(dayDifference / (1000 * 60 * 60 * 24));
+
+    nextNotificationTime = nextNotificationTime.add(daysToAdd, 'day')
   }
 
   return nextNotificationTime.toDate()
