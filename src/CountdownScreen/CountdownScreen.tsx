@@ -21,6 +21,8 @@ function CountdownScreen(props: Props) {
     displayName,
     duration,
     finished,
+    hasChanting,
+    hasExtendedMetta,
     history,
     setState,
     toggle,
@@ -34,10 +36,18 @@ function CountdownScreen(props: Props) {
     ...acceptedOutgoingFriendRequests.filter(ifr => ifr.to_wants_notifs).map(ofr => ofr.to_onesignal_id),
   ]
 
+  const settingsString = hasExtendedMetta
+    ? hasChanting
+      ? 'with chanting & extended mettā '
+      : 'with extended mettā '
+    : hasChanting
+    ? 'with chanting '
+    : ''
+
   const sendFriendNotification = () =>
     OneSignal.postNotification(
       {
-        en: `Your friend ${displayName} just finished a ${duration} minute sit 🙂`,
+        en: `Your friend ${displayName} just finished a ${duration} minute sit ${settingsString}🙂`,
       },
       {},
       friendsToNotify,
