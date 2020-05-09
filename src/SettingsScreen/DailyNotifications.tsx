@@ -19,9 +19,9 @@ function calcNext(date: Date) {
 
   // 1) set nextNotifTime date to today
   let nextNotificationTime = dayjs(date)
-    .set('year', now.get('year'))
-    .set('month', now.get('month'))
-    .set('date', now.get('date'))
+    .year(now.year())
+    .month(now.month())
+    .date(now.date())
 
   // 2) IF nextNotifTime date is < right now
   if (nextNotificationTime.isBefore(now)) {
