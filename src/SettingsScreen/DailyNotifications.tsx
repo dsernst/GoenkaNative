@@ -52,14 +52,14 @@ function DailyNotificationSettings(props: Props) {
     notificationTuple.forEach(([isOn, time]) => {
       if (isOn) {
         PushNotification.localNotificationSchedule({
+          color: 'yellow',
           date: time,
+          largeIcon: 'ic_stat_ic_launcher',
           message: 'Awareness & Equanimity',
           repeatType: 'day',
+          smallIcon: 'ic_stat_ic_launcher',
           soundName: 'templebell.mp3',
           title: `${dayjs(time).format('h[:]mma')} sit`,
-          largeIcon: "ic_stat_ic_launcher", 
-          smallIcon: "ic_stat_ic_launcher", 
-          color: "yellow",
         })
       }
     })
