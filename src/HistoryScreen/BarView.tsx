@@ -112,7 +112,7 @@ function BarView(props: Props) {
                 justifyContent: 'flex-end',
                 minHeight: barGraphHeight,
                 paddingLeft: index % 2 ? 2 : 8,
-                paddingRight: index % 2 ? 7 : 2,
+                paddingRight: index % 2 ? 7 : 3,
               }}
             >
               {sitsByHalfDay[range]?.filter(sit => sit.elapsed).length ? (
