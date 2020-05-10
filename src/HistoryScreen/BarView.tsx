@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Dimensions, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 import { Props } from '../reducer'
+import EmptyBarRange from './EmptyBarRange'
 
 const cachedGroupBy = _.memoize(_.groupBy)
 type State = string | undefined
@@ -133,18 +134,7 @@ function BarView(props: Props) {
                   />
                 ))
               ) : (
-                // Empty range
-                <View
-                  style={[
-                    barWidth,
-                    range === selected && {
-                      borderColor: range[range.length - 2] === 'a' ? morningYellow : eveningPurple,
-                      borderStyle: 'dashed',
-                      borderWidth: 1,
-                      marginBottom: -2,
-                    },
-                  ]}
-                />
+                <EmptyBarRange {...{ barWidth, eveningPurple, morningYellow, range, selected }} />
               )}
             </TouchableOpacity>
 
