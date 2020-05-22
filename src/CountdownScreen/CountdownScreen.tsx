@@ -134,13 +134,22 @@ function CountdownScreen(props: Props) {
                       sendFriendNotification()
                     }
                   }}
-                  style={{ borderColor: '#fff1', borderRadius: 4, borderWidth: 1, top: 100 }}
+                  style={{ borderColor: '#fff1', borderRadius: 5, borderWidth: 1, top: 100 }}
                 >
-                  <Text style={{ color: '#E5883977', fontStyle: 'italic', padding: 20, textAlign: 'center' }}>
-                    <Text style={{ fontSize: 18, fontWeight: '600' }}>
-                      Airplane mode {isAirplaneModeOn ? 'on' : 'off'}
+                  <Text
+                    style={{
+                      color: '#E5883977',
+                      fontSize: 15,
+                      fontStyle: 'italic',
+                      fontWeight: '700',
+                      padding: 20,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Text style={{ fontSize: 13, fontWeight: '400' }}>
+                      Airplane mode: &nbsp;Can't send Friend Notification
                     </Text>
-                    {'\n'} Tap to retry sending Friend Notification
+                    {'\n\n'} Tap to retry
                   </Text>
                 </TouchableOpacity>
               )}
