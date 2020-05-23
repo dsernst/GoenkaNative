@@ -73,3 +73,4 @@ android/google-upload-key
 # Manually added
 goenkatimer-firebase-adminsdk-2lqcs-f9c0d551b4.json
 firebase.ts
+db-data/*.json
