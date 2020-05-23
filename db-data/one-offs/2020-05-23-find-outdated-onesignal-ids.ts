@@ -24,3 +24,5 @@ friendRequests.forEach(fR => {
     console.log('user', usersByPhone[fR.to_phone])
   }
 })
+
+console.log('\nDone.')

@@ -5,12 +5,12 @@ import path from 'path'
 
 import admin, { firestore } from 'firebase-admin'
 
-console.log('Connecting to Firebase...')
+console.log('🔌 Connecting to Firebase...')
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
   databaseURL: 'https://goenkatimer.firebaseio.com',
 })
-console.log('Connected.')
+console.log('🔥 Connected.')
 
 // Download all Firebase data to JSON files
 type DirectionStr = 'desc' | 'asc'
@@ -20,15 +20,17 @@ const collectionsToDownload: [string, string?, DirectionStr?][] = [
   // ['sits', 'date', 'desc'],
 ]
 collectionsToDownload.forEach(async ([collection, orderKey, desc]) => {
-  console.log(`Downloading ${collection}...`)
+  console.log(`  ⬇️ Downloading ${collection}...`)
 
   let query: firestore.Query = firestore().collection(collection)
 
+  // Apply optional orderBy()
   if (orderKey) {
     query = query.orderBy(orderKey, desc)
   }
 
   const data = (await query.get()).docs.map((doc: any) => ({ id: doc.id, ...doc.data() }))
+
   fs.writeFileSync(path.join(__dirname, `/${collection}.json`), JSON.stringify(data))
-  console.log(`Wrote ${data.length} rows to ${collection}.json`)
+  console.log(`  ✅ Wrote ${data.length} rows to ${collection}.json\n`)
 })
