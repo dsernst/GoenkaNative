@@ -24,7 +24,7 @@ const SitRow = ({
     <View style={{ alignItems: 'center', flexDirection: 'row', height: ITEM_HEIGHT, paddingHorizontal: 24 }}>
       {/* day label */}
       <View style={{ alignItems: 'flex-end', marginRight: 10, width: 90 }}>
-        <Faded>{dayLabel(i.date, index, history, alwaysShowDayLabel)}</Faded>
+        {dayLabel(i.date, index, history, alwaysShowDayLabel)}
       </View>
 
       {/* sit details */}
@@ -83,31 +83,59 @@ const SitRow = ({
 }
 
 function dayLabel(date: Date, index: number, history: any, alwaysShow?: boolean) {
-  // Only show label for first item of a particular day
-  if (!alwaysShow && index > 0 && history[index - 1].date.getDate() === date.getDate()) {
-    return ''
+  // Don't show label if not first item of a particular day
+  if (!alwaysShow && index > 0 && date.getDate() === history[index - 1].date.getDate()) {
+    return
   }
+
+  let label: string
+  let showDayOfWeekName = false
 
   if (
     dayjs()
       .startOf('day')
       .isBefore(date)
   ) {
-    return 'today'
-  }
-
-  if (
+    label = 'today'
+  } else if (
     dayjs()
       .subtract(1, 'day')
       .startOf('day')
       .isBefore(date)
   ) {
-    return 'yesterday'
+    label = 'yesterday'
+  } else {
+    const daysAgo = dayjs()
+      .startOf('day')
+      .diff(dayjs(date).startOf('day'), 'day')
+
+    label = `${daysAgo} days ago`
+
+    // Show occasional subtle day-of-week name
+    if (
+      // Not on Sync screen
+      !alwaysShow &&
+      // Only once every 3 days
+      !(daysAgo % 3) &&
+      // Only show if next sit is also same day
+      // ie: avoid one-sit-only days
+      index < history.length &&
+      date.getDate() === history[index + 1].date.getDate()
+    ) {
+      showDayOfWeekName = true
+    }
   }
 
-  return `${dayjs()
-    .startOf('day')
-    .diff(dayjs(date).startOf('day'), 'day')} days ago`
+  return (
+    <View>
+      <Text style={{ color: '#fff8', fontWeight: '400' }}>{label}</Text>
+      {showDayOfWeekName && (
+        <Text style={{ color: '#fff2', fontWeight: '400', position: 'absolute', top: 15 }}>
+          {dayjs(date).format('ddd')}
+        </Text>
+      )}
+    </View>
+  )
 }
 
 export default SitRow
