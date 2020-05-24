@@ -7,6 +7,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { Props } from '../reducer'
+import scheduleNotification from './notification'
 
 type TimeKeys = 'morning' | 'evening'
 
@@ -51,16 +52,7 @@ function DailyNotificationSettings(props: Props) {
     ]
     notificationTuple.forEach(([isOn, time]) => {
       if (isOn) {
-        PushNotification.localNotificationSchedule({
-          color: 'yellow',
-          date: time,
-          largeIcon: 'ic_stat_ic_launcher',
-          message: 'Awareness & Equanimity',
-          repeatType: 'day',
-          smallIcon: 'ic_stat_ic_launcher',
-          soundName: 'templebell.mp3',
-          title: `${dayjs(time).format('h[:]mma')} sit`,
-        })
+        scheduleNotification(time)
       }
     })
   }, [amNotification, pmNotification, amNotificationTime, pmNotificationTime])

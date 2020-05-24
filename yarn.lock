@@ -1281,10 +1281,17 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-plugin/-/eslint-plugin-1.0.0.tgz#ae9a430f2c5795debca491f15a989fce86ea75a0"
   integrity sha512-GLhSN8dRt4lpixPQh+8prSCy6PYk/MT/mvji/ojAd5yshowDo6HFsimCSTD/uWAdjpUq91XK9tVdTNWfGRlKQA==
 
-"@react-native-community/push-notification-ios@^1.0.1", "@react-native-community/push-notification-ios@^1.0.5":
+"@react-native-community/push-notification-ios@^1.0.1":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.0.5.tgz#3ad68ea6612875db5c3934dfdc865ebe51606ef3"
   integrity sha512-4JO5XjmzD4EoReHVxMOYni03Twwuq39oyAIk2U62oIjkIE23tTBblC2KC2IS/iadRyJTg7MQ0LtBat2zse9WQg==
+  dependencies:
+    invariant "^2.2.4"
+
+"@react-native-community/push-notification-ios@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.2.0.tgz#3353598450a39c42d079603aad2d1c0f9c2c1729"
+  integrity sha512-B5qPb9P/6vvxGGQDePlK/q6NxoZPWSVFtKCQ9jlboP7gNZmf3AAyBhTzrb++s2NSXXogjkGi6vt9df1ipZiawQ==
   dependencies:
     invariant "^2.2.4"
 
