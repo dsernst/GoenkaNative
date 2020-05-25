@@ -1,7 +1,16 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
-import { Animated, Platform, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import {
+  Alert,
+  Animated,
+  Platform,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import OneSignal from 'react-native-onesignal'
 import SystemSetting from 'react-native-system-setting'
@@ -44,7 +53,14 @@ function CountdownScreen(props: Props) {
     ? 'with chanting '
     : ''
 
-  const sendFriendNotification = () =>
+  const sendFriendNotification = () => {
+    if (!displayName) {
+      return Alert.alert(
+        "Can't send Friend Notification",
+        'You need to set a Display Name first. Go to Settings Screen -> Friends section 🙂 ',
+      )
+    }
+
     OneSignal.postNotification(
       {
         en: `Your friend ${displayName} just finished a ${duration} minute sit ${settingsString}🙂`,
@@ -52,6 +68,7 @@ function CountdownScreen(props: Props) {
       {},
       friendsToNotify,
     )
+  }
 
   return (
     <>
