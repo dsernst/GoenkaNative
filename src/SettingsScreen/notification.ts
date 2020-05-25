@@ -14,6 +14,9 @@ export default function setDailyNotifications(
 ) {
   console.log('📆 Updating local notifications')
 
+  // Clear old notifications
+  PushNotification.cancelAllLocalNotifications()
+
   // Did we already sit today?
   const numSitsToday = history.filter(sit => dayjs().isSame(dayjs(sit.date), 'day')).length
   const dailyGoal = amNotification ? 2 : 1

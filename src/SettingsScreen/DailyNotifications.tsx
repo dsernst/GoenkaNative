@@ -18,9 +18,6 @@ function DailyNotificationSettings(props: Props) {
 
   // Reset local notifications if settings were adjusted
   useEffect(() => {
-    // Clear old notifications
-    PushNotification.cancelAllLocalNotifications()
-
     setDailyNotifications(amNotification, amNotificationTime, pmNotification, pmNotificationTime, history)
   }, [amNotification, pmNotification, amNotificationTime, pmNotificationTime, history])
 
