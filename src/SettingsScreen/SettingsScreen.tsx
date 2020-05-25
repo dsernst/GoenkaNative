@@ -50,7 +50,7 @@ const SettingsScreen = (props: Props) => {
 
         <Section
           Content={DailyNotificationSettings}
-          description="Turn on daily reminders to sit."
+          description="Daily reminders to sit. Only shown if you haven't sat yet."
           icon={{ Set: Entypo, name: 'notification', size: 17 }}
           title="Daily notifications"
         />
