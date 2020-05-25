@@ -7,55 +7,22 @@ import FeatherIcon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { Props } from '../reducer'
-import scheduleNotification from './notification'
+import setDailyNotifications from './notification'
 
 type TimeKeys = 'morning' | 'evening'
 
-function calcNext(date: Date) {
-  // Make sure we are only setting notifications for dates in the future,
-  // to avoid Android going crazy showing backlogged notifications.
-  // see: https://github.com/zo0r/react-native-push-notification/issues/374#issuecomment-396089990
-
-  const now = dayjs()
-
-  // 1) set nextNotifTime date to today
-  let nextNotificationTime = dayjs(date)
-    .year(now.year())
-    .month(now.month())
-    .date(now.date())
-
-  // 2) IF nextNotifTime date is < right now
-  if (nextNotificationTime.isBefore(now)) {
-    //  THEN add 1day to NotifTime
-    nextNotificationTime = nextNotificationTime.add(1, 'day')
-  }
-
-  return nextNotificationTime.toDate()
-}
-
 function DailyNotificationSettings(props: Props) {
-  const { amNotification, amNotificationTime, pmNotification, pmNotificationTime, setState } = props
+  const { amNotification, amNotificationTime, history, pmNotification, pmNotificationTime, setState } = props
   const [amPickerVisible, setAmPickerVisible] = useState(false)
   const [pmPickerVisible, setPmPickerVisible] = useState(false)
 
   // Reset local notifications if settings were adjusted
   useEffect(() => {
-    console.log('📆 Updating local notifications')
-
     // Clear old notifications
     PushNotification.cancelAllLocalNotifications()
 
-    // Set new notifications
-    const notificationTuple: [boolean, Date][] = [
-      [amNotification, calcNext(amNotificationTime)],
-      [pmNotification, calcNext(pmNotificationTime)],
-    ]
-    notificationTuple.forEach(([isOn, time]) => {
-      if (isOn) {
-        scheduleNotification(time)
-      }
-    })
-  }, [amNotification, pmNotification, amNotificationTime, pmNotificationTime])
+    setDailyNotifications(amNotification, amNotificationTime, pmNotification, pmNotificationTime, history)
+  }, [amNotification, pmNotification, amNotificationTime, pmNotificationTime, history])
 
   async function toggleNotification(key: TimeKeys) {
     // Check iOS notification permissions

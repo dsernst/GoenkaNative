@@ -3,15 +3,20 @@ import SystemSetting from 'react-native-system-setting'
 
 import c from '../clips'
 import { Props } from '../reducer'
+import setDailyNotifications from '../SettingsScreen/notification'
 import firstSitInstructions from './first-sit-instruction'
 
 async function pressPlay({
   airplaneModeReminder,
   airplaneModeReminderOpacity,
+  amNotification,
+  amNotificationTime,
   duration,
   hasChanting,
   hasExtendedMetta,
   history,
+  pmNotification,
+  pmNotificationTime,
   setState,
   titleOpacity,
 }: Props) {
@@ -42,9 +47,10 @@ async function pressPlay({
   }).start()
 
   // Add to history
-  setState({
-    history: [{ date: new Date(), duration: duration, elapsed: 0, hasChanting, hasExtendedMetta }, ...history],
-  })
+  const newHistory = [{ date: new Date(), duration: duration, elapsed: 0, hasChanting, hasExtendedMetta }, ...history]
+  setState({ history: newHistory })
+  // Update daily notifications
+  setDailyNotifications(amNotification, amNotificationTime, pmNotification, pmNotificationTime, newHistory)
 
   if (hasChanting) {
     // Begin introChanting
