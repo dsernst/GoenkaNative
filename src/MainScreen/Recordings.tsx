@@ -8,7 +8,7 @@ import { SoundPlus, load } from '../clips'
 import { Props } from '../reducer'
 import pressPlay from './press-play'
 
-type Metadata = { data: Recording[]; title: string }[]
+type Metadata = { data: Recording[]; for_new_students?: boolean; title: string }[]
 
 export type Recording = {
   description?: string
@@ -37,8 +37,10 @@ export default function Recordings(props: Props) {
           data: section.data.map((item, iIndex) => ({ ...item, iIndex, sIndex })),
         })),
       )
+      // Filter out old student content
+      .then(json => json.filter(section => section.for_new_students || props.isOldStudent))
       .then(setMetadata)
-  }, [])
+  }, [props.isOldStudent])
 
   return (
     <>
