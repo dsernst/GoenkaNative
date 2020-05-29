@@ -76,6 +76,7 @@ export interface State extends ToggleableStates {
   incomingFriendRequests: FriendRequest[]
   isOldStudent: boolean | null
   latestTrack: SoundPlus | null
+  mainScreenSwitcherIndex: number
   notifications_allowed: boolean
   onesignal_id: string | null
   onlineSits: OnlineSit[]
@@ -120,6 +121,7 @@ const initialState: State = {
   isEnoughTime: true,
   isOldStudent: null,
   latestTrack: null,
+  mainScreenSwitcherIndex: 0,
   notifications_allowed: false,
   onesignal_id: null,
   onlineSits: [],
