@@ -40,6 +40,7 @@ const store = createStore(
         'displayName',
         'notifications_allowed',
         'airplaneModeReminder',
+        'mainScreenSwitcherIndex',
       ],
     },
     reducer,
