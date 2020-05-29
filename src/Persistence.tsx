@@ -27,7 +27,7 @@ const store = createStore(
 
       whitelist: [
         'history',
-        'duration',
+        'customDuration',
         'hasChanting',
         'hasExtendedMetta',
         'isEnoughTime',

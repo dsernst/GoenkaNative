@@ -2,7 +2,7 @@ import { Animated, Easing } from 'react-native'
 import SystemSetting from 'react-native-system-setting'
 
 import c from '../clips'
-import { Props } from '../reducer'
+import { Props, Sit } from '../reducer'
 import setDailyNotifications from '../SettingsScreen/notification'
 import firstSitInstructions from './first-sit-instruction'
 import { Recording } from './Recordings'
@@ -13,7 +13,7 @@ async function pressPlay(props: Props, recording?: Recording) {
     airplaneModeReminderOpacity,
     amNotification,
     amNotificationTime,
-    duration,
+    customDuration,
     hasChanting,
     hasExtendedMetta,
     history,
@@ -38,9 +38,6 @@ async function pressPlay(props: Props, recording?: Recording) {
     await firstSitInstructions()
   }
 
-  // Switch screens
-  setState({ screen: 'CountdownScreen' })
-
   // Fade out title
   Animated.timing(titleOpacity, {
     duration: 5000,
@@ -48,21 +45,51 @@ async function pressPlay(props: Props, recording?: Recording) {
     toValue: 0.1,
   }).start()
 
+  let newSit: Sit = {
+    date: new Date(),
+    duration: customDuration,
+    elapsed: 0,
+  }
+
+  // If not called w/ `recording` param, queue up custom clips
+  if (!recording) {
+    enqueueCustomSoundClips(props)
+    newSit = {
+      ...newSit,
+      hasChanting,
+      hasExtendedMetta,
+    }
+  } else {
+    const [hours, minutes] = recording.duration.split(':').map(Number)
+    const durationInMin = hours * 60 + minutes
+    newSit = {
+      ...newSit,
+      duration: durationInMin,
+      recording: recording.filename,
+    }
+
+    setState({
+      countdownDuration: durationInMin,
+      latestTrack: recording.sound,
+    })
+  }
+
   // Add to history
-  const newHistory = [{ date: new Date(), duration: duration, elapsed: 0, hasChanting, hasExtendedMetta }, ...history]
+  const newHistory = [newSit, ...history]
   setState({ history: newHistory })
   // Update daily notifications
   setDailyNotifications(amNotification, amNotificationTime, pmNotification, pmNotificationTime, newHistory)
 
-  // If not called w/ `recording` param, queue up custom clips
-  if (!recording) {
-    setupCustomSoundClips(props)
-  } else {
-    setState({ latestTrack: recording.sound })
-  }
+  // Switch screens
+  setState({ screen: 'CountdownScreen' })
 }
 
-function setupCustomSoundClips({ duration, hasChanting, hasExtendedMetta, setState }: Props) {
+//
+//
+// Calculate & enqueue custom audio preferences
+function enqueueCustomSoundClips({ customDuration, hasChanting, hasExtendedMetta, setState }: Props) {
+  setState({ countdownDuration: customDuration })
+
   const timeouts = []
   if (hasChanting) {
     // Begin introChanting
@@ -85,9 +112,9 @@ function setupCustomSoundClips({ duration, hasChanting, hasExtendedMetta, setSta
 
   // If < 6 min sit, use short "good, good" clip
   // Otherwise "Bhavatu Sabba Mangalam"
-  const closingClip = duration < 6 ? c.closingGood : c.closingMetta
+  const closingClip = customDuration < 6 ? c.closingGood : c.closingMetta
 
-  const closingClipTime = (duration * 60 - closingClip.length) * 1000
+  const closingClipTime = (customDuration * 60 - closingClip.length) * 1000
 
   let extendedMettaTime = closingClipTime
   if (hasExtendedMetta) {

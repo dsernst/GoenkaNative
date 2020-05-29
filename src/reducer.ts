@@ -13,6 +13,7 @@ export type Sit = {
   elapsed: number
   hasChanting?: boolean
   hasExtendedMetta?: boolean
+  recording?: string
   selected?: boolean
 }
 
@@ -68,8 +69,9 @@ export interface State extends ToggleableStates {
   backgroundColor: string
   contacts?: ContactWithType[]
   contactsNotOnApp: ContactDoc[]
+  countdownDuration?: number
+  customDuration: number
   displayName: string | null
-  duration: number
   expandFriendsSection?: boolean
   history: Sit[]
   historyViewIndex: number
@@ -110,8 +112,8 @@ const initialState: State = {
   autoSyncCompletedSits: true,
   backgroundColor: '#001709',
   contactsNotOnApp: [],
+  customDuration: 60,
   displayName: null,
-  duration: 60,
   finished: false,
   hasChanting: true,
   hasExtendedMetta: false,

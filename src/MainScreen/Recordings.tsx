@@ -33,7 +33,7 @@ export default function Recordings(props: Props) {
         <Text style={{ color: '#fffa' }}>Loading...</Text>
       ) : (
         <>
-          <Text style={{ color: '#fff7', fontSize: 16 }}>Longer Instructions</Text>
+          <Text style={{ color: '#fff7', fontSize: 16 }}>Long Instructions</Text>
 
           {/* List each item */}
           {metadata.map((entry, index) => (

@@ -27,8 +27,8 @@ function CountdownScreen(props: Props) {
     acceptedOutgoingFriendRequests,
     airplaneModeReminderOpacity,
     autoSyncCompletedSits,
+    countdownDuration,
     displayName,
-    duration,
     finished,
     hasChanting,
     hasExtendedMetta,
@@ -63,7 +63,7 @@ function CountdownScreen(props: Props) {
 
     OneSignal.postNotification(
       {
-        en: `Your friend ${displayName} just finished a ${duration} minute sit ${settingsString}🙂`,
+        en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
       },
       {},
       friendsToNotify,
@@ -82,7 +82,7 @@ function CountdownScreen(props: Props) {
                 bgColor="#001709"
                 borderWidth={4}
                 color="#0a2013"
-                duration={duration}
+                duration={countdownDuration}
                 labelStyle={{ color: '#fff3', fontSize: 18 }}
                 minutes
                 onTimeFinished={async () => {

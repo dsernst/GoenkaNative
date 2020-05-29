@@ -6,7 +6,7 @@ import Octicon from 'react-native-vector-icons/Octicons'
 import { Props } from '../reducer'
 
 export default (props: Props) => {
-  const { duration, hasChanting, hasExtendedMetta, setState, toggle } = props
+  const { customDuration, hasChanting, hasExtendedMetta, setState, toggle } = props
 
   return (
     <>
@@ -14,8 +14,8 @@ export default (props: Props) => {
       <Text style={s.text}>How long would you like to sit?</Text>
       <Picker
         itemStyle={{ color: '#fffc' }}
-        onValueChange={(newDuration: number) => setState({ duration: newDuration })}
-        selectedValue={duration}
+        onValueChange={(newDuration: number) => setState({ customDuration: newDuration })}
+        selectedValue={customDuration}
         style={{
           backgroundColor: 'hsla(0, 0%, 100%, .05)',
           borderRadius: 10,

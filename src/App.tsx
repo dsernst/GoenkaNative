@@ -14,7 +14,7 @@ import screens from './screens'
 function App(props: Props) {
   const {
     backgroundColor,
-    duration,
+    customDuration,
     hasChanting,
     hasExtendedMetta,
     latestTrack,
@@ -44,9 +44,9 @@ function App(props: Props) {
     latestTrack?.setVolume(latestTrack.volume).play()
   }, [latestTrack])
 
-  // If timing settings changed, check if duration is enough
+  // If timing settings changed, check if customDuration is enough
   useEffect(() => {
-    // console.log('Checking if duration is enough')
+    // console.log('Checking if customDuration is enough')
     const queue: SoundPlus[] = [c.introInstructions, c.closingMetta]
     if (hasChanting) {
       queue.push(c.introChanting, c.closingChanting)
@@ -55,9 +55,9 @@ function App(props: Props) {
       queue.push(c.extendedMetta)
     }
     const lengths = queue.map(clip => clip.length)
-    // console.log({ duration: duration * 60, lengths, sum: _.sum(lengths) })
-    setState({ isEnoughTime: _.sum(lengths) <= duration * 60 })
-  }, [duration, hasChanting, hasExtendedMetta, setState])
+    // console.log({ customDuration: customDuration * 60, lengths, sum: _.sum(lengths) })
+    setState({ isEnoughTime: _.sum(lengths) <= customDuration * 60 })
+  }, [customDuration, hasChanting, hasExtendedMetta, setState])
 
   const Screen = screens[screen]
 
