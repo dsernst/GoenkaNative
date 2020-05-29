@@ -50,6 +50,7 @@ function MainScreen(props: Props) {
           justifyContent: 'space-between',
           marginBottom: 30,
           marginTop: 'auto',
+          paddingHorizontal: 24,
         }}
       >
         {/* SettingsBtn */}
@@ -125,6 +126,8 @@ function MainScreen(props: Props) {
     </>
   )
 }
+
+MainScreen.paddingHorizontal = 2
 
 const btnSize = 80
 

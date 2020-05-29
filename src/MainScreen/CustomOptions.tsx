@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React from 'react'
-import { Picker, Platform, StyleSheet, Switch, Text, TouchableOpacity } from 'react-native'
+import { Picker, Platform, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
 import Octicon from 'react-native-vector-icons/Octicons'
 
 import { Props } from '../reducer'
@@ -9,7 +9,7 @@ export default (props: Props) => {
   const { customDuration, hasChanting, hasExtendedMetta, setState, toggle } = props
 
   return (
-    <>
+    <View style={{ paddingHorizontal: 24 }}>
       {/* DurationPicker */}
       <Text style={s.text}>How long would you like to sit?</Text>
       <Picker
@@ -68,7 +68,7 @@ export default (props: Props) => {
           value={hasExtendedMetta}
         />
       </TouchableOpacity>
-    </>
+    </View>
   )
 }
 
