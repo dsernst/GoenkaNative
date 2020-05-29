@@ -18,7 +18,7 @@ import SystemSetting from 'react-native-system-setting'
 import BackButton from '../BackButton'
 import { Props } from '../reducer'
 import BeHappyText from './BeHappyText'
-import CountdownCircle from './CountdownCircle'
+import CircularTimer from './CircularTimer'
 import pressStop from './press-stop'
 
 function CountdownScreen(props: Props) {
@@ -78,7 +78,7 @@ function CountdownScreen(props: Props) {
         <View style={{ alignItems: 'center', marginTop: 80 }}>
           {!finished ? (
             <>
-              <CountdownCircle
+              <CircularTimer
                 bgColor="#001709"
                 borderWidth={4}
                 color="#0a2013"
