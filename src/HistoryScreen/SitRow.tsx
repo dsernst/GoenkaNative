@@ -120,7 +120,7 @@ function dayLabel(date: Date, index: number, history: any, alwaysShow?: boolean)
       // Only show if next sit is also same day
       // ie: avoid one-sit-only days
       index < history.length &&
-      date.getDate() === history[index + 1].date.getDate()
+      date.getDate() === history[index + 1]?.date?.getDate()
     ) {
       showDayOfWeekName = true
     }
