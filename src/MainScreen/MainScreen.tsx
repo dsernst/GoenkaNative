@@ -7,6 +7,7 @@ import Tooltip from 'react-native-walkthrough-tooltip'
 import { Props } from '../reducer'
 import CustomOptions from './CustomOptions'
 import pressPlay from './press-play'
+import Recordings from './Recordings'
 import TypeSwitcher from './TypeSwitcher'
 
 const { width: screenWidth } = Dimensions.get('window')
@@ -17,6 +18,7 @@ function MainScreen(props: Props) {
     history,
     incomingFriendRequests,
     isEnoughTime,
+    mainScreenSwitcherIndex,
     notifications_allowed,
     onlineSits,
     recentlyJoinedContacts,
@@ -34,10 +36,11 @@ function MainScreen(props: Props) {
     <>
       <TypeSwitcher
         selectView={index => props.setState({ mainScreenSwitcherIndex: index })}
-        viewIndex={props.mainScreenSwitcherIndex}
+        viewIndex={mainScreenSwitcherIndex}
       />
 
-      {props.mainScreenSwitcherIndex === 0 && <CustomOptions {...props} />}
+      {mainScreenSwitcherIndex === 0 && <CustomOptions {...props} />}
+      {mainScreenSwitcherIndex === 1 && <Recordings />}
 
       {/* Bottom row */}
       <View
@@ -73,6 +76,7 @@ function MainScreen(props: Props) {
 
         {/* StartBtn */}
         <TouchableHighlight
+          disabled={mainScreenSwitcherIndex === 1}
           onPress={
             isEnoughTime
               ? pressPlay.bind(null, props)
@@ -87,7 +91,7 @@ function MainScreen(props: Props) {
             borderWidth: 1,
             height: btnSize,
             justifyContent: 'center',
-            opacity: isEnoughTime ? 1 : 0.3,
+            opacity: mainScreenSwitcherIndex === 1 ? 0 : isEnoughTime ? 1 : 0.3,
             width: btnSize,
           }}
         >
