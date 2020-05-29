@@ -16,13 +16,14 @@ export type Recording = {
   status?: 'loading' | 'ready'
 }
 
+// const domain = 'http://localhost:8000'
 const domain = 'http://dsernst.com/goenka_recordings'
 
 export default function Recordings(props: Props) {
   const [metadata, setMetadata] = useState<Recording[]>()
 
   useEffect(() => {
-    fetch(`${domain}/english.json`)
+    fetch(`${domain}/english.json`, { headers: { 'Cache-Control': 'no-cache, must-revalidate' } })
       .then(resp => resp.json())
       .then(setMetadata)
   }, [])
@@ -30,7 +31,7 @@ export default function Recordings(props: Props) {
   return (
     <ScrollView>
       {!metadata ? (
-        <Text style={{ color: '#fffa' }}>Loading...</Text>
+        <Text style={{ color: '#fff0' }}>Loading...</Text>
       ) : (
         <>
           <Text style={{ color: '#fff7', fontSize: 16 }}>Long Instructions</Text>
@@ -72,7 +73,12 @@ export default function Recordings(props: Props) {
                 <View style={{ alignItems: 'flex-end', flexDirection: 'row' }}>
                   {/* Location */}
                   <Text style={{ color: '#fffa', fontSize: 16, fontWeight: '600' }}>
-                    {startCase(entry.filename.slice(0, -22))}
+                    {startCase(
+                      entry.filename
+                        .replace('.mp3', '') // remove .mp3 file extension
+                        .replace(/v[0-9]+/, '') // remove version number
+                        .replace('long_instructions', ''), // don't show recording type
+                    )}
                   </Text>
 
                   {/* Duration */}
