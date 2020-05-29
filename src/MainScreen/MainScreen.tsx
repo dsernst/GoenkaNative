@@ -40,7 +40,7 @@ function MainScreen(props: Props) {
       />
 
       {mainScreenSwitcherIndex === 0 && <CustomOptions {...props} />}
-      {mainScreenSwitcherIndex === 1 && <Recordings />}
+      {mainScreenSwitcherIndex === 1 && <Recordings {...props} />}
 
       {/* Bottom row */}
       <View
@@ -77,13 +77,11 @@ function MainScreen(props: Props) {
         {/* StartBtn */}
         <TouchableHighlight
           disabled={mainScreenSwitcherIndex === 1}
-          onPress={
+          onPress={() => {
             isEnoughTime
-              ? pressPlay.bind(null, props)
-              : () => {
-                  Alert.alert('Not enough time', 'Lengthen the duration, or turn off the optional extras.')
-                }
-          }
+              ? pressPlay(props)
+              : Alert.alert('Not enough time', 'Lengthen the duration, or turn off the optional extras.')
+          }}
           style={{
             alignItems: 'center',
             borderColor: '#008000',

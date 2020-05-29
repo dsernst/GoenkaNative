@@ -5,21 +5,24 @@ import c from '../clips'
 import { Props } from '../reducer'
 import setDailyNotifications from '../SettingsScreen/notification'
 import firstSitInstructions from './first-sit-instruction'
+import { Recording } from './Recordings'
 
-async function pressPlay({
-  airplaneModeReminder,
-  airplaneModeReminderOpacity,
-  amNotification,
-  amNotificationTime,
-  duration,
-  hasChanting,
-  hasExtendedMetta,
-  history,
-  pmNotification,
-  pmNotificationTime,
-  setState,
-  titleOpacity,
-}: Props) {
+async function pressPlay(props: Props, recording?: Recording) {
+  const {
+    airplaneModeReminder,
+    airplaneModeReminderOpacity,
+    amNotification,
+    amNotificationTime,
+    duration,
+    hasChanting,
+    hasExtendedMetta,
+    history,
+    pmNotification,
+    pmNotificationTime,
+    setState,
+    titleOpacity,
+  } = props
+
   // Reminder to turn on Airplane mode, if requested && not currently on
   if (airplaneModeReminder && !(await SystemSetting.isAirplaneEnabled())) {
     // Show reminder, then fade out
@@ -35,7 +38,6 @@ async function pressPlay({
     await firstSitInstructions()
   }
 
-  const timeouts = []
   // Switch screens
   setState({ screen: 'CountdownScreen' })
 
@@ -52,6 +54,16 @@ async function pressPlay({
   // Update daily notifications
   setDailyNotifications(amNotification, amNotificationTime, pmNotification, pmNotificationTime, newHistory)
 
+  // If not called w/ `recording` param, queue up custom clips
+  if (!recording) {
+    setupCustomSoundClips(props)
+  } else {
+    setState({ latestTrack: recording.sound })
+  }
+}
+
+function setupCustomSoundClips({ duration, hasChanting, hasExtendedMetta, setState }: Props) {
+  const timeouts = []
   if (hasChanting) {
     // Begin introChanting
     setState({ latestTrack: c.introChanting })

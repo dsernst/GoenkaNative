@@ -1,22 +1,25 @@
 import { startCase, trimStart } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import Sound from 'react-native-sound'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 
-type Metadata = {
+import { SoundPlus, load } from '../clips'
+import { Props } from '../reducer'
+import pressPlay from './press-play'
+
+export type Recording = {
   description?: string
   duration: string
   filename: string
-  sound?: Sound
+  sound?: SoundPlus
   status?: 'loading' | 'ready'
 }
 
 const domain = 'http://dsernst.com/goenka_recordings'
 
-export default function Recordings() {
-  const [metadata, setMetadata] = useState<Metadata[]>()
+export default function Recordings(props: Props) {
+  const [metadata, setMetadata] = useState<Recording[]>()
 
   useEffect(() => {
     fetch(`${domain}/english.json`)
@@ -39,26 +42,22 @@ export default function Recordings() {
               onPress={() => {
                 if (!entry.status) {
                   // Begin download
-                  console.log('Downloading', entry.filename)
+                  console.log('⬇️  Downloading', entry.filename)
                   metadata[index].status = 'loading'
                   setMetadata([...metadata])
 
-                  const sound = new Sound(`${domain}/english/${entry.filename}`, undefined, (error: any) => {
-                    if (error) {
-                      console.log('failed to load the sound', entry.filename, error)
-                    } else {
-                      // Download complete
-                      console.log(entry.filename, 'downloaded.')
-                      metadata[index].status = 'ready'
-                      metadata[index].sound = sound
-                      setMetadata([...metadata])
-                    }
+                  load(`${domain}/english/${entry.filename}`, 0, 1, true, sound => {
+                    // Download complete
+                    console.log('✅', entry.filename, 'downloaded.')
+                    metadata[index].status = 'ready'
+                    metadata[index].sound = sound
+                    setMetadata([...metadata])
                   })
                 }
 
                 // File ready for playback
                 if (entry.sound) {
-                  entry.sound.play()
+                  pressPlay(props, entry)
                 }
               }}
               style={{ alignItems: 'flex-start', flexDirection: 'row', marginVertical: 15 }}

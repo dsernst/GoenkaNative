@@ -12,13 +12,21 @@ export class SoundPlus extends Sound {
 Sound.setCategory('Playback', true)
 
 // Helper function so we don't have to repeat bundle or errHandler
-function clip(filename: string, delay: number = 0, volume: number = 1) {
-  const c = new SoundPlus(filename, Sound.MAIN_BUNDLE, (error: string) => {
+export function load(
+  filename: string,
+  delay: number = 0,
+  volume: number = 1,
+  remote?: boolean,
+  cb?: (sound: SoundPlus) => void,
+) {
+  const path = remote ? undefined : Sound.MAIN_BUNDLE
+  const c = new SoundPlus(filename, path, (error: string) => {
     if (error) {
-      Alert.alert('Failed to load the sound', JSON.stringify(error))
+      Alert.alert('Failed to load sound', JSON.stringify(error))
     } else {
       c.length = Math.floor(c.getDuration()) + delay
       c.volume = volume
+      cb && cb(c)
     }
   })
 
@@ -27,12 +35,12 @@ function clip(filename: string, delay: number = 0, volume: number = 1) {
 
 // Load in our clips w/ desired delays (seconds) before starting next clip
 const clips: { [key: string]: SoundPlus } = {
-  closingChanting: clip('closingchanting.mp3', 3, 0.5),
-  closingGood: clip('closinggood.mp3', 0),
-  closingMetta: clip('closingmetta.mp3', 0, 0.3),
-  extendedMetta: clip('extendedmetta.mp3', 10),
-  introChanting: clip('introchanting.mp3', 5),
-  introInstructions: clip('introinstructions.mp3', 1),
+  closingChanting: load('closingchanting.mp3', 3, 0.5),
+  closingGood: load('closinggood.mp3', 0),
+  closingMetta: load('closingmetta.mp3', 0, 0.3),
+  extendedMetta: load('extendedmetta.mp3', 10),
+  introChanting: load('introchanting.mp3', 5),
+  introInstructions: load('introinstructions.mp3', 1),
 }
 
 export default clips
