@@ -7,7 +7,7 @@ import TitleBar from './TitleBar'
 function FriendsMarketingScreen() {
   return (
     <>
-      <TitleBar name="ADDING FRIENDS" style={{ marginBottom: 1, marginHorizontal: 18 }} />
+      <TitleBar name="ADDING FRIENDS" style={{ marginBottom: 1 }} />
       <StatusBar hidden={true} />
 
       <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 25, paddingTop: 50 }}>

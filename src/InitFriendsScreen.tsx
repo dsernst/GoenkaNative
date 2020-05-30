@@ -25,9 +25,9 @@ function InitFriendsScreen(props: Props) {
 
   return (
     <>
-      <TitleBar name="ADDING FRIENDS" style={{ marginBottom: 1, marginHorizontal: 18 }} />
+      <TitleBar name="ADDING FRIENDS" style={{ marginBottom: 1 }} />
 
-      <ScrollView indicatorStyle="white" ref={scrollView} style={{ paddingHorizontal: 25, paddingTop: 17 }}>
+      <ScrollView indicatorStyle="white" ref={scrollView} style={{ paddingHorizontal: 25, paddingTop: 27 }}>
         <Text style={{ color: '#fffc', fontSize: 18 }}>
           Sometimes meditation can feel a bit isolating, so GoenkaTimer lets you{' '}
           <Text style={{ color: '#fff', fontWeight: '600' }}>add friends</Text> to automatically share when you complete
@@ -35,9 +35,9 @@ function InitFriendsScreen(props: Props) {
         </Text>
         <Image
           source={require('./friend_notif_example.png')}
-          style={{ height: 120, resizeMode: 'contain', width: '100%' }}
+          style={{ height: 120, marginVertical: 5, resizeMode: 'contain', width: '100%' }}
         />
-        <Text style={{ color: '#fffc', fontSize: 18 }}>
+        <Text style={{ color: '#fffc', fontSize: 17 }}>
           To become Friendable, you just need to login with your phone number & pick a display name.
           {'\n'}
           <Text style={{ fontSize: 14, opacity: 0.5 }}>It takes less than a minute.</Text>

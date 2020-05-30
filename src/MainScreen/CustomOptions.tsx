@@ -86,6 +86,6 @@ const s = StyleSheet.create({
   },
   text: {
     color: '#fff9',
-    fontSize: 18,
+    fontSize: 17,
   },
 })

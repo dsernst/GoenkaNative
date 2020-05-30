@@ -11,7 +11,7 @@ import ViewControl from './ViewControl'
 
 const HistoryScreen = (props: Props) => (
   <>
-    <TitleBar name="HISTORY" style={{ marginHorizontal: 18 }} />
+    <TitleBar name="HISTORY" />
 
     <CurrentStreaks {...props} />
 

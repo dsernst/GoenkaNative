@@ -56,7 +56,7 @@ const CheckContactsScreen = (props: Props) => {
 
   return (
     <>
-      <TitleBar name="CONTACTS" style={{ marginBottom: 1, marginHorizontal: 18 }} />
+      <TitleBar name="CONTACTS" style={{ marginBottom: 1 }} />
 
       <View>
         <TextInput
@@ -64,7 +64,7 @@ const CheckContactsScreen = (props: Props) => {
           clearButtonMode="always"
           onChangeText={setFilter}
           placeholder="Search"
-          placeholderTextColor="#fff5"
+          placeholderTextColor="#fff4"
           returnKeyType="done"
           style={{
             backgroundColor: '#353d38',
@@ -73,12 +73,12 @@ const CheckContactsScreen = (props: Props) => {
             fontSize: 18,
             marginHorizontal: 18,
             marginVertical: 10,
-            padding: 10,
+            padding: 7,
             paddingLeft: 35,
           }}
           value={filter}
         />
-        <EvilIcons color="#fff8" name="search" size={20} style={{ left: 26, position: 'absolute', top: 23 }} />
+        <EvilIcons color="#fff8" name="search" size={20} style={{ left: 26, position: 'absolute', top: 20 }} />
       </View>
 
       <SectionList

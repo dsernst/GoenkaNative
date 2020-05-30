@@ -27,7 +27,7 @@ const SettingsScreen = (props: Props) => {
   } = props
   return (
     <>
-      <TitleBar name="SETTINGS" showVersion style={{ marginBottom: 1, marginHorizontal: 18 }} />
+      <TitleBar name="SETTINGS" showVersion style={{ marginBottom: 1 }} />
 
       <ScrollView indicatorStyle="white" style={{ paddingHorizontal: 20, paddingTop: 17 }}>
         {user && <AuthedInfo {...props} user={user} />}

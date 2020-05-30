@@ -7,11 +7,12 @@ export default (props: { name: string; showVersion?: boolean; style?: ViewStyle 
   <View
     style={[
       {
-        borderBottomWidth: 1,
-        borderColor: '#fff3',
+        backgroundColor: '#40514718',
+        borderColor: '#40514758',
         borderTopWidth: 1,
-        marginVertical: 20,
-        paddingVertical: 7,
+        marginBottom: 20,
+        marginTop: 4,
+        paddingVertical: 10,
       },
       props.style || {},
     ]}
@@ -19,7 +20,7 @@ export default (props: { name: string; showVersion?: boolean; style?: ViewStyle 
     <Text
       style={{
         alignSelf: 'center',
-        color: '#fffc',
+        color: '#fffa',
         fontSize: 11,
         fontWeight: '500',
       }}
@@ -27,7 +28,7 @@ export default (props: { name: string; showVersion?: boolean; style?: ViewStyle 
       {props.name}
     </Text>
     {props.showVersion && (
-      <Text style={{ color: '#fff3', fontSize: 11, position: 'absolute', right: 0, top: 7 }}>v{version}</Text>
+      <Text style={{ color: '#fff3', fontSize: 11, position: 'absolute', right: 29, top: 10 }}>v{version}</Text>
     )}
   </View>
 )

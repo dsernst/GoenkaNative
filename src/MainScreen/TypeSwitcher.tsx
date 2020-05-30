@@ -8,10 +8,10 @@ export default ({ selectView, viewIndex }: { selectView: (index: number) => void
   <View
     style={{
       borderColor: '#0000',
-      borderTopColor: '#40514758',
+      borderTopColor: '#40514748',
       borderWidth: 1,
       marginBottom: 20,
-      marginTop: -25,
+      marginTop: -21,
     }}
   >
     <SegmentedControlTab
@@ -19,7 +19,7 @@ export default ({ selectView, viewIndex }: { selectView: (index: number) => void
       activeTabTextStyle={{ color: '#fff7' }}
       onTabPress={idx => [0, 3].includes(idx) && selectView(idx)}
       selectedIndex={viewIndex}
-      tabStyle={{ backgroundColor: '#40514718', borderColor: '#0000' }}
+      tabStyle={{ backgroundColor: '#40514710', borderColor: '#0000' }}
       tabTextStyle={{ color: '#fff4', fontSize: 13 }}
       values={['Custom', '', ' ', 'Recordings']}
     />

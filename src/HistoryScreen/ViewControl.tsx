@@ -14,11 +14,11 @@ export default ({ toggleView, viewIndex }: { toggleView: (index: number) => void
   >
     <SegmentedControlTab
       activeTabOpacity={0.7}
-      activeTabStyle={{ backgroundColor: '#fffa' }}
-      activeTabTextStyle={{ color: color, fontWeight: '700' }}
+      activeTabStyle={{ backgroundColor: '#fff6' }}
+      activeTabTextStyle={{ color: '#181f1a', fontWeight: '700' }}
       onTabPress={toggleView}
       selectedIndex={viewIndex}
-      tabStyle={{ backgroundColor: color + '33', borderColor: '#fff3' }}
+      tabStyle={{ backgroundColor: color + '33', borderColor: '#fff2' }}
       tabTextStyle={{ color: '#fff7' }}
       values={['Bar', 'Calendar', 'List']}
     />
