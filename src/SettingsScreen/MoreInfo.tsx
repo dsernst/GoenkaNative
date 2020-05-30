@@ -6,11 +6,11 @@ export default () => (
   <View style={{ flexDirection: 'row', marginLeft: 19, marginRight: 40, marginVertical: 30 }}>
     <Ionicons color="#fff8" name="ios-information-circle-outline" size={24} style={{ marginRight: 14, top: 9 }} />
     <View>
-      <Text style={{ color: '#fffa', fontSize: 16, lineHeight: 27 }}>
-        For more information about S.N. Goenka or Vipassana meditation, visit{' '}
-        <Link url="https://www.dhamma.org">dhamma.org</Link>.
+      <Text style={{ color: '#fffa', fontSize: 15, lineHeight: 27 }}>
+        Visit <Link url="https://www.dhamma.org">dhamma.org</Link> for more info about S.N. Goenka or Vipassana
+        meditation.
       </Text>
-      <Text style={{ color: '#fffa', fontSize: 16, lineHeight: 27, marginTop: 30 }}>
+      <Text style={{ color: '#fffa', fontSize: 15, lineHeight: 27, marginTop: 30 }}>
         For help/questions: <Link url="mailto:hi@goenka.app">hi@goenka.app</Link>
       </Text>
     </View>
