@@ -32,6 +32,8 @@ function MainScreen(props: Props) {
   const friendable = Number(user && (!displayName || !notifications_allowed))
   const numNotifications = numUnsyncdSits + friendable + incomingFriendRequests.length + recentlyJoinedContacts.length
 
+  const onRecordingsTab = mainScreenSwitcherIndex === 3
+
   return (
     <>
       <TypeSwitcher
@@ -39,8 +41,7 @@ function MainScreen(props: Props) {
         viewIndex={mainScreenSwitcherIndex}
       />
 
-      {mainScreenSwitcherIndex === 0 && <CustomOptions {...props} />}
-      {mainScreenSwitcherIndex === 1 && <Recordings {...props} />}
+      {!onRecordingsTab ? <CustomOptions {...props} /> : <Recordings {...props} />}
 
       {/* Bottom row */}
       <View
@@ -77,7 +78,7 @@ function MainScreen(props: Props) {
 
         {/* StartBtn */}
         <TouchableHighlight
-          disabled={mainScreenSwitcherIndex === 1}
+          disabled={onRecordingsTab}
           onPress={() => {
             isEnoughTime
               ? pressPlay(props)
@@ -90,7 +91,7 @@ function MainScreen(props: Props) {
             borderWidth: 1,
             height: btnSize,
             justifyContent: 'center',
-            opacity: mainScreenSwitcherIndex === 1 ? 0 : isEnoughTime ? 1 : 0.3,
+            opacity: onRecordingsTab ? 0 : isEnoughTime ? 1 : 0.3,
             width: btnSize,
           }}
         >
