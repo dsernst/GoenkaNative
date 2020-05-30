@@ -28,7 +28,7 @@ export default function Recordings(props: Props) {
   const [metadata, setMetadata] = useState<Metadata>()
 
   useEffect(() => {
-    fetch(`${domain}/english.json`, { headers: { 'Cache-Control': 'no-cache, must-revalidate' } })
+    fetch(`${domain}/all.json`, { headers: { 'Cache-Control': 'no-cache, must-revalidate' } })
       .then(resp => resp.json())
       // Add indices so we can modify metadata onPress
       .then((json: Metadata) =>
