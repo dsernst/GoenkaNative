@@ -155,7 +155,7 @@ function CountdownScreen(props: Props) {
                 >
                   <Text
                     style={{
-                      color: '#E5883977',
+                      color: '#E58839a7',
                       fontSize: 15,
                       fontStyle: 'italic',
                       fontWeight: '700',
