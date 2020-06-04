@@ -24,12 +24,16 @@ export type Recording = {
 // const domain = 'http://localhost:8000'
 const domain = 'http://dsernst.com/goenka_recordings'
 
+const languages = ['English', 'Hindi']
+
 export default function Recordings(props: Props) {
   const [metadata, setMetadata] = useState<Metadata>()
-  const [isEnglish, setLanguage] = useState(true)
+  const [langIndex, setLangIndex] = useState(0)
 
   useEffect(() => {
-    fetch(`${domain}/all.json`, { headers: { 'Cache-Control': 'no-cache, must-revalidate' } })
+    fetch(`${domain}/${languages[langIndex].toLowerCase()}/all.json`, {
+      headers: { 'Cache-Control': 'no-cache, must-revalidate' },
+    })
       .then(resp => resp.json())
       // Add indices so we can modify metadata onPress
       .then((json: Metadata) =>
@@ -41,14 +45,14 @@ export default function Recordings(props: Props) {
       // Filter out old student content
       .then(json => json.filter(section => section.for_new_students || props.isOldStudent))
       .then(setMetadata)
-  }, [props.isOldStudent])
+  }, [langIndex, props.isOldStudent])
 
   return (
     <View>
       {/* Language picker */}
       <TouchableOpacity
         activeOpacity={0.7}
-        onPress={() => setLanguage(!isEnglish)}
+        onPress={() => setLangIndex(langIndex + 1 < languages.length ? langIndex + 1 : 0)}
         style={{
           alignItems: 'center',
           borderColor: '#fff3',
@@ -64,7 +68,7 @@ export default function Recordings(props: Props) {
         }}
       >
         <SimpleLineIcons color="#fff5" name="globe" size={13} />
-        <Text style={{ color: '#fff6', fontSize: 13, paddingLeft: 8 }}>{isEnglish ? 'English' : 'Hindi'}</Text>
+        <Text style={{ color: '#fff6', fontSize: 13, paddingLeft: 8 }}>{languages[langIndex]}</Text>
       </TouchableOpacity>
 
       {/* Recordings list */}
@@ -84,7 +88,7 @@ export default function Recordings(props: Props) {
                   metadata[item.sIndex].data[item.iIndex].status = 'loading'
                   setMetadata([...metadata])
 
-                  load(`${domain}/english/${item.filename}`, 0, 1, true, sound => {
+                  load(`${domain}/${languages[langIndex].toLowerCase()}/${item.filename}`, 0, 1, true, sound => {
                     // Download complete
                     console.log('✅', item.filename, 'downloaded.')
                     metadata[item.sIndex].data[item.iIndex].status = 'ready'
@@ -116,6 +120,7 @@ export default function Recordings(props: Props) {
                       startCase(
                         item.filename
                           .replace('.mp3', '') // hide .mp3 file extension
+                          .replace('.mpeg', '') // hide .mpeg file extension
                           .replace(/v[0-9]+/, '') // hide version number
                           .replace('long_instructions', '') // hide recording type
                           .replace('anapana', ''), // hide recording type
@@ -146,5 +151,5 @@ export default function Recordings(props: Props) {
 
 function formatDuration(duration: string) {
   const [hours, minutes] = duration.split(':').map(val => trimStart(val, '0'))
-  return `${hours ? `${hours} hr` : ''} ${minutes} min`
+  return `${hours ? `${hours} hr` : ''} ${minutes || '0'} min`
 }
