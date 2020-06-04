@@ -41,7 +41,7 @@ export default (props: Props) => {
           color="white"
           name="triangle-down"
           size={20}
-          style={[{ opacity: 0.3, position: 'absolute', right: 41, top: 56 }]}
+          style={[{ opacity: 0.3, position: 'absolute', right: 41, top: 59 }]}
         />
       )}
 
