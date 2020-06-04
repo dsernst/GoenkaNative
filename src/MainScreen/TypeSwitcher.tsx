@@ -12,7 +12,7 @@ export default ({ selectView, viewIndex }: { selectView: (index: number) => void
       borderWidth: 0,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: 20,
+      marginBottom: 15,
     }}
   >
     {['Custom', 'Recordings'].map((label, index) => (

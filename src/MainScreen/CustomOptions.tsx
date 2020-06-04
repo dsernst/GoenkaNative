@@ -9,7 +9,7 @@ export default (props: Props) => {
   const { customDuration, hasChanting, hasExtendedMetta, setState, toggle } = props
 
   return (
-    <View style={{ paddingHorizontal: 24 }}>
+    <View style={{ paddingHorizontal: 24, paddingTop: 5 }}>
       {/* DurationPicker */}
       <Text style={s.text}>How long would you like to sit?</Text>
       <Picker
