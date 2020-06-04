@@ -77,7 +77,7 @@ export default function Recordings(props: Props) {
               style={{ alignItems: 'flex-start', flexDirection: 'row', marginVertical: 10 }}
             >
               {/* Icon */}
-              <View style={{ height: 22 }}>
+              <View style={{ height: 22, paddingLeft: 4 }}>
                 {!item.status && <SimpleLineIcons color="#fff9" name="cloud-download" size={20} />}
                 {item.status === 'loading' && <ActivityIndicator color="#fffe" />}
                 {item.status === 'ready' && <AntDesign color="#fff9" name="playcircleo" size={20} />}
