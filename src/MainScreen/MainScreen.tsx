@@ -118,7 +118,7 @@ function MainScreen(props: Props) {
         >
           <TouchableOpacity
             onPress={() => setState({ screen: 'HistoryScreen' })}
-            style={{ paddingLeft: 18, width: 50 }}
+            style={{ bottom: 1, paddingLeft: 14, paddingTop: 5, width: 50 }}
           >
             <Octicon color="#fffd" name="calendar" size={30} style={{ opacity: showHistoryBtnTooltip ? 0.6 : 0.2 }} />
           </TouchableOpacity>
