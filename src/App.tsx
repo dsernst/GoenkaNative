@@ -89,9 +89,8 @@ function App(props: Props) {
               color: '#f1f1f1',
               fontSize: 24,
               fontWeight: '600',
-              marginVertical: 30,
               opacity: titleOpacity,
-              paddingBottom: 10,
+              paddingVertical: 30,
             }}
           >
             Goenka Meditation Timer
