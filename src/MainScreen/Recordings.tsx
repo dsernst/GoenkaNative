@@ -21,8 +21,8 @@ export type Recording = {
   status?: 'loading' | 'ready'
 }
 
-const domain = 'http://localhost:8000'
-// const domain = 'http://dsernst.com/goenka_recordings'
+// const domain = 'http://localhost:8000'
+const domain = 'http://dsernst.com/goenka_recordings'
 
 const languages = ['English', 'Hindi']
 
@@ -86,13 +86,14 @@ export default function Recordings(props: Props) {
                 onPress={() => {
                   if (!item.status) {
                     // Begin download
-                    console.log('⬇️  Downloading', item.filename)
+                    const path = `${languages[langIndex].toLowerCase()}/${item.filename}`
+                    console.log('⬇️  Downloading', path)
                     metadata[item.sIndex].data[item.iIndex].status = 'loading'
                     setMetadata([...metadata])
 
-                    load(`${domain}/${languages[langIndex].toLowerCase()}/${item.filename}`, 0, 1, true, sound => {
+                    load(`${domain}/${path}`, 0, 1, true, sound => {
                       // Download complete
-                      console.log('✅', item.filename, 'downloaded.')
+                      console.log('✅', path, 'downloaded.')
                       metadata[item.sIndex].data[item.iIndex].status = 'ready'
                       metadata[item.sIndex].data[item.iIndex].sound = sound
                       setMetadata([...metadata])
