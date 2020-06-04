@@ -26,6 +26,7 @@ const domain = 'http://dsernst.com/goenka_recordings'
 
 export default function Recordings(props: Props) {
   const [metadata, setMetadata] = useState<Metadata>()
+  const [isEnglish, setLanguage] = useState(true)
 
   useEffect(() => {
     fetch(`${domain}/all.json`, { headers: { 'Cache-Control': 'no-cache, must-revalidate' } })
@@ -43,7 +44,30 @@ export default function Recordings(props: Props) {
   }, [props.isOldStudent])
 
   return (
-    <>
+    <View>
+      {/* Language picker */}
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => setLanguage(!isEnglish)}
+        style={{
+          alignItems: 'center',
+          borderColor: '#fff3',
+          borderRadius: 4,
+          borderWidth: 1,
+          flexDirection: 'row',
+          padding: 5,
+          paddingHorizontal: 10,
+          position: 'absolute',
+          right: 20,
+          top: -2,
+          zIndex: 10,
+        }}
+      >
+        <SimpleLineIcons color="#fff5" name="globe" size={13} />
+        <Text style={{ color: '#fff6', fontSize: 13, paddingLeft: 8 }}>{isEnglish ? 'English' : 'Hindi'}</Text>
+      </TouchableOpacity>
+
+      {/* Recordings list */}
       {!metadata ? (
         <Text style={{ color: '#fff0' }}>Loading...</Text>
       ) : (
@@ -116,7 +140,7 @@ export default function Recordings(props: Props) {
           style={{ paddingHorizontal: 24 }}
         />
       )}
-    </>
+    </View>
   )
 }
 
