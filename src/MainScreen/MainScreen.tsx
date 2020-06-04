@@ -32,7 +32,7 @@ function MainScreen(props: Props) {
   const friendable = Number(user && (!displayName || !notifications_allowed))
   const numNotifications = numUnsyncdSits + friendable + incomingFriendRequests.length + recentlyJoinedContacts.length
 
-  const onRecordingsTab = mainScreenSwitcherIndex === 3
+  const onRecordingsTab = mainScreenSwitcherIndex === 1
 
   return (
     <>
@@ -118,7 +118,7 @@ function MainScreen(props: Props) {
         >
           <TouchableOpacity
             onPress={() => setState({ screen: 'HistoryScreen' })}
-            style={{ padding: 15, paddingRight: 0, width: 50 }}
+            style={{ paddingLeft: 18, width: 50 }}
           >
             <Octicon color="#fffd" name="calendar" size={30} style={{ opacity: showHistoryBtnTooltip ? 0.6 : 0.2 }} />
           </TouchableOpacity>
