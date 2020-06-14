@@ -72,12 +72,12 @@ function CountdownScreen(props: Props) {
 
   return (
     <>
-      <KeepAwake />
       <StatusBar hidden={hideStatusBar} />
       <TouchableWithoutFeedback onPressIn={() => setHideStatusBar(false)} onPressOut={() => setHideStatusBar(true)}>
         <View style={{ alignItems: 'center', marginTop: 80 }}>
           {!finished ? (
             <>
+              <KeepAwake />
               <CircularTimer
                 bgColor="#001709"
                 borderWidth={4}
@@ -168,6 +168,7 @@ function CountdownScreen(props: Props) {
                     </Text>
                     {'\n\n'} Tap to retry
                   </Text>
+                  <KeepAwake />
                 </TouchableOpacity>
               )}
             </>
