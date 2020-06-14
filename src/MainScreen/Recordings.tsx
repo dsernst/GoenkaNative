@@ -29,6 +29,7 @@ const languages = ['English', 'Hindi']
 export default function Recordings(props: Props) {
   const [metadata, setMetadata] = useState<Metadata>()
   const [langIndex, setLangIndex] = useState(0)
+  const [loading_error, setLoadingError] = useState<string>()
 
   useEffect(() => {
     fetch(`${domain}/${languages[langIndex].toLowerCase()}/all.json`, {
@@ -45,12 +46,18 @@ export default function Recordings(props: Props) {
       // Filter out old student content
       .then(json => json.filter(section => section.for_new_students || props.isOldStudent))
       .then(setMetadata)
+      .catch(error => setLoadingError(error.toString()))
   }, [langIndex, props.isOldStudent])
 
   return (
     <>
       {!metadata ? (
-        <Text style={{ color: '#fff0' }}>Loading...</Text>
+        loading_error && (
+          <View style={{ padding: 20 }}>
+            <Text style={{ color: '#fff9', fontWeight: '600' }}>Unable to download list of Recordings</Text>
+            <Text style={{ color: '#fff9', top: 15 }}>{loading_error}</Text>
+          </View>
+        )
       ) : (
         <>
           {/* Language picker */}
