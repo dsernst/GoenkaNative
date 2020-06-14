@@ -53,7 +53,19 @@ function CountdownScreen(props: Props) {
     ? 'with chanting '
     : ''
 
-  const sendFriendNotification = () => {
+  let airplaneCheckerTimeout: ReturnType<typeof setTimeout>
+  async function trySendingFriendNotif() {
+    // Check if airplane mode is activated
+    const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
+    setIsAirplaneModeOn(airplaneEnabled)
+    clearTimeout(airplaneCheckerTimeout)
+    if (airplaneEnabled) {
+      // Still on? Check again in 1 second
+      airplaneCheckerTimeout = setTimeout(() => trySendingFriendNotif(), 1000)
+      return console.log('✈️  Airplane Mode still activated')
+    }
+
+    // Make sure display name isn't set to 'null'
     if (!displayName) {
       return Alert.alert(
         "Can't send Friend Notification",
@@ -61,6 +73,7 @@ function CountdownScreen(props: Props) {
       )
     }
 
+    // Send friend notifications
     OneSignal.postNotification(
       {
         en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
@@ -92,12 +105,7 @@ function CountdownScreen(props: Props) {
                     return console.log('  Not logged in.')
                   }
 
-                  // Check if airplane mode is activated
-                  const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
-                  setIsAirplaneModeOn(airplaneEnabled)
-                  if (!airplaneEnabled) {
-                    sendFriendNotification()
-                  }
+                  await trySendingFriendNotif()
 
                   if (!autoSyncCompletedSits) {
                     return console.log('  AutoSync disabled.')
@@ -143,30 +151,21 @@ function CountdownScreen(props: Props) {
               <BeHappyText />
               {isAirplaneModeOn && (
                 <TouchableOpacity
-                  onPress={async () => {
-                    // Check if airplane mode was switched off
-                    const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
-                    setIsAirplaneModeOn(airplaneEnabled)
-                    if (!airplaneEnabled) {
-                      sendFriendNotification()
-                    }
-                  }}
+                  onPress={() => trySendingFriendNotif()}
                   style={{ borderColor: '#fff1', borderRadius: 5, borderWidth: 1, top: 100 }}
                 >
                   <Text
                     style={{
                       color: '#E58839a7',
-                      fontSize: 15,
+                      fontSize: 13,
                       fontStyle: 'italic',
-                      fontWeight: '700',
+                      fontWeight: '400',
                       padding: 20,
                       textAlign: 'center',
                     }}
                   >
-                    <Text style={{ fontSize: 13, fontWeight: '400' }}>
-                      Airplane mode: &nbsp;Can't send Friend Notification
-                    </Text>
-                    {'\n\n'} Tap to retry
+                    <Text style={{ fontWeight: '700' }}>Airplane mode{'\n\n'}</Text>
+                    Can't send Friend Notification
                   </Text>
                   <KeepAwake />
                 </TouchableOpacity>
