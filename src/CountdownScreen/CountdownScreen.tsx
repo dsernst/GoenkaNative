@@ -41,7 +41,7 @@ function CountdownScreen(props: Props) {
     user,
   } = props
   const [hideStatusBar, setHideStatusBar] = useState(true)
-  const [isAirplaneModeOn, setIsAirplaneModeOn] = useState(false)
+  const [friendNotifUnsent, setFriendNotifUnsent] = useState(false)
 
   const friendsToNotify = [
     ...acceptedIncomingFriendRequests.filter(ifr => ifr.from_wants_notifs).map(ifr => ifr.from_onesignal_id),
@@ -60,10 +60,11 @@ function CountdownScreen(props: Props) {
 
   let airplaneCheckerTimeout: ReturnType<typeof setTimeout>
   async function trySendingFriendNotif() {
+    clearTimeout(airplaneCheckerTimeout)
+
     // Check if airplane mode is activated
     const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
-    setIsAirplaneModeOn(airplaneEnabled)
-    clearTimeout(airplaneCheckerTimeout)
+    setFriendNotifUnsent(airplaneEnabled)
     if (airplaneEnabled) {
       // Still on? Check again in 1 second
       airplaneCheckerTimeout = setTimeout(() => trySendingFriendNotif(), 1000)
@@ -79,6 +80,7 @@ function CountdownScreen(props: Props) {
     }
 
     // Send friend notifications
+    console.log('👫 Sending friend notif to', numFriends, 'friends')
     OneSignal.postNotification(
       {
         en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
@@ -165,9 +167,9 @@ function CountdownScreen(props: Props) {
           ) : (
             <>
               <BeHappyText />
-              {isAirplaneModeOn && (
+              {friendNotifUnsent && (
                 <TouchableOpacity
-                  onPress={() => trySendingFriendNotif()}
+                  // onPress={() => trySendingFriendNotif()}
                   style={{ borderColor: '#fff1', borderRadius: 5, borderWidth: 1, top: 100 }}
                 >
                   <Text
