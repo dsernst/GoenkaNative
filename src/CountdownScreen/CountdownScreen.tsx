@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import {
   Alert,
   Animated,
+  Easing,
   Platform,
   StatusBar,
   Text,
@@ -20,6 +21,8 @@ import { Props } from '../reducer'
 import BeHappyText from './BeHappyText'
 import CircularTimer from './CircularTimer'
 import pressStop from './press-stop'
+
+const friendNotifConfirmationOpacity = new Animated.Value(0)
 
 function CountdownScreen(props: Props) {
   const {
@@ -44,6 +47,8 @@ function CountdownScreen(props: Props) {
     ...acceptedIncomingFriendRequests.filter(ifr => ifr.from_wants_notifs).map(ifr => ifr.from_onesignal_id),
     ...acceptedOutgoingFriendRequests.filter(ifr => ifr.to_wants_notifs).map(ofr => ofr.to_onesignal_id),
   ]
+
+  const numFriends = acceptedIncomingFriendRequests.length + acceptedOutgoingFriendRequests.length
 
   const settingsString = hasExtendedMetta
     ? hasChanting
@@ -81,6 +86,17 @@ function CountdownScreen(props: Props) {
       {},
       friendsToNotify,
     )
+
+    // Show confirmation, then fade out
+    Animated.sequence([
+      Animated.timing(friendNotifConfirmationOpacity, { toValue: 0.8 }),
+      Animated.delay(1000),
+      Animated.timing(friendNotifConfirmationOpacity, {
+        duration: 1500,
+        easing: Easing.linear,
+        toValue: 0,
+      }),
+    ]).start()
   }
 
   return (
@@ -170,6 +186,20 @@ function CountdownScreen(props: Props) {
                   <KeepAwake />
                 </TouchableOpacity>
               )}
+
+              {/* Friend Notif confirmation  */}
+              <Animated.Text
+                style={{
+                  color: '#409887',
+                  fontSize: 16,
+                  fontStyle: 'italic',
+                  fontWeight: '600',
+                  marginTop: 140,
+                  opacity: friendNotifConfirmationOpacity,
+                }}
+              >
+                Shared sit with {numFriends} friend{numFriends === 1 ? '' : 's'}
+              </Animated.Text>
             </>
           )}
         </View>
