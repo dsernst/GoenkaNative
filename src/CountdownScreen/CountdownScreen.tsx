@@ -81,13 +81,15 @@ function CountdownScreen(props: Props) {
 
     // Send friend notifications
     console.log('👫 Sending friend notif to', numFriends, 'friends')
-    OneSignal.postNotification(
-      {
-        en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
-      },
-      {},
-      friendsToNotify,
-    )
+    setTimeout(() => {
+      OneSignal.postNotification(
+        {
+          en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
+        },
+        {},
+        friendsToNotify,
+      )
+    }, 1000) // Run after 1sec delay to ensure we have a connection now
 
     // Show confirmation, then fade out
     Animated.sequence([
@@ -200,7 +202,7 @@ function CountdownScreen(props: Props) {
                   opacity: friendNotifConfirmationOpacity,
                 }}
               >
-                Shared sit with {numFriends} friend{numFriends === 1 ? '' : 's'}
+                Sharing sit with {numFriends} friend{numFriends === 1 ? '' : 's'}
               </Animated.Text>
             </>
           )}
