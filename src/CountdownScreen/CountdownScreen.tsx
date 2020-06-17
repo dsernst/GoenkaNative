@@ -164,11 +164,13 @@ function CountdownScreen(props: Props) {
           ) : (
             <>
               <BeHappyText />
+
+              {/* DisableAirplaneMode reminder */}
               {friendNotifUnsent && (
                 <Text
                   style={{
                     color: '#E58839c7',
-                    fontSize: 18,
+                    fontSize: 16,
                     fontStyle: 'italic',
                     fontWeight: '600',
                     lineHeight: 25,
