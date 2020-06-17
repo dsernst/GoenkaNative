@@ -1,17 +1,7 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
-import {
-  Alert,
-  Animated,
-  Easing,
-  Platform,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import { Alert, Animated, Easing, Platform, StatusBar, Text, TouchableWithoutFeedback, View } from 'react-native'
 import KeepAwake from 'react-native-keep-awake'
 import OneSignal from 'react-native-onesignal'
 import SystemSetting from 'react-native-system-setting'
@@ -170,25 +160,21 @@ function CountdownScreen(props: Props) {
             <>
               <BeHappyText />
               {friendNotifUnsent && (
-                <TouchableOpacity
-                  // onPress={() => trySendingFriendNotif()}
-                  style={{ borderColor: '#fff1', borderRadius: 5, borderWidth: 1, top: 100 }}
+                <Text
+                  style={{
+                    color: '#E58839c7',
+                    fontSize: 18,
+                    fontStyle: 'italic',
+                    fontWeight: '600',
+                    lineHeight: 25,
+                    textAlign: 'center',
+                    top: 160,
+                  }}
                 >
-                  <Text
-                    style={{
-                      color: '#E58839a7',
-                      fontSize: 13,
-                      fontStyle: 'italic',
-                      fontWeight: '400',
-                      padding: 20,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <Text style={{ fontWeight: '700' }}>Airplane mode{'\n\n'}</Text>
-                    Can't send Friend Notification
-                  </Text>
+                  Disable Airplane mode{'\n'}
+                  <Text style={{ fontWeight: '300' }}>to send Friend Notification</Text>
                   <KeepAwake />
-                </TouchableOpacity>
+                </Text>
               )}
 
               {/* Friend Notif confirmation  */}
@@ -198,8 +184,8 @@ function CountdownScreen(props: Props) {
                   fontSize: 16,
                   fontStyle: 'italic',
                   fontWeight: '600',
-                  marginTop: 140,
                   opacity: friendNotifConfirmationOpacity,
+                  top: 160,
                 }}
               >
                 Sharing sit with {numFriends} friend{numFriends === 1 ? '' : 's'}
