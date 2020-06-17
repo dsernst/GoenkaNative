@@ -52,6 +52,11 @@ function CountdownScreen(props: Props) {
   async function trySendingFriendNotif() {
     clearTimeout(airplaneCheckerTimeout)
 
+    // Don't show any messages if they don't have any friends to send Notifs to
+    if (!numFriends) {
+      return setFriendNotifUnsent(false)
+    }
+
     // Check if airplane mode is activated
     const airplaneEnabled = await SystemSetting.isAirplaneEnabled()
     setFriendNotifUnsent(airplaneEnabled)
