@@ -84,7 +84,7 @@ function CountdownScreen(props: Props) {
     // Show confirmation, then fade out
     Animated.sequence([
       Animated.timing(friendNotifConfirmationOpacity, { toValue: 0.8 }),
-      Animated.delay(1000),
+      Animated.delay(2000),
       Animated.timing(friendNotifConfirmationOpacity, {
         duration: 1500,
         easing: Easing.linear,
