@@ -166,7 +166,7 @@ function CountdownScreen(props: Props) {
               <BeHappyText />
 
               {/* DisableAirplaneMode reminder */}
-              {friendNotifUnsent && (
+              {friendNotifUnsent ? (
                 <Text
                   style={{
                     color: '#E58839c7',
@@ -182,21 +182,21 @@ function CountdownScreen(props: Props) {
                   <Text style={{ fontWeight: '300' }}>to send Friend Notification</Text>
                   <KeepAwake />
                 </Text>
+              ) : (
+                // Friend Notif confirmation
+                <Animated.Text
+                  style={{
+                    color: '#409887',
+                    fontSize: 16,
+                    fontStyle: 'italic',
+                    fontWeight: '600',
+                    opacity: friendNotifConfirmationOpacity,
+                    top: 160,
+                  }}
+                >
+                  Sharing sit with {numFriends} friend{numFriends === 1 ? '' : 's'}
+                </Animated.Text>
               )}
-
-              {/* Friend Notif confirmation  */}
-              <Animated.Text
-                style={{
-                  color: '#409887',
-                  fontSize: 16,
-                  fontStyle: 'italic',
-                  fontWeight: '600',
-                  opacity: friendNotifConfirmationOpacity,
-                  top: 160,
-                }}
-              >
-                Sharing sit with {numFriends} friend{numFriends === 1 ? '' : 's'}
-              </Animated.Text>
             </>
           )}
         </View>
