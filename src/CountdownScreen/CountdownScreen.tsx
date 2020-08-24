@@ -81,7 +81,7 @@ function CountdownScreen(props: Props) {
         {
           en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
         },
-        {},
+        { duration: countdownDuration, friendName: displayName, possibleGroupMed: true },
         friendsToNotify,
       )
     }, 1000) // Run after 1sec delay to ensure we have a connection now
