@@ -26,6 +26,7 @@ function CountdownScreen(props: Props) {
     hasChanting,
     hasExtendedMetta,
     history,
+    onesignal_id,
     setState,
     toggle,
     user,
@@ -81,7 +82,13 @@ function CountdownScreen(props: Props) {
         {
           en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
         },
-        { duration: countdownDuration, friendName: displayName, possibleGroupMed: true },
+        {
+          host_name: displayName,
+          host_onesignal: onesignal_id,
+          host_phone: user?.phoneNumber,
+          sit: history[0],
+          sit_date: history[0].date.toString(),
+        },
         friendsToNotify,
       )
     }, 1000) // Run after 1sec delay to ensure we have a connection now

@@ -31,13 +31,14 @@ function App(props: Props) {
     // console.log('Init effect')
     safeAreaHelper.init(setState)
     const unsubscribeFromFirebase = firebaseHelper.init(setState)
-    const unsubscribeFromOnesignal = onesignalHelper.init(setState)
+    const unsubscribeFromOnesignal = onesignalHelper.init(props)
     SplashScreen.hide() // Wait for JS to load before hiding splash screen
     return () => {
       unsubscribeFromFirebase()
       unsubscribeFromOnesignal()
     }
-  }, [setState])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Play new track
   useEffect(() => {

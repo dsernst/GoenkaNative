@@ -15,9 +15,9 @@ console.log('🔥 Connected.')
 // Download all Firebase data to JSON files
 type DirectionStr = 'desc' | 'asc'
 const collectionsToDownload: [string, string?, DirectionStr?][] = [
-  // ['friendRequests', 'created_at'],
-  // ['users'],
-  // ['sits', 'date', 'desc'],
+  ['friendRequests', 'created_at'],
+  ['users'],
+  ['sits', 'date', 'desc'],
 ]
 collectionsToDownload.forEach(async ([collection, orderKey, desc]) => {
   console.log(`  ⬇️ Downloading ${collection}...`)
