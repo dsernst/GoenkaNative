@@ -1,4 +1,5 @@
 import CountdownScreen from './CountdownScreen/CountdownScreen'
+import FriendsSitScreen from './FriendsSitScreen'
 import HistoryScreen from './HistoryScreen/HistoryScreen'
 import MultiDeleteScreen from './HistoryScreen/MultiDeleteScreen'
 import InitFriendsScreen from './InitFriendsScreen'
@@ -7,9 +8,10 @@ import MainScreen from './MainScreen/MainScreen'
 import CheckContactsScreen from './SettingsScreen/Friends/CheckContactsScreen'
 import SettingsScreen from './SettingsScreen/SettingsScreen'
 
-export default {
+const screens = {
   CheckContactsScreen,
   CountdownScreen,
+  FriendsSitScreen,
   HistoryScreen,
   InitFriendsScreen,
   InitQuestionScreen,
@@ -18,12 +20,6 @@ export default {
   SettingsScreen,
 }
 
-export type ScreenNames =
-  | 'CountdownScreen'
-  | 'HistoryScreen'
-  | 'MainScreen'
-  | 'SettingsScreen'
-  | 'MultiDeleteScreen'
-  | 'InitQuestionScreen'
-  | 'CheckContactsScreen'
-  | 'InitFriendsScreen'
+export type ScreenNames = keyof typeof screens
+
+export default screens

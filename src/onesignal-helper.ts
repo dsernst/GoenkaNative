@@ -1,7 +1,6 @@
 import { Platform } from 'react-native'
 import OneSignal from 'react-native-onesignal'
 
-import { copyFriendsSit } from './copy-friends-sit'
 import { Props } from './reducer'
 
 function init(props: Props) {
@@ -55,7 +54,10 @@ function onOpened(props: Props) {
       setState({ expandFriendsSection: true, screen: 'SettingsScreen' })
     }
     if (body.includes(' just finished a ')) {
-      copyFriendsSit(openResult.notification.payload.additionalData, props)
+      setState({
+        friendsSit: openResult.notification.payload.additionalData.p2p_notification,
+        screen: 'FriendsSitScreen',
+      })
     }
   }
 }

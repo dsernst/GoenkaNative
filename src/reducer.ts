@@ -73,6 +73,13 @@ export interface State extends ToggleableStates {
   customDuration: number
   displayName: string | null
   expandFriendsSection?: boolean
+  friendsSit?: {
+    host_name: string
+    host_onesignal: string
+    host_phone: string
+    sit: Sit
+    sit_date: string
+  }
   history: Sit[]
   historyViewIndex: number
   incomingFriendRequests: FriendRequest[]
