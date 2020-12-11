@@ -8,6 +8,7 @@ import friendRequests from '../friendRequests.json'
 import users from '../users.json'
 
 console.log('🔌 Connecting to Firebase...')
+process.env.GOOGLE_APPLICATION_CREDENTIALS = './goenkatimer-firebase-adminsdk-2lqcs-f9c0d551b4.json'
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
   databaseURL: 'https://goenkatimer.firebaseio.com',
