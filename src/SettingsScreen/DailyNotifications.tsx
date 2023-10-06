@@ -14,27 +14,20 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import PushNotification from 'react-native-push-notification';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import {Props} from '../reducer';
 import setDailyNotifications from './notification';
+import {AM_NOTIFICATION_TIME, PM_NOTIFICATION_TIME} from '../constants';
 
 type TimeKeys = 'morning' | 'evening';
 
 function DailyNotificationSettings(props: Props) {
-  const {
-    amNotification,
-    amNotificationTime,
-    history,
-    pmNotification,
-    pmNotificationTime,
-    setState,
-  } = props;
-  console.log('start!!!');
-  console.log('amNotificationTime: ', amNotificationTime);
-  console.log(
-    'test: ',
-    moment('2020-01-01 11:59 AM', 'YYYY-MM-DD hh:mm A').toDate(),
-  );
+  const {amNotification, history, pmNotification, setState} = props;
+  const amNotificationTime = props.amNotificationTime
+    ? props.amNotificationTime
+    : AM_NOTIFICATION_TIME;
+  const pmNotificationTime = props.pmNotificationTime
+    ? props.pmNotificationTime
+    : PM_NOTIFICATION_TIME;
   const [amPickerVisible, setAmPickerVisible] = useState(false);
   const [pmPickerVisible, setPmPickerVisible] = useState(false);
 
@@ -98,7 +91,7 @@ function DailyNotificationSettings(props: Props) {
     string,
   ][] = [
     ['morning', morningYellow, amNotification, FeatherIcon, 'sun'],
-    ['evening', eveningPurple, pmNotification, Ionicons, 'ios-moon'],
+    ['evening', eveningPurple, pmNotification, Ionicons, 'moon'],
   ];
 
   const AdjustTimeTuples: [boolean, Function, object, Date][] = [
@@ -195,7 +188,7 @@ function DailyNotificationSettings(props: Props) {
           paddingHorizontal: 34,
         }}>
         {AdjustTimeTuples.map(([isOn, setPickerVisible, style, time]) => (
-          <React.Fragment /*key={time.toString()}*/>
+          <React.Fragment key={time.toString()}>
             {isOn && (
               <TouchableOpacity
                 activeOpacity={0.7}

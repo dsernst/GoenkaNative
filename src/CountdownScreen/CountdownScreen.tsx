@@ -110,12 +110,16 @@ function CountdownScreen(props: Props) {
 
     // Show confirmation, then fade out
     Animated.sequence([
-      Animated.timing(friendNotifConfirmationOpacity, {toValue: 0.8}),
+      Animated.timing(friendNotifConfirmationOpacity, {
+        toValue: 0.8,
+        useNativeDriver: false,
+      }),
       Animated.delay(2000),
       Animated.timing(friendNotifConfirmationOpacity, {
         duration: 1500,
         easing: Easing.linear,
         toValue: 0,
+        useNativeDriver: false,
       }),
     ]).start();
   }

@@ -1,9 +1,9 @@
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {Animated} from 'react-native';
 import {Contact} from 'react-native-contacts';
-import moment from 'moment';
 import {SoundPlus} from './clips';
 import {ScreenNames} from './screens';
+import {AM_NOTIFICATION_TIME, PM_NOTIFICATION_TIME} from './constants';
 
 const INITIAL_SCREEN = 'InitQuestionScreen';
 
@@ -123,10 +123,7 @@ const initialState: State = {
   acceptedOutgoingFriendRequests: [],
   airplaneModeReminderOpacity: new Animated.Value(0),
   amNotification: false,
-  amNotificationTime: moment(
-    '2020-01-01 08:00 AM',
-    'YYYY-MM-DD hh:mm A',
-  ).toDate(),
+  amNotificationTime: AM_NOTIFICATION_TIME,
   autoSyncCompletedSits: true,
   backgroundColor: '#001709',
   contactsNotOnApp: [],
@@ -147,10 +144,7 @@ const initialState: State = {
   onlineSits: [],
   outgoingFriendRequests: [],
   pmNotification: false,
-  pmNotificationTime: moment(
-    '2020-01-01 08:15 PM',
-    'YYYY-MM-DD hh:mm A',
-  ).toDate(),
+  pmNotificationTime: PM_NOTIFICATION_TIME,
   recentlyJoinedContacts: [],
   rejectedFriendRequests: [],
   safeAreaInsetBottom: 0,

@@ -10,10 +10,12 @@ export default () => {
         Animated.timing(fadeAnim, {
           duration: 4000,
           toValue: 0.8,
+          useNativeDriver: false,
         }),
         Animated.timing(fadeAnim, {
           duration: 3000,
           toValue: 0,
+          useNativeDriver: false,
         }),
       ]),
     ).start();

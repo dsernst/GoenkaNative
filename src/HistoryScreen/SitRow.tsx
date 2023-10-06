@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React from 'react';
 import {Text, View} from 'react-native';
-import {Sit} from 'src/reducer';
+import {Sit} from '../reducer';
 
 const Faded = (props: any) => (
   <Text

@@ -12,6 +12,7 @@ export default ({
   // Fade in title
   Animated.timing(titleOpacity, {
     toValue: 1,
+    useNativeDriver: false,
   }).start();
 
   // Clear all of the timeouts

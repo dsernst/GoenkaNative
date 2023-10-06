@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React from 'react'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import { createTransform, persistReducer, persistStore } from 'redux-persist'
-import { PersistGate } from 'redux-persist/integration/react'
+import React from 'react';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import {createTransform, persistReducer, persistStore} from 'redux-persist';
+import {PersistGate} from 'redux-persist/integration/react';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
-import App from './App'
-import reducer from './reducer'
+import App from './App';
+import reducer from './reducer';
 
 const store = createStore(
   persistReducer(
@@ -20,7 +21,10 @@ const store = createStore(
         // @ts-ignore
         createTransform(JSON.stringify, toRehydrate =>
           JSON.parse(toRehydrate, (_key, value) =>
-            typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/) ? new Date(value) : value,
+            typeof value === 'string' &&
+            value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/)
+              ? new Date(value)
+              : value,
           ),
         ),
       ],
@@ -45,14 +49,16 @@ const store = createStore(
     },
     reducer,
   ),
-)
+);
 
 const Persistence = () => (
-  <Provider store={store}>
-    <PersistGate persistor={persistStore(store)}>
-      <App />
-    </PersistGate>
-  </Provider>
-)
+  <SafeAreaProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistStore(store)}>
+        <App />
+      </PersistGate>
+    </Provider>
+  </SafeAreaProvider>
+);
 
-export default Persistence
+export default Persistence;

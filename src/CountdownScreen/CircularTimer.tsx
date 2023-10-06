@@ -166,6 +166,7 @@ export default class PercentageCircle extends React.PureComponent<
       duration: 1000 * (this.props.minutes ? 60 : 1),
       easing: Easing.linear,
       toValue: 100,
+      useNativeDriver: false,
     }).start(this.onCircleAnimated);
   };
 

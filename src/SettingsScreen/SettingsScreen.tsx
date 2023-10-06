@@ -28,19 +28,16 @@ const SettingsScreen = (props: Props) => {
   return (
     <>
       <TitleBar name="SETTINGS" showVersion style={{marginBottom: 1}} />
-
       <ScrollView
         indicatorStyle="white"
         style={{paddingHorizontal: 20, paddingTop: 17}}>
         {user && <AuthedInfo {...props} user={user} />}
-
         <Section
           Content={AirplaneMode}
           description="Can help block incoming distractions."
           icon={{Set: Ionicons, name: 'airplane-outline', size: 19}}
           title="Airplane mode"
         />
-
         <Section
           badgeNumber={user ? history.length - onlineSits?.length : 0}
           Content={Sync}
