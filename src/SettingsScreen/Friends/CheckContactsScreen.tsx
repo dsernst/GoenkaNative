@@ -25,7 +25,6 @@ const CheckContactsScreen = (props: Props) => {
     props;
 
   const [filter, setFilter] = useState('');
-
   const [, forceRender] = useState({});
 
   if (!contacts) {

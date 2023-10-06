@@ -122,13 +122,20 @@ function SetDisplayName({
           }
 
           doc.ref.update({signed_up: new Date()});
-          OneSignal.postNotification(
-            {
+          const notification = JSON.stringify({
+            contents: {
               en: `Your contact ${data.name} just registered. Go send them a friend request!`,
             },
-            {},
-            [parent!.onesignal_id],
-          );
+            included_segments: [parent!.onesignal_id],
+          });
+          OneSignal.postNotification(notification);
+          // OneSignal.postNotification(
+          //   {
+          //     en: `Your contact ${data.name} just registered. Go send them a friend request!`,
+          //   },
+          //   {},
+          //   [parent!.onesignal_id],
+          // );
         });
       });
   }

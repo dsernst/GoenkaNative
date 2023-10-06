@@ -94,7 +94,7 @@ function SendRequestButton({
         to_onesignal_id: potentialFriend.onesignal_id,
         to_phone: potentialFriend.id,
       });
-    } catch (err) {
+    } catch (err: any) {
       return setError(err.toString());
     }
     setSubmitting(false);
@@ -141,13 +141,22 @@ export async function sendFriendRequest({
     .delete();
 
   // Send them a notification
-  OneSignal.postNotification(
-    {
+  const notification = JSON.stringify({
+    contents: {
       en: `New friend request from ${from_name} (${prettyDisplayPhone(
         from_phone!,
       )})`,
     },
-    {},
-    [to_onesignal_id],
-  );
+    included_segments: [to_onesignal_id],
+  });
+  OneSignal.postNotification(notification);
+  // OneSignal.postNotification(
+  //   {
+  //     en: `New friend request from ${from_name} (${prettyDisplayPhone(
+  //       from_phone!,
+  //     )})`,
+  //   },
+  //   {},
+  //   [to_onesignal_id],
+  // );
 }

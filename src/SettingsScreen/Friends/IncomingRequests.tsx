@@ -69,14 +69,24 @@ export function acceptRequest(request: FriendRequest, displayName: string) {
       to_wants_notifs: true,
     });
 
-    OneSignal.postNotification(
-      {
+    // Send reply to host that sit was copied
+    const notification = JSON.stringify({
+      contents: {
         en: `${displayName} (${prettyDisplayPhone(
           request.to_phone!,
         )}) accepted your friend request :)`,
       },
-      {},
-      [request.from_onesignal_id],
-    );
+      included_segments: [request.from_onesignal_id],
+    });
+    OneSignal.postNotification(notification);
+    // OneSignal.postNotification(
+    //   {
+    //     en: `${displayName} (${prettyDisplayPhone(
+    //       request.to_phone!,
+    //     )}) accepted your friend request :)`,
+    //   },
+    //   {},
+    //   [request.from_onesignal_id],
+    // );
   };
 }

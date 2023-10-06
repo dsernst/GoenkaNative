@@ -93,19 +93,33 @@ function CountdownScreen(props: Props) {
     // Send friend notifications
     console.log('👫 Sending friend notif to', numFriends, 'friends');
     setTimeout(() => {
-      OneSignal.postNotification(
-        {
+      const notification = JSON.stringify({
+        contents: {
           en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
         },
-        {
+        included_segments: friendsToNotify,
+        data: {
           host_name: displayName,
           host_onesignal: onesignal_id,
           host_phone: user?.phoneNumber,
           sit: history[0],
           sit_date: history[0].date.toString(),
         },
-        friendsToNotify,
-      );
+      });
+      OneSignal.postNotification(notification);
+      // OneSignal.postNotification(
+      //   {
+      //     en: `Your friend ${displayName} just finished a ${countdownDuration} minute sit ${settingsString}🙂`,
+      //   },
+      //   {
+      //     host_name: displayName,
+      //     host_onesignal: onesignal_id,
+      //     host_phone: user?.phoneNumber,
+      //     sit: history[0],
+      //     sit_date: history[0].date.toString(),
+      //   },
+      //   friendsToNotify,
+      // );
     }, 1000); // Run after 1sec delay to ensure we have a connection now
 
     // Show confirmation, then fade out

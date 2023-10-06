@@ -62,13 +62,22 @@ const FriendsSitScreen = ({
             setState({history: newHistory, screen: 'HistoryScreen'});
 
             // Send reply to host that sit was copied
-            OneSignal.postNotification(
-              {
+            const notification = JSON.stringify({
+              contents: {
                 en: `${displayName} said they sat with you 🙂`,
               },
-              {},
-              [host_onesignal],
-            );
+              included_segments: [host_onesignal],
+            });
+            OneSignal.postNotification(notification);
+
+            // // Send reply to host that sit was copied
+            // OneSignal.postNotification(
+            //   {
+            //     en: `${displayName} said they sat with you 🙂`,
+            //   },
+            //   {},
+            //   [host_onesignal],
+            // );
 
             // Update daily notifications
             setDailyNotifications(
