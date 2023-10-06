@@ -1,18 +1,18 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import React from 'react'
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import React from 'react';
 
-import { Props } from '../../reducer'
-import AcceptedRequests from './AcceptedRequests'
-import SearchContactsButton from './CheckContactsButton'
-import EnableNotificationPermissions from './EnableNotificationPermissions'
-import EnterFriendPhone from './EnterFriendPhone'
-import IncomingRequests from './IncomingRequests'
-import OutgoingRequests from './OutgoingRequests'
-import RecentlyJoinedContact from './RecentlyJoinedContact'
-import RejectedRequests from './RejectedRequests'
-import SetDisplayName from './SetDisplayName'
+import {Props} from '../../reducer';
+import AcceptedRequests from './AcceptedRequests';
+import SearchContactsButton from './CheckContactsButton';
+import EnableNotificationPermissions from './EnableNotificationPermissions';
+import EnterFriendPhone from './EnterFriendPhone';
+import IncomingRequests from './IncomingRequests';
+import OutgoingRequests from './OutgoingRequests';
+import RecentlyJoinedContact from './RecentlyJoinedContact';
+import RejectedRequests from './RejectedRequests';
+import SetDisplayName from './SetDisplayName';
 
-const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
+const Friends = (props: Props & {user: FirebaseAuthTypes.User}) => {
   const {
     acceptedIncomingFriendRequests,
     acceptedOutgoingFriendRequests,
@@ -22,25 +22,32 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
     outgoingFriendRequests,
     recentlyJoinedContacts,
     rejectedFriendRequests,
-  } = props
+  } = props;
 
   if (!notifications_allowed) {
-    return <EnableNotificationPermissions {...props} />
+    return <EnableNotificationPermissions {...props} />;
   }
 
   if (!displayName) {
-    return <SetDisplayName {...props} />
+    return <SetDisplayName {...props} />;
   }
 
   return (
     <>
       {!!incomingFriendRequests?.length && (
-        <IncomingRequests displayName={displayName} incomingFriendRequests={incomingFriendRequests} />
+        <IncomingRequests
+          displayName={displayName}
+          incomingFriendRequests={incomingFriendRequests}
+        />
       )}
 
       {recentlyJoinedContacts.length ? (
         recentlyJoinedContacts.map(rJC => (
-          <RecentlyJoinedContact key={rJC.phoneNumber} recentlyJoinedContact={rJC} {...props} />
+          <RecentlyJoinedContact
+            key={rJC.phoneNumber}
+            recentlyJoinedContact={rJC}
+            {...props}
+          />
         ))
       ) : (
         <>
@@ -49,9 +56,12 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
         </>
       )}
 
-      {!!outgoingFriendRequests?.length && <OutgoingRequests outgoingFriendRequests={outgoingFriendRequests} />}
+      {!!outgoingFriendRequests?.length && (
+        <OutgoingRequests outgoingFriendRequests={outgoingFriendRequests} />
+      )}
 
-      {(!!acceptedIncomingFriendRequests?.length || !!acceptedOutgoingFriendRequests?.length) && (
+      {(!!acceptedIncomingFriendRequests?.length ||
+        !!acceptedOutgoingFriendRequests?.length) && (
         <AcceptedRequests
           acceptedIncomingFriendRequests={acceptedIncomingFriendRequests}
           acceptedOutgoingFriendRequests={acceptedOutgoingFriendRequests}
@@ -59,10 +69,13 @@ const Friends = (props: Props & { user: FirebaseAuthTypes.User }) => {
       )}
 
       {!!rejectedFriendRequests?.length && (
-        <RejectedRequests displayName={displayName} rejectedFriendRequests={rejectedFriendRequests} />
+        <RejectedRequests
+          displayName={displayName}
+          rejectedFriendRequests={rejectedFriendRequests}
+        />
       )}
     </>
-  )
-}
+  );
+};
 
-export default Friends
+export default Friends;

@@ -1,16 +1,16 @@
-import { memoize } from 'lodash'
-import React from 'react'
-import { Text } from 'react-native'
+import {memoize} from 'lodash';
+import React from 'react';
+import {Text} from 'react-native';
 
-import { Props } from '../reducer'
-import calcStreaks from './calc-streaks'
+import {Props} from '../reducer';
+import calcStreaks from './calc-streaks';
 
-const calcStreaksMemoized = memoize(calcStreaks)
+const calcStreaksMemoized = memoize(calcStreaks);
 
 export default (props: Props) => {
-  const { history } = props
-  const dates = history.map(h => h.date)
-  const [dailyStreak, twiceADayStreak] = calcStreaksMemoized(dates)
+  const {history} = props;
+  const dates = history.map(h => h.date);
+  const [dailyStreak, twiceADayStreak] = calcStreaksMemoized(dates);
 
   return (
     <Text
@@ -19,8 +19,7 @@ export default (props: Props) => {
         fontWeight: '600',
         lineHeight: 21,
         textAlign: 'center',
-      }}
-    >
+      }}>
       <Faded>You've sat twice a day for </Faded>
       {twiceADayStreak} day
       {twiceADayStreak === 1 ? '' : 's'}
@@ -30,7 +29,12 @@ export default (props: Props) => {
       {dailyStreak} day
       {dailyStreak === 1 ? '' : 's'} straight<Faded>.</Faded>
     </Text>
-  )
-}
+  );
+};
 
-const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeight: '400', ...props.style }} />
+const Faded = (props: any) => (
+  <Text
+    {...props}
+    style={{color: '#fff8', fontWeight: '400', ...props.style}}
+  />
+);

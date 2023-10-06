@@ -1,19 +1,26 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import React, { useState } from 'react'
-import { Text, View } from 'react-native'
-import Feather from 'react-native-vector-icons/Feather'
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import React, {useState} from 'react';
+import {Text, View} from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
-import { Props } from '../reducer'
-import EnterPhone from './EnterPhone'
-import EnterVerificationCode from './EnterVerificationCode'
+import {Props} from '../reducer';
+import EnterPhone from './EnterPhone';
+import EnterVerificationCode from './EnterVerificationCode';
 
 const LoginFlow = (props: Props) => {
-  const { backgroundColor } = props
-  const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult>()
-  const [unverifiedPhone, setUnverifiedPhone] = useState<string>()
+  const {backgroundColor} = props;
+  const [confirmation, setConfirmation] =
+    useState<FirebaseAuthTypes.ConfirmationResult>();
+  const [unverifiedPhone, setUnverifiedPhone] = useState<string>();
 
   return (
-    <View style={{ borderColor: '#5594fa33', borderRadius: 8, borderWidth: 1, padding: 10 }}>
+    <View
+      style={{
+        borderColor: '#5594fa33',
+        borderRadius: 8,
+        borderWidth: 1,
+        padding: 10,
+      }}>
       <Text
         style={{
           alignSelf: 'center',
@@ -23,8 +30,7 @@ const LoginFlow = (props: Props) => {
           paddingHorizontal: 10,
           position: 'absolute',
           top: -9,
-        }}
-      >
+        }}>
         <Feather color="#5594faaa" name="alert-circle" size={18} />
         &nbsp; Requires Login
       </Text>
@@ -43,7 +49,7 @@ const LoginFlow = (props: Props) => {
         />
       )}
     </View>
-  )
-}
+  );
+};
 
-export default LoginFlow
+export default LoginFlow;

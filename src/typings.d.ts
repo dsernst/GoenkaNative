@@ -1,1 +1,1 @@
-declare module 'react-native-system-setting'
+declare module 'react-native-system-setting';

@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import BackButton from '../BackButton'
-import { Props } from '../reducer'
-import TitleBar from '../TitleBar'
-import BarView from './BarView'
-import Calendar from './Calendar'
-import CurrentStreaks from './CurrentStreaks'
-import ListView from './ListView'
-import ViewControl from './ViewControl'
+import BackButton from '../BackButton';
+import {Props} from '../reducer';
+import TitleBar from '../TitleBar';
+import BarView from './BarView';
+import Calendar from './Calendar';
+import CurrentStreaks from './CurrentStreaks';
+import ListView from './ListView';
+import ViewControl from './ViewControl';
 
 const HistoryScreen = (props: Props) => (
   <>
@@ -15,7 +15,10 @@ const HistoryScreen = (props: Props) => (
 
     <CurrentStreaks {...props} />
 
-    <ViewControl toggleView={index => props.setState({ historyViewIndex: index })} viewIndex={props.historyViewIndex} />
+    <ViewControl
+      toggleView={index => props.setState({historyViewIndex: index})}
+      viewIndex={props.historyViewIndex}
+    />
 
     {props.historyViewIndex === 0 && <BarView {...props} />}
     {props.historyViewIndex === 1 && <Calendar {...props} />}
@@ -23,7 +26,7 @@ const HistoryScreen = (props: Props) => (
 
     <BackButton saveSpace />
   </>
-)
-HistoryScreen.paddingHorizontal = 2
+);
+HistoryScreen.paddingHorizontal = 2;
 
-export default HistoryScreen
+export default HistoryScreen;

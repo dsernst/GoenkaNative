@@ -1,26 +1,34 @@
-import React, { useState } from 'react'
-import { Alert } from 'react-native'
+import React, {useState} from 'react';
+import {Alert} from 'react-native';
 
-import { Props } from './reducer'
+import {Props} from './reducer';
 
-function InitQuestionScreen({ isOldStudent, setState }: Props) {
-  const [shownPrompt, setShownPrompt] = useState(false)
+function InitQuestionScreen({isOldStudent, setState}: Props) {
+  const [shownPrompt, setShownPrompt] = useState(false);
 
-  const NextScreen = 'InitFriendsScreen'
+  const NextScreen = 'InitFriendsScreen';
 
   if (isOldStudent !== null || process.env.NODE_ENV === 'development') {
-    setState({ screen: NextScreen })
+    setState({screen: NextScreen});
   } else if (!shownPrompt) {
-    setShownPrompt(true)
+    setShownPrompt(true);
     Alert.alert(
       'Welcome',
       'Have you completed a Vipassana course taught by S.N. Goenka?\n\nThis does not affect functionality.',
       [
         {
           onPress: () => {
-            Alert.alert('Welcome, fellow meditator', 'For help and/or questions, email: hi@goenka.app', [
-              { onPress: () => setState({ isOldStudent: true, screen: NextScreen }), text: 'OK' },
-            ])
+            Alert.alert(
+              'Welcome, fellow meditator',
+              'For help and/or questions, email: hi@goenka.app',
+              [
+                {
+                  onPress: () =>
+                    setState({isOldStudent: true, screen: NextScreen}),
+                  text: 'OK',
+                },
+              ],
+            );
           },
           text: 'Yes',
         },
@@ -35,17 +43,23 @@ The courses are free — including food, housing, & instruction — and run by v
 Visit dhamma.org for more information.
 
 For help and/or questions with this app, email hi@goenka.app`,
-              [{ onPress: () => setState({ isOldStudent: false, screen: NextScreen }), text: 'OK' }],
-            )
+              [
+                {
+                  onPress: () =>
+                    setState({isOldStudent: false, screen: NextScreen}),
+                  text: 'OK',
+                },
+              ],
+            );
           },
           style: 'destructive',
           text: 'No',
         },
       ],
-    )
+    );
   }
 
-  return <></>
+  return <></>;
 }
 
-export default InitQuestionScreen
+export default InitQuestionScreen;

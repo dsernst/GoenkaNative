@@ -1,42 +1,41 @@
-import firestore from '@react-native-firebase/firestore'
-import React, { useRef, useState } from 'react'
-import { Text, TextInput, TouchableOpacity, View } from 'react-native'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import firestore from '@react-native-firebase/firestore';
+import React, {useRef, useState} from 'react';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Props } from '../../reducer'
-import { formatPhoneNumber, prettyFormat } from './phone-helpers'
-import SendRequestButton, { User } from './SendRequestButton'
+import {Props} from '../../reducer';
+import {formatPhoneNumber, prettyFormat} from './phone-helpers';
+import SendRequestButton, {User} from './SendRequestButton';
 
 const EnterFriendPhone = (props: Props) => {
-  const { outgoingFriendRequests, user } = props
-  const [phone, setPhone] = useState('')
-  const [error, setError] = useState<string>()
-  const [submitting, setSubmitting] = useState(false)
-  const [potentialFriend, setPotentialFriend] = useState<User>()
-  const textInput = useRef<TextInput>(null)
+  const {outgoingFriendRequests, user} = props;
+  const [phone, setPhone] = useState('');
+  const [error, setError] = useState<string>();
+  const [submitting, setSubmitting] = useState(false);
+  const [potentialFriend, setPotentialFriend] = useState<User>();
+  const textInput = useRef<TextInput>(null);
 
   return (
-    <View style={{ marginHorizontal: 15 }}>
+    <View style={{marginHorizontal: 15}}>
       <Text
         style={{
           color: '#fff9',
           fontSize: 14,
-        }}
-      >
+        }}>
         Or add a friend by phone number:
       </Text>
 
-      <View style={{ flexDirection: 'row', marginTop: 10 }}>
+      <View style={{flexDirection: 'row', marginTop: 10}}>
         <TextInput
           autoCapitalize="none"
           autoCompleteType="tel"
           autoCorrect={false}
           keyboardType="phone-pad"
           onChangeText={newVal => {
-            setError(undefined)
-            setSubmitting(false)
-            setPotentialFriend(undefined)
-            setPhone(prettyFormat(newVal, phone))
+            setError(undefined);
+            setSubmitting(false);
+            setPotentialFriend(undefined);
+            setPhone(prettyFormat(newVal, phone));
           }}
           placeholder="415 867 5309"
           placeholderTextColor="#fff5"
@@ -67,15 +66,16 @@ const EnterFriendPhone = (props: Props) => {
             marginLeft: 10,
             opacity: potentialFriend ? 0.7 : 1,
             paddingHorizontal: 10,
-          }}
-        >
+          }}>
           <MaterialCommunityIcons
             color="#fffa"
             name="account-search"
             size={20}
-            style={{ paddingLeft: 2, paddingRight: 8, paddingTop: 2 }}
+            style={{paddingLeft: 2, paddingRight: 8, paddingTop: 2}}
           />
-          <Text style={{ color: '#fff9', fontSize: 17, fontWeight: '500' }}>Lookup</Text>
+          <Text style={{color: '#fff9', fontSize: 17, fontWeight: '500'}}>
+            Lookup
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -84,8 +84,7 @@ const EnterFriendPhone = (props: Props) => {
           style={{
             color: '#fff9',
             marginTop: 14,
-          }}
-        >
+          }}>
           Searching...
         </Text>
       )}
@@ -95,8 +94,7 @@ const EnterFriendPhone = (props: Props) => {
           style={{
             color: '#ff5e5e',
             marginTop: 14,
-          }}
-        >
+          }}>
           {error}
         </Text>
       )}
@@ -110,50 +108,49 @@ const EnterFriendPhone = (props: Props) => {
         />
       )}
     </View>
-  )
+  );
 
   async function submit() {
-    const phoneNumber = formatPhoneNumber(phone)
+    const phoneNumber = formatPhoneNumber(phone);
     // console.log('called EnterFriendPhone.submit() ', phoneNumber)
-    let foundUser: User | undefined
+    let foundUser: User | undefined;
 
-    setError(undefined)
-    textInput.current?.blur()
+    setError(undefined);
+    textInput.current?.blur();
 
     if (phoneNumber === user!.phoneNumber) {
-      return setError("You can't send a request to yourself, silly 😅")
+      return setError("You can't send a request to yourself, silly 😅");
     }
 
-    if (outgoingFriendRequests.some(request => request.to_phone === phoneNumber)) {
-      return setError('You already sent them a friend request')
+    if (
+      outgoingFriendRequests.some(request => request.to_phone === phoneNumber)
+    ) {
+      return setError('You already sent them a friend request');
     }
 
-    setSubmitting(true)
-    setPotentialFriend(undefined)
+    setSubmitting(true);
+    setPotentialFriend(undefined);
 
     try {
-      const doc = await firestore()
-        .collection('users')
-        .doc(phoneNumber)
-        .get()
+      const doc = await firestore().collection('users').doc(phoneNumber).get();
 
       if (doc.exists) {
         // @ts-ignore: doc.data() has imprecise typing so manually specified instead
-        foundUser = { id: doc.id, ...doc.data() }
+        foundUser = {id: doc.id, ...doc.data()};
       }
     } catch (err) {
-      return setError(err.toString())
+      return setError(err.toString());
     }
-    setSubmitting(false)
+    setSubmitting(false);
 
     if (!foundUser) {
       return setError(
         "Can't find anyone with that number.\nAre you sure it's correct?\n\nThey need a display name to become visible.",
-      )
+      );
     }
 
-    setPotentialFriend(foundUser)
+    setPotentialFriend(foundUser);
   }
-}
+};
 
-export default EnterFriendPhone
+export default EnterFriendPhone;

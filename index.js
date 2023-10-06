@@ -1,5 +1,9 @@
-import { AppRegistry } from 'react-native'
+/**
+ * @format
+ */
 
-import Persistence from './src/Persistence'
+import {AppRegistry} from 'react-native';
+import {name as appName} from './app.json';
+import Persistence from './src/Persistence';
 
-AppRegistry.registerComponent('GoenkaNative', () => Persistence)
+AppRegistry.registerComponent(appName, () => Persistence);

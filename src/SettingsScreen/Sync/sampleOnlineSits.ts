@@ -95,4 +95,4 @@ export default [
     hasExtendedMetta: true,
     uid: 'X1lxgpBRJ8TuzZ9FQ7Xt5yOHSu32',
   },
-]
+];

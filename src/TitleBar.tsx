@@ -1,9 +1,13 @@
-import React from 'react'
-import { Text, View, ViewStyle } from 'react-native'
+import React from 'react';
+import {Text, View, ViewStyle} from 'react-native';
 
-import { version } from '../package.json'
+import {version} from '../package.json';
 
-export default (props: { name: string; showVersion?: boolean; style?: ViewStyle }) => (
+export default (props: {
+  name: string;
+  showVersion?: boolean;
+  style?: ViewStyle;
+}) => (
   <View
     style={[
       {
@@ -15,20 +19,27 @@ export default (props: { name: string; showVersion?: boolean; style?: ViewStyle 
         paddingVertical: 10,
       },
       props.style || {},
-    ]}
-  >
+    ]}>
     <Text
       style={{
         alignSelf: 'center',
         color: '#fffa',
         fontSize: 11,
         fontWeight: '500',
-      }}
-    >
+      }}>
       {props.name}
     </Text>
     {props.showVersion && (
-      <Text style={{ color: '#fff3', fontSize: 11, position: 'absolute', right: 29, top: 10 }}>v{version}</Text>
+      <Text
+        style={{
+          color: '#fff3',
+          fontSize: 11,
+          position: 'absolute',
+          right: 29,
+          top: 10,
+        }}>
+        v{version}
+      </Text>
     )}
   </View>
-)
+);

@@ -1,4 +1,4 @@
-import { Alert } from 'react-native'
+import {Alert} from 'react-native';
 
 const firstSitInstructions = async () =>
   await new Promise(resolve =>
@@ -12,8 +12,8 @@ const firstSitInstructions = async () =>
 3) Work diligently, work intelligently, work patiently and persistently.
 
 ツ`,
-      [{ onPress: resolve, text: 'OK' }],
+      [{onPress: resolve, text: 'OK'}],
     ),
-  )
+  );
 
-export default firstSitInstructions
+export default firstSitInstructions;

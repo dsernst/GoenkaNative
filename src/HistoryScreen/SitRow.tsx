@@ -1,9 +1,14 @@
-import dayjs from 'dayjs'
-import React from 'react'
-import { Text, View } from 'react-native'
-import { Sit } from 'src/reducer'
+import dayjs from 'dayjs';
+import React from 'react';
+import {Text, View} from 'react-native';
+import {Sit} from 'src/reducer';
 
-const Faded = (props: any) => <Text {...props} style={{ color: '#fff8', fontWeight: '400', ...props.style }} />
+const Faded = (props: any) => (
+  <Text
+    {...props}
+    style={{color: '#fff8', fontWeight: '400', ...props.style}}
+  />
+);
 
 const SitRow = ({
   ITEM_HEIGHT = 36,
@@ -13,17 +18,23 @@ const SitRow = ({
   index,
   onlineSitsByDate,
 }: {
-  ITEM_HEIGHT?: number
-  alwaysShowDayLabel?: boolean
-  history: Sit[]
-  i: Sit
-  index: number
-  onlineSitsByDate?: any
+  ITEM_HEIGHT?: number;
+  alwaysShowDayLabel?: boolean;
+  history: Sit[];
+  i: Sit;
+  index: number;
+  onlineSitsByDate?: any;
 }) => {
   return (
-    <View style={{ alignItems: 'center', flexDirection: 'row', height: ITEM_HEIGHT, paddingHorizontal: 24 }}>
+    <View
+      style={{
+        alignItems: 'center',
+        flexDirection: 'row',
+        height: ITEM_HEIGHT,
+        paddingHorizontal: 24,
+      }}>
       {/* day label */}
-      <View style={{ alignItems: 'flex-end', marginRight: 10, width: 90 }}>
+      <View style={{alignItems: 'flex-end', marginRight: 10, width: 90}}>
         {dayLabel(i.date, index, history, alwaysShowDayLabel)}
       </View>
 
@@ -34,22 +45,20 @@ const SitRow = ({
           flexDirection: 'row',
           padding: 4,
           paddingRight: 8,
-        }}
-      >
+        }}>
         {/* start time */}
-        <View style={{ alignItems: 'flex-end', marginRight: 5, width: 70 }}>
+        <View style={{alignItems: 'flex-end', marginRight: 5, width: 70}}>
           <Text
             style={{
               color: '#fffb',
               fontSize: 16,
               fontWeight: '600',
-            }}
-          >
+            }}>
             {dayjs(i.date).format('h[:]mma')}
           </Text>
         </View>
 
-        <Faded style={{ top: 2 }}> for &nbsp;</Faded>
+        <Faded style={{top: 2}}> for &nbsp;</Faded>
 
         {/* duration */}
         <Text
@@ -57,8 +66,7 @@ const SitRow = ({
             color: '#fffb',
             fontSize: 16,
             fontWeight: '600',
-          }}
-        >
+          }}>
           {i.elapsed < i.duration && i.elapsed + ' of '}
           {i.duration} min
         </Text>
@@ -79,37 +87,37 @@ const SitRow = ({
         )}
       </View>
     </View>
-  )
-}
+  );
+};
 
-function dayLabel(date: Date, index: number, history: any, alwaysShow?: boolean) {
+function dayLabel(
+  date: Date,
+  index: number,
+  history: any,
+  alwaysShow?: boolean,
+) {
   // Don't show label if not first item of a particular day
-  if (!alwaysShow && index > 0 && date.getDate() === history[index - 1].date.getDate()) {
-    return
+  if (
+    !alwaysShow &&
+    index > 0 &&
+    date.getDate() === history[index - 1].date.getDate()
+  ) {
+    return;
   }
 
-  let label: string
-  let showDayOfWeekName = false
+  let label: string;
+  let showDayOfWeekName = false;
 
-  if (
-    dayjs()
-      .startOf('day')
-      .isBefore(date)
-  ) {
-    label = 'today'
-  } else if (
-    dayjs()
-      .subtract(1, 'day')
-      .startOf('day')
-      .isBefore(date)
-  ) {
-    label = 'yesterday'
+  if (dayjs().startOf('day').isBefore(date)) {
+    label = 'today';
+  } else if (dayjs().subtract(1, 'day').startOf('day').isBefore(date)) {
+    label = 'yesterday';
   } else {
     const daysAgo = dayjs()
       .startOf('day')
-      .diff(dayjs(date).startOf('day'), 'day')
+      .diff(dayjs(date).startOf('day'), 'day');
 
-    label = `${daysAgo} days ago`
+    label = `${daysAgo} days ago`;
 
     // Show occasional subtle day-of-week name
     if (
@@ -122,20 +130,26 @@ function dayLabel(date: Date, index: number, history: any, alwaysShow?: boolean)
       index < history.length &&
       date.getDate() === history[index + 1]?.date?.getDate()
     ) {
-      showDayOfWeekName = true
+      showDayOfWeekName = true;
     }
   }
 
   return (
     <View>
-      <Text style={{ color: '#fff8', fontWeight: '400' }}>{label}</Text>
+      <Text style={{color: '#fff8', fontWeight: '400'}}>{label}</Text>
       {showDayOfWeekName && (
-        <Text style={{ color: '#fff2', fontWeight: '400', position: 'absolute', top: 15 }}>
+        <Text
+          style={{
+            color: '#fff2',
+            fontWeight: '400',
+            position: 'absolute',
+            top: 15,
+          }}>
           {dayjs(date).format('ddd')}
         </Text>
       )}
     </View>
-  )
+  );
 }
 
-export default SitRow
+export default SitRow;

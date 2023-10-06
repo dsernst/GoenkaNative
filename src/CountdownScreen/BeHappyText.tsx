@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Animated } from 'react-native'
+import React, {useState} from 'react';
+import {Animated} from 'react-native';
 
 export default () => {
-  const [fadeAnim] = useState(new Animated.Value(0))
+  const [fadeAnim] = useState(new Animated.Value(0));
 
   React.useEffect(() => {
     Animated.loop(
@@ -16,8 +16,8 @@ export default () => {
           toValue: 0,
         }),
       ]),
-    ).start()
-  }, [fadeAnim])
+    ).start();
+  }, [fadeAnim]);
 
   return (
     <Animated.Text
@@ -30,9 +30,8 @@ export default () => {
         fontWeight: '400',
         marginTop: 45,
         opacity: fadeAnim,
-      }}
-    >
+      }}>
       Be happy
     </Animated.Text>
-  )
-}
+  );
+};

@@ -1,16 +1,25 @@
-import React from 'react'
-import { Alert, Dimensions, Platform, StatusBar, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
-import AntIcon from 'react-native-vector-icons/AntDesign'
-import Octicon from 'react-native-vector-icons/Octicons'
-import Tooltip from 'react-native-walkthrough-tooltip'
+import React from 'react';
+import {
+  Alert,
+  Dimensions,
+  Platform,
+  StatusBar,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+import Octicon from 'react-native-vector-icons/Octicons';
+import Tooltip from 'react-native-walkthrough-tooltip';
 
-import { Props } from '../reducer'
-import CustomOptions from './CustomOptions'
-import pressPlay from './press-play'
-import Recordings from './Recordings'
-import TypeSwitcher from './TypeSwitcher'
+import {Props} from '../reducer';
+import CustomOptions from './CustomOptions';
+import pressPlay from './press-play';
+import Recordings from './Recordings';
+import TypeSwitcher from './TypeSwitcher';
 
-const { width: screenWidth } = Dimensions.get('window')
+const {width: screenWidth} = Dimensions.get('window');
 
 function MainScreen(props: Props) {
   const {
@@ -26,22 +35,30 @@ function MainScreen(props: Props) {
     showHistoryBtnTooltip,
     toggle,
     user,
-  } = props
+  } = props;
 
-  const numUnsyncdSits = user ? history.length - onlineSits?.length : 0
-  const friendable = Number(user && (!displayName || !notifications_allowed))
-  const numNotifications = numUnsyncdSits + friendable + incomingFriendRequests.length + recentlyJoinedContacts.length
+  const numUnsyncdSits = user ? history.length - onlineSits?.length : 0;
+  const friendable = Number(user && (!displayName || !notifications_allowed));
+  const numNotifications =
+    numUnsyncdSits +
+    friendable +
+    incomingFriendRequests.length +
+    recentlyJoinedContacts.length;
 
-  const onRecordingsTab = mainScreenSwitcherIndex === 1
+  const onRecordingsTab = mainScreenSwitcherIndex === 1;
 
   return (
     <>
       <TypeSwitcher
-        selectView={index => props.setState({ mainScreenSwitcherIndex: index })}
+        selectView={index => props.setState({mainScreenSwitcherIndex: index})}
         viewIndex={mainScreenSwitcherIndex}
       />
 
-      {!onRecordingsTab ? <CustomOptions {...props} /> : <Recordings {...props} />}
+      {!onRecordingsTab ? (
+        <CustomOptions {...props} />
+      ) : (
+        <Recordings {...props} />
+      )}
 
       {/* Bottom row */}
       <View
@@ -52,13 +69,11 @@ function MainScreen(props: Props) {
           marginBottom: 30,
           marginTop: 'auto',
           paddingHorizontal: 24,
-        }}
-      >
+        }}>
         {/* SettingsBtn */}
         <TouchableOpacity
-          onPress={() => setState({ screen: 'SettingsScreen' })}
-          style={{ padding: 15, paddingLeft: 0, width: 50 }}
-        >
+          onPress={() => setState({screen: 'SettingsScreen'})}
+          style={{padding: 15, paddingLeft: 0, width: 50}}>
           <AntIcon color="#fff3" name="setting" size={30} />
           {!!numNotifications && (
             <View
@@ -69,9 +84,10 @@ function MainScreen(props: Props) {
                 paddingHorizontal: 4,
                 position: 'absolute',
                 top: 5,
-              }}
-            >
-              <Text style={{ color: '#000', fontSize: 11, fontWeight: '700' }}>{numNotifications}</Text>
+              }}>
+              <Text style={{color: '#000', fontSize: 11, fontWeight: '700'}}>
+                {numNotifications}
+              </Text>
             </View>
           )}
         </TouchableOpacity>
@@ -82,7 +98,10 @@ function MainScreen(props: Props) {
           onPress={() => {
             isEnoughTime
               ? pressPlay(props)
-              : Alert.alert('Not enough time', 'Lengthen the duration, or turn off the optional extras.')
+              : Alert.alert(
+                  'Not enough time',
+                  'Lengthen the duration, or turn off the optional extras.',
+                );
           }}
           style={{
             alignItems: 'center',
@@ -93,15 +112,13 @@ function MainScreen(props: Props) {
             justifyContent: 'center',
             opacity: onRecordingsTab ? 0 : isEnoughTime ? 1 : 0.3,
             width: btnSize,
-          }}
-        >
+          }}>
           <Text
             style={{
               color: '#73d45d',
               fontSize: 18,
               fontWeight: '500',
-            }}
-          >
+            }}>
             Start
           </Text>
         </TouchableHighlight>
@@ -109,27 +126,34 @@ function MainScreen(props: Props) {
         {/* HistoryBtn */}
         <Tooltip
           childContentSpacing={0}
-          content={<Text style={{ color: '#000', fontWeight: '500' }}>Your history</Text>}
-          contentStyle={{ backgroundColor: '#ccc', left: screenWidth / 2 - 78 }}
+          content={
+            <Text style={{color: '#000', fontWeight: '500'}}>Your history</Text>
+          }
+          contentStyle={{backgroundColor: '#ccc', left: screenWidth / 2 - 78}}
           isVisible={showHistoryBtnTooltip}
           onClose={toggle('showHistoryBtnTooltip')}
           placement="top"
-          topAdjustment={Platform.OS === 'android' ? -StatusBar.currentHeight! : 0}
-        >
+          topAdjustment={
+            Platform.OS === 'android' ? -StatusBar.currentHeight! : 0
+          }>
           <TouchableOpacity
-            onPress={() => setState({ screen: 'HistoryScreen' })}
-            style={{ bottom: 1, paddingLeft: 14, paddingTop: 5, width: 50 }}
-          >
-            <Octicon color="#fffd" name="calendar" size={30} style={{ opacity: showHistoryBtnTooltip ? 0.6 : 0.2 }} />
+            onPress={() => setState({screen: 'HistoryScreen'})}
+            style={{bottom: 1, paddingLeft: 14, paddingTop: 5, width: 50}}>
+            <Octicon
+              color="#fffd"
+              name="calendar"
+              size={30}
+              style={{opacity: showHistoryBtnTooltip ? 0.6 : 0.2}}
+            />
           </TouchableOpacity>
         </Tooltip>
       </View>
     </>
-  )
+  );
 }
 
-MainScreen.paddingHorizontal = 2
+MainScreen.paddingHorizontal = 2;
 
-const btnSize = 80
+const btnSize = 80;
 
-export default MainScreen
+export default MainScreen;

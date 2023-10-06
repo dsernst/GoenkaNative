@@ -1,24 +1,32 @@
-import firestore from '@react-native-firebase/firestore'
-import bluebird from 'bluebird'
-import React, { useState } from 'react'
-import { ActivityIndicator, SectionList, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { PhoneNumber } from 'react-native-contacts'
-import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import firestore from '@react-native-firebase/firestore';
+import bluebird from 'bluebird';
+import React, {useState} from 'react';
+import {
+  ActivityIndicator,
+  SectionList,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {PhoneNumber} from 'react-native-contacts';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import BackButton from '../../BackButton'
-import { ContactWithType, Props } from '../../reducer'
-import TitleBar from '../../TitleBar'
-import { formatPhoneNumber } from './phone-helpers'
-import { sendFriendRequest } from './SendRequestButton'
+import BackButton from '../../BackButton';
+import {ContactWithType, Props} from '../../reducer';
+import TitleBar from '../../TitleBar';
+import {formatPhoneNumber} from './phone-helpers';
+import {sendFriendRequest} from './SendRequestButton';
 
 const CheckContactsScreen = (props: Props) => {
-  const { backgroundColor, contacts, displayName, onesignal_id, setState, user } = props
+  const {backgroundColor, contacts, displayName, onesignal_id, setState, user} =
+    props;
 
-  const [filter, setFilter] = useState('')
+  const [filter, setFilter] = useState('');
 
-  const [, forceRender] = useState({})
+  const [, forceRender] = useState({});
 
   if (!contacts) {
     return (
@@ -26,7 +34,7 @@ const CheckContactsScreen = (props: Props) => {
         <TitleBar name="ERROR LOADING CONTACTS" />
         <BackButton saveSpace to="SettingsScreen" />
       </>
-    )
+    );
   }
 
   const filteredContacts = (type?: string) =>
@@ -36,27 +44,34 @@ const CheckContactsScreen = (props: Props) => {
           filter === '' ||
           c.givenName.toLowerCase().includes(filter.toLowerCase()) ||
           c.familyName.toLowerCase().includes(filter.toLowerCase()) ||
-          `${c.givenName} ${c.familyName}`.toLowerCase().includes(filter.toLowerCase()),
+          `${c.givenName} ${c.familyName}`
+            .toLowerCase()
+            .includes(filter.toLowerCase()),
       )
-      .filter(c => c.type === type)
+      .filter(c => c.type === type);
 
-  const allData: { data: ContactWithType[]; title: string }[] = [
-    { data: filteredContacts('availableToFriend'), title: 'Available to Friend' },
-    { data: filteredContacts('alreadyFriends'), title: 'Already Friends' },
-    { data: filteredContacts('pendingRequests'), title: 'Friend Request Pending' },
-    { data: filteredContacts('notOnApp'), title: 'Not On App' },
-    { data: filteredContacts(), title: 'Unchecked' },
+  const allData: {data: ContactWithType[]; title: string}[] = [
+    {data: filteredContacts('availableToFriend'), title: 'Available to Friend'},
+    {data: filteredContacts('alreadyFriends'), title: 'Already Friends'},
+    {
+      data: filteredContacts('pendingRequests'),
+      title: 'Friend Request Pending',
+    },
+    {data: filteredContacts('notOnApp'), title: 'Not On App'},
+    {data: filteredContacts(), title: 'Unchecked'},
   ].map(s => ({
     ...s,
-    data: s.data.sort((a, b) => new Intl.Collator().compare(a.givenName, b.givenName)),
-  }))
+    data: s.data.sort((a, b) =>
+      new Intl.Collator().compare(a.givenName, b.givenName),
+    ),
+  }));
 
   // Keep friends section open when navigating Back
-  setState({ expandFriendsSection: true })
+  setState({expandFriendsSection: true});
 
   return (
     <>
-      <TitleBar name="CONTACTS" style={{ marginBottom: 1 }} />
+      <TitleBar name="CONTACTS" style={{marginBottom: 1}} />
 
       <View>
         <TextInput
@@ -78,29 +93,36 @@ const CheckContactsScreen = (props: Props) => {
           }}
           value={filter}
         />
-        <EvilIcons color="#fff8" name="search" size={20} style={{ left: 26, position: 'absolute', top: 20 }} />
+        <EvilIcons
+          color="#fff8"
+          name="search"
+          size={20}
+          style={{left: 26, position: 'absolute', top: 20}}
+        />
       </View>
 
       <SectionList
         indicatorStyle="white"
         keyExtractor={item => item.recordID}
-        renderItem={({ item: contact }) => {
-          let name = `${contact.givenName} ${contact.familyName}`
+        renderItem={({item: contact}) => {
+          let name = `${contact.givenName} ${contact.familyName}`;
           // Show number if no name
           if (!contact.givenName && !contact.familyName) {
-            name = contact.phoneNumbers[0]?.number
+            name = contact.phoneNumbers[0]?.number;
           }
 
           // Show their chosen display_name if different
-          let name2ndLine
+          let name2ndLine;
           if (
             contact.type &&
             contact.display_name &&
-            ['alreadyFriends', 'availableToFriend', 'pendingRequests'].includes(contact.type) &&
+            ['alreadyFriends', 'availableToFriend', 'pendingRequests'].includes(
+              contact.type,
+            ) &&
             contact.display_name !== name
           ) {
-            name2ndLine = name
-            name = contact.display_name
+            name2ndLine = name;
+            name = contact.display_name;
           }
 
           return (
@@ -108,18 +130,23 @@ const CheckContactsScreen = (props: Props) => {
             <TouchableOpacity
               disabled={!(!contact.type || contact.type === 'notOnApp')}
               onPress={() => {
-                contact.checking = true
-                lookupContacts([contact])
-                forceRender({})
+                contact.checking = true;
+                lookupContacts([contact]);
+                forceRender({});
               }}
-              style={{ marginBottom: 5, marginHorizontal: 22, marginTop: 15 }}
-            >
+              style={{marginBottom: 5, marginHorizontal: 22, marginTop: 15}}>
               {/* Contact name */}
-              <Text style={{ color: '#fffc', fontSize: 18 }}>
-                {contact.checking && <ActivityIndicator style={{ height: 18, paddingRight: 40, width: 30 }} />}
+              <Text style={{color: '#fffc', fontSize: 18}}>
+                {contact.checking && (
+                  <ActivityIndicator
+                    style={{height: 18, paddingRight: 40, width: 30}}
+                  />
+                )}
                 {name}
               </Text>
-              {name2ndLine && <Text style={{ color: '#fff4' }}>{name2ndLine}</Text>}
+              {name2ndLine && (
+                <Text style={{color: '#fff4'}}>{name2ndLine}</Text>
+              )}
 
               {/* Phone number (only shown if onApp) */}
               {contact.type === 'availableToFriend' &&
@@ -131,9 +158,8 @@ const CheckContactsScreen = (props: Props) => {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                       marginTop: 3,
-                    }}
-                  >
-                    <Text style={{ color: '#fff8' }}>{pN.number}</Text>
+                    }}>
+                    <Text style={{color: '#fff8'}}>{pN.number}</Text>
 
                     {/* Send Request btn */}
                     {pN.foundUser && (
@@ -146,9 +172,9 @@ const CheckContactsScreen = (props: Props) => {
                             to_name: pN.foundUser!.name,
                             to_onesignal_id: pN.foundUser!.onesignal_id,
                             to_phone: formatPhoneNumber(pN.number),
-                          })
-                          contact.type = 'pendingRequests'
-                          forceRender({})
+                          });
+                          contact.type = 'pendingRequests';
+                          forceRender({});
                         }}
                         style={{
                           alignItems: 'center',
@@ -158,29 +184,40 @@ const CheckContactsScreen = (props: Props) => {
                           flexDirection: 'row',
                           padding: 4,
                           paddingHorizontal: 11,
-                        }}
-                      >
-                        <MaterialIcons color="#fffa" name="person-add" size={15} style={{ paddingRight: 7, top: 1 }} />
-                        <Text style={{ color: '#fffb' }}>Send Request</Text>
+                        }}>
+                        <MaterialIcons
+                          color="#fffa"
+                          name="person-add"
+                          size={15}
+                          style={{paddingRight: 7, top: 1}}
+                        />
+                        <Text style={{color: '#fffb'}}>Send Request</Text>
                       </TouchableOpacity>
                     )}
                   </View>
                 ))}
             </TouchableOpacity>
-          )
+          );
         }}
-        renderSectionFooter={({ section }) => <View style={{ height: section.data.length ? 30 : 0 }} />}
-        renderSectionHeader={({ section }) => {
-          const { data, title } = section
+        renderSectionFooter={({section}) => (
+          <View style={{height: section.data.length ? 30 : 0}} />
+        )}
+        renderSectionHeader={({section}) => {
+          const {data, title} = section;
           if (!data.length) {
-            return <></>
+            return <></>;
           }
 
           return (
-            <View key={title} style={{ backgroundColor: '#001207' }}>
+            <View key={title} style={{backgroundColor: '#001207'}}>
               <Text
-                style={{ color: '#fff6', fontSize: 13, fontWeight: '600', marginVertical: 7, paddingHorizontal: 20 }}
-              >
+                style={{
+                  color: '#fff6',
+                  fontSize: 13,
+                  fontWeight: '600',
+                  marginVertical: 7,
+                  paddingHorizontal: 20,
+                }}>
                 {data.length} {title}:
               </Text>
 
@@ -198,62 +235,75 @@ const CheckContactsScreen = (props: Props) => {
                     right: 10,
                     top: 40,
                     width: 145,
-                  }}
-                >
-                  <Ionicons color="#fff8" name="ios-information-circle-outline" size={16} style={{ top: 7 }} />
-                  <Text style={{ color: '#fff6', fontSize: 14, fontStyle: 'italic', marginLeft: 10 }}>
+                  }}>
+                  <Ionicons
+                    color="#fff8"
+                    name="information-circle-outline"
+                    size={16}
+                    style={{top: 7}}
+                  />
+                  <Text
+                    style={{
+                      color: '#fff6',
+                      fontSize: 14,
+                      fontStyle: 'italic',
+                      marginLeft: 10,
+                    }}>
                     Tap a name to check for user
                   </Text>
                 </View>
               )}
             </View>
-          )
+          );
         }}
         sections={allData}
       />
 
       <BackButton saveSpace to="SettingsScreen" />
     </>
-  )
+  );
 
   function lookupContacts(contactsToLookup: ContactWithType[]) {
     contactsToLookup.forEach(async contact => {
-      const phoneNumbers = contact.phoneNumbers.map(pN => formatPhoneNumber(pN.number))
+      const phoneNumbers = contact.phoneNumbers.map(pN =>
+        formatPhoneNumber(pN.number),
+      );
 
       const dbResults = await bluebird.map(
         phoneNumbers,
         async phoneNumber =>
-          await firestore()
-            .collection('users')
-            .doc(phoneNumber)
-            .get(),
-      )
+          await firestore().collection('users').doc(phoneNumber).get(),
+      );
       if (dbResults.some(doc => doc.exists)) {
-        contact.type = 'availableToFriend'
+        contact.type = 'availableToFriend';
         dbResults.forEach((doc, index) => {
           if (doc.exists) {
             // @ts-ignore: doesn't know doc.data() type
-            const data: { name: string; onesignal_id: string } = doc.data()
-            contact.phoneNumbers[index].foundUser = { id: doc.id, ...data }
-            contact.display_name = data.name
+            const data: {name: string; onesignal_id: string} = doc.data();
+            contact.phoneNumbers[index].foundUser = {id: doc.id, ...data};
+            contact.display_name = data.name;
           }
-        })
+        });
       } else {
-        contact.type = 'notOnApp'
+        contact.type = 'notOnApp';
         phoneNumbers.forEach(pN =>
           firestore()
             .collection('users')
             .doc(user!.phoneNumber!)
             .collection('contactsNotOnApp')
             .doc(pN)
-            .set({ created_at: new Date(), name: `${contact.givenName} ${contact.familyName}`, phoneNumber: pN }),
-        )
+            .set({
+              created_at: new Date(),
+              name: `${contact.givenName} ${contact.familyName}`,
+              phoneNumber: pN,
+            }),
+        );
       }
-      contact.checking = false
-      forceRender({})
-    })
+      contact.checking = false;
+      forceRender({});
+    });
   }
-}
-CheckContactsScreen.paddingHorizontal = 2
+};
+CheckContactsScreen.paddingHorizontal = 2;
 
-export default CheckContactsScreen
+export default CheckContactsScreen;

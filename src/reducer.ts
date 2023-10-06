@@ -1,113 +1,121 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import { Animated } from 'react-native'
-import { Contact } from 'react-native-contacts'
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {Animated} from 'react-native';
+import {Contact} from 'react-native-contacts';
+import moment from 'moment';
+import {SoundPlus} from './clips';
+import {ScreenNames} from './screens';
 
-import { SoundPlus } from './clips'
-import { ScreenNames } from './screens'
-
-const INITIAL_SCREEN = 'InitQuestionScreen'
+const INITIAL_SCREEN = 'InitQuestionScreen';
 
 export type Sit = {
-  date: Date
-  duration: number
-  elapsed: number
-  hasChanting?: boolean
-  hasExtendedMetta?: boolean
-  recording?: string
-  selected?: boolean
-}
+  date: Date;
+  duration: number;
+  elapsed: number;
+  hasChanting?: boolean;
+  hasExtendedMetta?: boolean;
+  recording?: string;
+  selected?: boolean;
+};
 
 export type FriendRequest = {
-  accepted?: Date
-  created_at: Date
-  from_name: string
-  from_onesignal_id: string
-  from_phone: string
-  from_wants_notifs: boolean
-  id: string
-  rejected?: Date
-  to_name: string
-  to_onesignal_id: string
-  to_phone: string
-  to_wants_notifs: boolean
-}
+  accepted?: Date;
+  created_at: Date;
+  from_name: string;
+  from_onesignal_id: string;
+  from_phone: string;
+  from_wants_notifs: boolean;
+  id: string;
+  rejected?: Date;
+  to_name: string;
+  to_onesignal_id: string;
+  to_phone: string;
+  to_wants_notifs: boolean;
+};
 
-type OnlineSit = Sit & { id: string; user_id: string; user_phone?: string }
+type OnlineSit = Sit & {id: string; user_id: string; user_phone?: string};
 
 export type ContactDoc = {
-  id: string
-  name: string
-  phoneNumber: string
-  signed_up?: Date
-}
+  id: string;
+  name: string;
+  phoneNumber: string;
+  signed_up?: Date;
+};
 
 export type RecentlyJoinedContact = ContactDoc & {
-  new_name: string
-  new_onesignal_id: string
-}
+  new_name: string;
+  new_onesignal_id: string;
+};
 
 type ToggleableStates = {
-  airplaneModeReminder?: boolean
-  amNotification: boolean
-  autoSyncCompletedSits: boolean
-  finished: boolean
-  hasChanting: boolean
-  hasExtendedMetta: boolean
-  isEnoughTime: boolean
-  pmNotification: boolean
-  showHistoryBtnTooltip: boolean
-}
+  airplaneModeReminder?: boolean;
+  amNotification: boolean;
+  autoSyncCompletedSits: boolean;
+  finished: boolean;
+  hasChanting: boolean;
+  hasExtendedMetta: boolean;
+  isEnoughTime: boolean;
+  pmNotification: boolean;
+  showHistoryBtnTooltip: boolean;
+};
 
-export type ContactType = 'alreadyFriends' | 'availableToFriend' | 'notOnApp' | 'pendingRequests'
-export type ContactWithType = Contact & { checking?: boolean; display_name?: string; type?: ContactType }
+export type ContactType =
+  | 'alreadyFriends'
+  | 'availableToFriend'
+  | 'notOnApp'
+  | 'pendingRequests';
+export type ContactWithType = Contact & {
+  checking?: boolean;
+  display_name?: string;
+  type?: ContactType;
+};
 
 export interface State extends ToggleableStates {
-  acceptedIncomingFriendRequests: FriendRequest[]
-  acceptedOutgoingFriendRequests: FriendRequest[]
-  airplaneModeReminderOpacity: Animated.Value
-  amNotificationTime: Date
-  backgroundColor: string
-  contacts?: ContactWithType[]
-  contactsNotOnApp: ContactDoc[]
-  countdownDuration?: number
-  customDuration: number
-  displayName: string | null
-  expandFriendsSection?: boolean
+  acceptedIncomingFriendRequests: FriendRequest[];
+  acceptedOutgoingFriendRequests: FriendRequest[];
+  airplaneModeReminderOpacity: Animated.Value;
+  amNotificationTime: Date;
+  backgroundColor: string;
+  contacts?: ContactWithType[];
+  contactsNotOnApp: ContactDoc[];
+  countdownDuration?: number;
+  customDuration: number;
+  displayName: string | null;
+  expandFriendsSection?: boolean;
   friendsSit?: {
-    host_name: string
-    host_onesignal: string
-    host_phone: string
-    sit: Sit
-    sit_date: string
-  }
-  history: Sit[]
-  historyViewIndex: number
-  incomingFriendRequests: FriendRequest[]
-  isOldStudent: boolean | null
-  latestTrack: SoundPlus | null
-  mainScreenSwitcherIndex: number
-  notifications_allowed: boolean
-  onesignal_id: string | null
-  onlineSits: OnlineSit[]
-  outgoingFriendRequests: FriendRequest[]
-  pmNotificationTime: Date
-  recentlyJoinedContacts: RecentlyJoinedContact[]
-  rejectedFriendRequests: FriendRequest[]
-  safeAreaInsetBottom: number
-  safeAreaInsetTop: number
-  screen: ScreenNames
-  timeouts: ReturnType<typeof setTimeout>[]
-  titleOpacity: Animated.Value
-  user: FirebaseAuthTypes.User | null
+    host_name: string;
+    host_onesignal: string;
+    host_phone: string;
+    sit: Sit;
+    sit_date: string;
+  };
+  history: Sit[];
+  historyViewIndex: number;
+  incomingFriendRequests: FriendRequest[];
+  isOldStudent: boolean | null;
+  latestTrack: SoundPlus | null;
+  mainScreenSwitcherIndex: number;
+  notifications_allowed: boolean;
+  onesignal_id: string | null;
+  onlineSits: OnlineSit[];
+  outgoingFriendRequests: FriendRequest[];
+  pmNotificationTime: Date;
+  recentlyJoinedContacts: RecentlyJoinedContact[];
+  rejectedFriendRequests: FriendRequest[];
+  safeAreaInsetBottom: number;
+  safeAreaInsetTop: number;
+  screen: ScreenNames;
+  timeouts: ReturnType<typeof setTimeout>[];
+  titleOpacity: Animated.Value;
+  user: FirebaseAuthTypes.User | null;
 }
 
-export type Toggleables = keyof ToggleableStates
+export type Toggleables = keyof ToggleableStates;
 
-export type setStatePayload = Partial<State>
+export type setStatePayload = Partial<State>;
 
 export interface Props extends State {
-  setState: (payload: setStatePayload) => void
-  toggle: (key: Toggleables) => () => void
+  setState: (payload: setStatePayload) => void;
+  toggle: (key: Toggleables) => () => void;
 }
 
 const initialState: State = {
@@ -115,7 +123,10 @@ const initialState: State = {
   acceptedOutgoingFriendRequests: [],
   airplaneModeReminderOpacity: new Animated.Value(0),
   amNotification: false,
-  amNotificationTime: new Date('Jan 1, 2020 08:00 AM'),
+  amNotificationTime: moment(
+    '2020-01-01 08:00 AM',
+    'YYYY-MM-DD hh:mm A',
+  ).toDate(),
   autoSyncCompletedSits: true,
   backgroundColor: '#001709',
   contactsNotOnApp: [],
@@ -136,7 +147,10 @@ const initialState: State = {
   onlineSits: [],
   outgoingFriendRequests: [],
   pmNotification: false,
-  pmNotificationTime: new Date('Jan 1, 2020 08:15 PM'),
+  pmNotificationTime: moment(
+    '2020-01-01 08:15 PM',
+    'YYYY-MM-DD hh:mm A',
+  ).toDate(),
   recentlyJoinedContacts: [],
   rejectedFriendRequests: [],
   safeAreaInsetBottom: 0,
@@ -146,32 +160,32 @@ const initialState: State = {
   timeouts: [],
   titleOpacity: new Animated.Value(1),
   user: null,
-}
+};
 
 type Action =
   | {
-      payload: Partial<State>
-      type: 'SET_STATE'
+      payload: Partial<State>;
+      type: 'SET_STATE';
     }
   | {
-      key: Toggleables
-      type: 'TOGGLE'
-    }
+      key: Toggleables;
+      type: 'TOGGLE';
+    };
 
 const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
     case 'SET_STATE':
-      return { ...state, ...action.payload }
+      return {...state, ...action.payload};
     case 'TOGGLE':
       return {
         ...state,
         ...{
           [action.key]: !state[action.key],
         },
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default reducer
+export default reducer;

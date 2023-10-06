@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import _ from 'lodash'
+import dayjs from 'dayjs';
+import _ from 'lodash';
 
 const exampleSits = [
   {
@@ -77,7 +77,7 @@ const exampleSits = [
     duration: 15,
     time: '8:55',
   },
-]
+];
 
 const sits = _.flatten(
   _.range(20).map(r =>
@@ -91,6 +91,6 @@ const sits = _.flatten(
       elapsed: s.duration,
     })),
   ),
-)
+);
 
-export default sits
+export default sits;
