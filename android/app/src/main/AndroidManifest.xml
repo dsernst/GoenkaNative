@@ -1,7 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <permission
+      android:name="${applicationId}.permission.C2D_MESSAGE"
+      android:protectionLevel="signature" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -14,6 +23,7 @@
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
         android:launchMode="singleTask"
+        android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustResize"
         android:exported="true">
         <intent-filter>
@@ -21,5 +31,43 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <meta-data
+        android:name="com.dieam.reactnativepushnotification.notification_channel_name"
+        android:value="Daily Sit Reminders"/>
+      <meta-data
+        android:name="com.dieam.reactnativepushnotification.notification_channel_description"
+        android:value="You pick morning &amp; night time"/>
+      <!-- Change the resource name to your App's accent color - or any other color you want -->
+      <meta-data
+        android:name="com.dieam.reactnativepushnotification.notification_color"
+        android:resource="@android:color/white"/>
+
+      <meta-data
+          android:name="com.google.firebase.messaging.default_notification_icon"
+          android:resource="@mipmap/ic_stat_ic_launcher" />
+      <meta-data
+          android:name="com.google.firebase.messaging.default_notification_color"
+          android:resource="@color/yellow" />
+      <meta-data
+          android:name="com.onesignal.NotificationAccentColor.DEFAULT"
+          android:resource="@color/yellow" />
+      <receiver
+        android:name="com.google.android.gms.gcm.GcmReceiver"
+        android:exported="true"
+        android:permission="com.google.android.c2dm.permission.SEND" >
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+          <category android:name="${applicationId}" />
+        </intent-filter>
+      </receiver>
+      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+      <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
+      <service
+        android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerServiceGcm"
+        android:exported="false" >
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        </intent-filter>
+      </service>
     </application>
 </manifest>

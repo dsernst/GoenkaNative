@@ -28,7 +28,6 @@ const EnterPhone = ({
       <View style={{flexDirection: 'row', marginTop: 10}}>
         <TextInput
           autoCapitalize="none"
-          autoCompleteType="tel"
           autoCorrect={false}
           autoFocus={!onFocus}
           keyboardType="phone-pad"
@@ -120,6 +119,7 @@ const EnterPhone = ({
       setSubmitting(false);
       setConfirmation(confirmation);
     } catch (err: any) {
+      console.log('err: ', err);
       setSubmitting(false);
       return setError(err.toString());
     }
